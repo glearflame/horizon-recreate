@@ -9,7 +9,6 @@ use crate::{
     environment::Sky,
     world::World,
 };
-use horizon_core::random::{LegacyRandom, RandomSource};
 use std::path::Path;
 
 /// `FogType` of the camera position.
@@ -65,7 +64,7 @@ impl FogTables {
 }
 
 /// Fog state that evolves over time.
-#[derive(Clone, Debug)]
+#[derive(Clone, Copy, Debug, Default)]
 pub struct FogState {
     /// `LocalPlayer.waterVisionTime` (0..600).
     pub water_vision_time: i32,
@@ -73,28 +72,24 @@ pub struct FogState {
     pub rain_fog_multiplier: f32,
     /// `LightmapRenderStateExtractor.blockLightFlicker`.
     pub block_light_flicker: f32,
-    /// `LightmapRenderStateExtractor.random`: `RandomSource.create()`.
-    flicker_random: LegacyRandom,
-}
-impl Default for FogState {
-    fn default() -> Self {
-        Self {
-            water_vision_time: 0,
-            rain_fog_multiplier: 0.0,
-            block_light_flicker: 0.0,
-            flicker_random: crate::random_source::create(),
-        }
-    }
+    flicker_seed: u64,
 }
 impl FogState {
+    fn next_float(&mut self) -> f32 {
+        // splitmix64: the vanilla source is unseeded `RandomSource.create()`.
+        self.flicker_seed = self.flicker_seed.wrapping_add(0x9E37_79B9_7F4A_7C15);
+        let mut z = self.flicker_seed;
+        z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
+        z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
+        ((z ^ (z >> 31)) >> 40) as f32 / (1u32 << 24) as f32
+    }
     /// `LightmapRenderStateExtractor.tick`: the torch light flickers.
     pub fn tick_flicker(&mut self) {
-        let r = &mut self.flicker_random;
         let (a, b, c, d) = (
-            r.next_float(),
-            r.next_float(),
-            r.next_float(),
-            r.next_float(),
+            self.next_float(),
+            self.next_float(),
+            self.next_float(),
+            self.next_float(),
         );
         self.block_light_flicker += (a - b) * c * d * 0.1;
         self.block_light_flicker *= 0.9;
@@ -755,7 +750,7 @@ mod tests {
             rain_fog_multiplier: 0.1,
             ..FogState::default()
         };
-        let mut settled = start.clone();
+        let mut settled = start;
         settle_rain_fog(&mut settled, 0.5, 15, true);
         assert_eq!(settled.rain_fog_multiplier, 0.5);
         let mut eased = start;

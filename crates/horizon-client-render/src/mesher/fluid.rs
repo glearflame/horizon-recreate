@@ -340,11 +340,12 @@ pub(super) fn tesselate(
     } else {
         (tables.lava_still, tables.lava_flow, None)
     };
-    let (target, sprite_layers) = if water {
-        (&mut out.translucent, &mut out.sprite_layers)
+    let target = if water {
+        &mut out.translucent
     } else {
-        (&mut out.solid, &mut out.sprite_layers)
+        &mut out.solid
     };
+    let mut sprite_layers = Vec::new();
     let mut quad = |v: [([f32; 3], [f32; 2]); 4],
                     layer: u16,
                     color: u32,
@@ -496,6 +497,7 @@ pub(super) fn tesselate(
             d as usize,
         );
     }
+    out.sprite_layers.extend(sprite_layers);
 }
 
 #[cfg(test)]

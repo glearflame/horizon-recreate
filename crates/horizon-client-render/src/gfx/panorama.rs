@@ -274,13 +274,7 @@ impl Panorama {
             fragment: Some(wgpu::FragmentState {
                 module: &shader,
                 entry_point: Some("fs_panorama"),
-                compilation_options: wgpu::PipelineCompilationOptions {
-                    constants: &[(
-                        "HDR_WRITE_LIGHT",
-                        f64::from(u8::from(format == super::LINEAR_FRAME)),
-                    )],
-                    ..Default::default()
-                },
+                compilation_options: Default::default(),
                 targets: &[Some(wgpu::ColorTargetState {
                     format,
                     blend: None,

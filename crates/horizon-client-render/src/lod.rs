@@ -9,8 +9,6 @@ use crate::{
 };
 pub mod cache;
 mod mesh;
-pub mod packed;
-mod samples;
 use horizon_world::registry::BlockStateId;
 use std::{
     collections::VecDeque,
@@ -561,8 +559,7 @@ pub(crate) fn state_kinds(facts: &BlockFacts) -> Vec<u8> {
 }
 /// Blocks that fill their cell but neither draw solid nor collide as a full
 /// block: far terrain draws them as blocks, or patches of powder snow leave
-/// holes in mountains (and paths and fields dips). Slabs use the same
-/// full-cell approximation as stairs, so distant slab builds remain visible.
+/// holes in mountains (and paths and fields dips).
 fn nearly_full(name: &str) -> bool {
     matches!(
         name,
@@ -571,7 +568,6 @@ fn nearly_full(name: &str) -> bool {
             | "minecraft:farmland"
             | "minecraft:honey_block"
     ) || name.ends_with("_stairs")
-        || name.ends_with("_slab")
         || name.contains("fence")
         || name.contains("_wall")
         || name.contains("bars")
@@ -958,7 +954,7 @@ type Reduced = FxHashMap<(i32, i32), Arc<ReducedColumns>>;
 /// every tile's inputs from it (gathering on the render thread stalled the
 /// frame, tens of milliseconds for a large job on a 4-thread machine).
 struct Snapshot {
-    samples: samples::Samples,
+    samples: FxHashMap<TileKey, Arc<Vec<Column>>>,
     saved: Saved,
     reduced: Reduced,
     /// The plan's tiles, to tell terrain not drawn yet from terrain out of
@@ -1268,8 +1264,6 @@ pub struct Lod {
     /// Stale tiles `refresh`ed again while sampled: that sample may be older.
     restale: FxHashSet<TileKey>,
     active: FxHashSet<TileKey>,
-    /// The active tiles' `ready` samples, as mesh jobs read them (`sync_sample`).
-    mesh_samples: samples::Samples,
     /// Tiles needing a mesh, with the revision their job must carry.
     dirty: FxHashMap<TileKey, u64>,
     /// The newest revision of each active tile's mesh.
@@ -1420,13 +1414,7 @@ impl Lod {
                                     &edges,
                                     &input.finer,
                                 );
-                                // Sorts the quads by facing side, and clears
-                                // the compact layout: a far tile has no tints
-                                // for `mesher::packed`, so its own records
-                                // (`lod::packed`) are laid out here, from the
-                                // quads in the order the sort left them.
                                 mesh.sort_solid();
-                                crate::lod::packed::lay_out(&mut mesh);
                                 let [ox, _, oz] = job.key.origin();
                                 let size = job.key.size();
                                 mesh.keep = keep_finer
@@ -1660,7 +1648,6 @@ impl Lod {
             ready: FxHashMap::default(),
             complete: FxHashMap::default(),
             active: FxHashSet::default(),
-            mesh_samples: samples::Samples::default(),
             dirty: FxHashMap::default(),
             mesh_version: FxHashMap::default(),
             shown_version: FxHashMap::default(),
@@ -1939,11 +1926,9 @@ impl Lod {
             if active != was_active {
                 if active {
                     self.active.insert(node);
-                    self.sync_sample(node);
                     self.removed_pending.remove(&node);
                 } else {
                     self.active.remove(&node);
-                    self.sync_sample(node);
                     self.removed_pending.insert(node);
                     self.cancel_mesh(node);
                     self.mesh_version.remove(&node);
@@ -2216,7 +2201,6 @@ impl Lod {
             }
         }
         for key in modified {
-            self.sync_sample(key);
             self.mark_data_changed(key);
         }
     }
@@ -2278,7 +2262,6 @@ impl Lod {
                 return;
             }
             let existed = self.ready.insert(key, Arc::new(samples)).is_some();
-            self.sync_sample(key);
             self.refresh_ready(key, existed);
         }
     }
@@ -2513,8 +2496,6 @@ impl Lod {
             .collect();
         self.plan = plan;
         self.ready.retain(|key, _| self.plan.nodes.contains(key));
-        let nodes = &self.plan.nodes;
-        self.mesh_samples.retain(|key| nodes.contains(key));
         // Queued tiles the view left are not sampled (a running one is
         // dropped when it finishes, `finish_sample`).
         drop_queued_samples(&self.shared, &mut self.pending, |key| {
@@ -2582,7 +2563,6 @@ impl Lod {
             .retain(|key| !self.active.contains(key));
         let changed: Vec<_> = old.symmetric_difference(&self.active).copied().collect();
         for &key in &changed {
-            self.sync_sample(key);
             if old.contains(&key) && !self.active.contains(&key) {
                 self.cancel_mesh(key);
                 self.removed_pending.insert(key);
@@ -2868,10 +2848,12 @@ impl Lod {
         if keys.is_empty() {
             return;
         }
-        #[cfg(debug_assertions)]
-        self.check_mesh_samples();
         let snapshot = Arc::new(Snapshot {
-            samples: self.mesh_samples.clone(),
+            samples: self
+                .active
+                .iter()
+                .filter_map(|key| self.ready.get(key).map(|columns| (*key, columns.clone())))
+                .collect(),
             saved: self.saved.clone(),
             reduced: self.reduced.clone(),
             nodes: self.plan.nodes.clone(),
@@ -2903,31 +2885,6 @@ impl Lod {
         drop(queued);
         self.outstanding_meshes += count;
         self.shared.mesh_wake.notify_all();
-    }
-    /// Brings `mesh_samples` up to date for `key` after its `active` or `ready` changed.
-    fn sync_sample(&mut self, key: TileKey) {
-        let samples = self.ready.get(&key).filter(|_| self.active.contains(&key));
-        self.mesh_samples.set(key, samples);
-    }
-    /// `mesh_samples` holds every active tile's ready samples and nothing else (debug builds).
-    #[cfg(debug_assertions)]
-    fn check_mesh_samples(&self) {
-        let kept = self.mesh_samples.iter().count();
-        let mut want = 0;
-        for key in &self.active {
-            if let Some(columns) = self.ready.get(key) {
-                want += 1;
-                let got = self.mesh_samples.get(key);
-                assert!(
-                    got.is_some_and(|got| Arc::ptr_eq(got, columns)),
-                    "mesh samples of {key:?} out of date"
-                );
-            }
-        }
-        assert_eq!(
-            kept, want,
-            "mesh samples keep tiles no longer active or ready"
-        );
     }
     fn finer_of(&self, key: TileKey) -> Vec<TileKey> {
         if !self.plan.split.contains(&key) {
@@ -4020,73 +3977,6 @@ mod tests {
     }
     #[test]
     #[ignore = "requires prepared models/textures in HORIZON_TEST_RESOURCES"]
-    fn slab_materials_survive_chunk_summaries_and_draw_far_faces() -> crate::Result<()> {
-        use crate::{assets::Assets, biome::Biomes, light::LightTables, mesher::MeshTables};
-        let root = std::path::PathBuf::from(
-            std::env::var_os("HORIZON_TEST_RESOURCES").expect("HORIZON_TEST_RESOURCES"),
-        );
-        let assets = Arc::new(Assets::load(&root)?);
-        let render = Arc::new(assets.reload(&root)?);
-        let facts = BlockFacts::load(&root, assets.registry)?;
-        let context = WorkerContext {
-            light: Arc::new(LightTables::load(&root, assets.registry, &facts)?),
-            tables: Arc::new(MeshTables::new(
-                &assets,
-                &render,
-                &facts,
-                crate::models::load_visibility(&root, assets.registry)?,
-            )?),
-            assets: assets.clone(),
-            render,
-            biomes: Arc::new(Biomes::load(&root)?),
-        };
-        let kinds = state_kinds(&facts);
-        let mut chunk = Chunk::empty(0, 0);
-        let mut mesher = mesh::Mesher::default();
-        let mut materials = FxHashSet::default();
-        // Real top, bottom, double and waterlogged states: a waterlogged slab
-        // must keep its material rather than become a column of plain water.
-        for (i, f) in facts.states.iter().enumerate() {
-            if !f.name.ends_with("_slab") {
-                continue;
-            }
-            materials.insert(f.name.as_ref());
-            let state = BlockStateId(i as u32);
-            chunk.set(3, 90, 3, state.0);
-            let columns = summarize(&chunk, &kinds);
-            let column = &columns[3 * 16 + 3];
-            assert_eq!(column.spans.len(), 1, "{} state {i}", f.name);
-            assert_eq!(column.spans[0].state, state, "{} state {i}", f.name);
-            assert_eq!((column.spans[0].min, column.spans[0].max), (90, 91));
-            assert_eq!(Column::reduced(&columns, 0, 0, 4).spans, column.spans);
-            let mesh = mesher.mesh(
-                TileKey {
-                    x: 0,
-                    z: 0,
-                    level: 0,
-                },
-                &columns.iter().collect::<Vec<_>>(),
-                &FxHashSet::default(),
-                None,
-                &context,
-                &std::array::from_fn(|_| Vec::new()),
-                &[],
-            );
-            // Like stairs, far slabs use the existing full-cell approximation.
-            assert_eq!(mesh.solid.len(), 6 * 4, "{} state {i}", f.name);
-            assert!(mesh.translucent.is_empty(), "{} state {i}", f.name);
-        }
-        for name in [
-            "minecraft:smooth_stone_slab",
-            "minecraft:oak_slab",
-            "minecraft:cut_copper_slab",
-        ] {
-            assert!(materials.contains(name), "missing fixture {name}");
-        }
-        Ok(())
-    }
-    #[test]
-    #[ignore = "requires prepared models/textures in HORIZON_TEST_RESOURCES"]
     fn real_mesh_clips_near_chunks_and_preserves_water_and_edited_surfaces() -> crate::Result<()> {
         use crate::{
             assets::Assets, biome::Biomes, light::LightTables, mesher::MeshTables,
@@ -4886,7 +4776,6 @@ mod tests {
         lod.active.insert(key);
         lod.ready
             .insert(key, Arc::new(vec![Column::default(); CELLS * CELLS]));
-        lod.sync_sample(key);
         lod.mark_mesh(key);
         lod.set_near_loading(true);
         lod.dispatch_meshes([0, 0]);

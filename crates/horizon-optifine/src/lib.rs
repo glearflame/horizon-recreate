@@ -1,170 +1,33 @@
-//! Stub para horizon-optifine (baseado em horizon-rust/horizon MIT).
+//! The files OptiFine-format resource packs share, below every feature that reads them (connected
+//! textures, custom item textures, random and emissive entities, custom entity models, sky,
+//! colours): `.properties` files, the matchers their values hold, their texture paths, and the
+//! `optifine/` (or legacy `mcpatcher/`) folders that hold them. Each feature's own rules sit in
+//! a module of their own, free of the game's types (`random`: random entity textures' rules;
+//! `random_textures`: where a pack keeps their variants; [`ctm`]: connected textures; `cit`:
+//! custom item textures, which the client matches against its stacks; `emissive`: emissive
+//! overlays; `blink`: ETF's blinking textures; [`fusion`]: the Fusion mod's connected
+//! textures, whose layouts read [`ctm`]'s neighbour masks; [`color`]: `color.properties`' custom
+//! colours; [`sky`]: custom sky layers and the sun and moon they replace).
+//!
+//! Written from OptiFine's public documentation of the file formats (and ETF's, for its additions
+//! to random entities and emissive textures); `cit` also from CIT Resewn's wiki and the conditions of its MIT-licensed
+//! source (THIRD_PARTY_NOTICES.md); `fusion` from Fusion's wiki and FusionExamples' MIT-licensed
+//! layout templates (THIRD_PARTY_NOTICES.md). No OptiFine or Fusion code was read.
 
-pub mod cem {
-    //! Connected Emissive Models (stub).
+pub mod blink;
+pub mod cem;
+pub mod cit;
+pub mod color;
+pub mod ctm;
+pub mod emissive;
+pub mod fusion;
+pub mod matchers;
+pub mod paths;
+pub mod properties;
+pub mod random;
+pub mod random_textures;
+pub mod sky;
 
-    pub struct Cem;
-
-    pub mod files {
-        //! Arquivos CEM (stub).
-
-        pub struct Files;
-        pub struct atlas_name;
-        pub struct jem_files;
-
-        pub fn load_jem() {}
-
-        impl Files {
-            pub fn new() -> Self { Self }
-        }
-
-        impl atlas_name {
-            pub fn new() -> Self { Self }
-        }
-
-        impl jem_files {
-            pub fn new() -> Self { Self }
-        }
-    }
-
-    pub mod model {
-        //! Modelo CEM (stub).
-
-        pub struct Model;
-        pub struct Bone;
-        pub struct EntityModel;
-
-        impl Model {
-            pub fn new() -> Self { Self }
-        }
-
-        impl Bone {
-            pub fn new() -> Self { Self }
-        }
-
-        impl EntityModel {
-            pub fn new() -> Self { Self }
-        }
-    }
-
-    pub mod json {
-        //! JSON CEM (stub).
-
-        pub struct Json;
-
-        impl Json {
-            pub fn new() -> Self { Self }
-        }
-    }
-
-    impl Cem {
-        pub fn new() -> Self { Self }
-    }
-}
-
-pub mod cit {
-    //! Connected Textures (stub).
-
-    pub struct Cit;
-    pub struct Hand;
-    pub struct Kind;
-    pub struct Rule;
-    pub struct Global;
-    pub struct Method;
-    pub struct ComponentTest;
-    pub struct Source;
-    pub struct ValueTest;
-
-    pub fn connect() {}
-
-    impl Cit {
-        pub fn new() -> Self { Self }
-    }
-
-    impl Hand {
-        pub fn new() -> Self { Self }
-    }
-
-    impl Kind {
-        pub fn new() -> Self { Self }
-    }
-
-    impl Rule {
-        pub fn new() -> Self { Self }
-    }
-
-    impl Global {
-        pub fn new() -> Self { Self }
-    }
-
-    impl Method {
-        pub fn new() -> Self { Self }
-    }
-
-    impl ComponentTest {
-        pub fn new() -> Self { Self }
-    }
-
-    impl Source {
-        pub fn new() -> Self { Self }
-    }
-
-    impl ValueTest {
-        pub fn new() -> Self { Self }
-    }
-}
-
-pub mod ctm {
-    //! Connected Textures Models (stub).
-
-    pub struct Ctm;
-    pub struct Connect;
-    pub struct Method;
-    pub struct Orient;
-    pub struct Rule;
-    pub struct Tile;
-
-    pub fn connect() {}
-
-    impl Ctm {
-        pub fn new() -> Self { Self }
-    }
-
-    impl Connect {
-        pub fn new() -> Self { Self }
-    }
-
-    impl Method {
-        pub fn new() -> Self { Self }
-    }
-
-    impl Orient {
-        pub fn new() -> Self { Self }
-    }
-
-    impl Rule {
-        pub fn new() -> Self { Self }
-    }
-
-    impl Tile {
-        pub fn new() -> Self { Self }
-    }
-}
-
-pub struct Properties;
-
-impl Properties {
-    pub fn new() -> Self { Self }
-}
-
-pub fn properties_files_in() {}
-
-pub mod sky {
-    //! Sky (stub).
-
-    pub struct Sky;
-
-    impl Sky {
-        pub fn new() -> Self { Self }
-    }
-}
+pub use matchers::{BlockMatch, IdList, Name, RangeList};
+pub use paths::{properties_files, properties_files_in, resolve, valid};
+pub use properties::Properties;

@@ -512,8 +512,7 @@ fn shader_source(
     format!(
         "{head}// Horizon's terrain (terrain.wgsl)\n{}{solid}{}{displace}{ENTRIES}",
         prefixed(
-            &(include_str!("../hdr_light.wgsl").to_owned()
-                + section(TERRAIN, "struct Globals {", "// Sky (SkyRenderer)")),
+            section(TERRAIN, "struct Globals {", "// Sky (SkyRenderer)"),
             PREFIX
         ),
         super::native_post::line_helpers(api)

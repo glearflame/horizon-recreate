@@ -192,7 +192,7 @@ impl Oit {
         let shader = device.create_shader_module(wgpu::ShaderModuleDescriptor {
             label: Some("Horizon improved transparency"),
             source: wgpu::ShaderSource::Wgsl(
-                (super::terrain_shader()
+                (include_str!("../terrain.wgsl").to_owned()
                     + include_str!("../oit.wgsl")
                     + include_str!("../oit_world.wgsl"))
                 .into(),
@@ -253,14 +253,7 @@ impl Oit {
                 ..Default::default()
             })
         };
-        let constants = [
-            ("SPRITE_ARRAYS", sprites[0]),
-            ("SPRITE_SPLIT", sprites[1]),
-            (
-                "HDR_WRITE_LIGHT",
-                f64::from(u8::from(format == super::LINEAR_FRAME)),
-            ),
-        ];
+        let constants = [("SPRITE_ARRAYS", sprites[0]), ("SPRITE_SPLIT", sprites[1])];
         let add = wgpu::BlendOperation::Add;
         let depth = |write| {
             Some(wgpu::DepthStencilState {
@@ -471,10 +464,7 @@ impl Oit {
                 fragment: Some(wgpu::FragmentState {
                     module: &cloud_shader,
                     entry_point: Some(fragment),
-                    compilation_options: wgpu::PipelineCompilationOptions {
-                        constants: &constants[2..],
-                        ..Default::default()
-                    },
+                    compilation_options: Default::default(),
                     targets: &stage_targets(stage),
                 }),
                 multiview_mask: None,
@@ -498,14 +488,7 @@ impl Oit {
                 Stage::Accumulate,
             ),
         ];
-        let features = Features::new(
-            device,
-            &layouts,
-            features[0],
-            features[1],
-            features[2],
-            format,
-        );
+        let features = Features::new(device, &layouts, features[0], features[1], features[2]);
         Self {
             uniform,
             layouts,
@@ -929,7 +912,7 @@ mod tests {
     #[test]
     fn the_terrain_shader_validates() {
         validate(
-            &(crate::gfx::terrain_shader()
+            &(include_str!("../terrain.wgsl").to_owned()
                 + include_str!("../oit.wgsl")
                 + include_str!("../oit_world.wgsl")),
             &[

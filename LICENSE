@@ -1,10 +1,6 @@
 MIT License
 
-Copyright (c) 2026 horizon-recreate contributors
-
-Recriação do zero do núcleo do Horizon (partes 100% de autoria do
-horizon-rust/horizon). Este projeto não contém código de terceiros
-(Discord, site, patrocínio, assets Microsoft/Mojang).
+Copyright (c) 2026 Ludovic Marie and the Horizon contributors
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

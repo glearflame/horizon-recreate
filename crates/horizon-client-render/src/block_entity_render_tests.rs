@@ -358,7 +358,6 @@ fn batched_callbacks_preserve_entity_ranges_and_allow_immediate_culling() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     // Reverse local-position order to check that cache indexing does not
@@ -448,7 +447,6 @@ fn static_cache_qualifies_local_positions_by_section_and_drops_old_entries() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let options = CacheOptions {
@@ -504,7 +502,6 @@ fn gpu_static_cache_uses_section_local_chests_and_keeps_visibility_separate() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let blocks = [([100, 70, -32], 0)];
@@ -692,7 +689,6 @@ fn sign_text_cache_can_be_disabled_and_reenabled_without_changing_output() {
         skull: &|_| None,
         glyph: &glyph,
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let blocks = [([0, 64, 0], 0)];
@@ -747,7 +743,6 @@ fn shulker_cache_tracks_settled_poses_and_does_not_freeze_opening_animation() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let blocks = [([0, 64, 0], 0)];
@@ -850,7 +845,6 @@ fn shulker_cache_covers_all_colors_and_facing_directions() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let options = CacheOptions {
@@ -906,7 +900,6 @@ fn cached_bells_keep_shaking_until_the_animation_ends() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let blocks = [([0, 64, 0], 0)];
@@ -969,7 +962,6 @@ fn cached_closed_chests_match_the_direct_model_and_rebuild_when_opening() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let blocks = [([0, 64, 0], 0)];
@@ -1001,9 +993,7 @@ fn cached_closed_chests_match_the_direct_model_and_rebuild_when_opening() {
     scene.nether = true;
     let nether_closed = render_cached(&scene);
     assert_same_vertices(&nether_closed, &render_direct(&renderer, &scene, &blocks));
-    // The nether is the entity shader's flag now (`entity_light`'s `l1` and
-    // `globals.time.y`), not a baked colour, so the cached geometry serves both.
-    assert_same_vertices(&closed_again, &nether_closed);
+    assert_vertices_differ(&closed_again, &nether_closed);
 }
 
 #[test]
@@ -1068,7 +1058,6 @@ fn closed_chest_cache_covers_all_materials_and_atlas_reloads() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let pos = [0, 64, 0];
@@ -1158,7 +1147,6 @@ fn double_chest_cache_bypasses_both_halves_while_either_lid_is_open() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let pair = [([0, 64, 0], 0), ([1, 64, 0], 1)];
@@ -1235,7 +1223,6 @@ fn decorated_pot_cache_tracks_sherds_and_bypasses_wobble_animation() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let blocks = [([0, 64, 0], 0)];
@@ -1315,7 +1302,6 @@ fn banner_cache_keeps_the_pole_static_while_the_flag_and_patterns_update() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let blocks = [([0, 64, 0], 0)];
@@ -1383,7 +1369,6 @@ fn cached_wall_banner_poles_use_the_wall_model() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let pos = [0, 64, 0];
@@ -1432,7 +1417,6 @@ fn copper_statue_cache_rebuilds_when_its_pose_state_changes() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let options = CacheOptions {
@@ -1539,7 +1523,6 @@ fn copper_statue_cache_covers_weathering_waxing_and_all_poses() {
         skull: &|_| None,
         glyph: &|_| Glyph::default(),
         glyphs: 0,
-        font: None,
         dynamic_visible: None,
     };
     let options = CacheOptions {

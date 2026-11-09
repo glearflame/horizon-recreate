@@ -191,16 +191,11 @@ pub fn discovery_url() -> String {
         .unwrap_or_else(|| DEFAULT_DISCOVERY.to_owned())
 }
 
-pub(crate) fn agent() -> ureq::Agent {
+fn agent() -> ureq::Agent {
     ureq::AgentBuilder::new()
         .timeout(Duration::from_secs(15))
         .user_agent(&format!("Horizon/{}", horizon_core::release::VERSION))
         .build()
-}
-
-/// Whether `HORIZON_API_DISCOVERY` names another services environment.
-pub fn discovery_overridden() -> bool {
-    discovery_url() != DEFAULT_DISCOVERY
 }
 
 /// The discovery document, fetched once per game (a failure is retried next time).

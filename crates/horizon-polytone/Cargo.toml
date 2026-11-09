@@ -3,6 +3,12 @@ name = "horizon-polytone"
 version = "0.1.0"
 edition.workspace = true
 license.workspace = true
-description = "Stub para horizon-polytone (baseado em horizon-rust/horizon MIT)"
+rust-version.workspace = true
+description = "Polytone-format resource pack files: targets, and the biome and dimension modifiers' environment attribute layers"
 
 [dependencies]
+regex = { version = "1", default-features = false, features = ["std", "unicode-perl"] }
+serde_json = "1"
+
+[lints]
+workspace = true

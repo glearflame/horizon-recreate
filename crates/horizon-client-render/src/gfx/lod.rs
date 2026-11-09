@@ -50,10 +50,8 @@ impl Pending {
     }
 }
 
-/// Small, its meshes boxed: `draw_frame` walks every tile each frame (thousands at long far
-/// distances), and that walk is bound by the memory it reads.
 pub(super) struct Tile {
-    pub mesh: Box<SectionGpu>,
+    pub mesh: SectionGpu,
     bounds: Bounds,
     /// When it began to fade in; none while the rest of its job uploads.
     shown: Option<Instant>,
@@ -64,7 +62,7 @@ pub(super) struct Tile {
     /// Its mesh before near chunks took some of its columns, drawn in its
     /// place until they have faded in (from the job's end, the instant), so
     /// no hole shows through them.
-    previous: Option<Box<(SectionGpu, Option<Instant>)>>,
+    previous: Option<(SectionGpu, Option<Instant>)>,
     /// Its slot in occlusion culling's results (`cull::TILE`), kept while
     /// meshes of the same tile replace one another.
     pub cull_slot: u32,
@@ -157,12 +155,10 @@ pub(super) struct Visible {
 impl Tile {
     /// The mesh drawn this frame: the previous one while it stands in.
     pub fn drawn(&self) -> &SectionGpu {
-        self.previous
-            .as_deref()
-            .map_or(&self.mesh, |(mesh, _)| mesh)
+        self.previous.as_ref().map_or(&self.mesh, |(mesh, _)| mesh)
     }
     pub fn drawn_mut(&mut self) -> &mut SectionGpu {
-        match self.previous.as_deref_mut() {
+        match &mut self.previous {
             Some((mesh, _)) => mesh,
             None => &mut self.mesh,
         }
@@ -181,7 +177,7 @@ impl Tile {
     }
     /// Both meshes it holds in the arena: its own and the stand-in, if any.
     pub fn meshes_mut(&mut self) -> impl Iterator<Item = &mut SectionGpu> {
-        std::iter::once(&mut *self.mesh).chain(self.previous.as_deref_mut().map(|(mesh, _)| mesh))
+        std::iter::once(&mut self.mesh).chain(self.previous.as_mut().map(|(mesh, _)| mesh))
     }
     pub fn visible(
         &self,
@@ -218,12 +214,12 @@ impl Renderer {
         let (shown, previous) = match self.lods.remove(&key) {
             Some(old) if old.dying.is_none() => match old.previous {
                 Some(previous) => {
-                    self.release_mesh(*old.mesh);
+                    self.release_mesh(old.mesh);
                     (old.shown, Some(previous))
                 }
-                None if keep => (old.shown, Some(Box::new((*old.mesh, None)))),
+                None if keep => (old.shown, Some((old.mesh, None))),
                 None => {
-                    self.release_mesh(*old.mesh);
+                    self.release_mesh(old.mesh);
                     (old.shown, None)
                 }
             },
@@ -244,7 +240,7 @@ impl Renderer {
                 self.lods.insert(
                     key,
                     Tile {
-                        mesh: Box::new(mesh),
+                        mesh,
                         bounds,
                         shown,
                         dying: None,
@@ -255,7 +251,7 @@ impl Renderer {
                 );
             }
             None => {
-                if let Some((previous, _)) = previous.map(|p| *p) {
+                if let Some((previous, _)) = previous {
                     self.release_mesh(previous);
                 }
                 self.lod_cull_free.extend(old_slot);
@@ -264,8 +260,8 @@ impl Renderer {
     }
 
     fn release_tile(&mut self, tile: Tile) {
-        self.release_mesh(*tile.mesh);
-        if let Some((previous, _)) = tile.previous.map(|p| *p) {
+        self.release_mesh(tile.mesh);
+        if let Some((previous, _)) = tile.previous {
             self.release_mesh(previous);
         }
     }
@@ -341,10 +337,8 @@ impl Renderer {
         let stood_in: Vec<_> = self
             .lods
             .values_mut()
-            .filter_map(|tile| match tile.previous.as_deref() {
-                Some((_, Some(since))) if start - *since >= FADE => {
-                    tile.previous.take().map(|p| *p)
-                }
+            .filter_map(|tile| match tile.previous {
+                Some((_, Some(since))) if start - since >= FADE => tile.previous.take(),
                 _ => None,
             })
             .collect();
@@ -446,7 +440,7 @@ impl Renderer {
                     if tile.shown.is_none() {
                         tile.shown = Some(if over_replaced(key) { start } else { whole });
                     }
-                    if let Some((_, since)) = tile.previous.as_deref_mut() {
+                    if let Some((_, since)) = &mut tile.previous {
                         since.get_or_insert(start);
                     }
                 }

@@ -1,9 +1,8 @@
 //! `SoundPreviewHandler`: the sound a category volume slider plays while it
 //! moves on the title screen's options (`Options.createSoundSliderOptionInstance`
 //! calls `preview` when there is no level).
-use crate::random_source;
 use crate::settings::SOUND_SOURCES;
-use crate::sound_engine::{InstanceId, SoundInstance, Sounds};
+use crate::sound_engine::{InstanceId, SoundEngine, SoundInstance, Sounds};
 
 /// The sound `SoundPreviewHandler.preview` plays for a `SoundSource` index,
 /// or `None` (`SoundEvents.EMPTY`) for master, music and voice.
@@ -45,7 +44,7 @@ impl SoundPreview {
         if let Some(old) = self.active.take() {
             sounds.release(old);
         }
-        let instance = SoundInstance::for_ui(event, 1.0, volume, random_source::create());
+        let instance = SoundInstance::for_ui(event, 1.0, volume, SoundEngine::unseeded());
         self.active = Some(sounds.play_instance(instance, true).0);
     }
 
@@ -73,7 +72,7 @@ impl SoundPreview {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::sound_engine::{Bound, SoundEngine, TickContext, UI, test_backend::Null};
+    use crate::sound_engine::{Bound, TickContext, UI, test_backend::Null};
     use crate::sound_events::SoundRegistry;
 
     fn engine() -> SoundEngine {
