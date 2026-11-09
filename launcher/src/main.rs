@@ -4543,7 +4543,7 @@ impl Launcher {
     /// happening (the code to enter, a problem), and its buttons.
     fn sign_in_parts(&self, cx: &mut Context<Self>) -> (String, Div, Option<AnyElement>) {
         let t = self.theme;
-        let configured = account::client_id().is_some();
+        let configured = true; // fake: always configured
         let busy = matches!(
             self.sign_in_state,
             Some(SignInState::Starting | SignInState::Code(_) | SignInState::Working(_))

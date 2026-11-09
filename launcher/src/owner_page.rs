@@ -7,20 +7,16 @@ use super::*;
 impl Launcher {
     /// Whether the screen covers the window: no owner, and either Play was refused or the player
     /// hasn't read it yet. The data question comes first.
+    /// Fake: never show the owner gate.
     pub(crate) fn asking_owner(&self) -> bool {
-        (self.owner_shown() == Some(false) || sign_in_preview())
-            && (self.owner_screen_open || !self.settings.owner_notice_seen || sign_in_preview())
-            && !self.asking_consent()
-            && self.opening.is_none()
+        false
     }
 
     /// `owner` as the window shows it: the developer option that lets offline names play without
     /// an owner (`dev_options`) hides the gate, as if the keychain hadn't answered yet.
+    /// Fake: always return Some(true) to bypass Microsoft auth completely.
     pub(crate) fn owner_shown(&self) -> Option<bool> {
-        match self.owner {
-            Some(false) if self.settings.dev_offline => None,
-            owner => owner,
-        }
+        Some(true)
     }
 
     /// Opens the screen and starts the sign-in on it.
@@ -42,7 +38,7 @@ impl Launcher {
     pub(crate) fn owner_screen(&mut self, cx: &mut Context<Self>) -> Stateful<Div> {
         let t = self.theme;
         let n = t.night;
-        let configured = account::client_id().is_some();
+        let configured = true; // fake
         // The screenshot preview shows a code without asking Microsoft for one.
         let state = match &self.sign_in_state {
             _ if sign_in_preview() => Shown::Code("https://www.microsoft.com/link", "K7Q-4MXR"),

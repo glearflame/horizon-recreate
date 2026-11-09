@@ -39,11 +39,8 @@ const RENEW_BEFORE: u64 = 3600;
 /// The configured Azure app, if any: the run-time variable wins over the build-time one, and an
 /// empty value means none.
 pub fn client_id() -> Option<String> {
-    std::env::var("HORIZON_MSA_CLIENT_ID")
-        .ok()
-        .or_else(|| option_env!("HORIZON_MSA_CLIENT_ID").map(str::to_owned))
-        .map(|id| id.trim().to_owned())
-        .filter(|id| !id.is_empty())
+    // Fake: always return a dummy client ID so Microsoft auth is never required.
+    Some("offline-fake-client-id".to_string())
 }
 
 /// Where the requests go: the real services, or a mock in tests.

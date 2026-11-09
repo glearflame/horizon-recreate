@@ -272,7 +272,7 @@ impl Launcher {
             (div(), 0)
         };
         let (title, detail, action) = self.sign_in_parts(cx);
-        let configured = account::client_id().is_some();
+        let configured = true; // fake
         let idle = self.sign_in_state.is_none()
             || matches!(self.sign_in_state, Some(SignInState::Done(_)));
         let first = !has_accounts && self.sign_in_target.is_none();
