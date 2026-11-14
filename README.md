@@ -163,6 +163,26 @@ Scores: 0 (absent), 0.25 (started), 0.5 (playable, major features missing), 0.75
 | Audio | 1 | None: the sound engine, sound events, music, situational music, ambience and subtitles match vanilla |
 | Block behaviours and ticking | 1 | None: block updates, random ticks, redstone, dispensers (6,000 cases), crafters (4,000), container spills (4,000), copper golems and the sculk family (435 scenarios) match |
 
+## Como jogar (100% offline)
+
+O L&L não precisa de conta Microsoft nem da Mojang. O auth é faked: qualquer nome offline joga.
+
+```bash
+# 1. Prepare os recursos uma vez (precisa do seu Minecraft 26.3 instalado)
+./ll-prepare --prepare --output ~/.horizon/resources \
+  --minecraft-dir ~/.local/share/horizon-launcher/minecraft \
+  --version-json ~/.local/share/horizon-launcher/minecraft/versions/26.3/26.3.json \
+  --client-jar ~/.local/share/horizon-launcher/minecraft/versions/26.3/26.3.jar \
+  --server-jar /caminho/para/26.3-server.jar \
+  --libraries-dir ~/.local/share/horizon-launcher/minecraft/libraries \
+  --assets-dir ~/.local/share/horizon-launcher/minecraft/assets
+
+# 2. Inicie o jogo offline
+./play-offline.sh
+```
+
+O script `play-offline.sh` inicia o cliente com `JAVA_HOME` apontando pra Temurin 25, recursos em `~/.horizon/resources` e pasta de jogo em `~/.ll-home`. Passe flags extras do `ll-client` se quiser (ex: `./play-offline.sh --world "Meu Mundo" --seed 1234`).
+
 ## Licence
 
 [MIT](LICENSE), for the project's original work; dependencies keep their own licences ([notices](THIRD_PARTY_NOTICES.md)). Horizon is made by [Samuel Queiroz](https://lu4ovic.com) ([@glearflame](https://github.com/glearflame)) and [its contributors](https://github.com/glearflame/horizon/graphs/contributors); support it on [GitHub Sponsors](https://github.com/sponsors/glearflame).
