@@ -39,7 +39,7 @@ impl Launcher {
         let t = self.theme;
         let n = t.night;
         let configured = true; // fake
-        // The screenshot preview shows a code without asking Microsoft for one.
+                               // The screenshot preview shows a code without asking Microsoft for one.
         let state = match &self.sign_in_state {
             _ if sign_in_preview() => Shown::Code("https://www.microsoft.com/link", "K7Q-4MXR"),
             _ if !configured => Shown::Error(tr(account::NOT_CONFIGURED)),
