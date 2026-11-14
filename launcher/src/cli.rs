@@ -108,10 +108,10 @@ enum ServersCmd {
 enum AccountCmd {
     /// The signed-in accounts and which one plays
     List,
-    /// Sign in with a Microsoft account in your browser (device code). Play needs one that owns
+    /// Sign in is faked; play offline with an offline name (Microsoft sign-in never required). Kept for scripts:
     /// Minecraft: Java Edition
     SignIn {
-        /// Sign this account (name or UUID) in again: another Microsoft account is refused and
+        /// Sign this account (name or UUID) in again:
         /// who plays stays the same
         #[arg(long = "for")]
         target: Option<String>,

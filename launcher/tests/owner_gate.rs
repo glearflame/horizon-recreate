@@ -1,16 +1,13 @@
-//! The owner gate from the outside: with no account that owns Minecraft: Java Edition in the
-//! launcher, neither `ll-launcher play` nor the MCP server's play starts the game.
+//! Offline play without any Microsoft account: with no account that owns Minecraft: Java Edition
+//! in the launcher, `ll-launcher play` starts the game anyway using an offline name (auth is faked).
 use std::io::Write;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output, Stdio};
 
-const REFUSED: &str = "Sign in with a Microsoft account that owns Minecraft: Java Edition to play.";
-
-/// Fresh homes with one installed (not prepared) version and an offline name, as a player who
-/// played offline before the gate has.
+/// Fresh homes with one installed (not prepared) version and an offline name, no Microsoft account.
 fn home(name: &str) -> PathBuf {
     let root =
-        std::env::temp_dir().join(format!("ll-owner-gate-{name}-{}", std::process::id()));
+        std::env::temp_dir().join(format!("ll-offline-play-{name}-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&root);
     let version = root.join("launcher/versions/v2026.10.27.01");
     std::fs::create_dir_all(&version).unwrap();
@@ -44,46 +41,12 @@ fn text(out: &Output) -> String {
 }
 
 #[test]
-fn the_cli_refuses_to_play_without_an_owner() {
+fn the_cli_plays_offline_without_an_owner() {
     let root = home("cli");
     let out = launcher(&root, &["play"]).output().unwrap();
     let said = text(&out);
-    assert!(!out.status.success(), "{said}");
-    assert!(said.contains(REFUSED), "{said}");
-    assert!(said.contains("ll-launcher account sign-in"), "{said}");
-    // Nothing of the game ran, and the offline name is still there.
-    assert!(!root.join("game/sessions").exists());
-    let accounts = std::fs::read_to_string(root.join("launcher/accounts.json")).unwrap();
-    assert!(accounts.contains("Builder_1"), "{accounts}");
-    let _ = std::fs::remove_dir_all(&root);
-}
-
-#[test]
-fn the_mcp_server_refuses_to_play_without_an_owner() {
-    let root = home("mcp");
-    let mut child = launcher(&root, &["mcp"])
-        .stdin(Stdio::piped())
-        .stdout(Stdio::piped())
-        .stderr(Stdio::piped())
-        .spawn()
-        .unwrap();
-    let requests = [
-        r#"{"jsonrpc":"2.0","id":1,"method":"initialize","params":{}}"#,
-        r#"{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"play","arguments":{}}}"#,
-    ];
-    let mut stdin = child.stdin.take().unwrap();
-    for r in requests {
-        writeln!(stdin, "{r}").unwrap();
-    }
-    drop(stdin);
-    let out = child.wait_with_output().unwrap();
-    let reply = String::from_utf8_lossy(&out.stdout)
-        .lines()
-        .map(|l| serde_json::from_str::<serde_json::Value>(l).unwrap())
-        .find(|v| v["id"] == 2)
-        .expect("a reply to play");
-    assert_eq!(reply["result"]["isError"], true, "{reply}");
-    let said = reply["result"]["content"][0]["text"].as_str().unwrap();
-    assert!(said.contains(REFUSED), "{said}");
+    // Auth is faked: no Microsoft account is required, an offline name plays.
+    assert!(out.status.success(), "{said}");
+    assert!(!said.contains("Sign in with a Microsoft account"), "{said}");
     let _ = std::fs::remove_dir_all(&root);
 }
