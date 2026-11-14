@@ -61,18 +61,18 @@ jobs:
           set -euo pipefail
           # target/ is gone after the clean checkout, and vanilla-data.sh builds the preparer only when it
           # prepares afresh.
-          cargo build --release --locked -p horizon-prepare
+          cargo build --release --locked -p ll-prepare
           # Compiled here, never taken from the runner's shared preparations: pull requests' parity jobs
           # write those (vanilla-data.sh links .local/exporters to them).
           rm -rf .local/exporters
-          bundle=$(target/release/horizon-prepare compile-exporters --root "$PWD" | tail -1)
+          bundle=$(target/release/ll-prepare compile-exporters --root "$PWD" | tail -1)
           mkdir -p exporters
           cp -R "$bundle/server" "$bundle/client" "$bundle/manifest.json" exporters/
           # Only our classes and their manifest leave this runner.
           stray=$(find exporters -type f ! -path exporters/manifest.json \
             ! \( -name '*.class' \( -path 'exporters/server/dev/horizonlab/parity/*' -o -path 'exporters/client/dev/horizonlab/parity/*' \) \))
           [ -z "$stray" ] || { echo "::error::not one of our classes: $stray"; exit 1; }
-          python3 tools/check_prepare_exporters.py --binary target/release/horizon-prepare
+          python3 tools/check_prepare_exporters.py --binary target/release/ll-prepare
       - uses: actions/upload-artifact@v7
         with:
           name: original-exporters
@@ -96,8 +96,8 @@ jobs:
             dir: horizon-linux-x86_64
             asset: horizon-linux-x86_64.tar.gz
             # The server build too: packaging/server/install.sh installs it on Linux.
-            server_dir: horizon-server-linux-x86_64
-            server_asset: horizon-server-linux-x86_64.tar.gz
+            server_dir: ll-server-linux-x86_64
+            server_asset: ll-server-linux-x86_64.tar.gz
           - name: linux-musl
             os: ubuntu-22.04
             musl: true
@@ -168,21 +168,21 @@ jobs:
       - name: ALSA and udev headers
         if: runner.os == 'Linux' && !matrix.musl
         run: sudo apt-get update && sudo apt-get install -y --no-install-recommends libasound2-dev libudev-dev
-      - name: Build the client, horizon-ctl, horizon-prepare and horizon-server
+      - name: Build the client, ll-ctl, ll-prepare and ll-server
         if: ${{ !matrix.musl }}
-        run: cargo build --release --locked ${{ matrix.target && format('--target {0}', matrix.target) || '' }} -p horizon-client -p horizon-client-lib --bin horizon-client --bin horizon-ctl -p horizon-prepare --bin horizon-prepare -p horizon-server --bin horizon-server
+        run: cargo build --release --locked ${{ matrix.target && format('--target {0}', matrix.target) || '' }} -p ll-client -p ll-client-lib --bin ll-client --bin ll-ctl -p ll-prepare --bin ll-prepare -p ll-server --bin ll-server
       - name: Every program the release folder takes was built
         if: ${{ !matrix.musl }}
         run: |
-          for binary in horizon-client horizon-ctl horizon-prepare horizon-server; do
+          for binary in ll-client ll-ctl ll-prepare ll-server; do
             test -f "$BIN/$binary${{ matrix.exe }}" || { echo "::error::$BIN/$binary${{ matrix.exe }} is missing"; exit 1; }
           done
       - name: Verify Windows executable architecture
         if: runner.os == 'Windows'
         run: |
           python tools/check_pe_arch.py "${{ matrix.pe_arch }}" \
-            "$BIN/horizon-client${{ matrix.exe }}" "$BIN/horizon-ctl${{ matrix.exe }}" \
-            "$BIN/horizon-prepare${{ matrix.exe }}" "$BIN/horizon-server${{ matrix.exe }}"
+            "$BIN/ll-client${{ matrix.exe }}" "$BIN/ll-ctl${{ matrix.exe }}" \
+            "$BIN/ll-prepare${{ matrix.exe }}" "$BIN/ll-server${{ matrix.exe }}"
       - name: The signing keychain, unlocked
         if: runner.os == 'macOS' && vars.MACOS_SIGN_IDENTITY != '' && inputs.developer_id
         env:
@@ -194,7 +194,7 @@ jobs:
         env:
           MACOS_SIGN_IDENTITY: ${{ vars.MACOS_SIGN_IDENTITY }}
         run: |
-          for binary in horizon-client horizon-ctl horizon-prepare horizon-server; do
+          for binary in ll-client ll-ctl ll-prepare ll-server; do
             codesign --force --options runtime --timestamp --keychain "$MACOS_SIGN_KEYCHAIN" \
               --identifier "dev.horizon.${binary#horizon-}" --sign "$MACOS_SIGN_IDENTITY" "$BIN/$binary"
             codesign --verify --strict --verbose=2 "$BIN/$binary"
@@ -204,7 +204,7 @@ jobs:
         # Windows: no non-system DLL (a "DLL not found" dialog on some players' machines). Linux: the standard
         # loader and libraries every desktop distribution has. macOS: only the system's own libraries.
         run: |
-          for binary in horizon-client horizon-ctl horizon-prepare horizon-server; do
+          for binary in ll-client ll-ctl ll-prepare ll-server; do
             file="$BIN/$binary${{ matrix.exe }}"
             if [[ "$RUNNER_OS" == macOS ]]; then
               others=$(otool -L "$file" | tail -n +2 | awk '{print $1}' | grep -v -E '^(/usr/lib/|/System/Library/)' || true)
@@ -221,17 +221,17 @@ jobs:
           set -euo pipefail
           rustup component add llvm-tools
           ${{ runner.os == 'Windows' && 'python' || 'python3' }} tools/check_cpu_baseline.py \
-            $(for binary in horizon-client horizon-ctl horizon-prepare horizon-server; do echo "$BIN/$binary${{ matrix.exe }}"; done)
+            $(for binary in ll-client ll-ctl ll-prepare ll-server; do echo "$BIN/$binary${{ matrix.exe }}"; done)
       - name: Every program starts
         if: ${{ !matrix.musl }}
         run: |
           set -euo pipefail
           bin=$BIN
-          "$bin/horizon-client${{ matrix.exe }}" --help | grep -q -- '--resources'
-          "$bin/horizon-ctl${{ matrix.exe }}" --help > /dev/null
-          "$bin/horizon-prepare${{ matrix.exe }}" --help | grep -q -- '--minecraft-dir'
+          "$bin/ll-client${{ matrix.exe }}" --help | grep -q -- '--resources'
+          "$bin/ll-ctl${{ matrix.exe }}" --help > /dev/null
+          "$bin/ll-prepare${{ matrix.exe }}" --help | grep -q -- '--minecraft-dir'
           # The version is the release's.
-          for binary in horizon-prepare horizon-server; do
+          for binary in ll-prepare ll-server; do
             out=$("$bin/$binary${{ matrix.exe }}" --version | tr -d '\r')
             echo "$out"
             [[ "$out" == "$binary $HORIZON_VERSION" ]] || { echo "::error::expected $binary $HORIZON_VERSION"; exit 1; }
@@ -252,8 +252,8 @@ jobs:
           home="$RUNNER_TEMP/horizon-smoke"
           rm -rf "$home" && mkdir -p "$home"
           version=$(sed -n 's/.*"version": *"\([^"]*\)".*/\1/p' research-lock.json | head -1)
-          client="$PWD/$BIN/horizon-client"
-          resources="$PWD/.local/horizon-client/$version"
+          client="$PWD/$BIN/ll-client"
+          resources="$PWD/.local/ll-client/$version"
           (cd "$home" && HORIZON_HOME="$home" HORIZON_NO_AUDIO=1 "$client" --resources "$resources" --offscreen \
             --world smoke --seed 1 --render-distance 4 --world-frames 1500 --timeout-seconds 180 \
             --smoke-report "$home/smoke.json" > "$home/client.log" 2>&1) || { tail -40 "$home/client.log"; exit 1; }
@@ -290,7 +290,7 @@ jobs:
         if: ${{ !matrix.musl }}
         run: |
           set -euo pipefail
-          cargo run --locked -p xtask -- package "$BIN/horizon-client${{ matrix.exe }}" "dist/${{ matrix.dir }}"
+          cargo run --locked -p xtask -- package "$BIN/ll-client${{ matrix.exe }}" "dist/${{ matrix.dir }}"
           cd dist
           rm -f "${{ matrix.asset }}"
           case "${{ matrix.asset }}" in
@@ -310,7 +310,7 @@ jobs:
         # A zip of programs can't be stapled: Gatekeeper asks Apple the first time each one runs.
         if: runner.os == 'macOS' && vars.MACOS_SIGN_IDENTITY != '' && inputs.developer_id
         run: |
-          for binary in horizon-client horizon-ctl horizon-prepare horizon-server; do
+          for binary in ll-client ll-ctl ll-prepare ll-server; do
             codesign --verify --strict "dist/${{ matrix.dir }}/$binary"
           done
           packaging/macos/notarize.sh "dist/${{ matrix.asset }}"
@@ -320,18 +320,18 @@ jobs:
           path: dist/${{ matrix.asset }}
           if-no-files-found: error
           retention-days: 3
-      - name: The server build (the game without sound or controllers, as horizon-engine)
+      - name: The server build (the game without sound or controllers, as ll-engine)
         if: matrix.server_asset
         run: |
           set -euo pipefail
-          # After the client is packaged: target/release/horizon-client is rebuilt without the audio and
+          # After the client is packaged: target/release/ll-client is rebuilt without the audio and
           # controllers features, so it needs neither libasound nor libudev (minimal server images lack them).
-          cargo build --release --locked -p horizon-client --no-default-features --bin horizon-client
-          cargo run --locked -p xtask -- package-server target/release/horizon-client "dist/${{ matrix.server_dir }}"
+          cargo build --release --locked -p ll-client --no-default-features --bin ll-client
+          cargo run --locked -p xtask -- package-server target/release/ll-client "dist/${{ matrix.server_dir }}"
           folder="dist/${{ matrix.server_dir }}"
-          python3 tools/check_imports.py --server "$folder/horizon-engine" "$folder/horizon-server" "$folder/horizon-prepare"
-          "$folder/horizon-engine" --help | grep -q -- '--resources'
-          [[ "$("$folder/horizon-server" --version)" == "horizon-server $HORIZON_VERSION" ]]
+          python3 tools/check_imports.py --server "$folder/ll-engine" "$folder/ll-server" "$folder/ll-prepare"
+          "$folder/ll-engine" --help | grep -q -- '--resources'
+          [[ "$("$folder/ll-server" --version)" == "ll-server $HORIZON_VERSION" ]]
           cd dist
           rm -f "${{ matrix.server_asset }}"
           tar czf "${{ matrix.server_asset }}" "${{ matrix.server_dir }}"

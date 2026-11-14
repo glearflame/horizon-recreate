@@ -100,8 +100,8 @@ jobs:
         run: |
           cargo +stable fmt --all -- --check
           cargo +stable clippy --workspace --all-targets -- -D warnings
-          # The server build (released as horizon-engine): the game without sound or controllers.
-          cargo +stable clippy -p horizon-client --all-targets --no-default-features -- -D warnings
+          # The server build (released as ll-engine): the game without sound or controllers.
+          cargo +stable clippy -p ll-client --all-targets --no-default-features -- -D warnings
       # Libraries, binaries and integration tests, then doc tests: not the ~275 examples, which clippy above already
       # type-checks and the parity job builds and runs (they were most of this step's build and link time).
       # cargo test, not nextest: nextest's process per test reloads each binary's shared tables for every test, and on
@@ -201,24 +201,24 @@ jobs:
           Write-Output "Using $($clang.Source)"
           & $clang.Source --version
       - name: Build the game for native Windows ARM64
-        run: cargo build --release --locked --target aarch64-pc-windows-msvc -p horizon-client -p horizon-client-lib --bin horizon-client --bin horizon-ctl -p horizon-prepare --bin horizon-prepare -p horizon-server --bin horizon-server
+        run: cargo build --release --locked --target aarch64-pc-windows-msvc -p ll-client -p ll-client-lib --bin ll-client --bin ll-ctl -p ll-prepare --bin ll-prepare -p ll-server --bin ll-server
       - name: Check the game's PE machine
-        run: python tools/check_pe_arch.py arm64 target/aarch64-pc-windows-msvc/release/horizon-client.exe target/aarch64-pc-windows-msvc/release/horizon-ctl.exe target/aarch64-pc-windows-msvc/release/horizon-prepare.exe target/aarch64-pc-windows-msvc/release/horizon-server.exe
+        run: python tools/check_pe_arch.py arm64 target/aarch64-pc-windows-msvc/release/ll-client.exe target/aarch64-pc-windows-msvc/release/ll-ctl.exe target/aarch64-pc-windows-msvc/release/ll-prepare.exe target/aarch64-pc-windows-msvc/release/ll-server.exe
       - name: Check game DLL imports
-        run: python tools/check_imports.py target/aarch64-pc-windows-msvc/release/horizon-client.exe target/aarch64-pc-windows-msvc/release/horizon-ctl.exe target/aarch64-pc-windows-msvc/release/horizon-prepare.exe target/aarch64-pc-windows-msvc/release/horizon-server.exe
+        run: python tools/check_imports.py target/aarch64-pc-windows-msvc/release/ll-client.exe target/aarch64-pc-windows-msvc/release/ll-ctl.exe target/aarch64-pc-windows-msvc/release/ll-prepare.exe target/aarch64-pc-windows-msvc/release/ll-server.exe
       - name: Start every game executable
         shell: pwsh
         run: |
           $ErrorActionPreference = 'Stop'
-          $client = 'target/aarch64-pc-windows-msvc/release/horizon-client.exe'
+          $client = 'target/aarch64-pc-windows-msvc/release/ll-client.exe'
           $output = & $client --help 2>&1
-          if ($LASTEXITCODE -ne 0 -or ($output -join "`n") -notmatch '--resources') { throw 'horizon-client --help failed' }
-          foreach ($binary in @('horizon-ctl.exe', 'horizon-prepare.exe', 'horizon-server.exe')) {
+          if ($LASTEXITCODE -ne 0 -or ($output -join "`n") -notmatch '--resources') { throw 'll-client --help failed' }
+          foreach ($binary in @('ll-ctl.exe', 'll-prepare.exe', 'll-server.exe')) {
             $path = "target/aarch64-pc-windows-msvc/release/$binary"
             $output = & $path --help 2>&1
             if ($LASTEXITCODE -ne 0 -or -not $output) { throw "$binary --help failed" }
           }
-          foreach ($binary in @('horizon-prepare.exe', 'horizon-server.exe')) {
+          foreach ($binary in @('ll-prepare.exe', 'll-server.exe')) {
             $path = "target/aarch64-pc-windows-msvc/release/$binary"
             $output = & $path --version 2>&1
             if ($LASTEXITCODE -ne 0 -or -not $output) { throw "$binary --version failed" }
@@ -231,18 +231,18 @@ jobs:
           cargo build --release --locked --target aarch64-pc-windows-msvc
       - name: Check the launcher's PE machine
         working-directory: launcher
-        run: python ../tools/check_pe_arch.py arm64 target/aarch64-pc-windows-msvc/release/horizon-launcher.exe
+        run: python ../tools/check_pe_arch.py arm64 target/aarch64-pc-windows-msvc/release/ll-launcher.exe
       - name: Check launcher DLL imports and command-line startup
         working-directory: launcher
         # bash, as launcher.yml's check on the same runner: the launcher is a GUI-subsystem program, and a pwsh
         # `$output = & launcher --version` read no output from it (run 42217014588).
         shell: bash
         run: |
-          launcher=target/aarch64-pc-windows-msvc/release/horizon-launcher.exe
+          launcher=target/aarch64-pc-windows-msvc/release/ll-launcher.exe
           python ../tools/check_imports.py "$launcher"
           out=$("$launcher" --version)
           echo "$out"
-          [[ "$out" == "horizon-launcher "* ]] || { echo "::error::horizon-launcher --version printed '$out'"; exit 1; }
+          [[ "$out" == "ll-launcher "* ]] || { echo "::error::ll-launcher --version printed '$out'"; exit 1; }
       - name: Build a native-mod game with the launcher's managed toolchain
         working-directory: launcher
         shell: pwsh
@@ -252,7 +252,7 @@ jobs:
         run: |
           $ErrorActionPreference = 'Stop'
           cargo test --release --locked --target aarch64-pc-windows-msvc --lib rust_toolchain::tests::managed_arm64_toolchain_builds_the_game -- --ignored --exact --nocapture
-          $client = Join-Path $env:HORIZON_NATIVE_TARGET_DIR 'fast/horizon-client.exe'
+          $client = Join-Path $env:HORIZON_NATIVE_TARGET_DIR 'fast/ll-client.exe'
           python ../tools/check_pe_arch.py arm64 $client
           python ../tools/check_imports.py $client
   # Most pull requests leave the harnesses to parity-main, which runs them on main a batch of merges at a time
@@ -276,7 +276,7 @@ jobs:
           LABELS: ${{ join(github.event.pull_request.labels.*.name, ' ') }}
         run: |
           changed=$(git diff --name-only "$(git merge-base "$BASE_SHA" HEAD)" HEAD)
-          harness=$(grep -E '^(tools/test_[a-z0-9_]+_parity\.py|tools/(parity[a-z_]*|lab)\.py|tools/parity_hosts\.json|mods/horizon/src/test/|crates/[^/]+/examples/|crates/horizon-client/src/game/[a-z_]*(fixture|harness)\.rs|\.github/workflows/parity[a-z-]*\.yml)' <<< "$changed" || true)
+          harness=$(grep -E '^(tools/test_[a-z0-9_]+_parity\.py|tools/(parity[a-z_]*|lab)\.py|tools/parity_hosts\.json|mods/horizon/src/test/|crates/[^/]+/examples/|crates/ll-client/src/game/[a-z_]*(fixture|harness)\.rs|\.github/workflows/parity[a-z-]*\.yml)' <<< "$changed" || true)
           if [ -n "$harness" ] || [[ " $LABELS " == *" run-parity "* ]] || [[ " $LABELS " == *" frame-identity "* ]]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
             echo "The pull request runs its harnesses: ${harness:-label run-parity}"

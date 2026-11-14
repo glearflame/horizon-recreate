@@ -16,7 +16,7 @@ name: launcher
 # Developer ID, notarized and stapled, from the runner's signing keychain (packaging/macos/README.md);
 # unset (forks), they are signed ad hoc.
 # Windows ships each architecture's launcher in its ZIP (what a launcher updates itself from) and as
-# horizon-launcher-setup.exe or horizon-launcher-setup-arm64.exe, which opens the per-user installer instead of Home
+# ll-launcher-setup.exe or ll-launcher-setup-arm64.exe, which opens the per-user installer instead of Home
 # (launcher/src/installer.rs).
 #   gh workflow run launcher --ref <branch>                    # dry run: builds everything, publishes nothing
 #   gh workflow run launcher --ref main -f dry_run=false -f force=true
@@ -32,7 +32,7 @@ on:
       - 'crates/horizon-mcp/**'
       - 'crates/horizon-mods/**'
       - 'crates/horizon-port-pack/**'
-      - 'crates/horizon-prepare/**'
+      - 'crates/ll-prepare/**'
       - 'crates/horizon-release-sign/**'
       - 'crates/horizon-telemetry/**'
       - 'crates/horizon-theme/**'
@@ -113,35 +113,35 @@ jobs:
         include:
           - name: linux
             os: ubuntu-22.04
-            asset: horizon-launcher-linux-x86_64.tar.gz
-            binary: horizon-launcher
+            asset: ll-launcher-linux-x86_64.tar.gz
+            binary: ll-launcher
           - name: macos
             mac: true
-            asset: horizon-launcher-macos-arm64.zip
-            binary: horizon-launcher
+            asset: ll-launcher-macos-arm64.zip
+            binary: ll-launcher
             mac_arch: arm64
           - name: macos-x64
             mac: true
             target: x86_64-apple-darwin
-            asset: horizon-launcher-macos-x64.zip
-            binary: horizon-launcher
+            asset: ll-launcher-macos-x64.zip
+            binary: ll-launcher
             mac_arch: x64
           - name: windows
             os: windows-latest
-            asset: horizon-launcher-windows-x64.zip
-            binary: horizon-launcher.exe
+            asset: ll-launcher-windows-x64.zip
+            binary: ll-launcher.exe
             pe_arch: x64
-            setup_asset: horizon-launcher-setup.exe
+            setup_asset: ll-launcher-setup.exe
             # The C runtime linked in: without it the launcher asks for VCRUNTIME140.dll,
             # which only the Visual C++ redistributable installs.
             rustflags: -C target-feature=+crt-static
           - name: windows-arm64
             os: windows-11-vs2026-arm
             target: aarch64-pc-windows-msvc
-            asset: horizon-launcher-windows-arm64.zip
-            binary: horizon-launcher.exe
+            asset: ll-launcher-windows-arm64.zip
+            binary: ll-launcher.exe
             pe_arch: arm64
-            setup_asset: horizon-launcher-setup-arm64.exe
+            setup_asset: ll-launcher-setup-arm64.exe
             # The C runtime linked in, so the standalone ARM64 launcher needs no redistributable.
             rustflags: -C target-feature=+crt-static
     runs-on: ${{ matrix.mac && (vars.MAC_RUNNER || 'samuels-mac-mini') || matrix.os }}
@@ -206,7 +206,7 @@ jobs:
           out=$("$BIN/${{ matrix.binary }}" --version)
           echo "$out"
           expected="${HORIZON_LAUNCHER_VERSION:-$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)}"
-          [[ "$out" == "horizon-launcher $expected" ]] || { echo "::error::expected horizon-launcher $expected"; exit 1; }
+          [[ "$out" == "ll-launcher $expected" ]] || { echo "::error::expected ll-launcher $expected"; exit 1; }
       - name: Only system libraries
         run: |
           file="$BIN/${{ matrix.binary }}"
@@ -221,7 +221,7 @@ jobs:
           HORIZON_GITHUB_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          export HORIZON_LAUNCHER_HOME="${RUNNER_TEMP//\\//}/horizon-launcher-smoke"
+          export HORIZON_LAUNCHER_HOME="${RUNNER_TEMP//\\//}/ll-launcher-smoke"
           export HORIZON_HOME="$HORIZON_LAUNCHER_HOME/game"
           rm -rf "$HORIZON_LAUNCHER_HOME"
           launcher="$PWD/$BIN/${{ matrix.binary }}"
@@ -248,7 +248,7 @@ jobs:
           retry "$launcher" install latest
           "$launcher" versions --installed
           # `install latest` is the Nightly since #3342 (versions/nightly-<date>-<commit>), a vX.Y.Z before.
-          clients=("$HORIZON_LAUNCHER_HOME"/versions/*/horizon-client*)
+          clients=("$HORIZON_LAUNCHER_HOME"/versions/*/ll-client*)
           client="${clients[0]}"
           echo "installed client: $client"
           [[ -f "$client" ]] || { echo "::error::no game installed under versions/"; exit 1; }
@@ -272,9 +272,9 @@ jobs:
           # folder, and the copy it installs uninstalls itself. HKCU of the runner only.
           if [[ "$RUNNER_OS" == "Windows" ]]; then
             setup="$RUNNER_TEMP/setup-smoke"
-            cp "$launcher" "$RUNNER_TEMP/horizon-launcher-setup.exe"
-            "$RUNNER_TEMP/horizon-launcher-setup.exe" setup --quiet --dir "$setup"
-            installed="$setup/Horizon Launcher/horizon-launcher.exe"
+            cp "$launcher" "$RUNNER_TEMP/ll-launcher-setup.exe"
+            "$RUNNER_TEMP/ll-launcher-setup.exe" setup --quiet --dir "$setup"
+            installed="$setup/Horizon Launcher/ll-launcher.exe"
             [[ -f "$installed" ]] || { echo "::error::the setup copied no launcher"; exit 1; }
             "$installed" uninstall --quiet
             [[ ! -f "$installed" ]] || { echo "::error::uninstall left the launcher"; exit 1; }
@@ -347,7 +347,7 @@ jobs:
       - uses: actions/download-artifact@v8
         with:
           path: dist
-          pattern: horizon-launcher-*
+          pattern: ll-launcher-*
           merge-multiple: true
       - name: Sign the checksums (SHA256SUMS, SHA256SUMS.sig)
         env:
@@ -355,7 +355,7 @@ jobs:
           RELEASE_SIGNING_KEY_NEXT: ${{ secrets.RELEASE_SIGNING_KEY_NEXT }}
           EPHEMERAL: ${{ needs.decide.outputs.dry_run == 'true' && 'yes' || '' }}
           TAG: ${{ needs.decide.outputs.tag }}
-        run: bash tools/ci/sign_release.sh "$TAG" dist/horizon-launcher-*
+        run: bash tools/ci/sign_release.sh "$TAG" dist/ll-launcher-*
       - uses: actions/upload-artifact@v7
         with:
           name: signature
@@ -402,7 +402,7 @@ jobs:
         # Its build may fail without holding the release (continue-on-error): the release then has no ARM64
         # files, and ARM64 launchers stay on their version until one has (backend::launcher_update_from).
         run: |
-          for file in horizon-launcher-windows-arm64.zip horizon-launcher-setup-arm64.exe; do
+          for file in ll-launcher-windows-arm64.zip ll-launcher-setup-arm64.exe; do
             [[ -f "dist/$file" ]] || echo "::warning::$file is missing: this release goes out without it"
           done
       - name: Publish ${{ needs.decide.outputs.tag }}
@@ -413,7 +413,7 @@ jobs:
         run: |
           signature=(); [[ -f dist/SHA256SUMS.sig ]] && signature=(dist/SHA256SUMS.sig)
           gh release create "$TAG" --target "${{ needs.decide.outputs.head }}" --title "$(cat notes/title.txt)" \
-            --notes-file notes/body.md --latest=false dist/horizon-launcher-* dist/SHA256SUMS "${signature[@]}"
+            --notes-file notes/body.md --latest=false dist/ll-launcher-* dist/SHA256SUMS "${signature[@]}"
       - name: Dry run, the release that would be published
         if: needs.decide.outputs.dry_run == 'true'
         run: |

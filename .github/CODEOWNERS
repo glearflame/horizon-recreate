@@ -7,8 +7,8 @@
 /tools/ci/                               @glearflame
 /tools/release_train.py                  @glearflame
 /crates/horizon-release-sign/            @glearflame
-/crates/horizon-server/src/update.rs     @glearflame
-/crates/horizon-server/Cargo.toml        @glearflame
+/crates/ll-server/src/update.rs     @glearflame
+/crates/ll-server/Cargo.toml        @glearflame
 /launcher/src/signed.rs                  @glearflame
 /launcher/src/backend.rs                 @glearflame
 /launcher/links.json                     @glearflame

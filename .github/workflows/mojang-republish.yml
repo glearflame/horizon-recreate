@@ -5,7 +5,7 @@ name: mojang republish
 #   gh workflow run "mojang republish" -f dry_run=true
 on:
   schedule:
-    - cron: '23 * * * *'  # hourly: a republished JSON breaks horizon-prepare for every new player until accepted
+    - cron: '23 * * * *'  # hourly: a republished JSON breaks ll-prepare for every new player until accepted
   workflow_dispatch:
     inputs:
       dry_run:

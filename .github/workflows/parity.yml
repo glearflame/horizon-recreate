@@ -81,7 +81,7 @@ jobs:
           BASE_SHA: ${{ steps.merge.outputs.base }}
         run: |
           # A head made before OUTPUT_VERSION (#1947) that conflicts with main has neither the tool nor the number.
-          if [ ! -f tools/prepare_output.py ] || ! grep -q OUTPUT_VERSION crates/horizon-prepare/src/lib.rs; then
+          if [ ! -f tools/prepare_output.py ] || ! grep -q OUTPUT_VERSION crates/ll-prepare/src/lib.rs; then
             echo "This head's preparer has no OUTPUT_VERSION: nothing to check"
             exit 0
           fi
