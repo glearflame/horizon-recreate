@@ -220,6 +220,14 @@ def green_base(repo: str, issue: str) -> Ref:
 
 
 def pick(force: bool) -> None:
+    token = os.environ.get("GH_TOKEN", "")
+    repo = os.environ.get("GITHUB_REPOSITORY", "")
+    if token and repo:
+        subprocess.run(
+            ["git", "remote", "set-url", "origin",
+             f"https://x-access-token:{token}@github.com/{repo}.git"],
+            check=True, capture_output=True, text=True,
+        )
     git("fetch", "--quiet", "origin", "+refs/heads/main:refs/remotes/origin/main", "+refs/tags/nightly:refs/tags/nightly")
     today = dt.datetime.now(dt.timezone.utc).date().isoformat()
     repo, token = os.environ.get("GITHUB_REPOSITORY", ""), os.environ.get("GH_TOKEN", "")
