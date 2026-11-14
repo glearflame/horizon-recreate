@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "interact_entity_v2",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_interact_entity_v2",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_interact_entity_v2",
       "neoforge": "PlayerInteractEvent.EntityInteract (getHand)",
       "side": "server",
       "cancellable": true,

@@ -6,7 +6,7 @@ struct Temp(PathBuf);
 impl Temp {
     fn new() -> Self {
         let path = std::env::temp_dir().join(format!(
-            "horizon-native-cache-{}-{}",
+            "ll-native-cache-{}-{}",
             std::process::id(),
             SystemTime::now()
                 .duration_since(UNIX_EPOCH)
@@ -36,8 +36,8 @@ fn clears_only_disposable_outputs_and_keeps_installed_games_and_player_data() {
         "saves/W/level.dat",
         "instances/A/options.txt",
         "mods/player-mod.hnmod",
-        "versions/native-game/horizon-client",
-        "native/server-builds/engine/horizon-engine",
+        "versions/native-game/ll-client",
+        "native/server-builds/engine/ll-engine",
         "native/stage/Cargo.toml",
         "native/cache/mod-output",
         "cargo/registry/crate",

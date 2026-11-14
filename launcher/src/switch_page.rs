@@ -1,8 +1,8 @@
 //! Who plays: the top bar's quick switch (a menu under the account chip) and Settings' offline
-//! names (`horizon_launcher::account::Accounts::offline`).
+//! names (`ll_launcher::account::Accounts::offline`).
 use super::servers_page::Field;
 use super::*;
-use horizon_launcher::account::Player;
+use ll_launcher::account::Player;
 
 impl Launcher {
     /// The chip's two lines: the name that plays, and how.
@@ -163,7 +163,7 @@ impl Launcher {
     pub(super) fn forget_offline(&mut self, name: &str) {
         let mut accounts = Accounts::load();
         if accounts
-            .remove_offline(name, &horizon_launcher::skins::dir())
+            .remove_offline(name, &ll_launcher::skins::dir())
             .is_ok()
             && accounts.save().is_ok()
         {

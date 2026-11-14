@@ -35,7 +35,7 @@ pub enum Dropped {
     Pack(packs::Kind),
     /// A data pack: it goes into a world.
     DataPack,
-    /// A game build: a `horizon-client` program, or a release archive or an
+    /// A game build: a `ll-client` program, or a release archive or an
     /// Actions artifact around one. `build_import` installs it as its own
     /// version beside the releases, so a build can be played without waiting
     /// for a Nightly.
@@ -95,7 +95,7 @@ pub fn what(file: &Path) -> Result<Dropped, String> {
             });
         }
         Some("zip") => {}
-        // A build for Linux or macOS is named `horizon-client` with no
+        // A build for Linux or macOS is named `ll-client` with no
         // extension, so a file nothing else claims is read before giving up.
         _ if is_build(file) => return Ok(Dropped::Build),
         _ => {

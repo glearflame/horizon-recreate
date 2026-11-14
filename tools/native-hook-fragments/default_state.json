@@ -3,7 +3,7 @@
   "helpers": [
     {
       "name": "default_state",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_default_state"
+      "target": "ll_client::game::native_hooks::Game<'_>::native_default_state"
     }
   ],
   "rust_summary": "a block's default state by name (`native_default_state`).",

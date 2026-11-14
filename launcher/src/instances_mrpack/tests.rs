@@ -50,7 +50,7 @@ fn a_packs_index_names_its_game_and_loader() {
 
 #[test]
 fn a_modded_pack_fills_the_instance_it_is_imported_into() {
-    let root = std::env::temp_dir().join(format!("horizon-mrpack-{}", std::process::id()));
+    let root = std::env::temp_dir().join(format!("ll-mrpack-{}", std::process::id()));
     let _ = fs::remove_dir_all(&root);
     let home = root.join("instance");
     fs::create_dir_all(&root).unwrap();

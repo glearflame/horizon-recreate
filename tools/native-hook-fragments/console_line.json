@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "console_line",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_console_line",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_console_line",
       "neoforge": "none (Bukkit's ServerCommandEvent and RemoteServerCommandEvent; NeoForge's CommandEvent hears parsed commands only)",
       "side": "server",
       "cancellable": true,

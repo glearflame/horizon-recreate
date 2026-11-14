@@ -1,6 +1,6 @@
 //! Nightly (docs/release-flow.md): the only build Horizon ships since 2026-10-28, main plus the pull
 //! requests the trusted reviewers picked, published as the `nightly` pre-release a few times a day.
-//! Every launcher installs it as its update (`backend::horizon_update`), as its own version
+//! Every launcher installs it as its update (`backend::ll_update`), as its own version
 //! `nightly-<date>-<commit>`, beside the player's worlds, which it never touches. Its checksums must
 //! be signed for the nightly channel (`signed::nightly_digest`).
 //!
@@ -8,7 +8,7 @@
 //! that instance, and its worlds, stay, and keep following the Nightly.
 use crate::backend::{self, Release};
 use crate::instances;
-use horizon_release_sign::NIGHTLY;
+use ll_release_sign::NIGHTLY;
 
 /// The id of the instance (its folder in `instances/`) the opt-in Nightly played in.
 pub const INSTANCE: &str = "nightly";
@@ -130,7 +130,7 @@ mod tests {
         assert_eq!(date_of(&version_of(&r)), Some("2026-10-28"));
         assert_eq!(date_of("v0.2.95"), None);
         assert_eq!(date_of("nightly"), None);
-        assert!(horizon_release_sign::is_nightly(&version_of(&r)));
+        assert!(ll_release_sign::is_nightly(&version_of(&r)));
     }
 
     #[test]

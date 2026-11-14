@@ -2,7 +2,7 @@
 //!
 //! Nothing that exists moves. The game's home (`backend::game_home`) stays the default instance,
 //! "Horizon", with its saves and options where they are. Imported modpacks (`ports/<pack>/home/`)
-//! and registry modpacks (`horizon-packs/<id>/home/`) are instances too, played from their own
+//! and registry modpacks (`ll-packs/<id>/home/`) are instances too, played from their own
 //! folders as before. New instances get `instances/<slug>/` in the game's home. What the player
 //! chooses about an instance (its name, icon, group) is kept in `instances.json` in the
 //! launcher's data folder, so renaming one never moves a folder.
@@ -274,7 +274,7 @@ impl Instance {
         match (requested, &self.version) {
             (None, Some(pinned)) => backend::resolve_version(Some(pinned)).map_err(|_| {
                 format!(
-                    "{} plays {pinned}, which is not installed: install it, or horizon-launcher \
+                    "{} plays {pinned}, which is not installed: install it, or ll-launcher \
                      instance version \"{}\" latest",
                     self.name, self.name
                 )
@@ -334,7 +334,7 @@ fn list_in(game_home: &Path, data: &Path) -> Vec<Instance> {
             home,
         ));
     }
-    for p in registry_pack::list_in(&game_home.join("horizon-packs")) {
+    for p in registry_pack::list_in(&game_home.join("ll-packs")) {
         let home = registry_pack::home(&p.work);
         found.push((format!("pack:{}", p.id), p.name, Kind::Pack, p.work, home));
     }
@@ -377,7 +377,7 @@ fn find_in(all: &[Instance], query: &str) -> Result<Instance, String> {
         .or_else(|| all.iter().find(|i| i.name.eq_ignore_ascii_case(q)))
         .or_else(|| all.iter().find(|i| bare(&i.id) == q))
         .cloned()
-        .ok_or_else(|| format!("No instance {q}: horizon-launcher instance list shows them"))
+        .ok_or_else(|| format!("No instance {q}: ll-launcher instance list shows them"))
 }
 
 /// Moves an instance's folder to the Trash (where the player can get it back, worlds and all)
@@ -451,20 +451,20 @@ pub fn select(query: &str) -> Result<Instance, String> {
 const NOT_COPIED: &[&str] = &[
     OWN,
     "ports",
-    "horizon-packs",
+    "ll-packs",
     "logs",
     "crash-reports",
     "sessions",
     "telemetry",
     "mod-browser",
-    ".horizon-cache",
+    ".ll-cache",
     // Far terrain's copies of what servers sent, rebuilt as the instance plays.
     "server-terrain",
 ];
 
 /// Files of the player, not of one instance, that a new instance starts with: the keys and video
 /// settings, and the offline name (so the player stays the same player in its worlds).
-const PLAYER_FILES: &[&str] = &["options.txt", "horizon-player.txt"];
+const PLAYER_FILES: &[&str] = &["options.txt", "ll-player.txt"];
 
 /// Creates an instance named `name`: empty but for the player's options and offline name, or a
 /// copy of `from`'s game folder (its worlds, options and packs). Nothing of `from` changes.
@@ -698,22 +698,22 @@ fn follow_player(game_home: &Path, home: &Path) {
             let _ = fs::copy(game_home.join(f), home.join(f));
         }
     }
-    let consent = horizon_telemetry::consent::Consent::path(game_home);
+    let consent = ll_telemetry::consent::Consent::path(game_home);
     if consent.is_file() {
-        let to = horizon_telemetry::consent::Consent::path(home);
+        let to = ll_telemetry::consent::Consent::path(home);
         let _ = fs::create_dir_all(to.parent().unwrap());
         let _ = fs::copy(consent, to);
     }
-    let no_ai = horizon_core::no_ai::is_on(game_home);
-    if horizon_core::no_ai::is_on(home) != no_ai {
-        let _ = horizon_core::no_ai::set(home, no_ai);
+    let no_ai = ll_core::no_ai::is_on(game_home);
+    if ll_core::no_ai::is_on(home) != no_ai {
+        let _ = ll_core::no_ai::set(home, no_ai);
     }
 }
 
-/// A fresh made-up name everywhere the game keeps one: `horizon-player.txt` is per game
+/// A fresh made-up name everywhere the game keeps one: `ll-player.txt` is per game
 /// folder (`PLAYER_FILES`), so the same new name goes to the default home and every
 /// instance's — the player stays one player in its worlds. The file's `name:` line and the
-/// `Player` + five digits scheme are horizon-client's (`offline_name.rs`).
+/// `Player` + five digits scheme are ll-client's (`offline_name.rs`).
 pub fn new_player_name() -> Result<String, String> {
     new_player_name_in(&backend::game_home(), &backend::data_dir())
 }
@@ -729,7 +729,7 @@ fn new_player_name_in(game_home: &Path, data: &Path) -> Result<String, String> {
     for instance in list_in(game_home, data) {
         if instance.home.is_dir() {
             fs::write(
-                instance.home.join("horizon-player.txt"),
+                instance.home.join("ll-player.txt"),
                 format!("name:{name}\n"),
             )
             .map_err(|e| format!("{}: {e}", instance.home.display()))?;

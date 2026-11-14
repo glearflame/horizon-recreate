@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "inventory_click",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_inventory_click",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_inventory_click",
       "neoforge": "none (Bukkit's InventoryClickEvent)",
       "side": "server",
       "cancellable": true,

@@ -5,7 +5,7 @@ use std::io;
 use std::path::{Path, PathBuf};
 use std::process::{Command, Output};
 
-const BINARY: &str = "horizon-launcher";
+const BINARY: &str = "ll-launcher";
 
 fn signature_holds(app: &Path) -> bool {
     Command::new("/usr/bin/codesign")

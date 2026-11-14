@@ -416,10 +416,10 @@ dependencies = [
 ]
 
 [[package]]
-name = "cargo-horizon-mod"
+name = "cargo-ll-mod"
 version = "0.1.0"
 dependencies = [
- "horizon-mods",
+ "ll-mods",
  "serde_json",
  "zip",
 ]
@@ -1375,580 +1375,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "horizon-anticheat"
-version = "0.1.0"
-dependencies = [
- "serde",
- "toml",
-]
-
-[[package]]
-name = "horizon-assets"
-version = "0.1.0"
-dependencies = [
- "horizon-core",
- "log",
- "png",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "horizon-bench"
-version = "0.1.0"
-dependencies = [
- "horizon-telemetry",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "horizon-bots"
-version = "0.1.0"
-dependencies = [
- "horizon-protocol",
- "serde_json",
-]
-
-[[package]]
-name = "horizon-chat-filter"
-version = "0.1.0"
-dependencies = [
- "serde",
- "serde_json",
- "toml",
-]
-
-[[package]]
-name = "horizon-client"
-version = "0.1.0"
-dependencies = [
- "ab_glyph",
- "bytemuck",
- "chrono",
- "crc32fast",
- "dunce",
- "flate2",
- "fs4",
- "gilrs",
- "glam",
- "horizon-anticheat",
- "horizon-assets",
- "horizon-bench",
- "horizon-chat-filter",
- "horizon-client-core",
- "horizon-client-input",
- "horizon-client-lib",
- "horizon-client-render",
- "horizon-command",
- "horizon-core",
- "horizon-cosmetics",
- "horizon-dualsense",
- "horizon-friends",
- "horizon-hdr",
- "horizon-items",
- "horizon-mod-api-gen",
- "horizon-mods",
- "horizon-narrator",
- "horizon-optifine",
- "horizon-protocol",
- "horizon-server-files",
- "horizon-shader-api",
- "horizon-shaders",
- "horizon-telemetry",
- "horizon-theme",
- "horizon-threads",
- "horizon-world",
- "log",
- "miniz_oxide 0.8.9",
- "naga",
- "objc2 0.6.5",
- "objc2-app-kit 0.3.2",
- "objc2-foundation 0.3.2",
- "open",
- "png",
- "pollster",
- "rustix 1.1.5",
- "serde",
- "serde_json",
- "sha1",
- "sha2",
- "toml",
- "unicode-bidi",
- "ureq",
- "wgpu",
- "winit",
- "winresource",
- "zip",
-]
-
-[[package]]
-name = "horizon-client-core"
-version = "0.1.0"
-dependencies = [
- "horizon-world",
- "serde_json",
-]
-
-[[package]]
-name = "horizon-client-input"
-version = "0.1.0"
-dependencies = [
- "arboard",
- "horizon-client-core",
- "horizon-dualsense",
- "horizon-theme",
- "png",
- "winit",
-]
-
-[[package]]
-name = "horizon-client-lib"
-version = "0.1.0"
-dependencies = [
- "ab_glyph",
- "bytemuck",
- "chrono",
- "crc32fast",
- "flate2",
- "fs4",
- "getrandom 0.3.4",
- "gilrs",
- "glam",
- "horizon-anticheat",
- "horizon-assets",
- "horizon-bench",
- "horizon-chat-filter",
- "horizon-client-core",
- "horizon-client-input",
- "horizon-client-render",
- "horizon-command",
- "horizon-core",
- "horizon-cosmetics",
- "horizon-dualsense",
- "horizon-friends",
- "horizon-hdr",
- "horizon-items",
- "horizon-mcp",
- "horizon-mods",
- "horizon-narrator",
- "horizon-optifine",
- "horizon-protocol",
- "horizon-server-files",
- "horizon-shader-api",
- "horizon-shaders",
- "horizon-telemetry",
- "horizon-theme",
- "horizon-threads",
- "horizon-world",
- "log",
- "miniz_oxide 0.8.9",
- "mio",
- "naga",
- "objc2 0.6.5",
- "objc2-app-kit 0.3.2",
- "objc2-foundation 0.3.2",
- "open",
- "png",
- "pollster",
- "rustix 1.1.5",
- "serde",
- "serde_json",
- "sha1",
- "sha2",
- "unicode-bidi",
- "ureq",
- "wgpu",
- "winit",
- "xxhash-rust",
- "zip",
-]
-
-[[package]]
-name = "horizon-client-render"
-version = "0.1.0"
-dependencies = [
- "ab_glyph",
- "base64 0.22.1",
- "bytemuck",
- "chrono",
- "cpal",
- "flate2",
- "glam",
- "half",
- "horizon-assets",
- "horizon-bench",
- "horizon-client-core",
- "horizon-client-input",
- "horizon-command",
- "horizon-core",
- "horizon-cosmetics",
- "horizon-hdr",
- "horizon-items",
- "horizon-mod-api-gen",
- "horizon-narrator",
- "horizon-optifine",
- "horizon-protocol",
- "horizon-shader-api",
- "horizon-shaders",
- "horizon-telemetry",
- "horizon-theme",
- "horizon-threads",
- "horizon-world",
- "image-webp",
- "log",
- "lz4_flex",
- "miniz_oxide 0.8.9",
- "naga",
- "png",
- "pollster",
- "rustix 1.1.5",
- "serde",
- "serde_json",
- "sha1",
- "sha2",
- "smallvec",
- "symphonia",
- "unicode-bidi",
- "ureq",
- "wgpu",
- "winit",
- "zip",
- "zune-jpeg",
-]
-
-[[package]]
-name = "horizon-command"
-version = "0.1.0"
-dependencies = [
- "horizon-client-core",
- "horizon-core",
- "horizon-protocol",
- "horizon-world",
-]
-
-[[package]]
-name = "horizon-core"
-version = "0.1.0"
-dependencies = [
- "libm",
-]
-
-[[package]]
-name = "horizon-cosmetics"
-version = "0.1.0"
-dependencies = [
- "base64 0.22.1",
- "glam",
- "png",
- "serde",
- "serde_json",
- "ureq",
-]
-
-[[package]]
-name = "horizon-dualsense"
-version = "0.1.0"
-dependencies = [
- "cpal",
- "hidapi",
- "log",
-]
-
-[[package]]
-name = "horizon-friends"
-version = "0.1.0"
-dependencies = [
- "chacha20poly1305",
- "getrandom 0.3.4",
- "hkdf",
- "if-addrs",
- "serde",
- "serde_json",
- "sha2",
- "socket2 0.6.5",
- "spake2",
-]
-
-[[package]]
-name = "horizon-hdr"
-version = "0.1.0"
-dependencies = [
- "ash",
- "wayland-backend",
- "wayland-client",
- "wayland-protocols",
- "wgpu",
-]
-
-[[package]]
-name = "horizon-items"
-version = "0.1.0"
-dependencies = [
- "horizon-client-core",
- "horizon-core",
- "horizon-world",
- "log",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "horizon-mcp"
-version = "0.1.0"
-dependencies = [
- "serde_json",
-]
-
-[[package]]
-name = "horizon-mod-api-gen"
-version = "0.1.0"
-dependencies = [
- "heck",
- "quote",
- "serde",
- "serde_json",
- "syn 2.0.119",
-]
-
-[[package]]
-name = "horizon-mod-api-gen-tests"
-version = "0.1.0"
-dependencies = [
- "horizon-mod-api-gen",
- "serde_json",
-]
-
-[[package]]
-name = "horizon-mod-deps"
-version = "0.1.0"
-dependencies = [
- "gif",
- "mysql",
- "quinn",
- "redis",
- "rusqlite",
- "rusty-opus",
- "snap",
- "tungstenite",
- "yaml-rust2",
-]
-
-[[package]]
-name = "horizon-mods"
-version = "0.1.0"
-dependencies = [
- "horizon-shader-api",
- "log",
- "minisign-verify",
- "serde",
- "serde_json",
- "sha2",
- "toml",
- "wasmparser",
- "zip",
-]
-
-[[package]]
-name = "horizon-narrator"
-version = "0.1.0"
-dependencies = [
- "libloading",
- "log",
- "objc2 0.6.5",
- "objc2-app-kit 0.3.2",
- "objc2-foundation 0.3.2",
- "windows 0.62.2",
-]
-
-[[package]]
-name = "horizon-optifine"
-version = "0.1.0"
-dependencies = [
- "horizon-bench",
- "horizon-core",
- "log",
- "regex",
-]
-
-[[package]]
-name = "horizon-polytone"
-version = "0.1.0"
-dependencies = [
- "regex",
- "serde_json",
-]
-
-[[package]]
-name = "horizon-port-pack"
-version = "0.1.0"
-dependencies = [
- "horizon-mods",
- "serde",
- "serde_json",
- "sha1",
- "toml",
- "ureq",
- "zip",
-]
-
-[[package]]
-name = "horizon-prepare"
-version = "0.1.0"
-dependencies = [
- "crc32fast",
- "libc",
- "regex",
- "sha1",
- "sha2",
- "zip",
-]
-
-[[package]]
-name = "horizon-protocol"
-version = "0.1.0"
-dependencies = [
- "aes",
- "flate2",
- "getrandom 0.3.4",
- "horizon-core",
- "horizon-world",
- "ipconfig",
- "log",
- "serde_json",
- "sha1",
- "sha2",
- "socket2 0.5.10",
-]
-
-[[package]]
-name = "horizon-relay"
-version = "0.1.0"
-dependencies = [
- "getrandom 0.3.4",
- "horizon-friends",
- "serde_json",
-]
-
-[[package]]
-name = "horizon-release-sign"
-version = "0.1.0"
-dependencies = [
- "base64 0.22.1",
- "ring",
-]
-
-[[package]]
-name = "horizon-server"
-version = "0.1.0"
-dependencies = [
- "ab_glyph",
- "base64 0.22.1",
- "chrono",
- "getrandom 0.3.4",
- "horizon-anticheat",
- "horizon-bench",
- "horizon-chat-filter",
- "horizon-core",
- "horizon-mcp",
- "horizon-release-sign",
- "horizon-server-files",
- "horizon-world",
- "libc",
- "p12-keystore",
- "png",
- "rcgen",
- "rustls",
- "serde",
- "serde_json",
- "sha1",
- "sha2",
- "toml",
- "toml_edit",
- "ureq",
- "windows-sys 0.61.2",
- "zip",
-]
-
-[[package]]
-name = "horizon-server-files"
-version = "0.1.0"
-dependencies = [
- "base64 0.22.1",
- "horizon-core",
- "horizon-protocol",
- "horizon-world",
- "log",
- "ureq",
-]
-
-[[package]]
-name = "horizon-shader-api"
-version = "0.1.0"
-dependencies = [
- "bytemuck",
- "naga",
- "png",
- "serde",
- "serde_json",
- "sha2",
- "toml",
- "zip",
-]
-
-[[package]]
-name = "horizon-shaders"
-version = "0.1.0"
-dependencies = [
- "half",
- "horizon-core",
- "naga",
- "png",
- "zip",
-]
-
-[[package]]
-name = "horizon-telemetry"
-version = "0.1.0"
-dependencies = [
- "getrandom 0.3.4",
- "ruzstd",
- "serde",
- "serde_json",
- "ureq",
-]
-
-[[package]]
-name = "horizon-theme"
-version = "0.1.0"
-
-[[package]]
-name = "horizon-threads"
-version = "0.1.0"
-dependencies = [
- "libc",
- "libmimalloc-sys",
- "mimalloc",
- "windows-sys 0.61.2",
-]
-
-[[package]]
-name = "horizon-world"
-version = "0.1.0"
-dependencies = [
- "flate2",
- "horizon-core",
- "libm",
- "log",
- "lz4_flex",
- "postcard",
- "serde",
- "serde_json",
- "sha2",
- "xxhash-rust",
-]
-
-[[package]]
 name = "iana-time-zone"
 version = "0.1.65"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2389,6 +1815,588 @@ name = "litrs"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "11d3d7f243d5c5a8b9bb5d6dd2b1602c0cb0b9db1621bafc7ed66e35ff9fe092"
+
+[[package]]
+name = "ll-anticheat"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "toml",
+]
+
+[[package]]
+name = "ll-assets"
+version = "0.1.0"
+dependencies = [
+ "ll-core",
+ "log",
+ "png",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "ll-bench"
+version = "0.1.0"
+dependencies = [
+ "ll-telemetry",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "ll-bots"
+version = "0.1.0"
+dependencies = [
+ "ll-protocol",
+ "serde_json",
+]
+
+[[package]]
+name = "ll-chat-filter"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "toml",
+]
+
+[[package]]
+name = "ll-client"
+version = "0.1.0"
+dependencies = [
+ "ab_glyph",
+ "bytemuck",
+ "chrono",
+ "crc32fast",
+ "dunce",
+ "flate2",
+ "fs4",
+ "gilrs",
+ "glam",
+ "ll-anticheat",
+ "ll-assets",
+ "ll-bench",
+ "ll-chat-filter",
+ "ll-client-core",
+ "ll-client-input",
+ "ll-client-lib",
+ "ll-client-render",
+ "ll-command",
+ "ll-core",
+ "ll-cosmetics",
+ "ll-dualsense",
+ "ll-friends",
+ "ll-hdr",
+ "ll-items",
+ "ll-mod-api-gen",
+ "ll-mods",
+ "ll-narrator",
+ "ll-optifine",
+ "ll-protocol",
+ "ll-server-files",
+ "ll-shader-api",
+ "ll-shaders",
+ "ll-telemetry",
+ "ll-theme",
+ "ll-threads",
+ "ll-world",
+ "log",
+ "miniz_oxide 0.8.9",
+ "naga",
+ "objc2 0.6.5",
+ "objc2-app-kit 0.3.2",
+ "objc2-foundation 0.3.2",
+ "open",
+ "png",
+ "pollster",
+ "rustix 1.1.5",
+ "serde",
+ "serde_json",
+ "sha1",
+ "sha2",
+ "toml",
+ "unicode-bidi",
+ "ureq",
+ "wgpu",
+ "winit",
+ "winresource",
+ "zip",
+]
+
+[[package]]
+name = "ll-client-core"
+version = "0.1.0"
+dependencies = [
+ "ll-world",
+ "serde_json",
+]
+
+[[package]]
+name = "ll-client-input"
+version = "0.1.0"
+dependencies = [
+ "arboard",
+ "ll-client-core",
+ "ll-dualsense",
+ "ll-theme",
+ "png",
+ "winit",
+]
+
+[[package]]
+name = "ll-client-lib"
+version = "0.1.0"
+dependencies = [
+ "ab_glyph",
+ "bytemuck",
+ "chrono",
+ "crc32fast",
+ "flate2",
+ "fs4",
+ "getrandom 0.3.4",
+ "gilrs",
+ "glam",
+ "ll-anticheat",
+ "ll-assets",
+ "ll-bench",
+ "ll-chat-filter",
+ "ll-client-core",
+ "ll-client-input",
+ "ll-client-render",
+ "ll-command",
+ "ll-core",
+ "ll-cosmetics",
+ "ll-dualsense",
+ "ll-friends",
+ "ll-hdr",
+ "ll-items",
+ "ll-mcp",
+ "ll-mods",
+ "ll-narrator",
+ "ll-optifine",
+ "ll-protocol",
+ "ll-server-files",
+ "ll-shader-api",
+ "ll-shaders",
+ "ll-telemetry",
+ "ll-theme",
+ "ll-threads",
+ "ll-world",
+ "log",
+ "miniz_oxide 0.8.9",
+ "mio",
+ "naga",
+ "objc2 0.6.5",
+ "objc2-app-kit 0.3.2",
+ "objc2-foundation 0.3.2",
+ "open",
+ "png",
+ "pollster",
+ "rustix 1.1.5",
+ "serde",
+ "serde_json",
+ "sha1",
+ "sha2",
+ "unicode-bidi",
+ "ureq",
+ "wgpu",
+ "winit",
+ "xxhash-rust",
+ "zip",
+]
+
+[[package]]
+name = "ll-client-render"
+version = "0.1.0"
+dependencies = [
+ "ab_glyph",
+ "base64 0.22.1",
+ "bytemuck",
+ "chrono",
+ "cpal",
+ "flate2",
+ "glam",
+ "half",
+ "image-webp",
+ "ll-assets",
+ "ll-bench",
+ "ll-client-core",
+ "ll-client-input",
+ "ll-command",
+ "ll-core",
+ "ll-cosmetics",
+ "ll-hdr",
+ "ll-items",
+ "ll-mod-api-gen",
+ "ll-narrator",
+ "ll-optifine",
+ "ll-protocol",
+ "ll-shader-api",
+ "ll-shaders",
+ "ll-telemetry",
+ "ll-theme",
+ "ll-threads",
+ "ll-world",
+ "log",
+ "lz4_flex",
+ "miniz_oxide 0.8.9",
+ "naga",
+ "png",
+ "pollster",
+ "rustix 1.1.5",
+ "serde",
+ "serde_json",
+ "sha1",
+ "sha2",
+ "smallvec",
+ "symphonia",
+ "unicode-bidi",
+ "ureq",
+ "wgpu",
+ "winit",
+ "zip",
+ "zune-jpeg",
+]
+
+[[package]]
+name = "ll-command"
+version = "0.1.0"
+dependencies = [
+ "ll-client-core",
+ "ll-core",
+ "ll-protocol",
+ "ll-world",
+]
+
+[[package]]
+name = "ll-core"
+version = "0.1.0"
+dependencies = [
+ "libm",
+]
+
+[[package]]
+name = "ll-cosmetics"
+version = "0.1.0"
+dependencies = [
+ "base64 0.22.1",
+ "glam",
+ "png",
+ "serde",
+ "serde_json",
+ "ureq",
+]
+
+[[package]]
+name = "ll-dualsense"
+version = "0.1.0"
+dependencies = [
+ "cpal",
+ "hidapi",
+ "log",
+]
+
+[[package]]
+name = "ll-friends"
+version = "0.1.0"
+dependencies = [
+ "chacha20poly1305",
+ "getrandom 0.3.4",
+ "hkdf",
+ "if-addrs",
+ "serde",
+ "serde_json",
+ "sha2",
+ "socket2 0.6.5",
+ "spake2",
+]
+
+[[package]]
+name = "ll-hdr"
+version = "0.1.0"
+dependencies = [
+ "ash",
+ "wayland-backend",
+ "wayland-client",
+ "wayland-protocols",
+ "wgpu",
+]
+
+[[package]]
+name = "ll-items"
+version = "0.1.0"
+dependencies = [
+ "ll-client-core",
+ "ll-core",
+ "ll-world",
+ "log",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "ll-mcp"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+]
+
+[[package]]
+name = "ll-mod-api-gen"
+version = "0.1.0"
+dependencies = [
+ "heck",
+ "quote",
+ "serde",
+ "serde_json",
+ "syn 2.0.119",
+]
+
+[[package]]
+name = "ll-mod-api-gen-tests"
+version = "0.1.0"
+dependencies = [
+ "ll-mod-api-gen",
+ "serde_json",
+]
+
+[[package]]
+name = "ll-mod-deps"
+version = "0.1.0"
+dependencies = [
+ "gif",
+ "mysql",
+ "quinn",
+ "redis",
+ "rusqlite",
+ "rusty-opus",
+ "snap",
+ "tungstenite",
+ "yaml-rust2",
+]
+
+[[package]]
+name = "ll-mods"
+version = "0.1.0"
+dependencies = [
+ "ll-shader-api",
+ "log",
+ "minisign-verify",
+ "serde",
+ "serde_json",
+ "sha2",
+ "toml",
+ "wasmparser",
+ "zip",
+]
+
+[[package]]
+name = "ll-narrator"
+version = "0.1.0"
+dependencies = [
+ "libloading",
+ "log",
+ "objc2 0.6.5",
+ "objc2-app-kit 0.3.2",
+ "objc2-foundation 0.3.2",
+ "windows 0.62.2",
+]
+
+[[package]]
+name = "ll-optifine"
+version = "0.1.0"
+dependencies = [
+ "ll-bench",
+ "ll-core",
+ "log",
+ "regex",
+]
+
+[[package]]
+name = "ll-polytone"
+version = "0.1.0"
+dependencies = [
+ "regex",
+ "serde_json",
+]
+
+[[package]]
+name = "ll-port-pack"
+version = "0.1.0"
+dependencies = [
+ "ll-mods",
+ "serde",
+ "serde_json",
+ "sha1",
+ "toml",
+ "ureq",
+ "zip",
+]
+
+[[package]]
+name = "ll-prepare"
+version = "0.1.0"
+dependencies = [
+ "crc32fast",
+ "libc",
+ "regex",
+ "sha1",
+ "sha2",
+ "zip",
+]
+
+[[package]]
+name = "ll-protocol"
+version = "0.1.0"
+dependencies = [
+ "aes",
+ "flate2",
+ "getrandom 0.3.4",
+ "ipconfig",
+ "ll-core",
+ "ll-world",
+ "log",
+ "serde_json",
+ "sha1",
+ "sha2",
+ "socket2 0.5.10",
+]
+
+[[package]]
+name = "ll-relay"
+version = "0.1.0"
+dependencies = [
+ "getrandom 0.3.4",
+ "ll-friends",
+ "serde_json",
+]
+
+[[package]]
+name = "ll-release-sign"
+version = "0.1.0"
+dependencies = [
+ "base64 0.22.1",
+ "ring",
+]
+
+[[package]]
+name = "ll-server"
+version = "0.1.0"
+dependencies = [
+ "ab_glyph",
+ "base64 0.22.1",
+ "chrono",
+ "getrandom 0.3.4",
+ "libc",
+ "ll-anticheat",
+ "ll-bench",
+ "ll-chat-filter",
+ "ll-core",
+ "ll-mcp",
+ "ll-release-sign",
+ "ll-server-files",
+ "ll-world",
+ "p12-keystore",
+ "png",
+ "rcgen",
+ "rustls",
+ "serde",
+ "serde_json",
+ "sha1",
+ "sha2",
+ "toml",
+ "toml_edit",
+ "ureq",
+ "windows-sys 0.61.2",
+ "zip",
+]
+
+[[package]]
+name = "ll-server-files"
+version = "0.1.0"
+dependencies = [
+ "base64 0.22.1",
+ "ll-core",
+ "ll-protocol",
+ "ll-world",
+ "log",
+ "ureq",
+]
+
+[[package]]
+name = "ll-shader-api"
+version = "0.1.0"
+dependencies = [
+ "bytemuck",
+ "naga",
+ "png",
+ "serde",
+ "serde_json",
+ "sha2",
+ "toml",
+ "zip",
+]
+
+[[package]]
+name = "ll-shaders"
+version = "0.1.0"
+dependencies = [
+ "half",
+ "ll-core",
+ "naga",
+ "png",
+ "zip",
+]
+
+[[package]]
+name = "ll-telemetry"
+version = "0.1.0"
+dependencies = [
+ "getrandom 0.3.4",
+ "ruzstd",
+ "serde",
+ "serde_json",
+ "ureq",
+]
+
+[[package]]
+name = "ll-theme"
+version = "0.1.0"
+
+[[package]]
+name = "ll-threads"
+version = "0.1.0"
+dependencies = [
+ "libc",
+ "libmimalloc-sys",
+ "mimalloc",
+ "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "ll-world"
+version = "0.1.0"
+dependencies = [
+ "flate2",
+ "libm",
+ "ll-core",
+ "log",
+ "lz4_flex",
+ "postcard",
+ "serde",
+ "serde_json",
+ "sha2",
+ "xxhash-rust",
+]
+
+[[package]]
+name = "ll-xtask"
+version = "0.1.0"
+dependencies = [
+ "ll-mod-api-gen",
+ "ll-theme",
+]
 
 [[package]]
 name = "lock_api"
@@ -5595,14 +5603,6 @@ name = "xml-rs"
 version = "0.8.29"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e450f9b2ed1dff33c94c12589a87338689467b9c4f5d8a5710bd09a847d2c8a7"
-
-[[package]]
-name = "xtask"
-version = "0.1.0"
-dependencies = [
- "horizon-mod-api-gen",
- "horizon-theme",
-]
 
 [[package]]
 name = "xxhash-rust"

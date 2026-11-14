@@ -11,7 +11,7 @@
 
 use super::*;
 use crate::glass_ui::{self as ui, white};
-use horizon_theme::glass::{fill, ink, radius};
+use ll_theme::glass::{fill, ink, radius};
 
 /// The list's entries: name and icon. The mockup's seven, then data collection.
 const SECTIONS: [(&str, &str); 8] = [
@@ -33,7 +33,7 @@ pub(super) struct Built {
     pub menu_entry: Stateful<Div>,
     pub appearance: AnyElement,
     pub horizon: String,
-    pub horizon_action: Option<AnyElement>,
+    pub ll_action: Option<AnyElement>,
     pub launcher: String,
     pub launcher_action: Option<AnyElement>,
 }
@@ -117,7 +117,7 @@ impl Launcher {
                         .px(px(if wide { 12. } else { 10. }))
                         .rounded(px(radius::ROW))
                         .cursor_pointer()
-                        .font_family(horizon_theme::glass::FONT)
+                        .font_family(ll_theme::glass::FONT)
                         .text_size(px(14.))
                         .when(on, |d| {
                             d.bg(white(fill::ACTIVE))
@@ -320,7 +320,7 @@ impl Launcher {
     fn update_tiles(
         &mut self,
         horizon: String,
-        horizon_action: Option<AnyElement>,
+        ll_action: Option<AnyElement>,
         launcher: String,
         launcher_action: Option<AnyElement>,
     ) -> Div {
@@ -373,7 +373,7 @@ impl Launcher {
             .when(!wide, |d| d.flex_col())
             .gap(px(8.))
             .child(tile(
-                self.horizon_mark(42.),
+                self.ll_mark(42.),
                 "Horizon".into(),
                 installed.unwrap_or_else(|| tr("Nightly").to_string()),
                 div()
@@ -382,7 +382,7 @@ impl Launcher {
                     .items_start()
                     .gap(px(12.))
                     .child(status)
-                    .children(horizon_action)
+                    .children(ll_action)
                     .into_any_element(),
             ))
             .child(tile(
@@ -399,7 +399,7 @@ impl Launcher {
         let n = 0;
         let account = card().child(self.glass_account(cx));
         let updates = card()
-            .child(self.update_tiles(b.horizon, b.horizon_action, b.launcher, b.launcher_action))
+            .child(self.update_tiles(b.horizon, b.ll_action, b.launcher, b.launcher_action))
             .child(index_row(
                 0,
                 tr("Install new versions automatically"),

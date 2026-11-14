@@ -10,7 +10,7 @@ impl Temp {
         static NEXT: AtomicUsize = AtomicUsize::new(0);
         loop {
             let path = std::env::temp_dir().join(format!(
-                "horizon-location-{}-{}",
+                "ll-location-{}-{}",
                 std::process::id(),
                 NEXT.fetch_add(1, Ordering::Relaxed)
             ));
@@ -437,7 +437,7 @@ fn a_config_folder_behind_a_link_still_opens() {
     fs::create_dir_all(&real).unwrap();
     let config = temp.0.join("config");
     std::os::unix::fs::symlink(&real, &config).unwrap();
-    let bootstrap = config.join("horizon-launcher-location/location.json");
+    let bootstrap = config.join("ll-launcher-location/location.json");
 
     assert_eq!(resolve_at(&bootstrap), Ok(None));
     assert_eq!(startup_error_at(&bootstrap), None);
@@ -461,6 +461,6 @@ fn a_config_folder_behind_a_link_still_opens() {
 
     // The lock behind the link is the one a worker takes through the real path.
     let reader = acquire_lock_at(&bootstrap).unwrap();
-    assert!(lock_at(&real.join("horizon-launcher-location/location.json"), true).is_err());
+    assert!(lock_at(&real.join("ll-launcher-location/location.json"), true).is_err());
     drop(reader);
 }

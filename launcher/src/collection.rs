@@ -1,8 +1,8 @@
 //! Data collection in the window: the question asked once (and again when what is collected
-//! changes), and its section in Settings. Everything goes through `horizon_launcher::telemetry`.
+//! changes), and its section in Settings. Everything goes through `ll_launcher::telemetry`.
 use super::*;
-use horizon_launcher::telemetry;
-use horizon_telemetry::{Choices, Consent, Kind as DataKind};
+use ll_launcher::telemetry;
+use ll_telemetry::{Choices, Consent, Kind as DataKind};
 
 /// What the window keeps about data collection.
 pub(crate) struct Collection {
@@ -302,7 +302,7 @@ impl Launcher {
             Some(always_on(&t).into_any_element()),
             &t,
         ));
-        let waiting = horizon_telemetry::outbox::pending(&telemetry::home()).len();
+        let waiting = ll_telemetry::outbox::pending(&telemetry::home()).len();
         let id = match consent.install_id.as_str() {
             "" => tr("No install ID: nothing has been collected").to_string(),
             id => trf(
@@ -310,7 +310,7 @@ impl Launcher {
                 &[("prefix", &id[..4]), ("suffix", &id[id.len() - 4..])],
             ),
         };
-        let server = if horizon_telemetry::endpoint().is_some() {
+        let server = if ll_telemetry::endpoint().is_some() {
             trf(
                 "{count} waiting to be sent",
                 &[("count", &waiting.to_string())],

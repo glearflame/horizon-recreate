@@ -1,7 +1,7 @@
 use super::*;
 
 fn scratch(name: &str) -> PathBuf {
-    let root = std::env::temp_dir().join(format!("horizon-shortcut-{name}-{}", std::process::id()));
+    let root = std::env::temp_dir().join(format!("ll-shortcut-{name}-{}", std::process::id()));
     let _ = fs::remove_dir_all(&root);
     fs::create_dir_all(&root).unwrap();
     root
@@ -24,14 +24,14 @@ fn names_fit_every_system() {
 #[test]
 fn a_linux_entry_plays_its_instance() {
     let entry = desktop_entry(
-        Path::new("/opt/My Horizon/horizon-launcher"),
+        Path::new("/opt/My Horizon/ll-launcher"),
         "port:atm",
         "ATM",
     );
     assert!(entry.starts_with("[Desktop Entry]\nType=Application\nName=ATM\n"));
     assert!(entry
-        .contains("\nExec=\"/opt/My Horizon/horizon-launcher\" play --instance \"port:atm\"\n"));
-    assert!(entry.contains("\nTryExec=/opt/My Horizon/horizon-launcher\n"));
+        .contains("\nExec=\"/opt/My Horizon/ll-launcher\" play --instance \"port:atm\"\n"));
+    assert!(entry.contains("\nTryExec=/opt/My Horizon/ll-launcher\n"));
     assert!(entry.ends_with("\nX-Horizon-Instance=port:atm\n"));
     let odd = desktop_entry(Path::new("/x"), "a", "Two\nlines");
     assert!(odd.contains("Name=Two lines\n"));
@@ -40,7 +40,7 @@ fn a_linux_entry_plays_its_instance() {
 #[test]
 fn a_mac_app_runs_a_script_that_plays_its_instance() {
     let files = mac_app(
-        Path::new("/Applications/Horizon Launcher.app/Contents/MacOS/horizon-launcher"),
+        Path::new("/Applications/Horizon Launcher.app/Contents/MacOS/ll-launcher"),
         "it's",
         "Tom & Jerry",
     );
@@ -52,7 +52,7 @@ fn a_mac_app_runs_a_script_that_plays_its_instance() {
     let (path, script, program) = &files[1];
     assert_eq!((*path, *program), ("Contents/MacOS/play", true));
     assert!(String::from_utf8(script.clone()).unwrap().ends_with(
-        "exec '/Applications/Horizon Launcher.app/Contents/MacOS/horizon-launcher' play \
+        "exec '/Applications/Horizon Launcher.app/Contents/MacOS/ll-launcher' play \
          --instance 'it'\\''s'\n"
     ));
     assert_eq!(files[2].1, MAC_ICON);
@@ -108,13 +108,13 @@ fn read_lnk(b: &[u8]) -> (u32, String, String, Vec<String>) {
 
 #[test]
 fn a_windows_shortcut_is_a_shell_link_to_the_launcher() {
-    let exe = r"C:\Users\Zoé\AppData\Local\Horizon\horizon-launcher.exe";
+    let exe = r"C:\Users\Zoé\AppData\Local\Horizon\ll-launcher.exe";
     let b = lnk(exe, &windows_args("port:atm"), "Play ATM in Horizon");
     let (flags, ansi, wide, strings) = read_lnk(&b);
     assert_eq!(flags, 0x02 | 0x04 | 0x10 | 0x20 | 0x40 | 0x80);
     assert_eq!(
         ansi,
-        r"C:\Users\Zo?\AppData\Local\Horizon\horizon-launcher.exe"
+        r"C:\Users\Zo?\AppData\Local\Horizon\ll-launcher.exe"
     );
     assert_eq!(wide, exe);
     assert_eq!(
@@ -134,7 +134,7 @@ fn a_windows_shortcut_is_a_shell_link_to_the_launcher() {
 #[test]
 fn the_shell_written_link_keeps_the_instance_it_plays() {
     let root = scratch("plays");
-    let exe = root.join("Horizon Launcher").join("horizon-launcher.exe");
+    let exe = root.join("Horizon Launcher").join("ll-launcher.exe");
     fs::create_dir_all(exe.parent().unwrap()).unwrap();
     fs::write(&exe, b"x").unwrap();
     let link = root.join("Hardcore (Horizon).lnk");
@@ -164,9 +164,9 @@ fn shortcuts_are_made_found_renamed_and_removed() {
     // A path the shell accepts on the system running the test: Windows writes its shortcuts through
     // IShellLinkW, which refuses a Unix path.
     let exe = if cfg!(windows) {
-        Path::new(r"C:\Horizon\horizon-launcher.exe")
+        Path::new(r"C:\Horizon\ll-launcher.exe")
     } else {
-        Path::new("/opt/horizon-launcher")
+        Path::new("/opt/ll-launcher")
     };
     for system in [System::Linux, System::Mac, System::Windows] {
         let made = make_in(

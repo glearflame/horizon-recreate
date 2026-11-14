@@ -182,7 +182,7 @@ impl Entry {
     }
 
     /// Whether the id and hash are plain parts of a file name, by the game's rule
-    /// (`horizon_cosmetics::fetch`): the cache's paths are made of them.
+    /// (`ll_cosmetics::fetch`): the cache's paths are made of them.
     fn plain(&self) -> bool {
         [&self.id, &self.hash].into_iter().all(|t| {
             !t.is_empty()
@@ -442,7 +442,7 @@ impl Service {
     pub fn live() -> Self {
         Self::at(
             &std::env::var("HORIZON_COSMETICS_API")
-                .unwrap_or_else(|_| horizon_cosmetics::API.to_owned()),
+                .unwrap_or_else(|_| ll_cosmetics::API.to_owned()),
         )
     }
 
@@ -486,8 +486,8 @@ impl Service {
     }
 
     /// One item's file, checked against the format's limits.
-    pub fn item(&self, entry: &Entry) -> Result<horizon_cosmetics::Item, Error> {
-        horizon_cosmetics::Item::parse(&self.item_bytes(entry)?).map_err(|_| Error::Service(200))
+    pub fn item(&self, entry: &Entry) -> Result<ll_cosmetics::Item, Error> {
+        ll_cosmetics::Item::parse(&self.item_bytes(entry)?).map_err(|_| Error::Service(200))
     }
 
     fn item_bytes(&self, entry: &Entry) -> Result<Vec<u8>, Error> {
@@ -645,19 +645,19 @@ impl Service {
         &self,
         entry: &Entry,
         cache: &Path,
-    ) -> Result<horizon_cosmetics::Item, Error> {
+    ) -> Result<ll_cosmetics::Item, Error> {
         if !entry.plain() {
             return Err(Error::Service(200));
         }
         let path = cache.join(format!("{}-{}.json", entry.id, entry.hash));
         if let Some(item) = std::fs::read(&path)
             .ok()
-            .and_then(|b| horizon_cosmetics::Item::parse(&b).ok())
+            .and_then(|b| ll_cosmetics::Item::parse(&b).ok())
         {
             return Ok(item);
         }
         let bytes = self.item_bytes(entry)?;
-        let item = horizon_cosmetics::Item::parse(&bytes).map_err(|_| Error::Service(200))?;
+        let item = ll_cosmetics::Item::parse(&bytes).map_err(|_| Error::Service(200))?;
         if std::fs::create_dir_all(cache).is_ok() {
             let _ = std::fs::write(&path, &bytes);
         }
@@ -717,7 +717,7 @@ fn agent(url: &str) -> ureq::Agent {
     crate::proxy::agent(
         ureq::AgentBuilder::new()
             .timeout(Duration::from_secs(15))
-            .user_agent(&format!("horizon-launcher/{}", crate::backend::VERSION)),
+            .user_agent(&format!("ll-launcher/{}", crate::backend::VERSION)),
         url,
     )
     .build()

@@ -3,7 +3,7 @@
   "helpers": [
     {
       "name": "send_particles_to",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_send_particles_to"
+      "target": "ll_client::game::native_hooks::Game<'_>::native_send_particles_to"
     }
   ],
   "rust_summary": "particles for one player alone (`native_send_particles_to`), as vanilla's `ServerLevel.sendParticles(player, ...)`.",

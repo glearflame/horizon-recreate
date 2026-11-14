@@ -1,9 +1,9 @@
-//! Settings' Language row (`horizon_launcher::i18n`): a dropdown of the system's language and the
+//! Settings' Language row (`ll_launcher::i18n`): a dropdown of the system's language and the
 //! ones the launcher has, each named in itself. A list rather than a segment per language: nine
 //! segments took the row's whole width and left the row's own sentence a character wide.
 use super::*;
 use crate::glass_ui as ui;
-use horizon_launcher::i18n::Language;
+use ll_launcher::i18n::Language;
 
 /// What the dropdown shows for a choice: the system's, in the launcher's language, or a
 /// language's name in itself (never through the table: a table entry for "English" would rename
@@ -172,7 +172,7 @@ impl Launcher {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use horizon_launcher::i18n::{current, tr_in};
+    use ll_launcher::i18n::{current, tr_in};
 
     #[test]
     fn a_language_is_named_in_itself_and_the_system_choice_in_the_launchers_language() {

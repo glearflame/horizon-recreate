@@ -1,0 +1,174 @@
+[package]
+name = "ll-client"
+default-run = "ll-client"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "Horizon native development client"
+autobins = false
+autoexamples = false
+autotests = false
+
+[dependencies]
+ll-cosmetics = { path = "../ll-cosmetics" }
+ll-client-lib = { path = "../ll-client-lib", default-features = false }
+ll-assets = { path = "../ll-assets" }
+ll-client-core = { path = "../ll-client-core" }
+ll-client-input = { path = "../ll-client-input" }
+ll-client-render = { path = "../ll-client-render" }
+ll-command = { path = "../ll-command" }
+ll-items = { path = "../ll-items" }
+ll-core = { path = "../ll-core" }
+# OptiFine-format pack files: custom entity models, random entity textures.
+ll-optifine = { path = "../ll-optifine" }
+# The server thread ahead of the workers (MinecraftServer.spin's Thread.setPriority).
+ll-threads = { path = "../ll-threads" }
+ll-hdr = { path = "../ll-hdr" }
+ll-world = { path = "../ll-world" }
+ll-protocol = { path = "../ll-protocol" }
+# server.properties, eula.txt and the user lists, shared with ll-server.
+ll-server-files = { path = "../ll-server-files" }
+# The dedicated server's anticheat, off unless server.toml's [anticheat] turns it on (docs/anticheat.md).
+ll-anticheat = { path = "../ll-anticheat" }
+# The dedicated server's chat filter: [chat_filter], the slur list, mutes (docs/chat-filter.md).
+ll-chat-filter = { path = "../ll-chat-filter" }
+# Shader packs: reading them and turning their GLSL into naga modules.
+ll-shaders = { path = "../ll-shaders" }
+# Horizon's own shader packs: the format, the stages and the check (docs/shaders.md).
+ll-shader-api = { path = "../ll-shader-api" }
+# Play with Friends: invite codes and their tunnel; the `friends` feature.
+ll-friends = { path = "../ll-friends", optional = true }
+# The narrator (GameNarrator): text-to-speech of chat, system messages and screens.
+ll-narrator = { path = "../ll-narrator" }
+# Horizon mods: sandboxed WebAssembly components, off unless installed and turned on (docs/mods.md).
+# Their runtime is the `mods` feature.
+ll-mods = { path = "../ll-mods", default-features = false, features = ["index"] }
+wgpu = { version = "30.0.1", default-features = false, features = ["std", "parking_lot", "vulkan", "metal", "wgsl", "naga-ir"] }
+winit = "0.30.13"
+pollster = "0.4"
+bytemuck = { version = "1.24", features = ["derive"] }
+glam = "0.30"
+png = "0.18"
+sha2 = "0.10.9"
+# Server resource packs are checked and cached by their SHA-1, as vanilla does.
+sha1 = "0.10"
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1.0.151", features = ["raw_value"] }
+# server.toml's [combat], which the dedicated server reads itself.
+toml = "1.1"
+# hlsl-out: the gfx.rs tests translate every shader as wgpu's DirectX 12 backend does. A normal feature,
+# not a dev-dependency's, so builds, tests and examples share one build of naga, wgpu and this crate.
+naga = { version = "30.0.1", features = ["wgsl-in", "hlsl-out"] }
+miniz_oxide = "0.8"
+ab_glyph = "0.2.32"
+log = "0.4"
+chrono = { version = "0.4.42", default-features = false, features = ["clock", "std"] }
+flate2 = { version = "1.1.10", default-features = false, features = ["zlib-rs", "runtime_detection"] }
+ll-theme = { path = "../ll-theme" }
+# Opt-in data collection: the game keeps, the launcher sends (docs/telemetry.md). The
+# anonymous "I'm playing" ping is ll-client-lib's (`heartbeat.rs`), the `heartbeat` feature.
+ll-telemetry = { path = "../ll-telemetry", default-features = false }
+ll-bench = { path = "../ll-bench" }
+crc32fast = "1"
+zip = { version = "9.1.3", default-features = false, features = ["deflate"] }
+# Controllers (evdev + libudev on Linux, IOKit on macOS, Windows.Gaming.Input); the `controllers` feature.
+gilrs = { version = "0.11", optional = true }
+# The DualSense's rumble, adaptive triggers and lights over HID (gilrs only reads it).
+ll-dualsense = { path = "../ll-dualsense", optional = true }
+# HTTPS to the Minecraft services (online-mode session join).
+ureq = { version = "2", default-features = false, features = ["tls"] }
+unicode-bidi = "0.3.18"
+# `LevelStorageAccess.estimateDiskSpace`: usable disk space, without unsafe code on Windows.
+fs4 = { version = "1.1.0", default-features = false, features = ["sync"] }
+
+[target.'cfg(unix)'.dependencies]
+# The server thread's CPU time per tick (`HORIZON_SPIKES`, spans.rs).
+rustix = { version = "1", default-features = false, features = ["std", "time", "process", "fs"] }
+
+[target.'cfg(windows)'.dependencies]
+# Resolve virtualized folders to shell-compatible physical paths.
+dunce = "1.0.5"
+# Use the registered URI handler without routing links through Explorer/cmd.
+open = { version = "5.4.5", features = ["shellexecute-on-windows"] }
+# DirectX 12, where Vulkan has no adapter or device, or by choice (`graphicsApi`, graphics.rs).
+# Shaders compile with FXC (d3dcompiler_47.dll, part of Windows), or DXC when dxcompiler.dll is
+# on the PATH.
+wgpu = { version = "30.0.1", default-features = false, features = ["dx12"] }
+
+[target.'cfg(target_os = "macos")'.dependencies]
+# Splitscreen: a window filling a monitor goes over its menu bar (game/split/windows.rs
+# `above_menu_bar`); all already in the tree through winit and wgpu.
+objc2 = "0.6"
+objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "NSApplication", "NSResponder", "NSWindow", "NSScreen"] }
+objc2-foundation = { version = "0.3", default-features = false, features = ["std", "NSArray", "NSString"] }
+
+[target.'cfg(not(target_os = "macos"))'.dependencies]
+# OpenGL (WGL on Windows, EGL on Linux), the last fallback, for GPUs with no Vulkan or
+# DirectX 12 driver (`graphicsApi`, graphics.rs).
+wgpu = { version = "30.0.1", default-features = false, features = ["gles"] }
+
+[features]
+default = ["audio", "controllers", "discord", "friends", "heartbeat"]
+# Sound output. Without it (and `controllers`) the program links neither libasound nor libudev on
+# Linux: the server build (`--no-default-features`, released as ll-engine; docs/server.md).
+audio = ["ll-client-render/audio", "ll-client-lib/audio"]
+# Controllers: gilrs, and the DualSense's own output. Without it only `ll-ctl pad`'s virtual pad.
+controllers = ["ll-client-lib/controllers", "dep:gilrs", "dep:ll-dualsense", "ll-client-input/controllers"]
+# Online extras a server or a port can leave out; the server build has none of them. "Playing Horizon"
+# on Discord (game/discord.rs).
+discord = ["ll-client-lib/discord"]
+# Play with Friends: sharing a world behind an invite code (game/friends.rs) and joining one.
+friends = ["ll-client-lib/friends", "dep:ll-friends"]
+# The anonymous "I'm playing" ping (docs/telemetry.md).
+heartbeat = ["ll-client-lib/heartbeat"]
+# Records the call sites of mob random draws (`mob_ai_probe` traces).
+rng-trace = ["ll-core/rng-trace", "ll-client-lib/rng-trace"]
+# Rust's allocations go to the system heap instead of mimalloc, where heap profilers that replace
+# malloc (heaptrack, valgrind's massif) see them. For profiling only: mimalloc is faster.
+system-allocator = []
+# mimalloc with a tag on each block: `ll-ctl memory` lists the live heap by startup step and
+# thread (`heap_by_tag_mb`). For measuring only: each block costs 16 bytes more.
+alloc-census = ["ll-threads/alloc-census"]
+# Compatibility with earlier experiment commands: main already uses mimalloc.
+windows-mimalloc = []
+# Opt-in Windows heap experiment; see docs/windows-allocators.md.
+windows-segment-heap = []
+
+[[bin]]
+name = "ll-client"
+path = "src/main.rs"
+
+[[test]]
+name = "datapack_biome_sync"
+path = "tests/datapack_biome_sync.rs"
+
+[[test]]
+name = "launch_api"
+path = "tests/launch_api.rs"
+
+[[test]]
+name = "mod_api_hooks"
+path = "tests/mod_api_hooks.rs"
+
+[[example]]
+name = "native_gui_overlay_probe"
+path = "examples/native_gui_overlay_probe.rs"
+
+[[example]]
+name = "wind_burst_hook_probe"
+path = "examples/wind_burst_hook_probe.rs"
+
+[build-dependencies]
+ll-mod-api-gen = { path = "../ll-mod-api-gen" }
+# The build script runs on the host, but embeds resources based on the target OS.
+winresource = "0.1"
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+ll-client-render = { path = "../ll-client-render", features = ["test-support"] }
+ll-items = { path = "../ll-items", features = ["test-support"] }
+# Every WGSL shader translated as wgpu's DirectX 12 backend does (gfx.rs tests).
+naga = { version = "30.0.1", features = ["wgsl-in", "hlsl-out", "msl-out", "spv-out"] }

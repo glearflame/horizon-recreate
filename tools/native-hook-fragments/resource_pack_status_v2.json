@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "resource_pack_status_v2",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_resource_pack_status_v2",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_resource_pack_status_v2",
       "neoforge": "none (NeoForge has no resource pack answer event; Bukkit's PlayerResourcePackStatusEvent with getID)",
       "side": "server",
       "mod_api": {

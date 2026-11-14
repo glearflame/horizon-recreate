@@ -394,7 +394,7 @@ fn signed_in(store: &MemoryStore, secrets: &Secrets) -> Accounts {
 fn nowhere() -> PathBuf {
     std::env::temp_dir()
         .join(format!(
-            "horizon-launcher-no-accounts-{}",
+            "ll-launcher-no-accounts-{}",
             std::process::id()
         ))
         .join("accounts.json")
@@ -464,13 +464,13 @@ fn splitscreen_gets_the_other_accounts_that_still_hold() {
     std::fs::create_dir_all(&dir).unwrap();
     assert!(!splitscreen_on(&dir));
     std::fs::write(
-        dir.join("horizon-extras.txt"),
+        dir.join("ll-extras.txt"),
         "zoom:false\nsplitscreen:false\n",
     )
     .unwrap();
     assert!(!splitscreen_on(&dir));
     std::fs::write(
-        dir.join("horizon-extras.txt"),
+        dir.join("ll-extras.txt"),
         "zoom:false\nsplitscreen:true\n",
     )
     .unwrap();
@@ -1104,7 +1104,7 @@ fn only_the_typed_macos_removed_executable_failure_gets_the_restart_message() {
 
 #[test]
 fn session_files_are_private_and_complete() {
-    let dir = std::env::temp_dir().join(format!("horizon-launcher-session-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("ll-launcher-session-{}", std::process::id()));
     let account = Account {
         uuid: UUID.into(),
         name: "Notch".into(),
@@ -1192,7 +1192,7 @@ fn offline_names_switch_with_accounts() {
     a.play_as(&store, Player::Offline("Builder_1".into()))
         .unwrap();
     // Forgetting drops the look and the name's skin and cape files too.
-    let dir = std::env::temp_dir().join(format!("horizon-accounts-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("ll-accounts-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
     let (skin, cape) = crate::skins::files(&dir, "builder_1");
@@ -1247,7 +1247,7 @@ fn the_java_edition_plays_as_an_owner_even_offline() {
 
 /// A secrets file of the test's own, gone first.
 fn secrets_file(name: &str) -> PathBuf {
-    let dir = std::env::temp_dir().join(format!("horizon-secrets-{name}-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("ll-secrets-{name}-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&dir);
     dir.join("launcher").join(SECRETS_FILE)
 }
@@ -1912,7 +1912,7 @@ fn a_refresh_saves_a_renewed_profile_and_leaves_an_unchanged_one() {
     let store = MemoryStore::default();
     let accounts = signed_in(&store, &secrets("original-minecraft", true));
     let (_, ep) = mock(|_| {});
-    let dir = std::env::temp_dir().join(format!("horizon-launcher-refresh-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("ll-launcher-refresh-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&dir);
     let file = dir.join("accounts.json");
     accounts.save_to(&file).unwrap();
@@ -1937,7 +1937,7 @@ fn a_running_game_gets_a_renewed_session_only_when_ready() {
     let store = MemoryStore::default();
     signed_in(&store, &secrets("old-minecraft", true));
     let (_, ep) = mock(|_| {});
-    let dir = std::env::temp_dir().join(format!("horizon-launcher-renew-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("ll-launcher-renew-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&dir);
     let file =
         session::renew_for_game_with(&ep, Some("test-client"), &store, &notch(), &nowhere(), &dir)

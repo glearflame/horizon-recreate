@@ -4,8 +4,8 @@
 //! is the last resort. Each is decoded once per size and kept in `Instances::icons`.
 use super::*;
 use gpui::RenderImage;
-use horizon_launcher::browser::images;
-use horizon_launcher::instances::{self, Instance, Kind as InstanceKind};
+use ll_launcher::browser::images;
+use ll_launcher::instances::{self, Instance, Kind as InstanceKind};
 use std::sync::Arc;
 
 /// The loaders' logos as the launcher mockup on playhorizon.dev shows them, each its project's
@@ -67,7 +67,7 @@ impl Launcher {
     }
 
     /// Horizon's own mark, `size` points square: the brand icon, its tile already rounded.
-    pub(super) fn horizon_mark(&mut self, size: f32) -> AnyElement {
+    pub(super) fn ll_mark(&mut self, size: f32) -> AnyElement {
         match self.icon_image("mark:horizon".into(), size, false, || Some(MARK.to_vec())) {
             Some(image) => centred(image, size, self.scale).into_any_element(),
             None => div().size(px(size)).flex_none().into_any_element(),

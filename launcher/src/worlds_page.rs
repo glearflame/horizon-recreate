@@ -1,8 +1,8 @@
-//! The selected instance's worlds on Home (`horizon_launcher::worlds`): each with its picture,
+//! The selected instance's worlds on Home (`ll_launcher::worlds`): each with its picture,
 //! mode, version, when it was last played and its size, and Back up, Copy, Delete (to the
 //! trash, after a confirmation) and Open folder. Reading sizes and copying run in the background.
 use super::*;
-use horizon_launcher::worlds::{self, World};
+use ll_launcher::worlds::{self, World};
 use std::path::{Path, PathBuf};
 
 #[derive(Default)]

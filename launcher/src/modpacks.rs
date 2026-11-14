@@ -2,13 +2,13 @@
 //! show what Horizon runs of it, port that on this computer from the player's own downloads, and
 //! play it as a profile of its own (docs/modpacks.md).
 //!
-//! Each pack lives in `ports/<slug>/` in the game's home: the work folder `horizon-port-pack`
+//! Each pack lives in `ports/<slug>/` in the game's home: the work folder `ll-port-pack`
 //! writes (pack.json, inventory, the jars, the carried-over mods, the coverage report) and
 //! `home/`, the profile's own saves and options. Nothing is uploaded or shared: mod jars are
 //! often All Rights Reserved, so the ports stay on the player's machine.
 use crate::backend;
-use crate::browser::horizon::pack as horizon_pack;
-use horizon_port_pack::{
+use crate::browser::horizon::pack as ll_pack;
+use ll_port_pack::{
     fetch::{Fetched, How},
     import::Pack,
     pipeline::{self, Log},
@@ -94,7 +94,7 @@ impl Imported {
         parts.join("  ·  ")
     }
     /// The plain headline above the numbers, in the launcher's language: how much of the pack
-    /// comes over and what does not. The same lines as `horizon_port_pack::report::Summary::lines`
+    /// comes over and what does not. The same lines as `ll_port_pack::report::Summary::lines`
     /// (a test keeps the English equal); none for a pack with no mod to port.
     pub fn headline(&self) -> Vec<String> {
         use crate::i18n::{tr, trf};
@@ -206,7 +206,7 @@ pub fn row_plain(row: &Row) -> String {
 pub fn load(work: &Path) -> Result<Imported, String> {
     let pack: Pack = pipeline::read_json(&work.join("pack.json"))?;
     let rows: Vec<Row> = pipeline::read_json(&work.join("coverage.json")).unwrap_or_default();
-    let records: Vec<horizon_port_pack::inventory::Record> =
+    let records: Vec<ll_port_pack::inventory::Record> =
         pipeline::read_json(&work.join("inventory.json")).unwrap_or_default();
     let (mods, mut left_off) = pipeline::loadable(&carried(work));
     let fetched = Fetched::load(work);
@@ -286,7 +286,7 @@ pub fn carried(work: &Path) -> Vec<PathBuf> {
         .flatten()
         .flatten()
         .map(|e| e.path().join("carry"))
-        .filter(|c| c.join("horizon-mod.toml").is_file())
+        .filter(|c| c.join("ll-mod.toml").is_file())
         .collect();
     mods.sort();
     mods
@@ -296,7 +296,7 @@ pub fn carried(work: &Path) -> Vec<PathBuf> {
 /// metadata (Modrinth answers by file hash; nothing is downloaded yet). Importing the same pack
 /// again keeps the jars and ports it already has.
 pub fn import(path: &Path, log: Log) -> Result<Imported, String> {
-    let pack = horizon_port_pack::import::import(path)?;
+    let pack = ll_port_pack::import::import(path)?;
     let name = if pack.name.is_empty() || pack.name == "modlist" {
         path.file_stem()
             .map(|s| s.to_string_lossy().into_owned())
@@ -370,8 +370,8 @@ pub fn outcome(pack: &Imported) -> String {
 
 /// Removes an imported pack: its jars, ports and the profile's saves.
 pub fn remove(work: &Path) -> Result<(), String> {
-    if horizon_pack::is_pack(work) {
-        return horizon_pack::remove(work);
+    if ll_pack::is_pack(work) {
+        return ll_pack::remove(work);
     }
     if work.parent() != Some(ports_dir().as_path()) {
         return Err(format!("{} is not an imported pack", work.display()));
@@ -386,10 +386,10 @@ pub fn profile_home(work: &Path) -> PathBuf {
 
 /// Turns the game's command into this pack's profile: its own home (the player's options.txt
 /// copied in the first time, so keys and video settings carry over) and its carried-over mods.
-/// A modpack from Horizon's registry (`horizon-packs/<id>/`) plays its own profile the same way.
+/// A modpack from Horizon's registry (`ll-packs/<id>/`) plays its own profile the same way.
 pub fn apply_profile(cmd: &mut Command, work: &Path) -> Result<(), String> {
-    if horizon_pack::is_pack(work) {
-        return horizon_pack::apply(cmd, work);
+    if ll_pack::is_pack(work) {
+        return ll_pack::apply(cmd, work);
     }
     // Only mods that load together: the game would refuse the later of two sharing a namespace.
     let (mods, _) = pipeline::loadable(&carried(work));
@@ -434,8 +434,8 @@ mod tests {
 
     #[test]
     fn jars_only_curseforge_serves_are_left_off_as_coming_soon() {
-        use horizon_port_pack::fetch::Outcome;
-        let work = std::env::temp_dir().join(format!("horizon-launcher-cf-{}", std::process::id()));
+        use ll_port_pack::fetch::Outcome;
+        let work = std::env::temp_dir().join(format!("ll-launcher-cf-{}", std::process::id()));
         let _ = fs::remove_dir_all(&work);
         fs::create_dir_all(&work).unwrap();
         pipeline::write_json(&work.join("pack.json"), &Pack::default()).unwrap();
@@ -463,7 +463,7 @@ mod tests {
     #[test]
     fn a_profile_has_its_own_home_and_mods() {
         let root =
-            std::env::temp_dir().join(format!("horizon-launcher-pack-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-launcher-pack-{}", std::process::id()));
         let _ = fs::remove_dir_all(&root);
         let work = root.join("ports/small");
         let mut cmd = Command::new("true");
@@ -472,7 +472,7 @@ mod tests {
             let carry = work.join("mods").join(id).join("carry");
             fs::create_dir_all(&carry).unwrap();
             fs::write(
-                carry.join("horizon-mod.toml"),
+                carry.join("ll-mod.toml"),
                 format!(
                     "id = \"{id}\"\nname = \"{id}\"\nversion = \"1\"\napi = \"0.2\"\n\
                      capabilities = [\"registries\"]\nnamespaces = [{namespaces}]\n"
@@ -503,7 +503,7 @@ mod tests {
     #[test]
     fn resource_only_profile_can_play_without_enabling_or_overwriting_packs() {
         let root = std::env::temp_dir().join(format!(
-            "horizon-launcher-resource-profile-{}",
+            "ll-launcher-resource-profile-{}",
             std::process::id()
         ));
         let work = root.join("ports/looks");
@@ -547,12 +547,12 @@ mod tests {
     #[test]
     fn resource_downloads_enable_port_even_when_no_mods_are_portable() {
         let root = std::env::temp_dir().join(format!(
-            "horizon-launcher-resource-index-{}",
+            "ll-launcher-resource-index-{}",
             std::process::id()
         ));
         fs::create_dir_all(&root).unwrap();
         let pack = Pack {
-            files: vec![horizon_port_pack::import::PackFile {
+            files: vec![ll_port_pack::import::PackFile {
                 path: "resourcepacks/look.zip".into(),
                 ..Default::default()
             }],
@@ -572,12 +572,12 @@ mod tests {
     #[test]
     fn mods_made_for_1_20_are_not_portable() {
         let root = std::env::temp_dir().join(format!(
-            "horizon-launcher-old-layout-{}",
+            "ll-launcher-old-layout-{}",
             std::process::id()
         ));
         fs::create_dir_all(&root).unwrap();
         pipeline::write_json(&root.join("pack.json"), &Pack::default()).unwrap();
-        let record = |key: &str| horizon_port_pack::inventory::Record {
+        let record = |key: &str| ll_port_pack::inventory::Record {
             key: key.into(),
             class: "content".into(),
             tier: "data".into(),

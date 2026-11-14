@@ -1,6 +1,6 @@
 //! The Wardrobe's player in 3D: the account's skin wearing its items (or the one a card's hover
-//! tries on), drawn on the CPU by `horizon_cosmetics::preview` into an image, again only when
-//! `horizon_cosmetics::viewer::Stage` says so. Dragging turns it, the wheel zooms, items
+//! tries on), drawn on the CPU by `ll_cosmetics::preview` into an image, again only when
+//! `ll_cosmetics::viewer::Stage` says so. Dragging turns it, the wheel zooms, items
 //! animate while the window is in front (not under reduced motion; `HORIZON_LAUNCHER_MOTION=always`
 //! keeps them moving behind other windows), and an emote plays once
 //! (`Viewer::play`).
@@ -15,9 +15,9 @@ use gpui::{
     MouseMoveEvent, MouseUpEvent, Pixels, Point, RenderImage, ScrollDelta, ScrollEvent, Stateful,
     Subscription, Window,
 };
-use horizon_cosmetics::preview::{self, Camera};
-use horizon_cosmetics::viewer::{BodyMotion, Shot, Stage};
-use horizon_cosmetics::{Item, Part, Texture};
+use ll_cosmetics::preview::{self, Camera};
+use ll_cosmetics::viewer::{BodyMotion, Shot, Stage};
+use ll_cosmetics::{Item, Part, Texture};
 use std::sync::Arc;
 use std::time::{Duration, Instant};
 

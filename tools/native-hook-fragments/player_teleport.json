@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "player_teleport",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_player_teleport",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_player_teleport",
       "neoforge": "EntityTeleportEvent (Bukkit's PlayerTeleportEvent)",
       "side": "server",
       "cancellable": true,

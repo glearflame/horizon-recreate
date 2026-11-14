@@ -2,7 +2,7 @@
 //! server-side decorations use the platform's native chrome.
 use crate::theme::Theme;
 use gpui::{Div, TitlebarOptions, Window};
-use horizon_launcher::backend::Appearance;
+use ll_launcher::backend::Appearance;
 
 /// Whether the launcher draws its own title bar and needs the native chrome to be transparent.
 #[cfg(not(target_os = "linux"))]

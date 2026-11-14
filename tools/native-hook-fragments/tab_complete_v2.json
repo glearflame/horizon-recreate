@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "tab_complete_v2",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_tab_complete_v2",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_tab_complete_v2",
       "neoforge": "none (Bukkit's TabCompleter.onTabComplete; Brigadier's SuggestionProvider for ask_server nodes)",
       "side": "server",
       "mod_api": {

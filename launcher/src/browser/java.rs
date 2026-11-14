@@ -1,23 +1,23 @@
 //! Java mods (Fabric, NeoForge, Forge) from the browser (docs/mod-browser.md). Horizon doesn't
 //! run their code; it ports what they carry (blocks, items, recipes, loot, tags, worldgen) with
-//! `horizon-port-pack`. Before a mod is offered for install its jar is downloaded (checked as
-//! every download is), carried over and its classes read (`horizon_port_pack::check`): the
+//! `ll-port-pack`. Before a mod is offered for install its jar is downloaded (checked as
+//! every download is), carried over and its classes read (`ll_port_pack::check`): the
 //! verdict (Works, Partly, Doesn't run) and the lists of what ports and what doesn't come from
 //! that, and are kept per file so a jar is checked once.
 //!
-//! Installing copies the carried-over folder mod into `horizon-mods/<mod id>/` beside
-//! `options.txt` and turns it on in `horizon-mods.txt`, where the game's Options > Mods reads it.
+//! Installing copies the carried-over folder mod into `ll-mods/<mod id>/` beside
+//! `options.txt` and turns it on in `ll-mods.txt`, where the game's Options > Mods reads it.
 use super::{installed::Entry, pick, FileRef, Kind, Project, Source, Support, Version};
-use horizon_port_pack::check::{self, Check, Verdict};
+use ll_port_pack::check::{self, Check, Verdict};
 use std::fs;
 use std::path::{Path, PathBuf};
 
 /// Where the checks are kept, under the game folder. Its name changes when the check finds
 /// more, so older answers are checked again.
 const CHECKS: &str = "mod-browser/checks-1";
-/// The game's mod folder and on-list, beside `options.txt` (`horizon_client::mod_list`).
-pub const MODS_DIR: &str = "horizon-mods";
-const MODS_LIST: &str = "horizon-mods.txt";
+/// The game's mod folder and on-list, beside `options.txt` (`ll_client::mod_list`).
+pub const MODS_DIR: &str = "ll-mods";
+const MODS_LIST: &str = "ll-mods.txt";
 /// How deep required mods are followed.
 const MAX_DEPTH: usize = 3;
 
@@ -110,7 +110,7 @@ pub fn check_project(
     Ok((version, check))
 }
 
-/// Whether mod `id` is on in `horizon-mods.txt`.
+/// Whether mod `id` is on in `ll-mods.txt`.
 pub fn is_enabled(home: &Path, id: &str) -> bool {
     let key = format!("mod.{id}");
     fs::read_to_string(home.join(MODS_LIST))
@@ -120,7 +120,7 @@ pub fn is_enabled(home: &Path, id: &str) -> bool {
         .any(|(k, v)| k.trim() == key && v.trim() == "true")
 }
 
-/// Turns mod `id` on (or off) in `horizon-mods.txt`, keeping the other lines.
+/// Turns mod `id` on (or off) in `ll-mods.txt`, keeping the other lines.
 pub fn set_enabled(home: &Path, id: &str, on: bool) -> Result<(), String> {
     let _lock = super::lock_home(home);
     let path = home.join(MODS_LIST);
@@ -155,7 +155,7 @@ fn copy_dir(from: &Path, to: &Path) -> Result<(), String> {
     Ok(())
 }
 
-/// Installs the Java mod `project`: checked, carried over into `horizon-mods/<id>/` and turned
+/// Installs the Java mod `project`: checked, carried over into `ll-mods/<id>/` and turned
 /// on, with the mods it requires that port too. A required mod with nothing to port (a library)
 /// is listed in what was skipped. Returns the entries installed, the asked-for one last.
 pub fn install(
@@ -260,7 +260,7 @@ impl Job<'_> {
                 let _ = fs::remove_dir_all(dir);
             }
             if old.file != relative {
-                let _ = set_enabled(home, old.file.trim_start_matches("horizon-mods/"), false);
+                let _ = set_enabled(home, old.file.trim_start_matches("ll-mods/"), false);
             }
         }
         fs::rename(&part, &target).map_err(|e| format!("{}: {e}", target.display()))?;
@@ -293,7 +293,7 @@ impl Job<'_> {
 /// Removes an installed mod's folder and turns it off.
 pub fn remove(home: &Path, entry: &Entry) -> Result<(), String> {
     let _lock = super::lock_home(home);
-    let Some(id) = entry.file.strip_prefix("horizon-mods/") else {
+    let Some(id) = entry.file.strip_prefix("ll-mods/") else {
         return Err(format!("{} isn't in {MODS_DIR}/.", entry.file));
     };
     match entry.path(home).map_or(Ok(()), fs::remove_dir_all) {
@@ -310,7 +310,7 @@ mod tests {
 
     #[test]
     fn the_on_list_keeps_other_lines() {
-        let home = std::env::temp_dir().join(format!("horizon-java-mods-{}", std::process::id()));
+        let home = std::env::temp_dir().join(format!("ll-java-mods-{}", std::process::id()));
         let _ = fs::remove_dir_all(&home);
         fs::create_dir_all(&home).unwrap();
         fs::write(

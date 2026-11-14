@@ -1,5 +1,5 @@
 //! The pixel sunset behind the glass look: a port of the website's `HorizonScene`
-//! (horizon-site `components/horizon-scene.tsx`, as the launcher mockup draws it with
+//! (ll-site `components/ll-scene.tsx`, as the launcher mockup draws it with
 //! `wideSun={{ x: 0.72, scale: 1.1, rise: 0.1 }}`), with its seeds, its random draws in the same
 //! order and its colour sums, so the same window size gives the same picture.
 //!
@@ -831,7 +831,7 @@ impl Scene {
             last: None,
             waking: false,
             tint: None,
-            blur: horizon_theme::glass::BLUR,
+            blur: ll_theme::glass::BLUR,
             backdrop_for: None,
             baking: false,
             fast: false,
@@ -1074,7 +1074,7 @@ impl Render for Scene {
             .left_0()
             .size_full()
             .overflow_hidden()
-            .bg(gpui::rgb(horizon_theme::glass::PAGE))
+            .bg(gpui::rgb(ll_theme::glass::PAGE))
             .child(layer(baked.sky.clone(), None))
             .child(
                 div()
@@ -1457,7 +1457,7 @@ fn saturate([r, g, b]: [f64; 3], s: f64) -> [f64; 3] {
 mod tests {
     use super::*;
 
-    /// The website's own code (horizon-scene.tsx's `rng`, `buildScene`, `renderPixels`, run in
+    /// The website's own code (ll-scene.tsx's `rng`, `buildScene`, `renderPixels`, run in
     /// Node at 1280 × 772) gave these: the first draws of seed 7, the scene's measures, each cloud's
     /// row, size and mask sum, and an FNV-1a hash of its whole pixel buffer at 0 s and 5.3 s.
     #[test]
@@ -1568,7 +1568,7 @@ mod tests {
         // Luminance is kept, darks stay dark and a grey tint makes the scene grey.
         let lum = |c: [f64; 3]| 0.3 * c[0] + 0.59 * c[1] + 0.11 * c[2];
         let night = rgb(SKY[1]);
-        let teal = rgb(horizon_theme::glass::mix_oklab(0x0f766e, 0x767676, 0.58));
+        let teal = rgb(ll_theme::glass::mix_oklab(0x0f766e, 0x767676, 0.58));
         assert!((lum(color_blend(night, teal)) - lum(night)).abs() < 1e-9);
         let grey = color_blend(rgb(SUN[0]), [0.4; 3]);
         assert!(grey[0] == grey[1] && grey[1] == grey[2]);

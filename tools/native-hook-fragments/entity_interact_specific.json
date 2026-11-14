@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "entity_interact_specific",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_entity_interact_specific",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_entity_interact_specific",
       "neoforge": "PlayerInteractEvent.EntityInteractSpecific",
       "side": "server",
       "cancellable": true,

@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "player_logging_out",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_player_logging_out",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_player_logging_out",
       "neoforge": "none (Bukkit's PlayerQuitEvent; NeoForge's PlayerLoggedOutEvent comes after the removal)",
       "side": "server",
       "mod_api": {

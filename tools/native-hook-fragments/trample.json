@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "trample",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_trample",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_trample",
       "neoforge": "BlockEvent.FarmlandTrampleEvent",
       "side": "server",
       "cancellable": true,

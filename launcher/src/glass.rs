@@ -10,7 +10,7 @@ use gpui::{
     canvas, div, prelude::*, px, rgb, AnyElement, Bounds, Corners, Div, Pixels, RenderImage, Size,
     Window,
 };
-use horizon_theme::glass::Glass;
+use ll_theme::glass::Glass;
 use std::cell::Cell;
 use std::cell::RefCell;
 use std::collections::HashMap;

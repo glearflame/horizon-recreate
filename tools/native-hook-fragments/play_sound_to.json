@@ -3,7 +3,7 @@
   "helpers": [
     {
       "name": "play_sound_to",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_play_sound_to"
+      "target": "ll_client::game::native_hooks::Game<'_>::native_play_sound_to"
     }
   ],
   "rust_summary": "a sound for one player alone (`native_play_sound_to`), as Bukkit's `Player.playSound`.",

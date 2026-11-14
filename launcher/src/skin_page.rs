@@ -1,8 +1,8 @@
-//! Settings > Account's skin panel for an offline name (`horizon_launcher::skins`): the front
+//! Settings > Account's skin panel for an offline name (`ll_launcher::skins`): the front
 //! of the skin and the cape, choosing either from a PNG, and the model.
 use super::*;
 use gpui::RenderImage;
-use horizon_launcher::skins::{self, Model};
+use ll_launcher::skins::{self, Model};
 use std::path::PathBuf;
 use std::sync::Arc;
 

@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "toast_add",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_toast_add",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_toast_add",
       "neoforge": "ToastAddEvent",
       "side": "client",
       "cancellable": true,

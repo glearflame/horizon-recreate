@@ -9,8 +9,8 @@ use std::process::{Child, ChildStdin, Command, Stdio};
 use std::sync::mpsc::Sender;
 use std::sync::{Arc, Mutex};
 
-pub const REPO: &str = "horizon-rust/horizon";
-pub const README_URL: &str = "https://github.com/horizon-rust/horizon/blob/main/launcher/README.md";
+pub const REPO: &str = "ll-rust/horizon";
+pub const README_URL: &str = "https://github.com/ll-rust/horizon/blob/main/launcher/README.md";
 /// The players' page on connecting an AI agent (the website's docs/agents.md).
 pub const AGENT_DOCS_URL: &str = "https://playhorizon.dev/docs/agents";
 /// This launcher's version: the release workflow sets `HORIZON_LAUNCHER_VERSION` from the
@@ -55,33 +55,33 @@ pub const PLATFORMS: [(&str, &str, &str, &str); 5] = [
     (
         "linux",
         "x86_64",
-        "horizon-linux-x86_64.tar.gz",
-        "horizon-launcher-linux-x86_64.tar.gz",
+        "ll-linux-x86_64.tar.gz",
+        "ll-launcher-linux-x86_64.tar.gz",
     ),
     (
         "macos",
         "aarch64",
-        "horizon-macos-arm64.zip",
-        "horizon-launcher-macos-arm64.zip",
+        "ll-macos-arm64.zip",
+        "ll-launcher-macos-arm64.zip",
     ),
     // Intel Macs (#1161).
     (
         "macos",
         "x86_64",
-        "horizon-macos-x64.zip",
-        "horizon-launcher-macos-x64.zip",
+        "ll-macos-x64.zip",
+        "ll-launcher-macos-x64.zip",
     ),
     (
         "windows",
         "x86_64",
-        "horizon-windows-x64.zip",
-        "horizon-launcher-windows-x64.zip",
+        "ll-windows-x64.zip",
+        "ll-launcher-windows-x64.zip",
     ),
     (
         "windows",
         "aarch64",
-        "horizon-windows-arm64.zip",
-        "horizon-launcher-windows-arm64.zip",
+        "ll-windows-arm64.zip",
+        "ll-launcher-windows-arm64.zip",
     ),
 ];
 
@@ -117,7 +117,7 @@ const fn platform_assets(os: &str, arch: &str) -> Option<(&'static str, &'static
 /// Both follow this launcher's own architecture. An x64 launcher on a Windows ARM64 PC (under
 /// emulation) keeps updating itself, installing games and building native mods as x64, so a player
 /// whose emulated setup works is never moved to an ARM64 build by an update. The ARM64 launcher is
-/// what `horizon-launcher-setup-arm64.exe` installs.
+/// what `ll-launcher-setup-arm64.exe` installs.
 const OWN_ASSETS: Option<(&str, &str)> =
     platform_assets(std::env::consts::OS, std::env::consts::ARCH);
 /// The game build this launcher installs, None where Horizon has none.
@@ -165,7 +165,7 @@ impl GameArchitecture {
     }
 }
 
-const GAME_BUILD_ARCHITECTURE: &str = ".horizon-game-architecture.json";
+const GAME_BUILD_ARCHITECTURE: &str = ".ll-game-architecture.json";
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 struct InstalledGameArchitecture {
@@ -185,8 +185,8 @@ fn architecture_for_platform(architecture: &str) -> Option<GameArchitecture> {
 
 fn architecture_for_asset(asset: &str) -> Option<GameArchitecture> {
     match asset.rsplit('/').next()? {
-        "horizon-windows-x64.zip" => Some(GameArchitecture::X64),
-        "horizon-windows-arm64.zip" => Some(GameArchitecture::Arm64),
+        "ll-windows-x64.zip" => Some(GameArchitecture::X64),
+        "ll-windows-arm64.zip" => Some(GameArchitecture::Arm64),
         _ => None,
     }
 }
@@ -475,20 +475,20 @@ const fn game_fallback_for(os: &str, arch: &str) -> Option<&'static str> {
 /// one file. A launcher running from one updates by replacing that file ([`appimage_path`]), so it
 /// needs this archive rather than the platform's `.tar.gz`.
 #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
-pub const LAUNCHER_APPIMAGE_ASSET: Option<&str> = Some("horizon-launcher-linux-x86_64.AppImage");
+pub const LAUNCHER_APPIMAGE_ASSET: Option<&str> = Some("ll-launcher-linux-x86_64.AppImage");
 #[cfg(not(all(target_os = "linux", target_arch = "x86_64")))]
 pub const LAUNCHER_APPIMAGE_ASSET: Option<&str> = None;
 
 const LAUNCHER_BINARY: &str = if cfg!(windows) {
-    "horizon-launcher.exe"
+    "ll-launcher.exe"
 } else {
-    "horizon-launcher"
+    "ll-launcher"
 };
 
 pub(crate) const CLIENT: &str = if cfg!(windows) {
-    "horizon-client.exe"
+    "ll-client.exe"
 } else {
-    "horizon-client"
+    "ll-client"
 };
 
 /// The agent `url` is fetched with: the launcher's own user agent, through the player's proxy when
@@ -496,7 +496,7 @@ pub(crate) const CLIENT: &str = if cfg!(windows) {
 pub(crate) fn agent(url: &str) -> ureq::Agent {
     crate::proxy::agent(
         ureq::AgentBuilder::new()
-            .user_agent(&format!("horizon-launcher/{VERSION}"))
+            .user_agent(&format!("ll-launcher/{VERSION}"))
             // A connection that goes quiet fails instead of waiting for ever.
             .timeout_connect(std::time::Duration::from_secs(15))
             .timeout_read(std::time::Duration::from_secs(60)),
@@ -752,7 +752,7 @@ fn game_releases_with(
     asset: Option<&str>,
     fallback: Option<&str>,
 ) -> Vec<Release> {
-    let keep = |tag: &str| is_game_tag(tag) || horizon_release_sign::is_nightly(tag);
+    let keep = |tag: &str| is_game_tag(tag) || ll_release_sign::is_nightly(tag);
     let mut out = parse_releases(list, asset, keep);
     if fallback.is_some() {
         // The same releases in the same order: only the asset looked for differs.
@@ -763,10 +763,10 @@ fn game_releases_with(
         }
     }
     for r in &mut out {
-        if horizon_release_sign::is_nightly(&r.tag) {
+        if ll_release_sign::is_nightly(&r.tag) {
             let version = crate::nightly::version_of(r);
             let tag = std::mem::replace(&mut r.tag, version);
-            r.prerelease = tag != horizon_release_sign::NIGHTLY;
+            r.prerelease = tag != ll_release_sign::NIGHTLY;
             r.nightly = Some(tag);
         }
     }
@@ -928,7 +928,7 @@ pub fn data_dir() -> PathBuf {
     }
     dirs::data_dir()
         .unwrap_or_else(std::env::temp_dir)
-        .join("horizon-launcher")
+        .join("ll-launcher")
 }
 
 /// A canonical path without Windows' verbatim prefix: `canonicalize` gives `\\?\C:\...` there,
@@ -956,7 +956,7 @@ fn tool_safe(path: &Path) -> bool {
 
 /// Where builds happen — the Rust toolchain, its Cargo home and `native_mods::root` — as a
 /// path every build tool can read: `data_dir()` resolved, so the tools are never handed a
-/// link (horizon-mixins refuses one, and macOS's /tmp is one). On Windows, when the resolved
+/// link (ll-mixins refuses one, and macOS's /tmp is one). On Windows, when the resolved
 /// path isn't [`tool_safe`], [`windows_build_dir`] names the same folder a way MinGW-w64 can open.
 pub fn build_dir() -> PathBuf {
     if std::env::var_os("HORIZON_LAUNCHER_HOME").is_none_or(|p| p.is_empty()) {
@@ -1006,7 +1006,7 @@ fn ascii_build_dir(real: &Path, program_data: Option<PathBuf>) -> PathBuf {
         .unwrap_or_else(|| PathBuf::from(r"C:\ProgramData"));
     let key = Sha256::digest(real.as_os_str().as_encoded_bytes());
     let key: String = key[..4].iter().map(|b| format!("{b:02x}")).collect();
-    public.join(format!("horizon-launcher-{key}"))
+    public.join(format!("ll-launcher-{key}"))
 }
 
 /// `GetShortPathNameW`: `path`'s short (8.3) name, or None on error. A folder with no short
@@ -1050,7 +1050,7 @@ pub fn game_mod_api_level() -> Option<u32> {
 }
 
 /// A game version's mod API level, read once from the mark its program carries
-/// (`horizon_mods::api_level::MARK`). A program from before the mark serves level 0, the
+/// (`ll_mods::api_level::MARK`). A program from before the mark serves level 0, the
 /// contract of Horizon 0.2.67 and 0.2.68.
 pub fn mod_api_level(tag: &str) -> u32 {
     static LEVELS: Mutex<Vec<(String, u32)>> = Mutex::new(Vec::new());
@@ -1066,7 +1066,7 @@ pub fn mod_api_level(tag: &str) -> u32 {
 /// The mod API level in the game program at `path`: its mark's, else 0.
 fn program_mod_api_level(path: &Path) -> u32 {
     let program = fs::read(path).unwrap_or_default();
-    horizon_mods::api_level::read_mark(&program).unwrap_or(0)
+    ll_mods::api_level::read_mark(&program).unwrap_or(0)
 }
 
 /// Installed versions, newest tag first.
@@ -1107,7 +1107,7 @@ fn signed_digest(tag: &str, asset: &str) -> Result<String, String> {
     crate::signed::digest(
         tag,
         asset,
-        &horizon_release_sign::trusted_keys(),
+        &ll_release_sign::trusted_keys(),
         fetch_small,
     )
 }
@@ -1163,7 +1163,7 @@ fn write_checked(
     progress: &impl Fn(f32),
 ) -> Result<(), String> {
     let mut file = fs::File::create(to).map_err(|e| e.to_string())?;
-    let mut hash = horizon_release_sign::Sha256::default();
+    let mut hash = ll_release_sign::Sha256::default();
     let (mut done, mut buf) = (0u64, vec![0u8; 1 << 16]);
     loop {
         let n = reader
@@ -1177,7 +1177,7 @@ fn write_checked(
         done += n as u64;
         progress((done as f32 / size.max(1) as f32).min(1.0) * 0.9);
     }
-    horizon_release_sign::check(name, sha256, &hash.hex())
+    ll_release_sign::check(name, sha256, &hash.hex())
 }
 
 fn unpack(archive: &Path, url: &str, to: &Path) -> Result<(), String> {
@@ -1219,7 +1219,7 @@ pub fn install(release: &Release, progress: impl Fn(f32)) -> Result<(), String> 
         // served under its own GitHub tag. A title that doesn't parse strictly is refused: nothing
         // signs GitHub's publication time.
         Some(github_tag) => {
-            let version = horizon_release_sign::nightly_title_version(&release.name)
+            let version = ll_release_sign::nightly_title_version(&release.name)
                 .filter(|v| *v == release.tag)
                 .ok_or_else(|| {
                     crate::i18n::trf(
@@ -1232,7 +1232,7 @@ pub fn install(release: &Release, progress: impl Fn(f32)) -> Result<(), String> 
                 github_tag,
                 &version,
                 asset,
-                &horizon_release_sign::trusted_keys(),
+                &ll_release_sign::trusted_keys(),
                 fetch_small,
             )?
         }
@@ -1290,7 +1290,7 @@ pub(crate) fn install_as(
     let unpacked = partial.join("unpacked");
     unpack(&archive, &url, &unpacked)?;
     progress(0.97);
-    // The archives hold one top folder (horizon-linux-x86_64/...); the version folder is its contents.
+    // The archives hold one top folder (ll-linux-x86_64/...); the version folder is its contents.
     let entries: Vec<_> = fs::read_dir(&unpacked)
         .map_err(|e| e.to_string())?
         .flatten()
@@ -1388,7 +1388,7 @@ fn read_json(path: &Path) -> Option<serde_json::Value> {
 fn game_version_at(dir: &Path) -> String {
     read_json(&dir.join("research-lock.json"))
         .and_then(|v| v["minecraft"]["version"].as_str().map(String::from))
-        .unwrap_or_else(|| horizon_core::VANILLA_VERSION.into())
+        .unwrap_or_else(|| ll_core::VANILLA_VERSION.into())
 }
 
 pub fn resources(tag: &str) -> PathBuf {
@@ -1396,10 +1396,10 @@ pub fn resources(tag: &str) -> PathBuf {
 }
 
 fn resources_at(dir: &Path) -> PathBuf {
-    dir.join(".local/horizon-client").join(game_version_at(dir))
+    dir.join(".local/ll-client").join(game_version_at(dir))
 }
 
-const RESOURCES_MANIFEST: &str = "horizon-resources.json";
+const RESOURCES_MANIFEST: &str = "ll-resources.json";
 
 /// How long a drawn page believes an answer of [`is_prepared`] without looking at the disk again.
 /// What the launcher itself changes (a preparation, an install, a removal) drops it at once
@@ -1508,7 +1508,7 @@ pub fn has_sounds(tag: &str) -> bool {
 }
 
 fn sounds_in(resources: &Path) -> bool {
-    // What the game's sound registry reads (horizon-client sound_events.rs).
+    // What the game's sound registry reads (ll-client sound_events.rs).
     resources.join("assets/minecraft/sounds.json").is_file()
 }
 
@@ -1531,7 +1531,7 @@ pub fn resources_summary(prepared: bool, sounds: bool, version: &str) -> String 
 
 /// Whether the resources `from` prepared are the ones preparing `to` would make: both pin the same
 /// Minecraft jars (research-lock.json) and their preparers make the same output. A preparer
-/// declares what it makes with `OUTPUT_VERSION` (crates/horizon-prepare/src/lib.rs, whose sources
+/// declares what it makes with `OUTPUT_VERSION` (crates/ll-prepare/src/lib.rs, whose sources
 /// ship in the release folder), bumped by hand when the output changes and checked by CI
 /// (tools/prepare_output.py), so a release that changes the preparer's code but not its output
 /// keeps the resources. Preparers from before the number are known by their sources
@@ -1620,11 +1620,11 @@ const LEGACY_EXPORTERS: [&str; 18] = [
 ];
 
 /// A version folder's preparer as the launchers before `OUTPUT_VERSION` compared it: the digest
-/// of its sources (`horizon_prepare::sources_sha256`) and of the exporters it ran, line endings
+/// of its sources (`ll_prepare::sources_sha256`) and of the exporters it ran, line endings
 /// as checked out ignored.
 fn legacy_fingerprint(dir: &Path) -> Option<String> {
     use sha2::Digest;
-    let sources = horizon_prepare::sources_sha256(&dir.join(PREPARER_CRATE))?;
+    let sources = ll_prepare::sources_sha256(&dir.join(PREPARER_CRATE))?;
     let mut hash = sha2::Sha256::new();
     hash.update(sources.as_bytes());
     for name in LEGACY_EXPORTERS {
@@ -1644,7 +1644,7 @@ fn legacy_fingerprint(dir: &Path) -> Option<String> {
 /// ones `LEGACY_OUTPUT_VERSIONS` knows. The manifest records the hashes of the vanilla exporters
 /// the resources were made with (mods/horizon/src/test/java/.../parity), and the preparer writes
 /// every file and the manifest's `schema`, so both need the same preparer and the same exporter
-/// sources. The preparer is crates/horizon-prepare and tools/prepare_native_client.py (the
+/// sources. The preparer is crates/ll-prepare and tools/prepare_native_client.py (the
 /// Python preparer of older versions, a wrapper of the binary since); a file only one of the two
 /// versions has is a different preparer. The helpers the Python preparer imported (lab.py and
 /// the test_*_parity.py modules) change between releases in how they find and check the
@@ -1691,7 +1691,7 @@ fn same_preparer(from: &Path, to: &Path, manifest: &serde_json::Value) -> bool {
 }
 
 /// Where a version folder keeps the preparer's sources (the release package copies them).
-const PREPARER_CRATE: &str = "crates/horizon-prepare";
+const PREPARER_CRATE: &str = "crates/ll-prepare";
 
 /// The files under `dir/relative`, as paths relative to `dir`.
 fn files_under(dir: &Path, relative: &Path) -> Vec<PathBuf> {
@@ -1725,7 +1725,7 @@ pub(crate) fn copy_dir_except(from: &Path, to: &Path, skip: Option<&Path>) -> st
                 copy_dir_except(&entry.path(), &target, skip)?;
             }
         } else {
-            horizon_prepare::clone_or_copy(&entry.path(), &target)?;
+            ll_prepare::clone_or_copy(&entry.path(), &target)?;
         }
     }
     Ok(())
@@ -1875,13 +1875,13 @@ fn complete_reports(versions: &Path, tag: &str) -> bool {
 }
 
 /// What a prepared version may lack that the launcher adds without preparing again, each copied
-/// from the player's own Minecraft asset store as `horizon-prepare <kind>` does: what the
-/// player misses without it, its kind (`horizon_prepare::missing_extras`, the same check as
-/// `horizon-prepare --check`), and the copy.
+/// from the player's own Minecraft asset store as `ll-prepare <kind>` does: what the
+/// player misses without it, its kind (`ll_prepare::missing_extras`, the same check as
+/// `ll-prepare --check`), and the copy.
 type Completion = (
     &'static str,
     &'static str,
-    fn(&Path, Option<&Path>, horizon_prepare::Log) -> Result<PathBuf, String>,
+    fn(&Path, Option<&Path>, ll_prepare::Log) -> Result<PathBuf, String>,
 );
 
 const COMPLETIONS: [Completion; 5] = [
@@ -1889,15 +1889,15 @@ const COMPLETIONS: [Completion; 5] = [
     (
         "Programmer Art and High Contrast",
         "packs",
-        horizon_prepare::packs,
+        ll_prepare::packs,
     ),
     // A preparation that could not read the asset store keeps the client jar's 1x1 grey
     // placeholders, its English alone, and no sounds (#1867: Prism Launcher installs prepared
     // since 0.2.48).
-    ("The title panorama", "panorama", horizon_prepare::panorama),
-    ("The Unifont glyphs", "fonts", horizon_prepare::fonts),
-    ("The languages", "languages", horizon_prepare::languages),
-    ("The sounds", "sounds", horizon_prepare::sounds),
+    ("The title panorama", "panorama", ll_prepare::panorama),
+    ("The Unifont glyphs", "fonts", ll_prepare::fonts),
+    ("The languages", "languages", ll_prepare::languages),
+    ("The sounds", "sounds", ll_prepare::sounds),
 ];
 
 /// Adds what a prepared version lacks of `COMPLETIONS`: a new version reuses the resources of the
@@ -1919,7 +1919,7 @@ fn refill_own_store(tag: &str) {
     let own = data_dir().join("minecraft");
     let resources = resources_at(&versions_dir().join(tag));
     if !own.join("assets/indexes").is_dir()
-        || !horizon_prepare::missing_extras(&resources)
+        || !ll_prepare::missing_extras(&resources)
             .iter()
             .any(|(kind, _)| matches!(*kind, "languages" | "sounds"))
         || ASKED.swap(true, std::sync::atomic::Ordering::Relaxed)
@@ -1960,7 +1960,7 @@ fn complete_assets_in(
         if !resources.join(RESOURCES_MANIFEST).exists() {
             return Vec::new();
         }
-        let missing = horizon_prepare::missing_extras(&resources);
+        let missing = ll_prepare::missing_extras(&resources);
         COMPLETIONS
             .iter()
             .filter(|(_, kind, _)| missing.iter().any(|(m, _)| m == kind))
@@ -2001,7 +2001,7 @@ fn complete_assets_in(
 fn minecraft_folders() -> Vec<PathBuf> {
     let mut folders: Vec<PathBuf> = Settings::load().minecraft_dir.into_iter().collect();
     folders.extend([
-        horizon_prepare::artifacts::minecraft_dir(None),
+        ll_prepare::artifacts::minecraft_dir(None),
         data_dir().join("linked-minecraft"),
         data_dir().join("minecraft"),
     ]);
@@ -2051,19 +2051,19 @@ fn python() -> Option<&'static str> {
 
 /// How a version's resources are prepared.
 pub enum Preparer {
-    /// horizon-prepare, linked into the launcher: the version ships the same preparer sources.
-    InProcess(horizon_prepare::Options),
-    /// The version's own preparer: its horizon-prepare binary when its sources differ from the
+    /// ll-prepare, linked into the launcher: the version ships the same preparer sources.
+    InProcess(ll_prepare::Options),
+    /// The version's own preparer: its ll-prepare binary when its sources differ from the
     /// launcher's (a newer or older release), or the Python script of versions made before it.
     Process(Command),
 }
 
-/// The version's horizon-prepare binary, when it ships one.
+/// The version's ll-prepare binary, when it ships one.
 fn preparer_binary(dir: &Path) -> Option<PathBuf> {
     let binary = dir.join(if cfg!(windows) {
-        "horizon-prepare.exe"
+        "ll-prepare.exe"
     } else {
-        "horizon-prepare"
+        "ll-prepare"
     });
     binary.is_file().then_some(binary)
 }
@@ -2268,9 +2268,9 @@ fn java(
     log: &dyn Fn(String),
 ) -> Result<PathBuf, String> {
     let find = if compiler {
-        horizon_prepare::java::find
+        ll_prepare::java::find
     } else {
-        horizon_prepare::java::find_runtime
+        ll_prepare::java::find_runtime
     };
     if let Ok(jdk) = find(major, &[]) {
         return Ok(jdk.home());
@@ -2278,7 +2278,7 @@ fn java(
     let mut runtimes: Vec<PathBuf> = Vec::new();
     for home in games
         .iter()
-        .flat_map(|game| horizon_prepare::java::minecraft_runtimes(&game.join("runtime")))
+        .flat_map(|game| ll_prepare::java::minecraft_runtimes(&game.join("runtime")))
     {
         if !runtimes.contains(&home) {
             runtimes.push(home);
@@ -2377,7 +2377,7 @@ pub enum PrepareStep {
     Files,
     Java,
     Sounds,
-    /// horizon-prepare's own work on those files.
+    /// ll-prepare's own work on those files.
     Prepare,
 }
 
@@ -2407,7 +2407,7 @@ pub fn set_prepare_step(step: PrepareStep) {
 
 /// Checks what the preparation needs and picks how to run it. PLAY.txt describes the same
 /// steps: the player's own launcher install, the server jar from that version's own json, and
-/// Java (and Python, for versions before horizon-prepare). Also returns the Minecraft folder
+/// Java (and Python, for versions before ll-prepare). Also returns the Minecraft folder
 /// to prepare from: `minecraft`, or the files another launcher keeps, linked into the official
 /// launcher's layout (sources.rs).
 pub fn preparer(
@@ -2419,7 +2419,7 @@ pub fn preparer(
     set_prepare_step(PrepareStep::Files);
     let version = game_version(tag);
     let dir = version_dir(tag);
-    let reused = horizon_prepare::artifacts::reuse_imported(&dir, &|line| log(line.to_string()))?;
+    let reused = ll_prepare::artifacts::reuse_imported(&dir, &|line| log(line.to_string()))?;
     let chosen = minecraft.to_path_buf();
     // Resolved even when the game files are reused: the assets still come from the install.
     let minecraft = {
@@ -2474,7 +2474,7 @@ pub fn preparer(
             "This version prepares with Python: Python 3.10 or newer is needed. Install it, or pick a newer version.",
         )?),
     };
-    // The Java the version pins, found as horizon-prepare finds it, so a missing one is
+    // The Java the version pins, found as ll-prepare finds it, so a missing one is
     // reported (or downloaded) before the server jar is downloaded. Versions from before
     // java_major ran Java 25.
     let major = read_json(&dir.join("research-lock.json"))
@@ -2491,7 +2491,7 @@ pub fn preparer(
     set_prepare_step(PrepareStep::Java);
     let java_home = java(
         major,
-        !horizon_prepare::exporters::available(&dir),
+        !ll_prepare::exporters::available(&dir),
         &games,
         &manifest,
         log,
@@ -2519,10 +2519,10 @@ pub fn preparer(
             .map_err(|e| e.to_string())?;
     }
     if let Some(binary) = binary {
-        if horizon_prepare::sources_sha256(&dir.join(PREPARER_CRATE)).as_deref()
-            == Some(horizon_prepare::SOURCES_SHA256)
+        if ll_prepare::sources_sha256(&dir.join(PREPARER_CRATE)).as_deref()
+            == Some(ll_prepare::SOURCES_SHA256)
         {
-            let options = horizon_prepare::Options {
+            let options = ll_prepare::Options {
                 root: dir,
                 import: !reused,
                 minecraft_dir: Some(minecraft.clone()),
@@ -2554,19 +2554,19 @@ pub fn preparer(
 }
 
 /// Copies the pinned version's sounds from the player's own launcher install into the version's
-/// resources (`horizon-prepare sounds`), each line to `log`. Sound is optional, so a launcher
+/// resources (`ll-prepare sounds`), each line to `log`. Sound is optional, so a launcher
 /// install without them is a line in the log, never a failed preparation. The version's own
 /// preparer does it when it is not the launcher's and knows how; versions from before it read
 /// the sounds where the launcher's preparer puts them.
 pub fn sounds(tag: &str, minecraft: &Path, log: &dyn Fn(String)) {
     let dir = version_dir(tag);
-    let own = horizon_prepare::sources_sha256(&dir.join(PREPARER_CRATE)).as_deref()
-        == Some(horizon_prepare::SOURCES_SHA256);
+    let own = ll_prepare::sources_sha256(&dir.join(PREPARER_CRATE)).as_deref()
+        == Some(ll_prepare::SOURCES_SHA256);
     let binary = preparer_binary(&dir).filter(|binary| {
         !own && crate::process::command(binary)
             .arg("--help")
             .output()
-            .is_ok_and(|o| String::from_utf8_lossy(&o.stdout).contains("horizon-prepare sounds"))
+            .is_ok_and(|o| String::from_utf8_lossy(&o.stdout).contains("ll-prepare sounds"))
     });
     set_prepare_step(PrepareStep::Sounds);
     log("Copying the sounds from your Minecraft install".into());
@@ -2591,7 +2591,7 @@ pub fn sounds(tag: &str, minecraft: &Path, log: &dyn Fn(String)) {
                 }
             }),
         None => std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-            horizon_prepare::sounds(&dir, Some(minecraft), &|line| log(line.to_string()))
+            ll_prepare::sounds(&dir, Some(minecraft), &|line| log(line.to_string()))
         }))
         .unwrap_or_else(|_| Err("The sound copy stopped unexpectedly".into()))
         .map(|_| ()),
@@ -2604,11 +2604,11 @@ pub fn sounds(tag: &str, minecraft: &Path, log: &dyn Fn(String)) {
 /// Runs `Preparer::InProcess` on this thread, each progress line to `log`. A panic is an
 /// error like any other, so the window never waits on a preparation that died.
 pub fn prepare_in_process(
-    options: &horizon_prepare::Options,
+    options: &ll_prepare::Options,
     log: &dyn Fn(String),
 ) -> Result<(), String> {
     std::panic::catch_unwind(std::panic::AssertUnwindSafe(|| {
-        horizon_prepare::prepare(options, &|line| log(line.to_string()))
+        ll_prepare::prepare(options, &|line| log(line.to_string()))
     }))
     .unwrap_or_else(|_| Err("The preparation stopped unexpectedly".into()))
     .map(|_| ())
@@ -2631,15 +2631,15 @@ pub fn game_home() -> PathBuf {
         .join("horizon")
 }
 
-/// Whether No AI is on: every AI feature hidden and off (`horizon_core::no_ai`, kept in the
-/// game's `horizon-extras.txt` so the game reads the same switch).
+/// Whether No AI is on: every AI feature hidden and off (`ll_core::no_ai`, kept in the
+/// game's `ll-extras.txt` so the game reads the same switch).
 pub fn no_ai() -> bool {
-    horizon_core::no_ai::is_on(&game_home())
+    ll_core::no_ai::is_on(&game_home())
 }
 
 /// Turns No AI on or off for the launcher and the game.
 pub fn set_no_ai(on: bool) -> Result<(), String> {
-    horizon_core::no_ai::set(&game_home(), on).map_err(|e| format!("Could not save No AI: {e}"))
+    ll_core::no_ai::set(&game_home(), on).map_err(|e| format!("Could not save No AI: {e}"))
 }
 
 // ----- Logs and crash reports ---------------------------------------------------------------------
@@ -2729,7 +2729,7 @@ pub fn vulkan_start_crashed<S: AsRef<str>>(lines: impl IntoIterator<Item = S>) -
 }
 
 /// The game's graphics settings file in its home (the game's `graphics.rs`).
-const GRAPHICS_FILE: &str = "horizon-graphics.txt";
+const GRAPHICS_FILE: &str = "ll-graphics.txt";
 
 /// The graphics API (the game's setting name, and its label) Auto switches to after a native
 /// crash at the Vulkan renderer's start: DirectX 12 on Windows (#746), OpenGL on Linux, where
@@ -2898,7 +2898,7 @@ pub fn client_command(tag: &str) -> Command {
         cmd.env("HORIZON_LAUNCHER_EXE", exe);
     }
     // PipeWire remembers volume and mute per application name. The game's own name is
-    // "PipeWire ALSA [horizon-client]", shared with development and test runs, where
+    // "PipeWire ALSA [ll-client]", shared with development and test runs, where
     // muting it once left every later game silent: played from here it is "Horizon".
     if std::env::var_os("PIPEWIRE_PROPS").is_none() {
         cmd.env(
@@ -2966,7 +2966,7 @@ pub fn no_version_installed() -> String {
     format!(
         "{} {}",
         tr("No version is installed yet."),
-        tr("Run `horizon-launcher install latest` to get one.")
+        tr("Run `ll-launcher install latest` to get one.")
     )
 }
 
@@ -3100,7 +3100,7 @@ pub fn minecraft_dir(requested: Option<PathBuf>) -> Result<PathBuf, String> {
     Ok(requested
         .or(Settings::load().minecraft_dir)
         .or_else(default_minecraft_dir)
-        .unwrap_or_else(|| horizon_prepare::artifacts::minecraft_dir(None)))
+        .unwrap_or_else(|| ll_prepare::artifacts::minecraft_dir(None)))
 }
 
 /// The server folder: the one given, the one chosen in the launcher, or `server/` in the data folder.
@@ -3117,7 +3117,7 @@ pub fn need_prepared(tag: &str) -> Result<(), String> {
         Ok(())
     } else {
         Err(format!(
-            "{tag} is not prepared yet. Prepare it first: `horizon-launcher prepare --version {tag}` \
+            "{tag} is not prepared yet. Prepare it first: `ll-launcher prepare --version {tag}` \
              uses your own Minecraft {v}, or downloads it from Mojang for the signed-in account \
              that owns it.",
             v = game_version(tag)
@@ -3133,7 +3133,7 @@ pub fn client(tag: &str) -> Result<Command, String> {
 }
 
 /// What the command line adds to a refusal to play for want of an account.
-pub const SIGN_IN_HINT: &str = "Sign in with `horizon-launcher account sign-in`.";
+pub const SIGN_IN_HINT: &str = "Sign in with `ll-launcher account sign-in`.";
 
 /// [`client`], playing as `who` for this launch only (`play --account`).
 pub fn client_as(tag: &str, who: Option<&account::Player>) -> Result<Command, String> {
@@ -3168,10 +3168,10 @@ pub fn client_as(tag: &str, who: Option<&account::Player>) -> Result<Command, St
 
 /// Start the game straight into a friend's world: `--server friend:CODE`.
 pub fn join_friend(cmd: &mut Command, code: &str) -> Result<(), String> {
-    horizon_friends::invite::parse_detailed(code).map_err(|e| e.to_string())?;
+    ll_friends::invite::parse_detailed(code).map_err(|e| e.to_string())?;
     let code: String = code.chars().filter(|c| !c.is_whitespace()).collect();
     cmd.arg("--server")
-        .arg(format!("{}{code}", horizon_friends::ADDRESS_PREFIX));
+        .arg(format!("{}{code}", ll_friends::ADDRESS_PREFIX));
     Ok(())
 }
 
@@ -3286,7 +3286,7 @@ pub struct Updates {
 /// The newest Horizon build with a build here (the current Nightly), if it isn't installed and
 /// no installed version is newer. Two Nightlies of one day compare equal: the one on GitHub is
 /// the update.
-pub fn horizon_update(releases: &[Release], installed: &[String]) -> Option<Release> {
+pub fn ll_update(releases: &[Release], installed: &[String]) -> Option<Release> {
     let newest = latest(releases)?;
     let newer = !installed.contains(&newest.tag)
         && installed
@@ -3333,7 +3333,7 @@ fn releases_and_updates_with(
     };
     let releases = game_releases(&list);
     let installed_versions = installed();
-    let horizon = horizon_update(&installable_updates(&releases), &installed_versions)
+    let horizon = ll_update(&installable_updates(&releases), &installed_versions)
         .or_else(|| architecture_update(&releases, &installed_versions));
     on_releases(Ok(releases));
     Ok(Updates {
@@ -3504,10 +3504,10 @@ pub fn self_update_allowed() -> bool {
     !cfg!(debug_assertions) && std::env::var_os("HORIZON_LAUNCHER_NO_SELF_UPDATE").is_none()
 }
 
-/// The version in `horizon-launcher --version`'s output (`horizon-launcher 0.1.5`).
+/// The version in `ll-launcher --version`'s output (`ll-launcher 0.1.5`).
 fn parse_version_output(out: &str) -> Option<&str> {
     out.trim()
-        .strip_prefix("horizon-launcher ")
+        .strip_prefix("ll-launcher ")
         .map(str::trim)
         .filter(|v| !v.is_empty())
 }
@@ -3622,7 +3622,7 @@ pub fn remove_replaced_binaries() {
 }
 
 /// The app bundle the launcher runs from (`…/Horizon.app` for `…/Horizon.app/Contents/MacOS/
-/// horizon-launcher`), or None for a bare binary, as launchers before the .app shipped.
+/// ll-launcher`), or None for a bare binary, as launchers before the .app shipped.
 pub fn app_bundle(exe: &Path) -> Option<&Path> {
     let macos = exe.parent()?;
     let contents = macos.parent()?;
@@ -3822,7 +3822,7 @@ fn process_alive(pid: u32) -> bool {
 
 fn file_sha256(path: &Path) -> Result<String, String> {
     let mut file = fs::File::open(path).map_err(|e| e.to_string())?;
-    let mut hash = horizon_release_sign::Sha256::default();
+    let mut hash = ll_release_sign::Sha256::default();
     let mut buf = vec![0u8; 1 << 16];
     loop {
         let n = file.read(&mut buf).map_err(|e| e.to_string())?;
@@ -3853,7 +3853,7 @@ pub fn place_checked(
         .map(|ending| stage.join(format!("download{ending}")))
         .find(|path| path.is_file())
         .ok_or_else(not_staged)?;
-    horizon_release_sign::check(&staged.tag, &staged.sha256, &file_sha256(&archive)?)?;
+    ll_release_sign::check(&staged.tag, &staged.sha256, &file_sha256(&archive)?)?;
     let payload = if staged.payload == archive {
         archive
     } else {
@@ -3956,7 +3956,7 @@ fn fill_stage(
     unpack(&archive, url, &unpacked)?;
     // A launcher inside Horizon.app replaces the whole bundle (its Info.plist, icon and
     // signature belong with the binary); a bare binary, as older launchers are, only the binary,
-    // which the macOS archive also holds (Horizon.app/Contents/MacOS/horizon-launcher).
+    // which the macOS archive also holds (Horizon.app/Contents/MacOS/ll-launcher).
     if app_bundle(exe_path()).is_some() {
         if let Some(new) = find_app(&unpacked) {
             return staged(new);
@@ -4026,7 +4026,7 @@ pub fn package_managed_launcher() -> bool {
 }
 
 fn writable(dir: &Path) -> bool {
-    let probe = dir.join(format!(".horizon-write-check-{}", std::process::id()));
+    let probe = dir.join(format!(".ll-write-check-{}", std::process::id()));
     let made = fs::OpenOptions::new()
         .write(true)
         .create_new(true)
@@ -4539,13 +4539,13 @@ impl Settings {
     pub fn glass_tint(&self) -> f32 {
         self.glass
             .filter(|v| v.is_finite())
-            .map_or(horizon_theme::glass::TINT, |v| v.clamp(0., 16.) / 100.)
+            .map_or(ll_theme::glass::TINT, |v| v.clamp(0., 16.) / 100.)
     }
     /// The plates' blur in px (0 to 48).
     pub fn glass_blur(&self) -> f32 {
         self.blur
             .filter(|v| v.is_finite())
-            .map_or(horizon_theme::glass::BLUR, |v| v.clamp(0., 48.))
+            .map_or(ll_theme::glass::BLUR, |v| v.clamp(0., 48.))
     }
     /// Whether the cheaper scene is on ([`performance`](Self::performance)).
     pub fn performance(&self) -> bool {
@@ -4616,7 +4616,7 @@ mod tests {
     fn failed_removal_stays_listed_and_can_be_retried() {
         use std::os::windows::fs::OpenOptionsExt;
         let versions =
-            std::env::temp_dir().join(format!("horizon-remove-locked-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-remove-locked-{}", std::process::id()));
         let dir = versions.join("v0.2.0");
         fs::create_dir_all(&dir).unwrap();
         fs::write(dir.join(COMPLETE), "").unwrap();
@@ -4636,15 +4636,15 @@ mod tests {
         fs::remove_dir_all(versions).unwrap();
     }
 
-    /// A canonical path loses Windows' verbatim prefix on a drive (horizon-mixins' output
+    /// A canonical path loses Windows' verbatim prefix on a drive (ll-mixins' output
     /// check stats `\\?\C:`, the volume itself, which Windows refuses, os error 1), and keeps
     /// it where there is no drive form.
     #[test]
     fn a_canonical_windows_path_loses_only_a_drives_verbatim_prefix() {
         let plain = |p: &str| plain(PathBuf::from(p));
         assert_eq!(
-            plain(r"\\?\C:\Users\me\AppData\Roaming\horizon-launcher\native"),
-            PathBuf::from(r"C:\Users\me\AppData\Roaming\horizon-launcher\native")
+            plain(r"\\?\C:\Users\me\AppData\Roaming\ll-launcher\native"),
+            PathBuf::from(r"C:\Users\me\AppData\Roaming\ll-launcher\native")
         );
         // A share has no drive form to fall back to; other paths have no prefix.
         assert_eq!(
@@ -4652,25 +4652,25 @@ mod tests {
             PathBuf::from(r"\\?\UNC\server\share\native")
         );
         assert_eq!(
-            plain("/home/me/.local/share/horizon-launcher/native"),
-            PathBuf::from("/home/me/.local/share/horizon-launcher/native")
+            plain("/home/me/.local/share/ll-launcher/native"),
+            PathBuf::from("/home/me/.local/share/ll-launcher/native")
         );
     }
 
-    /// [#5189](https://github.com/horizon-rust/horizon/issues/5189): MinGW-w64's tools can't
+    /// [#5189](https://github.com/ll-rust/horizon/issues/5189): MinGW-w64's tools can't
     /// read a non-ASCII path, so the build root is the data folder's resolved ASCII spelling —
     /// which a link's target or a short (8.3) name already is.
     #[test]
     fn the_build_dir_is_a_path_the_tools_can_read() {
         assert!(ascii(Path::new(
-            r"C:\Users\me\AppData\Roaming\horizon-launcher"
+            r"C:\Users\me\AppData\Roaming\ll-launcher"
         )));
         assert!(!ascii(Path::new(
-            r"C:\Users\Кириченко Павло\AppData\Roaming\horizon-launcher"
+            r"C:\Users\Кириченко Павло\AppData\Roaming\ll-launcher"
         )));
-        assert!(!ascii(Path::new("/høme/me/horizon-launcher")));
+        assert!(!ascii(Path::new("/høme/me/ll-launcher")));
         // A space splits windres' include folders, which matters on Windows only.
-        let spaced = Path::new(r"C:\Users\Jane Doe\AppData\Roaming\horizon-launcher");
+        let spaced = Path::new(r"C:\Users\Jane Doe\AppData\Roaming\ll-launcher");
         assert!(ascii(spaced));
         assert_eq!(tool_safe(spaced), !cfg!(windows));
         let built = build_dir();
@@ -4688,20 +4688,20 @@ mod tests {
         }
     }
 
-    /// [#6009](https://github.com/horizon-rust/horizon/issues/6009): with a Cyrillic user name the
+    /// [#6009](https://github.com/ll-rust/horizon/issues/6009): with a Cyrillic user name the
     /// build folder is a real ASCII folder of ProgramData's (not a short name of the data folder,
     /// which rustc resolves back to the Cyrillic one), its own for each data folder.
     #[test]
     fn a_cyrillic_data_folder_builds_in_an_ascii_folder_of_its_own() {
-        let pavlo = Path::new(r"C:\Users\Кириченко Павло\AppData\Roaming\horizon-launcher");
-        let other = Path::new(r"C:\Users\Олена\AppData\Roaming\horizon-launcher");
+        let pavlo = Path::new(r"C:\Users\Кириченко Павло\AppData\Roaming\ll-launcher");
+        let other = Path::new(r"C:\Users\Олена\AppData\Roaming\ll-launcher");
         let public = PathBuf::from(if cfg!(windows) { r"D:\Data" } else { "/data" });
         let dir = ascii_build_dir(pavlo, Some(public.clone()));
         assert!(ascii(&dir), "{}", dir.display());
         assert_eq!(dir.parent(), Some(public.as_path()));
         let name = dir.file_name().unwrap().to_str().unwrap();
         assert!(
-            name.starts_with("horizon-launcher-") && name.len() == 25,
+            name.starts_with("ll-launcher-") && name.len() == 25,
             "{name}"
         );
         assert_eq!(dir, ascii_build_dir(pavlo, Some(public.clone())), "stable");
@@ -4719,11 +4719,11 @@ mod tests {
     /// and older) or none at all serves level 0.
     #[test]
     fn a_game_program_says_its_mod_api_level() {
-        let dir = std::env::temp_dir().join(format!("horizon-api-level-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("ll-api-level-{}", std::process::id()));
         fs::create_dir_all(&dir).unwrap();
         let marked = dir.join("marked");
         let mut program = b"\x7fELF code code".to_vec();
-        program.extend_from_slice(b"horizon-mod-api-level:0007;");
+        program.extend_from_slice(b"ll-mod-api-level:0007;");
         fs::write(&marked, &program).unwrap();
         let old = dir.join("old");
         fs::write(&old, b"\x7fELF code without a mark").unwrap();
@@ -4738,7 +4738,7 @@ mod tests {
     /// the developer option (`Settings::dev_offline`), whose pass has no owner.
     #[test]
     fn mojang_downloads_only_for_an_owner() {
-        let dir = std::env::temp_dir().join(format!("horizon-owner-only-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("ll-owner-only-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         let pins = sources::Pins::read(&serde_json::json!({ "minecraft": {
             "version": "26.3",
@@ -4877,7 +4877,7 @@ pub fn {f}("
     #[test]
     fn reused_imports_take_the_assets_from_the_launcher_that_has_them() {
         let dir =
-            std::env::temp_dir().join(format!("horizon-reused-assets-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-reused-assets-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         let client = b"fake client jar";
         let manifest = br#"{"id": "26.3"}"#;
@@ -4920,7 +4920,7 @@ pub fn {f}("
 
     #[test]
     fn resources_without_sounds_are_reported() {
-        let dir = std::env::temp_dir().join(format!("horizon-no-sounds-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("ll-no-sounds-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(dir.join("assets/minecraft/textures")).unwrap();
         fs::write(dir.join(RESOURCES_MANIFEST), "{}").unwrap();
@@ -4947,26 +4947,26 @@ pub fn {f}("
         assert_eq!(
             platform_assets("macos", "aarch64"),
             Some((
-                "horizon-macos-arm64.zip",
-                "horizon-launcher-macos-arm64.zip"
+                "ll-macos-arm64.zip",
+                "ll-launcher-macos-arm64.zip"
             ))
         );
         assert_eq!(
             platform_assets("macos", "x86_64"),
-            Some(("horizon-macos-x64.zip", "horizon-launcher-macos-x64.zip"))
+            Some(("ll-macos-x64.zip", "ll-launcher-macos-x64.zip"))
         );
         assert_eq!(
             platform_assets("windows", "x86_64"),
             Some((
-                "horizon-windows-x64.zip",
-                "horizon-launcher-windows-x64.zip"
+                "ll-windows-x64.zip",
+                "ll-launcher-windows-x64.zip"
             ))
         );
         assert_eq!(
             platform_assets("windows", "aarch64"),
             Some((
-                "horizon-windows-arm64.zip",
-                "horizon-launcher-windows-arm64.zip"
+                "ll-windows-arm64.zip",
+                "ll-launcher-windows-arm64.zip"
             ))
         );
         assert_eq!(platform_assets("linux", "aarch64"), None);
@@ -4977,7 +4977,7 @@ pub fn {f}("
         );
         assert_eq!(
             game_fallback_for("windows", "aarch64"),
-            Some("horizon-windows-x64.zip")
+            Some("ll-windows-x64.zip")
         );
         assert_eq!(game_fallback_for("windows", "x86_64"), None);
         assert_eq!(game_fallback_for("macos", "aarch64"), None);
@@ -4988,14 +4988,14 @@ pub fn {f}("
     /// signed checksum.
     #[test]
     fn an_arm64_windows_launcher_falls_back_to_the_x64_game() {
-        let (arm, x64) = ("horizon-windows-arm64.zip", "horizon-windows-x64.zip");
+        let (arm, x64) = ("ll-windows-arm64.zip", "ll-windows-x64.zip");
         let asset = |name: &str, url: &str| serde_json::json!({"name": name, "browser_download_url": url, "size": 1});
         let list = serde_json::json!([
             {"tag_name": "v2026.11.05", "assets": [
-                asset(x64, "https://example.test/v2026.11.05/horizon-windows-x64.zip"),
-                asset(arm, "https://example.test/v2026.11.05/horizon-windows-arm64.zip")]},
+                asset(x64, "https://example.test/v2026.11.05/ll-windows-x64.zip"),
+                asset(arm, "https://example.test/v2026.11.05/ll-windows-arm64.zip")]},
             {"tag_name": "v2026.11.04", "assets": [
-                asset(x64, "https://example.test/v2026.11.04/horizon-windows-x64.zip")]},
+                asset(x64, "https://example.test/v2026.11.04/ll-windows-x64.zip")]},
             {"tag_name": "v2026.11.03", "assets": []},
         ]);
         let releases = game_releases_with(&list, Some(arm), Some(x64));
@@ -5023,7 +5023,7 @@ pub fn {f}("
 
     #[test]
     fn a_game_architecture_choice_is_independent_of_the_launcher_process() {
-        let (arm, x64) = ("horizon-windows-arm64.zip", "horizon-windows-x64.zip");
+        let (arm, x64) = ("ll-windows-arm64.zip", "ll-windows-x64.zip");
         // GetNativeSystemInfo reports ARM64 even when std::env::consts::ARCH is x86_64.
         assert!(supports_game_architecture_choice(
             "windows",
@@ -5072,7 +5072,7 @@ pub fn {f}("
         );
         assert_eq!(
             game_assets_for("linux", None, "x86_64", GameArchitecture::Arm64),
-            Some(("horizon-linux-x86_64.tar.gz", None))
+            Some(("ll-linux-x86_64.tar.gz", None))
         );
     }
 
@@ -5095,11 +5095,11 @@ pub fn {f}("
             )
             .unwrap();
             if std::env::consts::ARCH == "x86_64" {
-                assert_eq!((asset, fallback), ("horizon-windows-x64.zip", None));
+                assert_eq!((asset, fallback), ("ll-windows-x64.zip", None));
             } else {
                 assert_eq!(
                     (asset, fallback),
-                    ("horizon-windows-arm64.zip", Some("horizon-windows-x64.zip"))
+                    ("ll-windows-arm64.zip", Some("ll-windows-x64.zip"))
                 );
             }
         }
@@ -5107,8 +5107,8 @@ pub fn {f}("
 
     #[test]
     fn selected_architecture_uses_available_assets_and_only_the_safe_fallback() {
-        let arm = "horizon-windows-arm64.zip";
-        let x64 = "horizon-windows-x64.zip";
+        let arm = "ll-windows-arm64.zip";
+        let x64 = "ll-windows-x64.zip";
         let asset = |name: &str| serde_json::json!({"name": name, "browser_download_url": format!("https://example.test/{name}"), "size": 1});
         let list = serde_json::json!([
             {"tag_name": "v2026.11.05", "assets": [asset(x64), asset(arm)]},
@@ -5247,8 +5247,8 @@ pub fn {f}("
     #[test]
     fn an_arm64_launcher_skips_a_release_without_its_zip() {
         let (arm, x64) = (
-            "horizon-launcher-windows-arm64.zip",
-            "horizon-launcher-windows-x64.zip",
+            "ll-launcher-windows-arm64.zip",
+            "ll-launcher-windows-x64.zip",
         );
         let asset = |name: &str| serde_json::json!({"name": name, "browser_download_url": format!("https://example.test/{name}"), "size": 1});
         let list = serde_json::json!([
@@ -5328,7 +5328,7 @@ pub fn {f}("
 
     #[test]
     fn a_renderer_start_crash_switches_auto_to_dx12_once() {
-        let home = std::env::temp_dir().join(format!("horizon-dx12-switch-{}", std::process::id()));
+        let home = std::env::temp_dir().join(format!("ll-dx12-switch-{}", std::process::id()));
         let _ = fs::remove_dir_all(&home);
         // No settings file yet: one with the API alone.
         assert_eq!(switch_from_auto(&home, "dx12"), Ok(true));
@@ -5361,7 +5361,7 @@ pub fn {f}("
         assert_eq!(vulkan_crash_fallback("windows").unwrap().0, "dx12");
         assert_eq!(vulkan_crash_fallback("macos"), None);
         let (api, _) = vulkan_crash_fallback("linux").unwrap();
-        let home = std::env::temp_dir().join(format!("horizon-gl-switch-{}", std::process::id()));
+        let home = std::env::temp_dir().join(format!("ll-gl-switch-{}", std::process::id()));
         let _ = fs::remove_dir_all(&home);
         fs::create_dir_all(&home).unwrap();
         fs::write(home.join(GRAPHICS_FILE), "graphicsApi:auto\nvsync:true\n").unwrap();
@@ -5428,8 +5428,8 @@ pub fn {f}("
         assert_eq!(launcher_version("v2026.10.13"), None);
         assert_eq!(launcher_version("launcher-vx"), None);
         let list = serde_json::json!([
-            {"tag_name": "v2026.10.12", "assets": [{"name": "horizon-linux-x86_64.tar.gz", "browser_download_url": "u", "size": 1}]},
-            {"tag_name": "launcher-v9.0.0", "assets": [{"name": "horizon-launcher-linux-x86_64.tar.gz", "browser_download_url": "u", "size": 1}]},
+            {"tag_name": "v2026.10.12", "assets": [{"name": "ll-linux-x86_64.tar.gz", "browser_download_url": "u", "size": 1}]},
+            {"tag_name": "launcher-v9.0.0", "assets": [{"name": "ll-launcher-linux-x86_64.tar.gz", "browser_download_url": "u", "size": 1}]},
             {"tag_name": "v2026.10.13", "assets": []},
             {"tag_name": "launcher-v0.0.1", "draft": true, "assets": []},
         ]);
@@ -5449,7 +5449,7 @@ pub fn {f}("
     /// previous one the newest again: it is what `install latest` and the update check offer.
     #[test]
     fn withdrawn_release_is_never_offered() {
-        let asset = ASSET.unwrap_or("horizon-linux-x86_64.tar.gz");
+        let asset = ASSET.unwrap_or("ll-linux-x86_64.tar.gz");
         let list = serde_json::json!([
             {"tag_name": "v2026.10.15.1", "draft": true, "assets": [{"name": asset, "browser_download_url": "bad", "size": 1}]},
             {"tag_name": "v2026.10.15", "assets": [{"name": asset, "browser_download_url": "good", "size": 1}]},
@@ -5463,7 +5463,7 @@ pub fn {f}("
         );
         let offered = |installed: &[&str]| {
             let installed: Vec<String> = installed.iter().map(|t| t.to_string()).collect();
-            horizon_update(&releases, &installed).map(|r| r.tag)
+            ll_update(&releases, &installed).map(|r| r.tag)
         };
         assert_eq!(offered(&["v2026.10.14"]), Some("v2026.10.15".into()));
         assert_eq!(offered(&[]), Some("v2026.10.15".into()));
@@ -5476,7 +5476,7 @@ pub fn {f}("
     /// had one installed waits for the next release instead of going back.
     #[test]
     fn updates_follow_every_release_and_leave_the_old_alpha_ones_out() {
-        let asset = ASSET.unwrap_or("horizon-linux-x86_64.tar.gz");
+        let asset = ASSET.unwrap_or("ll-linux-x86_64.tar.gz");
         let list = serde_json::json!([
             {"tag_name": "v0.2.13", "assets": [{"name": asset, "browser_download_url": "n", "size": 1}]},
             {"tag_name": "v0.2.12", "prerelease": true, "assets": [{"name": asset, "browser_download_url": "a", "size": 1}]},
@@ -5489,7 +5489,7 @@ pub fn {f}("
         );
         let offered = |releases: &[Release], installed: &[&str]| {
             let installed: Vec<String> = installed.iter().map(|t| t.to_string()).collect();
-            horizon_update(&installable_updates(releases), &installed).map(|r| r.tag)
+            ll_update(&installable_updates(releases), &installed).map(|r| r.tag)
         };
         assert_eq!(offered(&releases, &[]), Some("v0.2.13".into()));
         assert_eq!(offered(&releases, &["v0.2.0"]), Some("v0.2.13".into()));
@@ -5658,7 +5658,7 @@ pub fn {f}("
         assert!(launcher_update(&[r(own_tag())]).is_none());
         assert_eq!(launcher_version(&own_tag()), Some(VERSION));
         assert_eq!(
-            parse_version_output(&format!("horizon-launcher {VERSION}\n")),
+            parse_version_output(&format!("ll-launcher {VERSION}\n")),
             Some(VERSION)
         );
     }
@@ -5774,7 +5774,7 @@ pub fn {f}("
         #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
         assert_eq!(
             launcher_asset_running_from(true),
-            Some("horizon-launcher-linux-x86_64.AppImage")
+            Some("ll-launcher-linux-x86_64.AppImage")
         );
     }
 
@@ -5787,7 +5787,7 @@ pub fn {f}("
         let inside = |dir: &str| in_temp_folder(Path::new(dir), temp);
         assert!(inside("/tmp/t"));
         assert!(inside(
-            "/tmp/t/Temp12_horizon-launcher-windows-x64.zip/inner"
+            "/tmp/t/Temp12_ll-launcher-windows-x64.zip/inner"
         ));
         assert!(inside("/tmp/t/7zO8A1B2C3D"));
         assert!(!inside("/tmp/tools"));
@@ -5814,7 +5814,7 @@ pub fn {f}("
 
         let system = std::env::temp_dir();
         let long = system.canonicalize().unwrap();
-        let copy = long.join(format!("horizon-temp-copy-{}", std::process::id()));
+        let copy = long.join(format!("ll-temp-copy-{}", std::process::id()));
         fs::create_dir_all(&copy).unwrap();
         let found = in_temp_folder(&copy, &system);
         let _ = fs::remove_dir_all(&copy);
@@ -5824,7 +5824,7 @@ pub fn {f}("
 
     /// A fresh folder for one test, under the temporary folder.
     fn scratch(name: &str) -> PathBuf {
-        let dir = std::env::temp_dir().join(format!("horizon-{name}-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("ll-{name}-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).unwrap();
         dir
@@ -5879,8 +5879,8 @@ pub fn {f}("
         fs::write(theirs.join("download.zip"), b"their download").unwrap();
         fs::write(mine.join("download.zip"), b"mine").unwrap();
 
-        remove_stage(&work, &work.join("unpacked").join("horizon-launcher"));
-        remove_stage(&work, &mine.join("..").join("horizon-launcher"));
+        remove_stage(&work, &work.join("unpacked").join("ll-launcher"));
+        remove_stage(&work, &mine.join("..").join("ll-launcher"));
         remove_stage(&work, &work);
         assert!(mine.exists() && theirs.exists());
 
@@ -5900,8 +5900,8 @@ pub fn {f}("
         let dir = scratch("save-checked");
         let to = dir.join("download.zip");
         let bytes: &[u8] = b"the launcher";
-        let right = horizon_release_sign::sha256_hex(bytes);
-        let wrong = horizon_release_sign::sha256_hex(b"something else");
+        let right = ll_release_sign::sha256_hex(bytes);
+        let wrong = ll_release_sign::sha256_hex(b"something else");
         fs::write(&to, b"finished earlier").unwrap();
 
         assert!(save_checked(bytes, 0, "asset", &wrong, &to, &|_: f32| {}).is_err());
@@ -5936,7 +5936,7 @@ pub fn {f}("
     #[test]
     fn a_read_only_folder_takes_no_update() {
         use std::os::unix::fs::PermissionsExt;
-        let dir = std::env::temp_dir().join(format!("horizon-read-only-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("ll-read-only-{}", std::process::id()));
         fs::create_dir_all(&dir).unwrap();
         assert!(writable(&dir));
         fs::set_permissions(&dir, fs::Permissions::from_mode(0o555)).unwrap();
@@ -5962,7 +5962,7 @@ pub fn {f}("
     fn only_an_appimage_file_counts() {
         use std::ffi::OsStr;
         let mount = OsStr::new("/tmp/.mount_Horizon123");
-        let exe = Path::new("/tmp/.mount_Horizon123/usr/bin/horizon-launcher");
+        let exe = Path::new("/tmp/.mount_Horizon123/usr/bin/ll-launcher");
         assert_eq!(appimage_path_in(None, Some(mount), exe), None);
         assert_eq!(
             appimage_path_in(Some(OsStr::new("Horizon.AppImage")), Some(mount), exe),
@@ -5977,14 +5977,14 @@ pub fn {f}("
             ),
             None
         );
-        let file = std::env::temp_dir().join(format!("horizon-appimage-{}", std::process::id()));
+        let file = std::env::temp_dir().join(format!("ll-appimage-{}", std::process::id()));
         std::fs::write(&file, b"#!AppImage").unwrap();
         assert_eq!(
             appimage_path_in(Some(file.as_os_str()), Some(mount), exe),
             Some(file.clone())
         );
         // Inherited from another AppImage: this launcher is installed elsewhere.
-        let elsewhere = Path::new("/home/a/.local/bin/horizon-launcher");
+        let elsewhere = Path::new("/home/a/.local/bin/ll-launcher");
         assert_eq!(
             appimage_path_in(Some(file.as_os_str()), Some(mount), elsewhere),
             None
@@ -6017,7 +6017,7 @@ pub fn {f}("
         );
         assert_eq!(compare_versions("launcher@0.2.0", "v0.2.0"), Equal);
 
-        let asset = ASSET.unwrap_or("horizon-linux-x86_64.tar.gz");
+        let asset = ASSET.unwrap_or("ll-linux-x86_64.tar.gz");
         let list = serde_json::json!([
             {"tag_name": "v0.2.0", "prerelease": true, "assets": [{"name": asset, "browser_download_url": "b", "size": 1}]},
             {"tag_name": "v2026.10.21", "prerelease": true, "assets": [{"name": asset, "browser_download_url": "d", "size": 1}]},
@@ -6027,7 +6027,7 @@ pub fn {f}("
         let installed = ["v2026.10.19.15".to_string(), "v2026.10.12".to_string()];
         // A pre-release 0.2.0 is not an update; once published as the release, it is one.
         let offered = |releases: &[Release]| {
-            horizon_update(&installable_updates(releases), &installed).map(|r| r.tag)
+            ll_update(&installable_updates(releases), &installed).map(|r| r.tag)
         };
         assert_eq!(offered(&releases), None);
         let mut released = releases.clone();
@@ -6130,10 +6130,10 @@ pub fn {f}("
         };
         let releases = [r("v2026.10.13"), r("v2026.10.12")];
         assert_eq!(
-            horizon_update(&releases, &["v2026.10.12".into()]).map(|r| r.tag),
+            ll_update(&releases, &["v2026.10.12".into()]).map(|r| r.tag),
             Some("v2026.10.13".into())
         );
-        assert!(horizon_update(&releases, &["v2026.10.13".into()]).is_none());
+        assert!(ll_update(&releases, &["v2026.10.13".into()]).is_none());
         assert!(launcher_update(&[r("launcher-v0.0.1")]).is_none());
         assert!(launcher_update(&[r("launcher@99.0.0")]).is_some());
         assert!(launcher_update_from(&[r("launcher-v99.0.0")], "launcher-v0.16.0").is_some());
@@ -6151,7 +6151,7 @@ pub fn {f}("
     /// current one as its update, over every release; the last week's are listed, never offered.
     #[test]
     fn every_launcher_updates_to_the_current_nightly() {
-        let asset = ASSET.unwrap_or("horizon-linux-x86_64.tar.gz");
+        let asset = ASSET.unwrap_or("ll-linux-x86_64.tar.gz");
         let build = |url: &str| serde_json::json!([{"name": asset, "browser_download_url": url, "size": 1}]);
         let list = serde_json::json!([
             {"tag_name": "nightly", "name": "Nightly 2026-10-28 · 9b772b2", "prerelease": true,
@@ -6187,7 +6187,7 @@ pub fn {f}("
         );
         let offered = |installed: &[&str]| {
             let installed: Vec<String> = installed.iter().map(|t| t.to_string()).collect();
-            horizon_update(&installable_updates(&releases), &installed).map(|r| r.tag)
+            ll_update(&installable_updates(&releases), &installed).map(|r| r.tag)
         };
         let current = Some("nightly-2026-10-28-9b772b2".to_string());
         // A player of the release channel, a new player, one on an older Nightly of the same day.
@@ -6283,7 +6283,7 @@ pub fn {f}("
     fn a_drawn_page_asks_the_disk_once_and_the_launch_check_asks_again() {
         use std::time::{Duration, Instant};
         let dir =
-            std::env::temp_dir().join(format!("horizon-launcher-cached-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-launcher-cached-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).unwrap();
         fs::write(dir.join(RESOURCES_MANIFEST), "{}").unwrap();
@@ -6352,7 +6352,7 @@ pub fn {f}("
     #[test]
     fn a_prepared_folder_with_an_empty_table_is_not_prepared() {
         let dir =
-            std::env::temp_dir().join(format!("horizon-launcher-empty-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-launcher-empty-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).unwrap();
         assert!(!prepared_at(&dir), "no manifest is not prepared");
@@ -6376,7 +6376,7 @@ pub fn {f}("
     #[test]
     fn a_new_version_reuses_resources_prepared_by_a_compatible_one() {
         let versions =
-            std::env::temp_dir().join(format!("horizon-launcher-test-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-launcher-test-{}", std::process::id()));
         let _ = fs::remove_dir_all(&versions);
         let oracle = "mods/horizon/src/test/java/dev/horizonlab/parity/VanillaHeightmapOracle.java";
         let camera = "mods/horizon/src/test/java/dev/horizonlab/parity/VanillaCameraOracle.java";
@@ -6401,12 +6401,12 @@ pub fn {f}("
                 serde_json::json!({"schema": 7, "collision_exporters_sha256": {collision: "x"}});
             write(
                 tag,
-                &format!(".local/horizon-client/{minecraft}/{RESOURCES_MANIFEST}"),
+                &format!(".local/ll-client/{minecraft}/{RESOURCES_MANIFEST}"),
                 &manifest.to_string(),
             );
             write(
                 tag,
-                &format!(".local/horizon-client/{minecraft}/worldgen/biomes.json"),
+                &format!(".local/ll-client/{minecraft}/worldgen/biomes.json"),
                 "{}",
             );
         };
@@ -6425,7 +6425,7 @@ pub fn {f}("
         assert!(resources_at(&versions.join("v2026.10.13.1"))
             .join("worldgen/biomes.json")
             .exists());
-        let left: Vec<_> = fs::read_dir(versions.join("v2026.10.13.1/.local/horizon-client"))
+        let left: Vec<_> = fs::read_dir(versions.join("v2026.10.13.1/.local/ll-client"))
             .unwrap()
             .flatten()
             .map(|e| e.file_name())
@@ -6457,9 +6457,9 @@ pub fn {f}("
         assert!(!is_prepared("v2026.10.15") && !is_prepared("v2026.10.16"));
         assert!(reuse_prepared_in(&versions).is_empty());
 
-        // Versions with horizon-prepare: its sources are the preparer, so the same sources
+        // Versions with ll-prepare: its sources are the preparer, so the same sources
         // reuse each other's resources, and a change or a version without them prepares again.
-        let crate_file = "crates/horizon-prepare/src/lib.rs";
+        let crate_file = "crates/ll-prepare/src/lib.rs";
         release("v2026.10.18", "26.3");
         write("v2026.10.18", crate_file, "rust preparer");
         assert_eq!(reuse_prepared(&versions, "v2026.10.18"), None);
@@ -6479,7 +6479,7 @@ pub fn {f}("
     #[test]
     fn prepared_resources_follow_the_preparers_output_version() {
         let versions = std::env::temp_dir().join(format!(
-            "horizon-launcher-output-test-{}",
+            "ll-launcher-output-test-{}",
             std::process::id()
         ));
         let _ = fs::remove_dir_all(&versions);
@@ -6488,14 +6488,14 @@ pub fn {f}("
             fs::create_dir_all(path.parent().unwrap()).unwrap();
             fs::write(path, text).unwrap();
         };
-        let lib = "crates/horizon-prepare/src/lib.rs";
+        let lib = "crates/ll-prepare/src/lib.rs";
         // A preparer with its sources (as releases ship them) and the exporters it runs.
         let release = |tag: &str, code: &str| {
             write(tag, COMPLETE, "");
             let lock = serde_json::json!({"minecraft": {"version": "26.3", "client_sha1": "c", "server_sha1": "s"}});
             write(tag, "research-lock.json", &lock.to_string());
-            write(tag, "crates/horizon-prepare/Cargo.toml", "[package]");
-            write(tag, "crates/horizon-prepare/build.rs", "fn main() {}");
+            write(tag, "crates/ll-prepare/Cargo.toml", "[package]");
+            write(tag, "crates/ll-prepare/build.rs", "fn main() {}");
             write(tag, lib, code);
             for name in LEGACY_EXPORTERS {
                 write(
@@ -6508,10 +6508,10 @@ pub fn {f}("
         let prepared = |tag: &str| {
             write(
                 tag,
-                &format!(".local/horizon-client/26.3/{RESOURCES_MANIFEST}"),
+                &format!(".local/ll-client/26.3/{RESOURCES_MANIFEST}"),
                 r#"{"schema": 7}"#,
             );
-            write(tag, ".local/horizon-client/26.3/facts.json", tag);
+            write(tag, ".local/ll-client/26.3/facts.json", tag);
         };
         let facts = |tag: &str| {
             fs::read_to_string(resources_at(&versions.join(tag)).join("facts.json")).ok()
@@ -6575,7 +6575,7 @@ pub fn {f}("
     #[test]
     fn prepared_versions_get_the_run_time_reports_without_preparing_again() {
         let versions = std::env::temp_dir().join(format!(
-            "horizon-launcher-reports-test-{}",
+            "ll-launcher-reports-test-{}",
             std::process::id()
         ));
         let _ = fs::remove_dir_all(&versions);
@@ -6590,7 +6590,7 @@ pub fn {f}("
             write(tag, "research-lock.json", &lock.to_string());
             write(
                 tag,
-                &format!(".local/horizon-client/26.3/{RESOURCES_MANIFEST}"),
+                &format!(".local/ll-client/26.3/{RESOURCES_MANIFEST}"),
                 "{}",
             );
         };
@@ -6634,7 +6634,7 @@ pub fn {f}("
     #[test]
     fn prepared_versions_get_what_the_asset_store_adds_without_preparing_again() {
         let dir = std::env::temp_dir().join(format!(
-            "horizon-launcher-packs-test-{}",
+            "ll-launcher-packs-test-{}",
             std::process::id()
         ));
         let _ = fs::remove_dir_all(&dir);
@@ -6651,7 +6651,7 @@ pub fn {f}("
             data.push(n);
             data
         };
-        let mut assets: Vec<(String, Vec<u8>)> = horizon_prepare::BUILT_IN_PACKS
+        let mut assets: Vec<(String, Vec<u8>)> = ll_prepare::BUILT_IN_PACKS
             .iter()
             .map(|name| (name.to_string(), name.as_bytes().to_vec()))
             .collect();
@@ -6790,17 +6790,17 @@ pub fn {f}("
 
     #[test]
     fn finds_the_app_bundle_around_the_binary() {
-        let exe = Path::new("/Applications/Horizon.app/Contents/MacOS/horizon-launcher");
+        let exe = Path::new("/Applications/Horizon.app/Contents/MacOS/ll-launcher");
         assert_eq!(
             app_bundle(exe),
             Some(Path::new("/Applications/Horizon.app"))
         );
-        assert_eq!(app_bundle(Path::new("/Users/me/horizon-launcher")), None);
+        assert_eq!(app_bundle(Path::new("/Users/me/ll-launcher")), None);
         assert_eq!(
-            app_bundle(Path::new("/x/Contents/MacOS/horizon-launcher")),
+            app_bundle(Path::new("/x/Contents/MacOS/ll-launcher")),
             None
         );
-        let work = std::env::temp_dir().join(format!("horizon-find-app-{}", std::process::id()));
+        let work = std::env::temp_dir().join(format!("ll-find-app-{}", std::process::id()));
         let _ = fs::remove_dir_all(&work);
         fs::create_dir_all(work.join("dist/Horizon.app/Contents/MacOS")).unwrap();
         assert_eq!(find_app(&work), Some(work.join("dist/Horizon.app")));
@@ -6813,20 +6813,20 @@ pub fn {f}("
     #[test]
     fn an_app_bundle_updates_in_place() {
         use std::os::unix::fs::PermissionsExt;
-        let work = std::env::temp_dir().join(format!("horizon-bundle-{}", std::process::id()));
+        let work = std::env::temp_dir().join(format!("ll-bundle-{}", std::process::id()));
         let _ = fs::remove_dir_all(&work);
         let make = |dir: &Path, version: &str| {
             let app = dir.join("Horizon.app");
             fs::create_dir_all(app.join("Contents/MacOS")).unwrap();
             fs::create_dir_all(app.join("Contents/Resources")).unwrap();
-            let bin = app.join("Contents/MacOS/horizon-launcher");
+            let bin = app.join("Contents/MacOS/ll-launcher");
             fs::copy("/usr/bin/true", &bin).unwrap();
             fs::set_permissions(&bin, fs::Permissions::from_mode(0o755)).unwrap();
             fs::write(app.join("Contents/Resources/version"), version).unwrap();
             fs::write(
                 app.join("Contents/Info.plist"),
                 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<plist version=\"1.0\"><dict>\
-                 <key>CFBundleExecutable</key><string>horizon-launcher</string>\
+                 <key>CFBundleExecutable</key><string>ll-launcher</string>\
                  <key>CFBundleIdentifier</key><string>dev.horizon.test</string>\
                  <key>CFBundlePackageType</key><string>APPL</string></dict></plist>\n",
             )
@@ -6854,7 +6854,7 @@ pub fn {f}("
         replace_bundle(&new, &installed).unwrap();
         let version = fs::read_to_string(installed.join("Contents/Resources/version")).unwrap();
         assert_eq!(version, "2.0.0");
-        let bin = installed.join("Contents/MacOS/horizon-launcher");
+        let bin = installed.join("Contents/MacOS/ll-launcher");
         assert!(
             Command::new(&bin).status().unwrap().success(),
             "still executable"
@@ -6890,7 +6890,7 @@ pub fn {f}("
     #[test]
     fn launcher_versions_read_from_the_binary() {
         assert_eq!(
-            parse_version_output("horizon-launcher 0.1.5\n"),
+            parse_version_output("ll-launcher 0.1.5\n"),
             Some("0.1.5")
         );
         assert_eq!(parse_version_output("something else"), None);
@@ -6901,7 +6901,7 @@ pub fn {f}("
             None
         );
         assert_eq!(
-            installed_launcher_version(Path::new("/nonexistent/horizon-launcher")),
+            installed_launcher_version(Path::new("/nonexistent/ll-launcher")),
             None
         );
     }
@@ -6913,10 +6913,10 @@ pub fn {f}("
     fn a_replaced_binary_is_replaced_again_at_its_path() {
         use std::os::unix::fs::PermissionsExt;
         let dir =
-            std::env::temp_dir().join(format!("horizon-launcher-replace-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-launcher-replace-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).unwrap();
-        let exe = dir.join("horizon-launcher");
+        let exe = dir.join("ll-launcher");
         fs::write(&exe, "old").unwrap();
         // Another update swaps the file under the running launcher.
         fs::write(dir.join("other"), "other update").unwrap();
@@ -6944,7 +6944,7 @@ pub fn {f}("
             .map(|e| e.file_name().to_string_lossy().into_owned())
             .collect();
         names.sort();
-        assert_eq!(names, ["horizon-launcher", "new"]);
+        assert_eq!(names, ["ll-launcher", "new"]);
         let _ = fs::remove_dir_all(&dir);
     }
 
@@ -7023,7 +7023,7 @@ pub fn {f}("
     #[test]
     fn pruning_preserves_manual_and_legacy_nightlies() {
         let root =
-            std::env::temp_dir().join(format!("horizon-prune-origin-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-prune-origin-{}", std::process::id()));
         let _ = fs::remove_dir_all(&root);
         let installed = [
             "nightly-2026-11-05-aaaaaaa", // automatically updated, selected
@@ -7049,12 +7049,12 @@ pub fn {f}("
     #[test]
     fn crash_reports_are_found_and_summarised() {
         let dir =
-            std::env::temp_dir().join(format!("horizon-launcher-crash-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-launcher-crash-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         let start = std::time::SystemTime::now() - std::time::Duration::from_secs(2);
         assert!(crash_report_in_since(&dir, start).is_none());
         fs::create_dir_all(&dir).unwrap();
-        let report = "---- Horizon Crash Report ----\n// Details below.\n\nTime: 2026-10-14 09:05:07\nDescription: Unexpected error\n\npanicked at src/game.rs:10:5:\nboom\n\t0: horizon_client::game::frame\n";
+        let report = "---- Horizon Crash Report ----\n// Details below.\n\nTime: 2026-10-14 09:05:07\nDescription: Unexpected error\n\npanicked at src/game.rs:10:5:\nboom\n\t0: ll_client::game::frame\n";
         fs::write(dir.join("crash-2026-10-14_09.05.07-client.txt"), report).unwrap();
         fs::write(dir.join("notes.txt"), "x").unwrap();
         assert_eq!(

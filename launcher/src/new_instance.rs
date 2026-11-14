@@ -5,8 +5,8 @@
 use super::*;
 use crate::plate::alpha;
 use crate::shell::{c, Action};
-use horizon_launcher::loaders::{self, Kind as Loader};
-use horizon_launcher::minecraft_versions::{Kind as VersionKind, Versions};
+use ll_launcher::loaders::{self, Kind as Loader};
+use ll_launcher::minecraft_versions::{Kind as VersionKind, Versions};
 use servers_page::Field;
 use std::sync::Arc;
 use theme::night;
@@ -181,7 +181,7 @@ impl Launcher {
         self.instances.versions = VersionList::Loading;
         let task = cx
             .background_executor()
-            .spawn(async { horizon_launcher::minecraft_versions::load() });
+            .spawn(async { ll_launcher::minecraft_versions::load() });
         cx.spawn(async move |this, cx| {
             let list = task.await;
             let _ = this.update(cx, |this, cx| {
@@ -213,7 +213,7 @@ impl Launcher {
         j.loader_versions = LoaderVersions::Loading(loader, minecraft.to_string());
         let mc = minecraft.to_string();
         let task = cx.background_executor().spawn(async move {
-            loaders::versions(loader, &mc, &horizon_launcher::backend::get_bytes)
+            loaders::versions(loader, &mc, &ll_launcher::backend::get_bytes)
         });
         let mc = minecraft.to_string();
         cx.spawn(async move |this, cx| {

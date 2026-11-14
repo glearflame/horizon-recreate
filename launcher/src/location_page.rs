@@ -8,7 +8,7 @@ fn env_value(key: &str) -> Option<String> {
 }
 
 pub(super) fn startup_error() -> Option<String> {
-    horizon_launcher::data_location::startup_error()
+    ll_launcher::data_location::startup_error()
         .map(|error| {
             trf(
                 "Could not open the data folder: {error}",
@@ -126,7 +126,7 @@ impl Launcher {
     /// Try the configured folder again. A success restarts the launcher, because paths already
     /// resolved to the fallback folders cannot be swapped under a running window.
     fn retry_location(&mut self, cx: &mut Context<Self>) {
-        match horizon_launcher::data_location::retry() {
+        match ll_launcher::data_location::retry() {
             Ok(()) => {
                 self.location_error = Some(backend::restart());
             }
@@ -138,7 +138,7 @@ impl Launcher {
     /// Keep the default folders: the pointer is kept beside the old one as `location.json.old`,
     /// and nothing in the moved folders is deleted.
     fn use_default_location(&mut self, cx: &mut Context<Self>) {
-        match horizon_launcher::data_location::use_default_folder() {
+        match ll_launcher::data_location::use_default_folder() {
             Ok(()) => {
                 self.location_error = Some(backend::restart());
             }
@@ -168,7 +168,7 @@ impl Launcher {
             return;
         };
         let result = std::env::current_exe().and_then(|exe| {
-            horizon_launcher::process::command(exe)
+            ll_launcher::process::command(exe)
                 .arg("--relocate-data")
                 .arg(target)
                 .arg("--restart")
@@ -177,7 +177,7 @@ impl Launcher {
         match result {
             Ok(_) => {
                 // No installer while the worker copies the data folder its stage is in.
-                horizon_launcher::update_handoff::forget();
+                ll_launcher::update_handoff::forget();
                 cx.quit()
             }
             Err(error) => {
@@ -225,7 +225,7 @@ impl Launcher {
             .children(self.location_error.as_ref().map(|message| {
                 text(theme::CAPTION).text_color(t.danger).child(message.clone())
             }));
-        if horizon_launcher::data_location::startup_error().is_some() {
+        if ll_launcher::data_location::startup_error().is_some() {
             body = body.child(
                 div()
                     .flex()

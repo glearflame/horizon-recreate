@@ -9,7 +9,7 @@ impl Scratch {
         let mut nonce = [0; 16];
         getrandom::fill(&mut nonce).unwrap();
         let root = std::env::temp_dir().join(format!(
-            "horizon-mac-update-{}-{:x?}",
+            "ll-mac-update-{}-{:x?}",
             std::process::id(),
             nonce
         ));
@@ -31,7 +31,7 @@ impl Drop for Scratch {
 
 fn bundle(app: &Path, version: &str) {
     fs::create_dir_all(app.join("Contents/MacOS")).unwrap();
-    fs::write(app.join("Contents/MacOS/horizon-launcher"), b"fixture").unwrap();
+    fs::write(app.join("Contents/MacOS/ll-launcher"), b"fixture").unwrap();
     fs::write(app.join("Contents/version"), version).unwrap();
 }
 
@@ -133,8 +133,8 @@ fn cleanup_preserves_unknown_names_incomplete_bundles_and_every_symlink_componen
         (4, "Contents/MacOS", outside.join("Contents/MacOS")),
         (
             5,
-            "Contents/MacOS/horizon-launcher",
-            outside.join("Contents/MacOS/horizon-launcher"),
+            "Contents/MacOS/ll-launcher",
+            outside.join("Contents/MacOS/ll-launcher"),
         ),
     ] {
         let root = work.retired(n);
@@ -145,7 +145,7 @@ fn cleanup_preserves_unknown_names_incomplete_bundles_and_every_symlink_componen
     let missing = work.retired(6);
     fs::create_dir_all(missing.join("Contents/MacOS")).unwrap();
     let directory = work.retired(7);
-    fs::create_dir_all(directory.join("Contents/MacOS/horizon-launcher")).unwrap();
+    fs::create_dir_all(directory.join("Contents/MacOS/ll-launcher")).unwrap();
     for name in [
         ".Horizon.app.old-123",
         ".Horizon.app.old-1-not-a-nonce",
@@ -160,7 +160,7 @@ fn cleanup_preserves_unknown_names_incomplete_bundles_and_every_symlink_componen
         queried.push(exe.to_path_buf());
         true
     });
-    assert_eq!(queried, [safe.join("Contents/MacOS/horizon-launcher")]);
+    assert_eq!(queried, [safe.join("Contents/MacOS/ll-launcher")]);
     assert_eq!(fs::read_dir(&work.0).unwrap().count(), before - 1);
     assert!(!safe.exists());
     assert_eq!(version(&outside), "keep");
@@ -212,9 +212,9 @@ fn repeated_updates_retain_distinct_generations_and_query_their_actual_executabl
     let second = both.iter().find(|p| **p != first[0]).unwrap();
     assert_eq!(version(second), "v2");
     cleanup_with(&app, |exe| {
-        assert_eq!(exe.file_name().unwrap(), "horizon-launcher");
+        assert_eq!(exe.file_name().unwrap(), "ll-launcher");
         assert_eq!(exe.parent().unwrap().file_name().unwrap(), "MacOS");
-        exe == second.join("Contents/MacOS/horizon-launcher")
+        exe == second.join("Contents/MacOS/ll-launcher")
     });
     assert_eq!(retired(&work), first);
     assert_eq!(version(&first[0]), "v1");

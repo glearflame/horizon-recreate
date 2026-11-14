@@ -522,7 +522,7 @@ pub(super) fn content_with(
     if edit.text.is_empty() && !focused {
         // The glass look's placeholders are white at 40 % (`.hzl input::placeholder`).
         let color = if t.glass {
-            crate::glass_ui::white(horizon_theme::glass::ink::PLACEHOLDER)
+            crate::glass_ui::white(ll_theme::glass::ink::PLACEHOLDER)
         } else {
             t.muted
         };
@@ -530,7 +530,7 @@ pub(super) fn content_with(
     }
     // A focused empty glass field keeps its placeholder after the caret, as a browser's does.
     if edit.text.is_empty() && t.glass {
-        let color = crate::glass_ui::white(horizon_theme::glass::ink::PLACEHOLDER);
+        let color = crate::glass_ui::white(ll_theme::glass::ink::PLACEHOLDER);
         return div()
             .flex()
             .items_center()

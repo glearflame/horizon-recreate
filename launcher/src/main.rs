@@ -87,14 +87,14 @@ use gpui::{
     KeyBinding, KeyDownEvent, Menu, MenuItem, MouseDownEvent, PathPromptOptions, Pixels, Point,
     SharedString, Stateful, Subscription, Window, WindowBounds, WindowOptions,
 };
-use horizon_launcher::account::{self, Accounts, SignIn, SignInState};
-use horizon_launcher::backend::{self, Job, Msg, Release, Running, Settings, Updates};
-use horizon_launcher::build_import;
-use horizon_launcher::i18n::{self, tr, trf};
-use horizon_launcher::instances;
-use horizon_launcher::native_mods;
-use horizon_launcher::native_status;
-use horizon_launcher::telemetry;
+use ll_launcher::account::{self, Accounts, SignIn, SignInState};
+use ll_launcher::backend::{self, Job, Msg, Release, Running, Settings, Updates};
+use ll_launcher::build_import;
+use ll_launcher::i18n::{self, tr, trf};
+use ll_launcher::instances;
+use ll_launcher::native_mods;
+use ll_launcher::native_status;
+use ll_launcher::telemetry;
 use scrollbar::Scrollbar;
 use std::borrow::Cow;
 use std::collections::{HashMap, VecDeque};
@@ -129,8 +129,8 @@ impl Page {
         let page = match std::env::var("HORIZON_LAUNCHER_PAGE").as_deref() {
             Ok("mods" | "modpacks" | "resourcepacks" | "shaders" | "datapacks") => Page::Mods,
             Ok("servers") => Page::Servers,
-            Ok("wardrobe") if horizon_cosmetics::forced() => Page::Wardrobe,
-            Ok("shop") if horizon_cosmetics::forced() => Page::Shop,
+            Ok("wardrobe") if ll_cosmetics::forced() => Page::Wardrobe,
+            Ok("shop") if ll_cosmetics::forced() => Page::Shop,
             Ok("versions") => Page::Versions,
             Ok("settings") => Page::Settings,
             _ => Page::Play,
@@ -139,7 +139,7 @@ impl Page {
         // recoveries are (an explicit HORIZON_LAUNCHER_PAGE still wins, for screenshots).
         page_after_startup(
             page,
-            horizon_launcher::data_location::startup_error().is_some(),
+            ll_launcher::data_location::startup_error().is_some(),
         )
     }
 
@@ -193,9 +193,9 @@ struct Crash {
 
 /// The opening: the wordmark holds at least `OPENING_HOLD` (until the release
 /// list is in, at most `OPENING_MAX`), then the launcher appears over `OPENING_REVEAL`.
-const OPENING_HOLD: Duration = horizon_theme::OPENING_HOLD;
-const OPENING_MAX: Duration = horizon_theme::OPENING_MAX;
-const OPENING_REVEAL: Duration = horizon_theme::OPENING_REVEAL;
+const OPENING_HOLD: Duration = ll_theme::OPENING_HOLD;
+const OPENING_MAX: Duration = ll_theme::OPENING_MAX;
+const OPENING_REVEAL: Duration = ll_theme::OPENING_REVEAL;
 
 /// The phase of the opening at one moment: how far the reveal has gone, 0 to 1.
 struct Opening {
@@ -206,7 +206,7 @@ struct Opening {
 }
 
 fn ease_out_cubic(x: f32) -> f32 {
-    horizon_theme::ease_out_cubic(x)
+    ll_theme::ease_out_cubic(x)
 }
 
 enum Load<T> {
@@ -308,8 +308,8 @@ struct Launcher {
     account_menu: bool,
     /// The glass sidebar's ⋮ menu (`frame.rs`).
     row_menu: frame::RowMenu,
-    /// The glass look's colours for the player's accent (`horizon_theme::glass`).
-    look: horizon_theme::glass::Glass,
+    /// The glass look's colours for the player's accent (`ll_theme::glass`).
+    look: ll_theme::glass::Glass,
     /// Where the mouse went down to close a menu by pressing outside it, so that the
     /// same press, ending on the menu's own button, doesn't open it again.
     menu_closed_at: Option<Point<Pixels>>,
@@ -325,10 +325,10 @@ struct Launcher {
     shop: wardrobe_page::Shop,
     /// The cosmetics service's last word on the founder set's window (`GET /v1/shop`): whether
     /// the top bar has the Wardrobe page with cosmetics off (`wardrobe_shown`).
-    shop_status: Option<horizon_launcher::wardrobe::Claim>,
+    shop_status: Option<ll_launcher::wardrobe::Claim>,
     /// The selected account's own answer on it from its last Wardrobe visit, kept on disk (a
     /// preview the service grants it, its claim).
-    shop_kept: Option<horizon_launcher::wardrobe::Claim>,
+    shop_kept: Option<ll_launcher::wardrobe::Claim>,
     /// Work the look out again on the next frame (a launcher theme put on or taken off).
     restyle: bool,
     /// Why the last picture for Home's background was refused.
@@ -407,7 +407,7 @@ struct Launcher {
     /// The instance the running game plays and when it started: its play time grows on exit.
     client_run: Option<(String, Instant)>,
     /// The running game's instance variables, for its post-exit command.
-    client_vars: horizon_launcher::launch::Vars,
+    client_vars: ll_launcher::launch::Vars,
     /// Settings' Game arguments field: the line, whether it has focus, and its focus handle.
     args_input: line_edit::LineEdit,
     args_focused: bool,
@@ -456,16 +456,16 @@ struct Launcher {
     /// Modrinth projects' icon URLs (`instance_mods.rs`).
     project_icons: instance_mods::ProjectIcons,
     play_pressed: Option<Instant>,
-    /// `horizon-launcher benchmark` started this window to measure it.
+    /// `ll-launcher benchmark` started this window to measure it.
     bench: Option<perf::Bench>,
     /// The Modpacks page: the imported packs (read when the page first opens), the one shown,
     /// the report's filter, and the pipeline step running now with its log.
-    packs: Vec<horizon_launcher::modpacks::Imported>,
+    packs: Vec<ll_launcher::modpacks::Imported>,
     /// Modpacks installed from Horizon's registry, each its own profile.
-    registry_packs: Vec<horizon_launcher::browser::horizon::pack::Installed>,
+    registry_packs: Vec<ll_launcher::browser::horizon::pack::Installed>,
     packs_loaded: Option<Instant>,
     pack_open: Option<String>,
-    pack_filter: Option<horizon_port_pack::report::Status>,
+    pack_filter: Option<ll_port_pack::report::Status>,
     pack_busy: bool,
     pack_log: VecDeque<String>,
     pack_error: Option<String>,
@@ -495,10 +495,10 @@ struct Launcher {
     aside: while_playing::Aside,
     /// The selected instance's desktop shortcut (`shortcut_page.rs`).
     shortcuts: shortcut_page::Shortcuts,
-    /// The name the game made up for an offline player (`horizon-player.txt`), for the top bar.
+    /// The name the game made up for an offline player (`ll-player.txt`), for the top bar.
     offline_name: Option<String>,
     /// The player's servers, for the sidebar until the Servers page has read them.
-    side_servers: Vec<horizon_launcher::servers::Entry>,
+    side_servers: Vec<ll_launcher::servers::Entry>,
     /// The pixel art made for this window (`art.rs`), and pictures downloaded by URL.
     sky: sky::Sky,
     /// The pixel sunset of the new design (dark appearance): its own view, so a frame of it
@@ -564,7 +564,7 @@ impl Launcher {
                 || std::env::var_os("HORIZON_LAUNCHER_DESKTOP_ENTRY").is_some())
         {
             std::thread::spawn(|| {
-                let _ = horizon_launcher::desktop::repair(backend::exe_path());
+                let _ = ll_launcher::desktop::repair(backend::exe_path());
             });
         }
         let installed = backend::installed();
@@ -600,7 +600,7 @@ impl Launcher {
             checked: None,
             update_error: None,
             // The installer the last Update started could not put the new launcher in place.
-            self_update: horizon_launcher::update_handoff::take_failure()
+            self_update: ll_launcher::update_handoff::take_failure()
                 .map_or(SelfUpdate::Idle, |e| SelfUpdate::Stuck(Some(e))),
             self_update_hidden: false,
             update_install: None,
@@ -637,7 +637,7 @@ impl Launcher {
             language_menu: false,
             account_menu: false,
             row_menu: Default::default(),
-            look: horizon_theme::glass::Glass::default_look(),
+            look: ll_theme::glass::Glass::default_look(),
             menu_closed_at: None,
             skin: None,
             wardrobe: None,
@@ -755,7 +755,7 @@ impl Launcher {
             aside: while_playing::Aside::new(window.window_handle()),
             shortcuts: Default::default(),
             offline_name: offline_name(),
-            side_servers: horizon_launcher::servers::list(),
+            side_servers: ll_launcher::servers::list(),
             sky: sky::Sky::default(),
             scene: cx.new(|_| scene::Scene::new()),
             sky_wake: None,
@@ -962,7 +962,7 @@ impl Launcher {
     /// Update: the window closes, the installer puts the new launcher in place and starts it.
     /// When another launcher already put it there, this one only restarts.
     fn apply_launcher_update(&mut self, cx: &mut App) {
-        match horizon_launcher::update_handoff::start_now() {
+        match ll_launcher::update_handoff::start_now() {
             Ok(true) => {
                 servers_page::keep_running_through_update();
                 shut_down(cx)
@@ -1249,7 +1249,7 @@ impl Launcher {
                                     .find(|i| i.work == work)
                                     .map(|i| i.id);
                                 let applied =
-                                    horizon_launcher::modpacks::apply_profile(&mut cmd, &work);
+                                    ll_launcher::modpacks::apply_profile(&mut cmd, &work);
                                 (applied, id)
                             }
                             None => {
@@ -1282,7 +1282,7 @@ impl Launcher {
                             .unwrap_or_default();
                         cmd.envs(self.client_vars.iter().map(|(k, v)| (k, v)));
                         let launch = instance.map(|i| i.launch).unwrap_or_default();
-                        let cmd = horizon_launcher::launch::wrap(cmd, &launch);
+                        let cmd = ll_launcher::launch::wrap(cmd, &launch);
                         self.client_home = cmd.get_current_dir().map(|d| d.to_path_buf());
                         match backend::spawn(Job::Client, cmd, self.tx.clone()) {
                             Ok(r) => {
@@ -1321,7 +1321,7 @@ impl Launcher {
                     match result {
                         Ok(()) => {
                             if as_update.is_some()
-                                && horizon_launcher::nightly::date_of(&tag).is_some()
+                                && ll_launcher::nightly::date_of(&tag).is_some()
                             {
                                 if let Err(e) = backend::mark_auto_installed(&tag) {
                                     eprintln!("Could not mark updated Nightly {tag}: {e}");
@@ -1424,7 +1424,7 @@ impl Launcher {
                     };
                     self.self_update = match result {
                         Ok(staged) => {
-                            horizon_launcher::update_handoff::set_pending(staged);
+                            ll_launcher::update_handoff::set_pending(staged);
                             SelfUpdate::Ready(version)
                         }
                         Err(e) => SelfUpdate::Failed(e),
@@ -1501,7 +1501,7 @@ impl Launcher {
                                 }
                                 if let Some(i) = instances::list().into_iter().find(|i| i.id == id)
                                 {
-                                    horizon_launcher::launch::run_after_exit(
+                                    ll_launcher::launch::run_after_exit(
                                         &i.launch, &i.home, &vars,
                                     );
                                 }
@@ -1733,12 +1733,12 @@ impl Launcher {
         let Some(tag) = self.selected().cloned() else {
             return;
         };
-        horizon_launcher::mojang::CANCEL.store(false, Ordering::Relaxed);
+        ll_launcher::mojang::CANCEL.store(false, Ordering::Relaxed);
         let minecraft = self
             .settings
             .minecraft_dir
             .clone()
-            .unwrap_or_else(|| horizon_prepare::artifacts::minecraft_dir(None));
+            .unwrap_or_else(|| ll_prepare::artifacts::minecraft_dir(None));
         self.prepare_log.clear();
         self.prepare_error = None;
         self.prepare_log
@@ -1842,7 +1842,7 @@ impl Launcher {
             let cmd = backend::java_game(&instance, server.as_deref(), &log).map(|mut cmd| {
                 let vars = instance.vars(cmd.get_program());
                 cmd.envs(vars.iter().map(|(k, v)| (k, v)));
-                (horizon_launcher::launch::wrap(cmd, &instance.launch), vars)
+                (ll_launcher::launch::wrap(cmd, &instance.launch), vars)
             });
             let _ = tx.send(Msg::JavaGame(instance.id, instance.home, cmd));
         });
@@ -2010,7 +2010,7 @@ impl Launcher {
         self.cancel_sign_in();
         // The code page offers a private window: find the default browser meanwhile.
         std::thread::spawn(|| {
-            horizon_launcher::private_window::detected();
+            ll_launcher::private_window::detected();
         });
         self.sign_in = Some(match &target {
             Some(account) => SignIn::start_for(account.clone()),
@@ -2130,7 +2130,7 @@ fn hover_fade(
     let key = |dir: &str, at: Instant| {
         ElementId::named_usize(format!("{id}-{dir}"), (at - start).as_micros() as usize)
     };
-    let ease = || motion::eased(horizon_theme::QUICK);
+    let ease = || motion::eased(ll_theme::QUICK);
     if let Some((_, at)) = state.on.as_ref().filter(|(h, _)| h == id) {
         return layer()
             .with_animation(key("in", *at), ease(), paint)
@@ -2174,7 +2174,7 @@ fn version_tag(tag: &str) -> Div {
         .line_height(px(28.))
         .font_weight(FontWeight::MEDIUM)
         .child(
-            horizon_launcher::nightly::label(tag)
+            ll_launcher::nightly::label(tag)
                 .or_else(|| build_import::label(tag))
                 .unwrap_or_else(|| tag.trim_start_matches('v').to_string()),
         )
@@ -2301,13 +2301,13 @@ fn button(
 }
 
 /// Copies to the clipboard, or into `HORIZON_LAUNCHER_CLIPBOARD` when a test run sets it
-/// (`horizon_launcher::desktop_seams`).
+/// (`ll_launcher::desktop_seams`).
 fn copy_to_clipboard(cx: &mut App, item: gpui::ClipboardItem) {
     match item.text() {
         Some(text) => glass_toast::say(trf("Copied {text}", &[("text", &text)])),
         None => glass_toast::say(tr("Copied the picture")),
     }
-    if let Some(file) = horizon_launcher::desktop_seams::clipboard_file() {
+    if let Some(file) = ll_launcher::desktop_seams::clipboard_file() {
         let bytes = match item.entries().first() {
             Some(gpui::ClipboardEntry::Image(image)) => image.bytes.clone(),
             _ => item.text().unwrap_or_default().into_bytes(),
@@ -2750,10 +2750,10 @@ fn centered(text_: &str, t: &Theme) -> Div {
 
 /// The name the game made up for a player without an account, once it has run.
 fn offline_name() -> Option<String> {
-    player_name(&std::fs::read_to_string(backend::game_home().join("horizon-player.txt")).ok()?)
+    player_name(&std::fs::read_to_string(backend::game_home().join("ll-player.txt")).ok()?)
 }
 
-/// The name in `horizon-player.txt`: the game writes `name:Player12345` (horizon-client's
+/// The name in `ll-player.txt`: the game writes `name:Player12345` (ll-client's
 /// offline_name.rs).
 fn player_name(text: &str) -> Option<String> {
     text.lines()
@@ -2780,7 +2780,7 @@ fn thousands(n: u64) -> String {
 fn caps(s: impl AsRef<str>) -> Div {
     // The glass look writes these as the mockup's small headings (`h3`): 13 px, medium.
     if glass_ui::on() {
-        return glass_ui::text(13., FontWeight::MEDIUM, horizon_theme::glass::ink::BODY)
+        return glass_ui::text(13., FontWeight::MEDIUM, ll_theme::glass::ink::BODY)
             .line_height(px(19.5))
             .child(s.as_ref().to_string());
     }
@@ -3216,7 +3216,7 @@ impl Launcher {
         let label = self.selected().map_or_else(
             || tr("No version").into(),
             |tag| {
-                horizon_launcher::nightly::label(tag)
+                ll_launcher::nightly::label(tag)
                     .or_else(|| build_import::label(tag))
                     .unwrap_or_else(|| tag.clone())
             },
@@ -3821,16 +3821,16 @@ impl Launcher {
                 cx.notify();
             },
         ));
-        // Linux: the launcher's entry in the applications menu (`horizon_launcher::desktop`).
+        // Linux: the launcher's entry in the applications menu (`ll_launcher::desktop`).
         let menu_entry = switch("desktop-entry", self.settings.desktop_entry(), &t).on_click(
             cx.listener(|this, _: &ClickEvent, _, cx| {
                 let on = !this.settings.desktop_entry();
                 this.settings.desktop_entry = Some(on);
                 this.save_settings();
                 let _ = if on {
-                    horizon_launcher::desktop::install(backend::exe_path()).map(|_| ())
+                    ll_launcher::desktop::install(backend::exe_path()).map(|_| ())
                 } else {
-                    horizon_launcher::desktop::remove()
+                    ll_launcher::desktop::remove()
                 };
                 cx.notify();
             }),
@@ -3841,7 +3841,7 @@ impl Launcher {
             (None, None) if self.checked.is_some() => tr("Up to date").to_string(),
             _ => tr("Checking…").to_string(),
         };
-        let horizon_action = self
+        let ll_action = self
             .updates
             .horizon
             .as_ref()
@@ -3971,7 +3971,7 @@ impl Launcher {
                     menu_entry,
                     appearance: appearance.into_any_element(),
                     horizon,
-                    horizon_action,
+                    ll_action,
                     launcher,
                     launcher_action,
                 },
@@ -4000,7 +4000,7 @@ impl Launcher {
                     .child(accounts)
                     .child(offline)
                     .child(group("Updates", "reload"))
-                    .child(index_row(n + 1, "Horizon", Some(plain(&horizon)), horizon_action, &t))
+                    .child(index_row(n + 1, "Horizon", Some(plain(&horizon)), ll_action, &t))
                     .child(index_row(
                         n + 1,
                         tr("Launcher"),
@@ -4128,7 +4128,7 @@ impl Launcher {
             .children(self.native_update.as_ref().map(|newer| {
                 div().text_color(t.warn).child(trf(
                     "This moves the instance to Horizon {version}. It compiles the game from scratch, so it takes longer than a normal rebuild: up to 30 minutes.",
-                    &[("version", &native_status::horizon_label(newer))],
+                    &[("version", &native_status::ll_label(newer))],
                 ))
             }));
         let mut buttons = div().flex().gap(px(8.)).mt(px(4.));
@@ -4359,7 +4359,7 @@ impl Launcher {
         // A half-typed address is no reason to complain; one left behind is.
         let detail = match (
             focused,
-            horizon_launcher::proxy::refuse(self.proxy_input.text()),
+            ll_launcher::proxy::refuse(self.proxy_input.text()),
         ) {
             (false, Some(why)) => div().text_color(t.danger).child(why).into_any_element(),
             _ => div()
@@ -4387,12 +4387,12 @@ impl Launcher {
     }
 
     /// Keeps the Proxy field in `settings.json`, and tells the parts that build their own agents
-    /// (`horizon-port-pack`) which proxy to use.
+    /// (`ll-port-pack`) which proxy to use.
     fn save_proxy(&mut self) {
         let value = self.proxy_input.text().trim().to_owned();
         self.settings.proxy = (!value.is_empty()).then_some(value);
         self.save_settings();
-        horizon_launcher::proxy::announce(self.settings.proxy.clone());
+        ll_launcher::proxy::announce(self.settings.proxy.clone());
     }
 
     /// Settings' Microsoft accounts: who is signed in and plays, the sign-in with its code. The
@@ -4723,7 +4723,7 @@ impl Launcher {
     }
 
     fn join_friend(&mut self) {
-        if horizon_friends::invite::parse(self.friend_code.text()).is_none() {
+        if ll_friends::invite::parse(self.friend_code.text()).is_none() {
             return;
         }
         self.joining = Some(self.friend_code.text().to_string());
@@ -4795,7 +4795,7 @@ impl Launcher {
             meta.push(trf("Built on {base}", &[("base", &about.base)]));
         }
         if let Some(about) = build_import::about(tag) {
-            let base = horizon_launcher::nightly::label(&about.base).unwrap_or(about.base);
+            let base = ll_launcher::nightly::label(&about.base).unwrap_or(about.base);
             meta.push(trf("Game files from {base}", &[("base", &base)]));
             meta.push(about.file);
         }
@@ -5215,7 +5215,7 @@ fn progress_bar(fraction: Option<(f32, f32)>, t: &Theme) -> Div {
         .when(t.glass, |d| {
             d.h(px(4.))
                 .rounded_full()
-                .bg(glass_ui::white(horizon_theme::glass::fill::ACTIVE))
+                .bg(glass_ui::white(ll_theme::glass::fill::ACTIVE))
         });
     match fraction {
         Some((from, to)) => {
@@ -5260,8 +5260,8 @@ impl Render for Launcher {
         glass_ui::set_look(self.look);
         glass::set_look(self.look);
         // The mockup tints the scene with any accent but its violet.
-        let tint = (self.theme.dark && self.look.accent != horizon_theme::glass::ACCENT)
-            .then(|| horizon_theme::glass::mix_oklab(self.look.accent, 0x767676, 0.58));
+        let tint = (self.theme.dark && self.look.accent != ll_theme::glass::ACCENT)
+            .then(|| ll_theme::glass::mix_oklab(self.look.accent, 0x767676, 0.58));
         let blur = self.look.blur;
         let performance = self.settings.performance();
         // Performance mode's plates are solid: no glass, no blur, nothing sampled from the scene.
@@ -5595,7 +5595,7 @@ impl Launcher {
         (reveal, held.as_secs_f32())
     }
 
-    /// `horizon-launcher benchmark`: scroll the page a little on every frame, back to the top at
+    /// `ll-launcher benchmark`: scroll the page a little on every frame, back to the top at
     /// the bottom, so the frame times measure scrolling.
     fn bench_scroll(&mut self, window: &mut Window) {
         let handle = &self.content_scroll.handle;
@@ -5631,7 +5631,7 @@ impl Launcher {
     }
 }
 
-actions!(horizon_launcher, [Quit, CloseWindow]);
+actions!(ll_launcher, [Quit, CloseWindow]);
 
 /// What closing the last window does: stop the servers this launcher started, send the telemetry,
 /// exit. A game that is running keeps running. Cmd+Q goes through here too.
@@ -5639,7 +5639,7 @@ fn shut_down(cx: &mut App) {
     servers_page::stop_on_quit();
     telemetry::send_before_exit();
     // A staged launcher update goes in once this process has exited.
-    horizon_launcher::update_handoff::on_quit();
+    ll_launcher::update_handoff::on_quit();
     cx.quit()
 }
 
@@ -5691,59 +5691,59 @@ fn main() {
     // Windows setup: `setup --quiet` / `uninstall --quiet` run here without a window, and never
     // reach the CLI parser below (so neither the MCP tools nor the completions list them).
     #[cfg(windows)]
-    if let Some(code) = horizon_launcher::installer::run_quiet() {
+    if let Some(code) = ll_launcher::installer::run_quiet() {
         std::process::exit(code);
     }
-    if let Some(code) = horizon_launcher::relocation::run_worker() {
+    if let Some(code) = ll_launcher::relocation::run_worker() {
         std::process::exit(code);
     }
     // A broken location must still open a window: startup() falls back to the default
     // folders and records the error, which Settings shows with Retry and Use the default folder.
     // It keeps the migration lease for the life of the process.
-    let _location_error = horizon_launcher::data_location::startup();
+    let _location_error = ll_launcher::data_location::startup();
     perf::process_started();
     backend::exe_path();
     // The launcher's own installer (`update_handoff`): no window, no CLI parser.
-    if let Some(code) = horizon_launcher::update_handoff::run() {
+    if let Some(code) = ll_launcher::update_handoff::run() {
         std::process::exit(code);
     }
     #[cfg(windows)]
     backend::remove_replaced_binaries();
     backend::cleanup_launcher_updates();
     // What the launcher downloads goes through the player's proxy, if they set one: the parts
-    // that build their own agents (`horizon-port-pack`) are told before anything starts.
-    horizon_launcher::proxy::announce(horizon_launcher::backend::Settings::load().proxy);
-    // The setup wizard and `horizon-launcher.exe uninstall` (what Control Panel runs) are windows,
+    // that build their own agents (`ll-port-pack`) are told before anything starts.
+    ll_launcher::proxy::announce(ll_launcher::backend::Settings::load().proxy);
+    // The setup wizard and `ll-launcher.exe uninstall` (what Control Panel runs) are windows,
     // not CLI commands: asked of the CLI parser first, `uninstall` was refused as an unknown
     // subcommand, with the error going to the console that Control Panel's start doesn't have.
     #[cfg(windows)]
-    let setup_window = horizon_launcher::installer::window_mode();
+    let setup_window = ll_launcher::installer::window_mode();
     #[cfg(not(windows))]
-    let setup_window: Option<horizon_launcher::setup_args::Mode> = None;
+    let setup_window: Option<ll_launcher::setup_args::Mode> = None;
     if setup_window.is_none() {
         if let Some(code) = cli::run() {
             std::process::exit(code);
         }
     }
     // The GPU's texture limit, which caps the pictures made from disk (`picture_cache`).
-    horizon_launcher::pictures::probe_gpu_limit();
+    ll_launcher::pictures::probe_gpu_limit();
     gpui_platform::application()
         .with_assets(blocks::Assets)
         // `move`: the closure owns `setup_window`; `run` wants it to outlive this frame.
         .run(move |cx: &mut App| {
             cx.text_system()
                 .add_fonts(vec![
-                    Cow::Borrowed(horizon_theme::fonts::GEIST_MONO),
-                    Cow::Borrowed(horizon_theme::fonts::BRICOLAGE_REGULAR),
-                    Cow::Borrowed(horizon_theme::fonts::BRICOLAGE_MEDIUM),
-                    Cow::Borrowed(horizon_theme::fonts::BRICOLAGE_SEMIBOLD),
-                    Cow::Borrowed(horizon_theme::fonts::BRICOLAGE_BOLD),
-                    Cow::Borrowed(horizon_theme::fonts::BRICOLAGE_DISPLAY_BOLD),
-                    Cow::Borrowed(horizon_theme::fonts::BRICOLAGE_DISPLAY_SEMIBOLD),
-                    Cow::Borrowed(horizon_theme::fonts::BRICOLAGE_HEADING_SEMIBOLD),
-                    Cow::Borrowed(horizon_theme::fonts::GEIST_REGULAR),
-                    Cow::Borrowed(horizon_theme::fonts::GEIST_MEDIUM),
-                    Cow::Borrowed(horizon_theme::fonts::GEIST_SEMIBOLD),
+                    Cow::Borrowed(ll_theme::fonts::GEIST_MONO),
+                    Cow::Borrowed(ll_theme::fonts::BRICOLAGE_REGULAR),
+                    Cow::Borrowed(ll_theme::fonts::BRICOLAGE_MEDIUM),
+                    Cow::Borrowed(ll_theme::fonts::BRICOLAGE_SEMIBOLD),
+                    Cow::Borrowed(ll_theme::fonts::BRICOLAGE_BOLD),
+                    Cow::Borrowed(ll_theme::fonts::BRICOLAGE_DISPLAY_BOLD),
+                    Cow::Borrowed(ll_theme::fonts::BRICOLAGE_DISPLAY_SEMIBOLD),
+                    Cow::Borrowed(ll_theme::fonts::BRICOLAGE_HEADING_SEMIBOLD),
+                    Cow::Borrowed(ll_theme::fonts::GEIST_REGULAR),
+                    Cow::Borrowed(ll_theme::fonts::GEIST_MEDIUM),
+                    Cow::Borrowed(ll_theme::fonts::GEIST_SEMIBOLD),
                 ])
                 .expect("bundled fonts");
             cx.bind_keys(key_bindings());
@@ -5758,7 +5758,7 @@ fn main() {
                 })
             });
             cx.set_menus(menus());
-            // The setup exe (and `horizon-launcher.exe uninstall`) opens its own window instead.
+            // The setup exe (and `ll-launcher.exe uninstall`) opens its own window instead.
             #[cfg(windows)]
             if let Some(mode) = setup_window {
                 setup_page::open(mode, cx);
@@ -5774,7 +5774,7 @@ fn main() {
                     titlebar: Some(titlebar::options()),
                     #[cfg(target_os = "linux")]
                     window_decorations: Some(gpui::WindowDecorations::Client),
-                    app_id: Some("horizon-launcher".into()),
+                    app_id: Some("ll-launcher".into()),
                     // GPUI draws a window without focus at most every 33 ms to save energy. A
                     // benchmark's window often starts without it (KDE keeps focus from windows
                     // a background process opens), and it measures drawing, not that limit.
@@ -5918,7 +5918,7 @@ mod tests {
     }
 
     /// A server's Join (and every other shortcut) waits like Play: not while the version's
-    /// first download and preparation run (#horizon-bugs, 0.2.23: a white window opened).
+    /// first download and preparation run (#ll-bugs, 0.2.23: a white window opened).
     #[test]
     fn shortcuts_start_only_when_play_would() {
         use super::starts_now;
@@ -5936,7 +5936,7 @@ mod tests {
     fn a_completed_sign_in_is_handled_once_across_ui_polls() {
         use super::{sign_in_change, SignInState};
         let mut shown = None;
-        let completed = SignInState::Done(Ok(horizon_launcher::account::Account {
+        let completed = SignInState::Done(Ok(ll_launcher::account::Account {
             uuid: "11111111111111111111111111111111".into(),
             name: "TestAccount".into(),
             skin: None,

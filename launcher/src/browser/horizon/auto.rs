@@ -20,7 +20,7 @@
 use super::{install_version_guarded, needs_port, Index};
 use crate::browser::{installed, Kind, SourceId, GAME};
 use crate::i18n::trf;
-use horizon_mods::index;
+use ll_mods::index;
 use serde::{Deserialize, Serialize};
 use std::cell::RefCell;
 use std::collections::BTreeSet;
@@ -111,8 +111,8 @@ pub fn decide<'a>(index: &'a Index, entry: &installed::Entry, ctx: &Context) -> 
 
 /// The blocks, items, entities, effects, menus and creative tabs a content mod adds.
 pub fn content_ids(path: &Path) -> Result<BTreeSet<String>, String> {
-    let manifest = horizon_mods::Package::read(path)?.manifest;
-    let c = horizon_mods::Content::read(path, &manifest)?;
+    let manifest = ll_mods::Package::read(path)?.manifest;
+    let c = ll_mods::Content::read(path, &manifest)?;
     let ids = c.blocks.iter().map(|b| format!("block {}", b.id));
     let ids = ids.chain(c.items.iter().map(|i| format!("item {}", i.id)));
     let ids = ids.chain(c.entity_types.iter().map(|e| format!("entity {}", e.id)));

@@ -10,12 +10,12 @@ use std::{
 };
 
 fn fixture() -> PathBuf {
-    let root = std::env::temp_dir().join(format!("horizon-startup-{}", std::process::id()));
+    let root = std::env::temp_dir().join(format!("ll-startup-{}", std::process::id()));
     for folder in ["game/telemetry", "launcher", "data", "config", "probes"] {
         fs::create_dir_all(root.join(folder)).unwrap();
     }
     fs::write(root.join("launcher/settings.json"), r#"{"skip_opening":true,"install_new_versions":false,"desktop_entry":false,"ping_notice_seen":true}"#).unwrap();
-    let consent = serde_json::json!({"version":horizon_telemetry::CONSENT_VERSION,"choices":{}});
+    let consent = serde_json::json!({"version":ll_telemetry::CONSENT_VERSION,"choices":{}});
     fs::write(
         root.join("game/telemetry/consent.json"),
         consent.to_string(),
@@ -28,7 +28,7 @@ fn fixture() -> PathBuf {
 fn launch(root: &Path) -> Child {
     let inherited_path = std::env::var_os("PATH").unwrap();
     let paths = std::iter::once(root.join("probes")).chain(std::env::split_paths(&inherited_path));
-    horizon_launcher::process::command(env!("CARGO_BIN_EXE_horizon-launcher"))
+    ll_launcher::process::command(env!("CARGO_BIN_EXE_ll-launcher"))
         .current_dir(root)
         .env("PATH", std::env::join_paths(paths).unwrap())
         .env("HORIZON_HOME", root.join("game"))

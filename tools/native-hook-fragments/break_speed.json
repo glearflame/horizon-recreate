@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "break_speed",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_break_speed",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_break_speed",
       "neoforge": "PlayerEvent.BreakSpeed",
       "side": "both",
       "cancellable": false,

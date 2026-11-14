@@ -22,7 +22,7 @@ struct Scratch(PathBuf);
 impl Scratch {
     fn new(name: &str) -> Scratch {
         let dir =
-            std::env::temp_dir().join(format!("horizon-sources-{name}-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-sources-{name}-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).unwrap();
         Scratch(dir)
@@ -224,7 +224,7 @@ fn prism_native_jars_are_found_through_the_linked_folder() {
     );
     let official = Path::new("com/mojang/jtracy/1.14.38/jtracy-1.14.38-natives-windows.jar");
     assert!(!linked.join("libraries").join(official).exists());
-    let found = horizon_prepare::artifacts::launcher_library(
+    let found = ll_prepare::artifacts::launcher_library(
         &linked,
         "com.mojang:jtracy:1.14.38:natives-windows",
         official,

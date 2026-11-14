@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "client_attack",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_client_attack",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_client_attack",
       "neoforge": "AttackEntityEvent",
       "side": "client",
       "cancellable": false,
@@ -12,7 +12,7 @@
     },
     {
       "name": "client_hurt",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_client_hurt",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_client_hurt",
       "side": "client",
       "cancellable": false,
       "mod_api": {

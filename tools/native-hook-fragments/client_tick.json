@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "client_tick_pre",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_client_tick_pre",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_client_tick_pre",
       "neoforge": "ClientTickEvent.Pre",
       "side": "client",
       "cancellable": false,
@@ -12,7 +12,7 @@
     },
     {
       "name": "client_tick_post",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_client_tick_post",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_client_tick_post",
       "neoforge": "ClientTickEvent.Post",
       "side": "client",
       "cancellable": false,

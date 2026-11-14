@@ -174,7 +174,7 @@ mod tests {
 
     #[test]
     fn an_orphaned_process_keeps_its_runtime_and_source_version_protected() {
-        let root = std::env::temp_dir().join(format!("horizon-orphan-{}", std::process::id()));
+        let root = std::env::temp_dir().join(format!("ll-orphan-{}", std::process::id()));
         let source = root.join("version");
         fs::create_dir_all(&source).unwrap();
         fs::copy(
@@ -208,7 +208,7 @@ mod tests {
 
     #[test]
     fn versions_reuse_a_slot_keep_native_files_and_cannot_replace_a_running_game() {
-        let root = std::env::temp_dir().join(format!("horizon-runtime-{}", std::process::id()));
+        let root = std::env::temp_dir().join(format!("ll-runtime-{}", std::process::id()));
         fs::create_dir_all(&root).unwrap();
         let home = root.join("home");
         fs::create_dir_all(&home).unwrap();

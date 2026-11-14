@@ -1,0 +1,23 @@
+[package]
+name = "ll-client-input"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "The client's input layer: key bindings and their names, mouse, controllers, clipboard and window options"
+
+[dependencies]
+ll-client-core = { path = "../ll-client-core" }
+winit = "0.30.13"
+# The window icon.
+ll-theme = { path = "../ll-theme" }
+png = "0.18"
+arboard = { version = "3.6.1", default-features = false, features = ["wayland-data-control"] }
+# The DualSense's trigger effects (the `controllers` feature).
+ll-dualsense = { path = "../ll-dualsense", optional = true }
+
+[features]
+controllers = ["dep:ll-dualsense"]
+
+[lints]
+workspace = true

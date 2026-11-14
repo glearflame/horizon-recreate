@@ -1,5 +1,5 @@
 // The first frame: shows that the crate, both data folders and the post-build step reached the
-// game, in the log and in the mod's folder (`horizon-mods/.horizon-mod-data/crate_demo/proof.txt`).
+// game, in the log and in the mod's folder (`ll-mods/.ll-mod-data/crate_demo/proof.txt`).
 fn crate_demo_frame(game: &mut crate::game::Game<'_>) {
     use std::sync::atomic::{AtomicBool, Ordering};
     static DONE: AtomicBool = AtomicBool::new(false);
@@ -7,7 +7,7 @@ fn crate_demo_frame(game: &mut crate::game::Game<'_>) {
         return;
     }
     // The bundle's data/greeting.txt, compiled in.
-    let greeting = horizon_client::native_data!("crate_demo", "greeting.txt");
+    let greeting = ll_client::native_data!("crate_demo", "greeting.txt");
     // What the post-build step wrote when the launcher built this game.
     let baked = match game.native_built_data("crate_demo") {
         Some(dir) => std::fs::read_to_string(dir.join("baked.txt"))

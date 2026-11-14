@@ -1,5 +1,5 @@
 //! The Wardrobe page (top bar, between Servers and Versions), in the glass look, shown when the
-//! cosmetics service has a founder set to show (`horizon_launcher::shop`, `watch_shop`), or with
+//! cosmetics service has a founder set to show (`ll_launcher::shop`, `watch_shop`), or with
 //! `HORIZON_COSMETICS=1`: the signed-in Microsoft account's skin wearing its items in 3D
 //! (`viewer`: drag to turn, scroll to zoom, a hovered card tries its item on), a
 //! row per slot, what the account owns for the chosen slot, the purchase history, one plain button
@@ -8,18 +8,18 @@
 //! `Claim::here`, decided by the service), and three switches:
 //! Show my cosmetics (the account's, on the service), Hide
 //! other players' cosmetics and Hide other players' trails and auras (the game's
-//! `horizon-extras.txt`, `horizon_cosmetics::prefs`, also in its settings).
+//! `ll-extras.txt`, `ll_cosmetics::prefs`, also in its settings).
 //!
 //! It opens on the outfit kept on disk (`wardrobe::Saved`), so it shows offline and when the
 //! service fails; a change shows at once and waits on disk until the service takes it. The talking
-//! is `horizon_launcher::wardrobe`'s, on a background thread.
+//! is `ll_launcher::wardrobe`'s, on a background thread.
 use super::*;
 use crate::glass_ui as ui;
 use gpui::RenderImage;
-use horizon_cosmetics::prefs::{self, Others, Prefs};
-use horizon_cosmetics::{Item, Slot, Texture};
-use horizon_launcher::wardrobe::{Catalogue, Change, ClaimState, Error, Saved, Service, Session};
-use horizon_theme::glass::{fill, ink, radius};
+use ll_cosmetics::prefs::{self, Others, Prefs};
+use ll_cosmetics::{Item, Slot, Texture};
+use ll_launcher::wardrobe::{Catalogue, Change, ClaimState, Error, Saved, Service, Session};
+use ll_theme::glass::{fill, ink, radius};
 use std::collections::HashMap;
 use std::sync::Arc;
 
@@ -96,7 +96,7 @@ fn dir() -> std::path::PathBuf {
 
 /// The game language whose item names the launcher's language reads.
 fn game_language() -> &'static str {
-    match horizon_launcher::i18n::current().code() {
+    match ll_launcher::i18n::current().code() {
         "fr" => "fr_fr",
         "de" => "de_de",
         _ => "en_us",
@@ -108,7 +108,7 @@ fn game_language() -> &'static str {
 fn skin(account: &account::Account) -> Option<(Arc<Texture>, bool)> {
     let (url, model) = account.skin.as_ref()?;
     let png =
-        horizon_launcher::heads::cached_skin(url, &backend::data_dir().join("profile-heads"))?;
+        ll_launcher::heads::cached_skin(url, &backend::data_dir().join("profile-heads"))?;
     Some((skin_texture(&png)?, model == "slim"))
 }
 
@@ -134,7 +134,7 @@ fn plain() -> Texture {
     }
 }
 
-/// Horizon's stand-in player, the website shop's own (`standInSkin` in horizon-site's
+/// Horizon's stand-in player, the website shop's own (`standInSkin` in ll-site's
 /// `components/shop/model.ts`): original art painted from rows, not Mojang's. The Shop dresses it
 /// when the account has no skin the preview can read, so its pictures match the website's.
 fn stand_in() -> Texture {
@@ -456,8 +456,8 @@ impl Launcher {
             .and_then(|w| w.saved.me.as_ref())
             .map(|m| &m.claim)
             .or(self.shop_kept.as_ref());
-        horizon_launcher::shop::in_top_bar(
-            horizon_cosmetics::forced(),
+        ll_launcher::shop::in_top_bar(
+            ll_cosmetics::forced(),
             self.shop_status.as_ref(),
             own,
         )
@@ -697,7 +697,7 @@ impl Launcher {
     /// `HORIZON_WARDROBE_STATE=offline|failed|empty|no_paddle` shows that state instead, and
     /// `HORIZON_COSMETICS_CATALOGUE=<file>` the shop of a saved `GET /v1/catalogue`.
     pub(super) fn wardrobe_preview(&mut self) {
-        use horizon_launcher::wardrobe::{Claim, Entry, Me, Purchase};
+        use ll_launcher::wardrobe::{Claim, Entry, Me, Purchase};
         let Some(dir) = std::env::var_os("HORIZON_COSMETICS_LOCAL") else {
             return;
         };
@@ -709,22 +709,22 @@ impl Launcher {
             .collect();
         // The founder set's order: head, shirt, back, name tag.
         let order = |i: &Item| {
-            use horizon_cosmetics::Slot::*;
+            use ll_cosmetics::Slot::*;
             [Head, Torso, Back, Shoulder, Companion, Trail, Aura, NameTag]
                 .iter()
                 .position(|s| *s == i.slot)
         };
         items.sort_by(|a, b| order(a).cmp(&order(b)).then(a.id.cmp(&b.id)));
         let slot = |i: &Item| match i.slot {
-            horizon_cosmetics::Slot::Head => "head",
-            horizon_cosmetics::Slot::Back => "back",
-            horizon_cosmetics::Slot::Torso => "torso",
-            horizon_cosmetics::Slot::Shoulder => "shoulder",
-            horizon_cosmetics::Slot::NameTag => "name_tag",
-            horizon_cosmetics::Slot::Emote => "emote",
-            horizon_cosmetics::Slot::Companion => "companion",
-            horizon_cosmetics::Slot::Trail => "trail",
-            horizon_cosmetics::Slot::Aura => "aura",
+            ll_cosmetics::Slot::Head => "head",
+            ll_cosmetics::Slot::Back => "back",
+            ll_cosmetics::Slot::Torso => "torso",
+            ll_cosmetics::Slot::Shoulder => "shoulder",
+            ll_cosmetics::Slot::NameTag => "name_tag",
+            ll_cosmetics::Slot::Emote => "emote",
+            ll_cosmetics::Slot::Companion => "companion",
+            ll_cosmetics::Slot::Trail => "trail",
+            ll_cosmetics::Slot::Aura => "aura",
         };
         let state = std::env::var("HORIZON_WARDROBE_STATE").unwrap_or_default();
         let mut equipped = std::collections::BTreeMap::new();
@@ -1047,7 +1047,7 @@ impl Launcher {
             let scale = self.scale;
             self.wardrobe_marks
                 .get_or_bake("horizon", "mark", scale, || {
-                    art::bake(&horizon_cosmetics::mark::texels(), 8, 8, 2., scale)
+                    art::bake(&ll_cosmetics::mark::texels(), 8, 8, 2., scale)
                 })
                 .clone()
         });

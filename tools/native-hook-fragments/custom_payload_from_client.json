@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "custom_payload_from_client",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_custom_payload_from_client",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_custom_payload_from_client",
       "neoforge": "none (NeoForge registers payload handlers per type; Bukkit's PluginMessageListener)",
       "side": "server",
       "mod_api": {

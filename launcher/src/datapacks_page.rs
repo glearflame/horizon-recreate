@@ -1,10 +1,10 @@
-//! A world's data packs, opened under its row on Home (`horizon_launcher::datapacks`): what is
+//! A world's data packs, opened under its row on Home (`ll_launcher::datapacks`): what is
 //! in `datapacks/`, Add (a file picker) or a zip dropped on the world, and Remove (to the trash,
 //! after a confirmation).
 use super::*;
 use gpui::ExternalPaths;
-use horizon_launcher::datapacks::{self, DataPack};
-use horizon_launcher::worlds::World;
+use ll_launcher::datapacks::{self, DataPack};
+use ll_launcher::worlds::World;
 use std::path::PathBuf;
 
 #[derive(Default)]

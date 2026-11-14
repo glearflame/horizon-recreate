@@ -2,14 +2,14 @@
   "hooks": [
     {
       "name": "custom_block_fluids",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_custom_block_fluids",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_custom_block_fluids",
       "mod_api": {
         "contract": "listen"
       }
     },
     {
       "name": "custom_fluid_tanks",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_custom_fluid_tanks",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_custom_fluid_tanks",
       "mod_api": {
         "contract": "replace",
         "out": "out"
@@ -17,7 +17,7 @@
     },
     {
       "name": "custom_fluid_fill",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_custom_fluid_fill",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_custom_fluid_fill",
       "mod_api": {
         "contract": "replace",
         "out": "out"
@@ -25,7 +25,7 @@
     },
     {
       "name": "custom_fluid_drain",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_custom_fluid_drain",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_custom_fluid_drain",
       "mod_api": {
         "contract": "replace",
         "out": "out"

@@ -1,7 +1,7 @@
 //! What the browser installed into the game folder, and installing, updating and removing it.
 //!
 //! `mod-browser.json` beside `options.txt` lists each file the browser put in `resourcepacks/`,
-//! and each Java mod it ported into `horizon-mods/`: where it came from, its version and its
+//! and each Java mod it ported into `ll-mods/`: where it came from, its version and its
 //! checksum. Files the player put there themselves are never touched: the browser only replaces
 //! or removes what it lists.
 use super::{pick, safe_name, Kind, Project, Source, SourceId, Support, Version};
@@ -390,7 +390,7 @@ pub fn install_datapack(
         return Err(format!("{} isn't a data pack.", project.title));
     }
     let folder = std::env::temp_dir().join(format!(
-        "horizon-launcher-datapack-{}-{}",
+        "ll-launcher-datapack-{}-{}",
         std::process::id(),
         project.id
     ));

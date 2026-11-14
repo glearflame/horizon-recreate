@@ -1,10 +1,10 @@
 //! The Servers page's "Friends over the internet" panel: Tailscale on this computer, the address friends
 //! type, inviting a friend to this one computer, and keeping shared friends to the server's port
-//! (`horizon_launcher::tailscale`). Signing in is always the player's, in Tailscale's own app or page;
+//! (`ll_launcher::tailscale`). Signing in is always the player's, in Tailscale's own app or page;
 //! the launcher reads `tailscale status` and, with the player's own access token, calls the API.
 use super::servers_page::Field;
 use super::*;
-use horizon_launcher::tailscale::{self, Api, Invite, Reach, State};
+use ll_launcher::tailscale::{self, Api, Invite, Reach, State};
 use serde_json::Value;
 
 /// How often Tailscale's state is read while the panel shows.
@@ -418,7 +418,7 @@ impl Launcher {
     /// runs, else what to do about it.
     pub(super) fn glass_internet(&mut self, port: u16, cx: &mut Context<Self>) -> Div {
         use crate::glass_ui as ui;
-        use horizon_theme::glass::ink;
+        use ll_theme::glass::ink;
         let t = &self.theme.clone();
         let d = div()
             .flex()

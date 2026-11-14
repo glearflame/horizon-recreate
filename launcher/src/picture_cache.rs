@@ -1,6 +1,6 @@
 //! The pictures Home draws from the player's disk (screenshots, their blurred copies, the
 //! background), made in the background at the size they are drawn and kept under a byte budget
-//! (`horizon_launcher::pictures`).
+//! (`ll_launcher::pictures`).
 //!
 //! GPUI's `img(path)` keeps every picture it ever drew, at full size, until the launcher quits,
 //! in RAM and in its sprite atlas: one 32768 × 16384 screenshot is 2 GiB, and Overview draws the
@@ -10,7 +10,7 @@
 //! (`pictures::drawn_side`, `pictures::gpu_limit`).
 use super::*;
 use gpui::RenderImage;
-use horizon_launcher::pictures::{self, Lru};
+use ll_launcher::pictures::{self, Lru};
 use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 use std::sync::Arc;

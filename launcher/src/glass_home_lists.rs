@@ -6,8 +6,8 @@
 use super::*;
 use crate::glass_ui::{self as ui, white};
 use gpui::{deferred, ExternalPaths};
-use horizon_launcher::worlds::World;
-use horizon_theme::glass::{fill, ink, radius};
+use ll_launcher::worlds::World;
+use ll_theme::glass::{fill, ink, radius};
 use std::path::Path;
 use worlds_page::Action;
 
@@ -333,7 +333,7 @@ impl Launcher {
     fn glass_server_row(
         &mut self,
         i: usize,
-        server: horizon_launcher::server_list::Server,
+        server: ll_launcher::server_list::Server,
         icon: Option<std::sync::Arc<gpui::Image>>,
         pictures: bool,
         cx: &mut Context<Self>,
@@ -483,7 +483,7 @@ pub(super) fn danger_button(id: SharedString, label: SharedString) -> Stateful<D
         .px(px(12.))
         .rounded(px(radius::CONTROL))
         .cursor_pointer()
-        .hover(|s| s.bg(gpui::rgba(horizon_theme::glass::DANGER_HOVER << 8 | 0x1f)))
+        .hover(|s| s.bg(gpui::rgba(ll_theme::glass::DANGER_HOVER << 8 | 0x1f)))
         .child(
             ui::text(13., FontWeight::MEDIUM, ink::FULL)
                 .text_color(ui::danger())

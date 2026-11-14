@@ -1,4 +1,4 @@
-//! The Create a server dialog in the glass look (the mockup's `ServerModal`, horizon-site
+//! The Create a server dialog in the glass look (the mockup's `ServerModal`, ll-site
 //! `components/launcher/server-modal.tsx`): one plate round at 28 over the dimmed page. On the
 //! left, what the server will be (a picture, its name and its rules); on the right, its name,
 //! world, game mode, difficulty, how many players, who may join and whether accounts are
@@ -7,7 +7,7 @@ use super::*;
 use crate::glass_instance::{choice, choice_text, list_box, list_choice, section, tick};
 use crate::glass_ui::{self as ui, white};
 use gpui::{img, ImageFormat};
-use horizon_theme::glass::{fill, ink, radius};
+use ll_theme::glass::{fill, ink, radius};
 use std::sync::{Arc, LazyLock};
 
 /// The mockup's pictures for each game mode (`COVERS`): Horizon screenshots from `docs/media`.
@@ -186,7 +186,7 @@ impl Launcher {
                 div()
                     .mt(px(20.))
                     .truncate()
-                    .font_family(horizon_theme::glass::DISPLAY_FONT)
+                    .font_family(ll_theme::glass::DISPLAY_FONT)
                     .font_weight(FontWeight::SEMIBOLD)
                     .text_size(px(30.))
                     .line_height(px(32.))
@@ -242,7 +242,7 @@ impl Launcher {
                     .min_w_0()
                     .child(
                         div()
-                            .font_family(horizon_theme::glass::DISPLAY_FONT)
+                            .font_family(ll_theme::glass::DISPLAY_FONT)
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_size(px(size))
                             .line_height(px(size * 1.25))
@@ -412,7 +412,7 @@ impl Launcher {
                     .px(px(16.))
                     .rounded(px(radius::CONTROL))
                     .cursor_pointer()
-                    .font_family(horizon_theme::glass::FONT)
+                    .font_family(ll_theme::glass::FONT)
                     .text_size(px(14.))
                     .when(on, |d| {
                         d.bg(white(fill::BUTTON_HOVER))
@@ -657,7 +657,7 @@ impl Launcher {
                 .bg(white(fill::BUTTON))
                 .cursor_pointer()
                 .hover(|s| s.bg(white(fill::BUTTON_HOVER)))
-                .font_family(horizon_theme::glass::FONT)
+                .font_family(ll_theme::glass::FONT)
                 .text_size(px(13.))
                 .font_weight(FontWeight::MEDIUM)
                 .text_color(white(ink::FULL))
@@ -744,7 +744,7 @@ impl Launcher {
         }));
         let read = div()
             .id("create-eula-read")
-            .font_family(horizon_theme::glass::FONT)
+            .font_family(ll_theme::glass::FONT)
             .text_size(px(14.))
             .font_weight(FontWeight::MEDIUM)
             .text_color(ui::color(look.accent_soft))
@@ -784,7 +784,7 @@ impl Launcher {
                 .px(px(20.))
                 .rounded(px(radius::ROW))
                 .cursor_pointer()
-                .font_family(horizon_theme::glass::FONT)
+                .font_family(ll_theme::glass::FONT)
                 .text_size(px(15.))
                 .font_weight(FontWeight::MEDIUM)
                 .text_color(white(ink::BODY))
@@ -806,7 +806,7 @@ impl Launcher {
                 .bg(accent)
                 .cursor_pointer()
                 .hover(move |s| s.bg(lit))
-                .font_family(horizon_theme::glass::FONT)
+                .font_family(ll_theme::glass::FONT)
                 .text_size(px(15.))
                 .font_weight(FontWeight::SEMIBOLD)
                 .text_color(ui::color(look.on_accent))

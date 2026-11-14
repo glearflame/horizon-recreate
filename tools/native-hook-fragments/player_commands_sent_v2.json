@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "player_commands_sent_v2",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_player_commands_sent_v2",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_player_commands_sent_v2",
       "neoforge": "none (NeoForge has no such event; Paper's PlayerCommandSendEvent)",
       "side": "server",
       "mod_api": {

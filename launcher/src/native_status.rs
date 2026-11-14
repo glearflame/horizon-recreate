@@ -93,13 +93,13 @@ impl Build {
         }
     }
 
-    /// The Horizon it was built on, as a player reads it (`horizon_label`).
+    /// The Horizon it was built on, as a player reads it (`ll_label`).
     pub fn horizon(&self) -> String {
-        horizon_label(&self.base)
+        ll_label(&self.base)
     }
 
     /// The same, short enough for the instance list: `Nightly 10-28`.
-    pub fn horizon_short(&self) -> String {
+    pub fn ll_short(&self) -> String {
         match crate::nightly::date_of(&self.base) {
             Some(date) => format!("Nightly {}", &date[5..]),
             None => self.base.clone(),
@@ -109,7 +109,7 @@ impl Build {
 
 /// A release or Nightly as a player reads it beside "Horizon": `v0.2.93` as it is,
 /// `nightly-2026-10-29-4baa571` as `Nightly 2026-10-29`.
-pub fn horizon_label(version: &str) -> String {
+pub fn ll_label(version: &str) -> String {
     match crate::nightly::date_of(version) {
         Some(date) => format!("Nightly {date}"),
         None => version.to_owned(),
@@ -122,7 +122,7 @@ pub fn horizon_label(version: &str) -> String {
 pub fn enabled(home: &Path) -> Vec<Mod> {
     let mut out = Vec::new();
     for path in hnmods(home) {
-        match horizon_mods::index::native::Bundle::read(&path) {
+        match ll_mods::index::native::Bundle::read(&path) {
             Ok(b) => {
                 if java::is_enabled(home, &b.manifest.id) {
                     let digest = native_mods::digest(
@@ -148,10 +148,10 @@ pub fn pinning(home: &Path, revision: &str) -> Vec<String> {
 }
 
 /// The readable native mods turned on in game folder `home`.
-pub fn bundles_on(home: &Path) -> Vec<horizon_mods::index::native::Bundle> {
+pub fn bundles_on(home: &Path) -> Vec<ll_mods::index::native::Bundle> {
     hnmods(home)
         .into_iter()
-        .filter_map(|path| horizon_mods::index::native::Bundle::read(&path).ok())
+        .filter_map(|path| ll_mods::index::native::Bundle::read(&path).ok())
         .filter(|b| java::is_enabled(home, &b.manifest.id))
         .collect()
 }
@@ -175,7 +175,7 @@ pub fn untracked(home: &Path) -> Vec<Installed> {
             if !path.is_file() || tracked.entries.iter().any(|e| e.file == file) {
                 return None;
             }
-            let (id, version) = horizon_mods::index::native::Bundle::read(&path)
+            let (id, version) = ll_mods::index::native::Bundle::read(&path)
                 .map(|b| (b.manifest.id, b.manifest.version))
                 .unwrap_or_else(|_| (stem(&path), String::new()));
             let origin = (path.file_stem()?.to_str()? == id)
@@ -227,7 +227,7 @@ fn parse_built(about: &serde_json::Value) -> Vec<Mod> {
 pub fn fingerprint(home: &Path, version: Option<&str>) -> String {
     let mut out = format!("{}\n{version:?}\n", home.display());
     // The on/off list (`browser::java::is_enabled`).
-    out += &fs::read_to_string(home.join("horizon-mods.txt")).unwrap_or_default();
+    out += &fs::read_to_string(home.join("ll-mods.txt")).unwrap_or_default();
     for path in hnmods(home)
         .into_iter()
         .flat_map(|p| [p.clone(), p.with_extension("origin.json")])
@@ -285,10 +285,10 @@ mod tests {
                 .join(format!("{file}.hnmod"));
             let mut zip = zip::ZipWriter::new(fs::File::create(path).unwrap());
             let manifest = serde_json::json!({"schema":1,"id":id,"version":"1.2","game":"26.3","horizon":pin,"mixins":pin});
-            let source = format!("[mod]\nid = \"{id}\"\nversion = \"1.2\"\n[compatibility]\nhorizon_revision = \"{pin}\"\n");
+            let source = format!("[mod]\nid = \"{id}\"\nversion = \"1.2\"\n[compatibility]\nll_revision = \"{pin}\"\n");
             for (name, bytes) in [
-                ("horizon-native.json".into(), manifest.to_string()),
-                (format!("mixins/{id}/horizon-mixin.toml"), source),
+                ("ll-native.json".into(), manifest.to_string()),
+                (format!("mixins/{id}/ll-mixin.toml"), source),
             ] {
                 zip.start_file(name, zip::write::SimpleFileOptions::default())
                     .unwrap();
@@ -439,24 +439,24 @@ mod tests {
     }
 
     #[test]
-    fn builds_name_the_horizon_they_were_built_on() {
-        assert_eq!(horizon_label("v0.2.93"), "v0.2.93");
+    fn builds_name_the_ll_they_were_built_on() {
+        assert_eq!(ll_label("v0.2.93"), "v0.2.93");
         assert_eq!(
-            horizon_label("nightly-2026-10-29-4baa571"),
+            ll_label("nightly-2026-10-29-4baa571"),
             "Nightly 2026-10-29"
         );
-        assert_eq!(horizon_label("nightly-2026-10-29"), "Nightly 2026-10-29");
+        assert_eq!(ll_label("nightly-2026-10-29"), "Nightly 2026-10-29");
         let build = Build {
             base: "nightly-2026-10-28-0c02067".into(),
             ..Build::default()
         };
         assert_eq!(build.horizon(), "Nightly 2026-10-28");
-        assert_eq!(build.horizon_short(), "Nightly 10-28");
+        assert_eq!(build.ll_short(), "Nightly 10-28");
         let release = Build {
             base: "v0.2.93".into(),
             ..Build::default()
         };
-        assert_eq!(release.horizon_short(), "v0.2.93");
+        assert_eq!(release.ll_short(), "v0.2.93");
         assert_eq!(Build::read("v0.1.0"), None, "not a native build");
     }
 
@@ -485,9 +485,9 @@ mod tests {
 
     #[test]
     fn only_hnmods_in_the_native_folder_are_native() {
-        assert!(is_native_file("horizon-native-mods/veinminer.hnmod"));
-        assert!(!is_native_file("horizon-native-mods-old/x.hnmod"));
-        assert!(!is_native_file("horizon-mods/zoom.hmod"));
+        assert!(is_native_file("ll-native-mods/veinminer.hnmod"));
+        assert!(!is_native_file("ll-native-mods-old/x.hnmod"));
+        assert!(!is_native_file("ll-mods/zoom.hmod"));
         assert!(!is_native_file("resourcepacks/x.zip"));
     }
 

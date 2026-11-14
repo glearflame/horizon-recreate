@@ -1,0 +1,14 @@
+[package]
+name = "ll-client-core"
+version = "0.1.0"
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+description = "The client's lowest layer: chat text and translations, SNBT and NBT paths, the scoreboard, boss bars, game rules and the registry and particle tables commands name"
+
+[dependencies]
+ll-world = { path = "../ll-world" }
+serde_json = { version = "1.0.151", features = ["raw_value"] }
+
+[lints]
+workspace = true

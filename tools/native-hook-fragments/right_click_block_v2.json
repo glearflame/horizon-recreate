@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "right_click_block_v2",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_right_click_block_v2",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_right_click_block_v2",
       "neoforge": "PlayerInteractEvent.RightClickBlock (getHand)",
       "side": "server",
       "cancellable": true,

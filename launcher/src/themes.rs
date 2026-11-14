@@ -2,12 +2,12 @@
 //! Home.
 //!
 //! An accent is a hue, and the player may pick any of them; seven hues have names, as shortcuts.
-//! Horizon's violet is the default. Another hue turns the violet tokens (`horizon_theme::Blocks`'
+//! Horizon's violet is the default. Another hue turns the violet tokens (`ll_theme::Blocks`'
 //! accent and the main action's face, bevel and lip) to it, keeping their saturation and
 //! lightness, then darkens or lightens each just enough to read as well as the violet does: white
 //! on the face at 4.5:1, the accent at 3:1 on every background.
-use horizon_theme::night::{Night, SkyArt};
-use horizon_theme::{contrast, Blocks};
+use ll_theme::night::{Night, SkyArt};
+use ll_theme::{contrast, Blocks};
 use std::path::{Path, PathBuf};
 
 /// An accent: a hue in degrees, or none for Horizon's violet, whose tokens are the palette's own

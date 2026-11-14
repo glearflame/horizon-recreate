@@ -4,15 +4,15 @@
 //! GitHub's public API to an exact **release asset** (a `.hnmod`, kept by its SHA-256) or an exact
 //! **commit** (the archive of that commit, whose mod folder is packed into a `.hnmod`), never to a
 //! branch that moves. The result passes the checks the registry's `.hnmod`s pass
-//! (`horizon_mods::index::native::Bundle::read`) before anything is installed, and the origin is
-//! kept beside the file (`horizon-native-mods/<id>.origin.json`) for "check for updates".
+//! (`ll_mods::index::native::Bundle::read`) before anything is installed, and the origin is
+//! kept beside the file (`ll-native-mods/<id>.origin.json`) for "check for updates".
 //!
 //! Nothing here runs the mod's code, and nothing here trusts it: the registry has not reviewed it.
 //! Callers show [`WARNING`] and ask first (`--trust-native-code`).
 use crate::backend;
 use crate::browser::java;
 use crate::native_mods::{self, Bundle, INSTALLED};
-use horizon_mods::index::native as format;
+use ll_mods::index::native as format;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::fs;
@@ -407,8 +407,8 @@ fn checked(bytes: &[u8], dir: &Path) -> Result<Packed, String> {
     })
 }
 
-/// Every mod folder under `root`: a `horizon-mixin.toml`, or an unpacked `.hnmod`
-/// (`horizon-native.json`), the rules of `native-build <folder>`. A mod's folder is not searched
+/// Every mod folder under `root`: a `ll-mixin.toml`, or an unpacked `.hnmod`
+/// (`ll-native.json`), the rules of `native-build <folder>`. A mod's folder is not searched
 /// further.
 pub fn find_mods(root: &Path) -> Result<Vec<Bundle>, String> {
     fn walk(dir: &Path, depth: usize, out: &mut Vec<Bundle>) -> Result<(), String> {
@@ -467,13 +467,13 @@ fn walk_files(root: &Path, dir: &Path, out: &mut Vec<(String, PathBuf)>) -> Resu
 }
 
 /// The `.hnmod` of a mod folder, as bytes: its source (Rust, TOML and `data/`) with a manifest made
-/// from its `horizon-mixin.toml`, which must pin the Horizon commit it was made for
-/// (`[compatibility] horizon_revision`). An unpacked `.hnmod` (`horizon-native.json`) keeps the
+/// from its `ll-mixin.toml`, which must pin the Horizon commit it was made for
+/// (`[compatibility] ll_revision`). An unpacked `.hnmod` (`ll-native.json`) keeps the
 /// pins and hook points its manifest names. The zip is the same for the same files.
 pub fn pack(bundle: &Bundle) -> Result<Vec<u8>, String> {
     let horizon = bundle.horizon.clone().filter(|h| format::revision(h)).ok_or_else(|| {
         format!(
-            "{} has no [compatibility] horizon_revision (40 hex digits): add the Horizon commit it was made for.",
+            "{} has no [compatibility] ll_revision (40 hex digits): add the Horizon commit it was made for.",
             bundle.id
         )
     })?;
@@ -557,7 +557,7 @@ pub fn fetch(found: &Resolved) -> Result<Vec<Packed>, String> {
                 found.label()
             ),
             None => format!(
-                "{} holds no native mod (a folder with horizon-mixin.toml, or an unpacked .hnmod).",
+                "{} holds no native mod (a folder with ll-mixin.toml, or an unpacked .hnmod).",
                 found.label()
             ),
         });

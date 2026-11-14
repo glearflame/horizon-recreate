@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "item_after_vertical_collision",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_item_after_vertical_collision",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_item_after_vertical_collision",
       "side": "both",
       "cancellable": true,
       "mod_api": {

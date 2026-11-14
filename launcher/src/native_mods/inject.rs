@@ -1,6 +1,6 @@
 //! Trait-backed injections, prepared as build-script input alongside the staged game.
 use super::{api, Bundle, MANIFEST};
-use horizon_mod_api_gen::{TraitContract as Contract, TraitInjection as Injection};
+use ll_mod_api_gen::{TraitContract as Contract, TraitInjection as Injection};
 use std::{
     collections::{HashMap, HashSet},
     fs,
@@ -55,8 +55,8 @@ pub(super) fn prepare(mods: &[Bundle], source: &Path) -> Result<Vec<Injection>, 
                         .to_owned()
                 };
                 let target_crate = target.split("::").next().unwrap_or_default();
-                if target_crate != "horizon_client" {
-                    return Err(format!("trait injection target {target:?} is in crate {target_crate:?}; only horizon-client targets are supported"));
+                if target_crate != "ll_client" {
+                    return Err(format!("trait injection target {target:?} is in crate {target_crate:?}; only ll-client targets are supported"));
                 }
                 if table.contains_key("helper") {
                     return Err(format!(
@@ -135,7 +135,7 @@ pub(super) fn prepare(mods: &[Bundle], source: &Path) -> Result<Vec<Injection>, 
                     }
                 };
                 let injection = Injection::new(ident, parameters, contract);
-                let helper_path = format!("horizon-trait-injection-{index}.rs");
+                let helper_path = format!("ll-trait-injection-{index}.rs");
                 let helper_file = bundle.dir.join(&helper_path);
                 if helper_file.exists() {
                     return Err(format!(
@@ -158,17 +158,17 @@ pub(super) fn prepare(mods: &[Bundle], source: &Path) -> Result<Vec<Injection>, 
     Ok(result)
 }
 
-pub(super) const INPUT: &str = ".horizon-mod-api-injections.json";
+pub(super) const INPUT: &str = ".ll-mod-api-injections.json";
 pub(super) const ENV: &str = "HORIZON_MOD_API_INJECTIONS";
 
 /// New sources consume declarations in their build script; released sources still commit the
 /// generated trait. Both paths use the same generation and collision checks, without rustfmt.
 pub(super) fn stage(stage: &Path, injections: &[Injection]) -> Result<(), String> {
-    let client = api::read(&stage.join("crates/horizon-client/Cargo.toml"))?;
+    let client = api::read(&stage.join("crates/ll-client/Cargo.toml"))?;
     let build_time = client
         .get("build-dependencies")
         .and_then(toml::Value::as_table)
-        .is_some_and(|deps| deps.contains_key("horizon-mod-api-gen"));
+        .is_some_and(|deps| deps.contains_key("ll-mod-api-gen"));
     let declarations = injections.iter().map(Injection::input).collect::<Vec<_>>();
     let input = serde_json::to_string(&declarations).map_err(|e| e.to_string())?;
     if build_time {
@@ -178,9 +178,9 @@ pub(super) fn stage(stage: &Path, injections: &[Injection]) -> Result<(), String
     } else if injections.is_empty() {
         Ok(())
     } else {
-        let path = stage.join("crates/horizon-client/src/mod_api/generated.rs");
+        let path = stage.join("crates/ll-client/src/mod_api/generated.rs");
         let source = fs::read_to_string(&path).map_err(|e| format!("{}: {e}", path.display()))?;
-        let output = horizon_mod_api_gen::inject(&source, &input)?;
+        let output = ll_mod_api_gen::inject(&source, &input)?;
         fs::write(&path, output).map_err(|e| format!("{}: {e}", path.display()))
     }
 }
@@ -191,7 +191,7 @@ mod tests {
 
     fn fixture(name: &str, injection: &str) -> (std::path::PathBuf, Bundle) {
         let root =
-            std::env::temp_dir().join(format!("horizon-inject-{}-{name}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-inject-{}-{name}", std::process::id()));
         let _ = fs::remove_dir_all(&root);
         fs::create_dir_all(root.join("engine/src")).unwrap();
         fs::write(
@@ -216,16 +216,16 @@ mod tests {
         build_time: bool,
         existing: &str,
     ) -> Result<String, String> {
-        let client = stage_dir.join("crates/horizon-client");
+        let client = stage_dir.join("crates/ll-client");
         fs::create_dir_all(client.join("src/mod_api")).unwrap();
         let dependencies = if build_time {
-            "[build-dependencies]\nhorizon-mod-api-gen = { path = '../horizon-mod-api-gen' }\n"
+            "[build-dependencies]\nll-mod-api-gen = { path = '../ll-mod-api-gen' }\n"
         } else {
             ""
         };
         fs::write(
             client.join("Cargo.toml"),
-            format!("[package]\nname = 'horizon-client'\nversion = '0.1.0'\n{dependencies}"),
+            format!("[package]\nname = 'll-client'\nversion = '0.1.0'\n{dependencies}"),
         )
         .unwrap();
         let generated = client.join("src/mod_api/generated.rs");
@@ -235,7 +235,7 @@ mod tests {
         stage(stage_dir, injections)?;
         if build_time {
             assert!(!generated.exists());
-            horizon_mod_api_gen::inject(
+            ll_mod_api_gen::inject(
                 existing,
                 &fs::read_to_string(stage_dir.join(INPUT)).unwrap(),
             )
@@ -270,9 +270,9 @@ mod tests {
 
     #[test]
     fn owner_dispatch_and_cancel_are_generated_from_bindings() {
-        let (root, bundle) = fixture("cancel", "[[injection]]\nid = 'hook'\ntarget = 'horizon_client::game::tick'\nkind = 'HEAD'\ntrait_method = 'tick'\ncancellable = true\nbindings = [{ name = 'amount', ty = '&mut i32', value = '&mut *amount' }]\n");
+        let (root, bundle) = fixture("cancel", "[[injection]]\nid = 'hook'\ntarget = 'll_client::game::tick'\nkind = 'HEAD'\ntrait_method = 'tick'\ncancellable = true\nbindings = [{ name = 'amount', ty = '&mut i32', value = '&mut *amount' }]\n");
         let injections = prepare(&[bundle], &root).unwrap();
-        let helper = fs::read_to_string(root.join("horizon-trait-injection-0.rs")).unwrap();
+        let helper = fs::read_to_string(root.join("ll-trait-injection-0.rs")).unwrap();
         let manifest = fs::read_to_string(root.join(MANIFEST)).unwrap();
         assert!(!manifest.contains("trait_method"));
         assert!(!manifest.contains("[api]"));
@@ -311,7 +311,7 @@ mod tests {
             {helper}
             fn main() {{
                 let mut value = 1;
-                assert!(matches!(horizon_trait_dispatch(&mut value), core::ops::ControlFlow::Break(())));
+                assert!(matches!(ll_trait_dispatch(&mut value), core::ops::ControlFlow::Break(())));
                 assert_eq!(value, 42);
             }}
         "#
@@ -323,9 +323,9 @@ mod tests {
 
     #[test]
     fn value_injection_returns_what_the_owner_changed() {
-        let (root, bundle) = fixture("value", "[[injection]]\nid = 'hook'\ntarget = 'horizon_client::game::tick'\nkind = 'RETURN'\ntrait_method = 'total'\nbindings = [{ name = 'total', ty = 'i32', value = '$value' }, { name = 'calls', ty = '&mut u32', value = '&mut *calls' }]\n");
+        let (root, bundle) = fixture("value", "[[injection]]\nid = 'hook'\ntarget = 'll_client::game::tick'\nkind = 'RETURN'\ntrait_method = 'total'\nbindings = [{ name = 'total', ty = 'i32', value = '$value' }, { name = 'calls', ty = '&mut u32', value = '&mut *calls' }]\n");
         let injections = prepare(&[bundle], &root).unwrap();
-        let helper = fs::read_to_string(root.join("horizon-trait-injection-0.rs")).unwrap();
+        let helper = fs::read_to_string(root.join("ll-trait-injection-0.rs")).unwrap();
         for build_time in [false, true] {
             let stage_dir = root.join(if build_time { "build-time" } else { "legacy" });
             let output = staged_hooks(
@@ -364,10 +364,10 @@ mod tests {
             {helper}
             fn main() {{
                 let mut calls = 0;
-                assert_eq!(horizon_trait_dispatch(20, &mut calls), 20);
+                assert_eq!(ll_trait_dispatch(20, &mut calls), 20);
                 assert_eq!(calls, 0);
                 mod_api::INSTALLED.store(true, std::sync::atomic::Ordering::SeqCst);
-                assert_eq!(horizon_trait_dispatch(20, &mut calls), 41);
+                assert_eq!(ll_trait_dispatch(20, &mut calls), 41);
                 assert_eq!(calls, 1);
             }}
         "#
@@ -379,7 +379,7 @@ mod tests {
 
     #[test]
     fn staged_input_checks_conflicts_and_clears_removed_injections() {
-        let (root, bundle) = fixture("conflicts", "[[injection]]\nid = 'hook'\ntarget = 'horizon_client::game::tick'\nkind = 'HEAD'\ntrait_method = 'tick'\n");
+        let (root, bundle) = fixture("conflicts", "[[injection]]\nid = 'hook'\ntarget = 'll_client::game::tick'\nkind = 'HEAD'\ntrait_method = 'tick'\n");
         let injections = prepare(&[bundle], &root).unwrap();
         for build_time in [false, true] {
             let stage_dir = root.join(if build_time { "build-time" } else { "legacy" });
@@ -414,7 +414,7 @@ mod tests {
 
     #[test]
     fn trait_edits_do_not_invalidate_mixin_cache() {
-        let (root, bundle) = fixture("cache", "[[injection]]\nid = 'hook'\ntarget = 'horizon_client::game::tick'\nkind = 'HEAD'\ntrait_method = 'tick'\n");
+        let (root, bundle) = fixture("cache", "[[injection]]\nid = 'hook'\ntarget = 'll_client::game::tick'\nkind = 'HEAD'\ntrait_method = 'tick'\n");
         let key = || {
             super::super::inject_cache::key(
                 "revision",
@@ -434,7 +434,7 @@ mod tests {
 
     #[test]
     fn mixin_inputs_inside_api_are_not_excluded_from_cache() {
-        let (root, bundle) = fixture("api-helper", "[[injection]]\nid = 'hook'\ntarget = 'horizon_client::game::tick'\nkind = 'HEAD'\nhelper = 'engine/src/lib.rs'\n");
+        let (root, bundle) = fixture("api-helper", "[[injection]]\nid = 'hook'\ntarget = 'll_client::game::tick'\nkind = 'HEAD'\nhelper = 'engine/src/lib.rs'\n");
         let key = || {
             super::super::inject_cache::key(
                 "revision",
@@ -497,19 +497,19 @@ mod tests {
 
     #[test]
     fn trait_injections_reject_targets_in_other_crates() {
-        let (root, bundle) = fixture("other-crate", "[[injection]]\nid = 'hook'\ntarget = 'horizon_world::loot::load'\nkind = 'HEAD'\ntrait_method = 'load'\n");
+        let (root, bundle) = fixture("other-crate", "[[injection]]\nid = 'hook'\ntarget = 'll_world::loot::load'\nkind = 'HEAD'\ntrait_method = 'load'\n");
         let error = prepare(&[bundle], &root).err().unwrap();
-        assert!(error.contains("horizon_world::loot::load") && error.contains("horizon_world"));
+        assert!(error.contains("ll_world::loot::load") && error.contains("ll_world"));
         fs::remove_dir_all(root).unwrap();
 
         let (root, bundle) = fixture("other-catalog", "[[injection]]\nid = 'hook'\nhook = 'loot_table_load'\nkind = 'HEAD'\ntrait_method = 'load'\n");
         fs::write(
             root.join("native-hooks.json"),
-            r#"{"hooks":[{"name":"loot_table_load","target":"horizon_world::loot::load"}]}"#,
+            r#"{"hooks":[{"name":"loot_table_load","target":"ll_world::loot::load"}]}"#,
         )
         .unwrap();
         let error = prepare(&[bundle], &root).err().unwrap();
-        assert!(error.contains("horizon_world::loot::load") && error.contains("horizon_world"));
+        assert!(error.contains("ll_world::loot::load") && error.contains("ll_world"));
         fs::remove_dir_all(root).unwrap();
     }
 
@@ -534,7 +534,7 @@ mod tests {
         ] {
             let (root, bundle) = fixture(
                 "kinds",
-                &format!("[[injection]]\nid = 'hook'\ntarget = 'horizon_client::game::tick'\nkind = '{kind}'\ntrait_method = 'tick'\n{extra}"),
+                &format!("[[injection]]\nid = 'hook'\ntarget = 'll_client::game::tick'\nkind = '{kind}'\ntrait_method = 'tick'\n{extra}"),
             );
             let error = prepare(&[bundle], &root).err().unwrap();
             assert!(error.contains(expected), "{kind}: {error}");

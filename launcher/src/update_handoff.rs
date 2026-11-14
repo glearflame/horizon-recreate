@@ -1,11 +1,11 @@
 //! The launcher's own update from its window (#9287). The window downloads and checks the new
 //! launcher in the background ([`backend::stage_update`]) and says "A new version is available".
 //! Update starts this launcher's file again as the installer and quits:
-//! `horizon-launcher apply-update <tag> <staged file> [--restart [-- <the window's arguments>]]`.
+//! `ll-launcher apply-update <tag> <staged file> [--restart [-- <the window's arguments>]]`.
 //! The installer waits until the window's process has exited (its stdin is a pipe only that
 //! process holds, which closes with it). If the launcher in place is already that version or newer
 //! it changes nothing. Otherwise it checks the signed SHA-256 again and puts the new launcher in
-//! place ([`backend::place_checked`], the same code `horizon-launcher update` uses), then starts
+//! place ([`backend::place_checked`], the same code `ll-launcher update` uses), then starts
 //! it. When that fails it starts the old one again, which says why ([`take_failure`]). A window
 //! closed with an update staged hands it over the same way without the restart ([`on_quit`]), so a
 //! launcher nobody updates by hand still updates itself.
@@ -58,7 +58,7 @@ pub fn on_quit() {
 
 /// Update was pressed: starts the installer for the staged update with a restart (true; the
 /// caller quits right after), or reports that none is staged (false: the file in place already is
-/// the new launcher, another window or `horizon-launcher update` put it there).
+/// the new launcher, another window or `ll-launcher update` put it there).
 pub fn start_now() -> Result<bool, String> {
     let staged = PENDING.lock().unwrap_or_else(|e| e.into_inner()).take();
     match staged {
@@ -165,7 +165,7 @@ pub fn run() -> Option<i32> {
     let sha256 = std::env::var(SHA256_ENV).unwrap_or_default();
     let Some(request) = parse(args, sha256) else {
         eprintln!(
-            "usage: horizon-launcher {COMMAND} <tag> <staged file> [{RESTART} [-- <arguments>]]"
+            "usage: ll-launcher {COMMAND} <tag> <staged file> [{RESTART} [-- <arguments>]]"
         );
         return Some(2);
     };
@@ -207,7 +207,7 @@ fn install(staged: &Staged) -> Result<(), String> {
 }
 
 /// `installed` is the version of the launcher in place, which may have changed since this update
-/// was staged: `horizon-launcher update` or another window can have put this version there, or a
+/// was staged: `ll-launcher update` or another window can have put this version there, or a
 /// newer one this older stage must not replace. Only what a launcher downloaded and whose signed
 /// SHA-256 still holds goes in, never a file from elsewhere.
 fn install_over(
@@ -296,7 +296,7 @@ mod tests {
     fn the_installer_reads_the_command_line_the_window_gives_it() {
         let window = os(&["--restart", "play"]);
         let cmd = installer_command(
-            Path::new("horizon-launcher"),
+            Path::new("ll-launcher"),
             &staged(),
             true,
             window.clone(),
@@ -338,10 +338,10 @@ mod tests {
     const TAG: &str = "launcher@0.2.41";
     const NEW_LAUNCHER: &[u8] = b"the new launcher";
 
-    /// A work folder under the temporary folder holding one stage: `horizon-launcher` packed in a
+    /// A work folder under the temporary folder holding one stage: `ll-launcher` packed in a
     /// `.tar.gz` and unpacked beside it, as a window leaves it.
     fn stage(name: &str) -> (PathBuf, PathBuf, Staged) {
-        let work = std::env::temp_dir().join(format!("horizon-{name}-{}", std::process::id()));
+        let work = std::env::temp_dir().join(format!("ll-{name}-{}", std::process::id()));
         let _ = fs::remove_dir_all(&work);
         let stage = backend::new_stage_folder(&work).unwrap();
 
@@ -353,18 +353,18 @@ mod tests {
         header.set_size(NEW_LAUNCHER.len() as u64);
         header.set_mode(0o755);
         header.set_cksum();
-        tar.append_data(&mut header, "top/horizon-launcher", NEW_LAUNCHER)
+        tar.append_data(&mut header, "top/ll-launcher", NEW_LAUNCHER)
             .unwrap();
         let archive = tar.into_inner().unwrap().finish().unwrap();
         fs::write(stage.join("download.tar.gz"), &archive).unwrap();
 
-        let payload = stage.join("unpacked").join("top").join("horizon-launcher");
+        let payload = stage.join("unpacked").join("top").join("ll-launcher");
         fs::create_dir_all(payload.parent().unwrap()).unwrap();
         fs::write(&payload, NEW_LAUNCHER).unwrap();
         let staged = Staged {
             tag: TAG.into(),
             payload,
-            sha256: horizon_release_sign::sha256_hex(&archive),
+            sha256: ll_release_sign::sha256_hex(&archive),
         };
         (work, stage, staged)
     }
@@ -451,21 +451,21 @@ mod tests {
         fs::write(&image, NEW_LAUNCHER).unwrap();
         let mut appimage = Staged {
             payload: image,
-            sha256: horizon_release_sign::sha256_hex(NEW_LAUNCHER),
+            sha256: ll_release_sign::sha256_hex(NEW_LAUNCHER),
             ..staged
         };
         let (result, placed) = placed_by(OLD, &appimage, &work);
         assert_eq!(result, Ok(()));
         assert_eq!(placed.as_deref(), Some(NEW_LAUNCHER));
 
-        appimage.sha256 = horizon_release_sign::sha256_hex(b"another AppImage");
+        appimage.sha256 = ll_release_sign::sha256_hex(b"another AppImage");
         let (result, placed) = placed_by(OLD, &appimage, &work);
         assert!(result.is_err());
         assert_eq!(placed, None);
         let _ = fs::remove_dir_all(work);
     }
 
-    /// Closing a window after `horizon-launcher update`: no failure and no downgrade, even when
+    /// Closing a window after `ll-launcher update`: no failure and no downgrade, even when
     /// the stage is unusable by now. A launcher with no readable version gets the update.
     #[test]
     fn a_launcher_already_current_is_left_alone() {

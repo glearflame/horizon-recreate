@@ -10,7 +10,7 @@
 use super::*;
 use crate::plate::alpha;
 use crate::shell::{c, Action};
-use horizon_launcher::browser::{
+use ll_launcher::browser::{
     horizon, images, installed, java, modrinth, Kind as PackKind, SourceId,
 };
 use servers_page::Field;
@@ -116,7 +116,7 @@ fn read(home: &Path, java_instance: bool) -> Vec<ModRow> {
                     let entry = entries.iter().find(|e| e.file == file).cloned();
                     let (name, version) = match &entry {
                         Some(e) => (e.title.clone(), e.number.clone()),
-                        None => horizon_port_pack::jar::read(&f.path())
+                        None => ll_port_pack::jar::read(&f.path())
                             .map(|j| (j.name, j.version))
                             .unwrap_or_else(|_| {
                                 (jar.trim_end_matches(".jar").into(), String::new())
@@ -626,8 +626,8 @@ mod tests {
         }
         let final_files: Vec<_> = mods.list.iter().map(|row| row.file.as_str()).collect();
         let final_listing_is_fresh = mods.fresh
-            && final_files.contains(&"horizon-native-mods/first.hnmod")
-            && final_files.contains(&"horizon-native-mods/second.hnmod");
+            && final_files.contains(&"ll-native-mods/first.hnmod")
+            && final_files.contains(&"ll-native-mods/second.hnmod");
         assert!(
             another_read_needed && final_listing_is_fresh,
             "a native change during a read must leave another read needed and deliver both files; another_read_needed={another_read_needed}, fresh={}, files={final_files:?}",
@@ -636,7 +636,7 @@ mod tests {
     }
 
     #[test]
-    fn horizon_mods_include_local_native_files_without_duplicating_registry_rows() {
+    fn ll_mods_include_local_native_files_without_duplicating_registry_rows() {
         let home =
             std::env::temp_dir().join(format!("instance-native-mods-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&home);
@@ -649,7 +649,7 @@ mod tests {
             )
             .unwrap();
         }
-        let entry: installed::Entry = serde_json::from_value(serde_json::json!({"source":"horizon","project":"registry","slug":"registry","title":"Registry mod","kind":"mod","version":"1","number":"1","file":"horizon-native-mods/registry.hnmod","checksum":"","page":""})).unwrap();
+        let entry: installed::Entry = serde_json::from_value(serde_json::json!({"source":"horizon","project":"registry","slug":"registry","title":"Registry mod","kind":"mod","version":"1","number":"1","file":"ll-native-mods/registry.hnmod","checksum":"","page":""})).unwrap();
         installed::Installed {
             entries: vec![entry],
         }

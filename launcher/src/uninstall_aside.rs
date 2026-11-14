@@ -5,7 +5,7 @@
 //! %TEMP% when that is on the install folder's drive, else beside the install folder (its parent,
 //! always the same volume). Plain path text, so it is tested on every OS.
 
-/// The folders to try, in order, for the running launcher at `install\horizon-launcher.exe`.
+/// The folders to try, in order, for the running launcher at `install\ll-launcher.exe`.
 /// %TEMP% comes first only when it is on the same drive; the install folder's parent is the
 /// fallback either way (a %TEMP% behind a junction can still be another volume).
 pub fn aside_dirs(install: &str, temp: &str) -> Vec<String> {

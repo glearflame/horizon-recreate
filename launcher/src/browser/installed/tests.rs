@@ -111,7 +111,7 @@ impl Fake {
 }
 
 fn home(name: &str) -> PathBuf {
-    let dir = std::env::temp_dir().join(format!("horizon-installed-{name}-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("ll-installed-{name}-{}", std::process::id()));
     let _ = fs::remove_dir_all(&dir);
     fs::create_dir_all(&dir).unwrap();
     dir
@@ -282,7 +282,7 @@ fn java_mods_are_ported_turned_on_refused_on_clashes_and_removed() {
     let done = install(&fake, &fake.project("ruby").unwrap(), false, &home, NONE).unwrap();
     assert_eq!(done.len(), 1, "the library isn't installed");
     let entry = &done[0];
-    assert_eq!(entry.file, "horizon-mods/ruby");
+    assert_eq!(entry.file, "ll-mods/ruby");
     assert_eq!(entry.verdict.as_deref(), Some("Works"));
     assert!(
         entry
@@ -293,9 +293,9 @@ fn java_mods_are_ported_turned_on_refused_on_clashes_and_removed() {
         entry.skipped
     );
     assert!(entry.namespaces.contains(&"ruby".to_owned()));
-    assert!(home.join("horizon-mods/ruby/horizon-mod.toml").is_file());
+    assert!(home.join("ll-mods/ruby/ll-mod.toml").is_file());
     assert_eq!(
-        fs::read_to_string(home.join("horizon-mods.txt")).unwrap(),
+        fs::read_to_string(home.join("ll-mods.txt")).unwrap(),
         "mod.ruby:true\n"
     );
     // The jar isn't kept, its check is.
@@ -305,13 +305,13 @@ fn java_mods_are_ported_turned_on_refused_on_clashes_and_removed() {
 
     let clash = install(&fake, &fake.project("gem").unwrap(), false, &home, NONE).unwrap_err();
     assert!(clash.contains("shares its id or namespace"), "{clash}");
-    assert!(!home.join("horizon-mods/gem").exists());
+    assert!(!home.join("ll-mods/gem").exists());
 
     let removed = remove(&home, "ruby").unwrap();
     assert_eq!(removed.kind, Kind::Mod);
-    assert!(!home.join("horizon-mods/ruby").exists());
+    assert!(!home.join("ll-mods/ruby").exists());
     assert_eq!(
-        fs::read_to_string(home.join("horizon-mods.txt")).unwrap(),
+        fs::read_to_string(home.join("ll-mods.txt")).unwrap(),
         ""
     );
     fs::remove_dir_all(&home).unwrap();

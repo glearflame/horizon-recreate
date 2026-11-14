@@ -4,10 +4,10 @@
 //!   `pack.mcmeta`. The ones turned on are `options.txt`'s `resourcePacks` list (vanilla's
 //!   format, `"file/<name>"`, the bottom first), so the game's Resource Packs screen shows the
 //!   same choice. A pack turned on here goes on top, as the screen puts a newly picked one.
-//! - Shader packs: `shaderpacks/`, Horizon's own (a folder with `horizon-shaders.toml`, or a
+//! - Shader packs: `shaderpacks/`, Horizon's own (a folder with `ll-shaders.toml`, or a
 //!   `.hshader`) and those in the `shaders/` format (a `.zip`, or a folder with `shaders/`), as
 //!   the game's Shader Packs page lists them (`shader_pack_list`). One at most is on:
-//!   `pickedShaderPack` in `horizon-graphics.txt`.
+//!   `pickedShaderPack` in `ll-graphics.txt`.
 //!
 //! Every other line of both files is written back as it was.
 use std::fs;
@@ -15,8 +15,8 @@ use std::io::Read;
 use std::path::{Path, PathBuf};
 
 const OPTIONS: &str = "options.txt";
-const GRAPHICS: &str = "horizon-graphics.txt";
-const SHADER_MANIFEST: &str = "horizon-shaders.toml";
+const GRAPHICS: &str = "ll-graphics.txt";
+const SHADER_MANIFEST: &str = "ll-shaders.toml";
 const SHADER_PACKAGE: &str = "hshader";
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -50,10 +50,10 @@ pub struct Pack {
 }
 
 fn shader_key(path: &Path) -> Option<String> {
-    if !horizon_shader_api::package::is_pack(path) {
+    if !ll_shader_api::package::is_pack(path) {
         return None;
     }
-    let manifest = horizon_shader_api::Pack::read_manifest(path).ok()?;
+    let manifest = ll_shader_api::Pack::read_manifest(path).ok()?;
     Some(format!("horizon:{}", manifest.id))
 }
 
@@ -62,7 +62,7 @@ fn migrate_shader_values(home: &Path, pack: &Path, key: &str) -> std::io::Result
         return Ok(());
     };
     let dir = home.join(Kind::Shader.folder());
-    let target = dir.join(".horizon-options").join(format!("{id}.txt"));
+    let target = dir.join(".ll-options").join(format!("{id}.txt"));
     if target.exists() {
         return Ok(());
     }

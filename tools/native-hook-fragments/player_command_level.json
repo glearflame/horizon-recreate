@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "player_command_level",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_player_command_level",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_player_command_level",
       "neoforge": "none (NeoForge has no such event; Paper's VanillaCommandWrapper checks a minecraft.command node)",
       "side": "server",
       "mod_api": {

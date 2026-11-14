@@ -3,7 +3,7 @@
   "helpers": [
     {
       "name": "set_compass_target",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_set_compass_target"
+      "target": "ll_client::game::native_hooks::Game<'_>::native_set_compass_target"
     }
   ],
   "rust_summary": "a player's compass target, kept over respawns and level changes (`native_set_compass_target`), as Bukkit's `setCompassTarget`.",

@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "player_respawn_position",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_player_respawn_position",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_player_respawn_position",
       "neoforge": "PlayerRespawnPositionEvent",
       "side": "server",
       "mod_api": {

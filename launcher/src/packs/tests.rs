@@ -3,7 +3,7 @@ use std::io::Write;
 
 fn scratch(name: &str) -> PathBuf {
     let root = std::env::temp_dir().join(format!(
-        "horizon-launcher-packs-{name}-{}",
+        "ll-launcher-packs-{name}-{}",
         std::process::id()
     ));
     let _ = fs::remove_dir_all(&root);
@@ -45,7 +45,7 @@ fn home(name: &str) -> PathBuf {
     zip_file(&rp.join("Zed.zip"), &[("pack.mcmeta", META)]);
     let sp = home.join("shaderpacks");
     fs::create_dir_all(sp.join("warm")).unwrap();
-    fs::write(sp.join("warm/horizon-shaders.toml"), SHADER_META).unwrap();
+    fs::write(sp.join("warm/ll-shaders.toml"), SHADER_META).unwrap();
     zip_file(&sp.join("Classic.zip"), &[("shaders/final.fsh", b"")]);
     fs::write(sp.join("notes.txt"), b"").unwrap();
     fs::write(
@@ -54,7 +54,7 @@ fn home(name: &str) -> PathBuf {
     )
     .unwrap();
     fs::write(
-        home.join("horizon-graphics.txt"),
+        home.join("ll-graphics.txt"),
         "preset:custom\npickedShaderPack:\nfxaa:true\n",
     )
     .unwrap();
@@ -110,7 +110,7 @@ fn turning_packs_on_and_off_writes_the_games_own_lines() {
     let classic = find(&home, Kind::Shader, "Classic.zip").unwrap();
     set_enabled(&home, &classic, true).unwrap();
     assert_eq!(
-        fs::read_to_string(home.join("horizon-graphics.txt")).unwrap(),
+        fs::read_to_string(home.join("ll-graphics.txt")).unwrap(),
         "preset:custom\npickedShaderPack:Classic.zip\nfxaa:true\n",
         "one shader pack at a time"
     );
@@ -193,8 +193,8 @@ fn native_shader_choice_follows_the_manifest_after_rename() {
     assert!(find(&home, Kind::Shader, "renamed").unwrap().enabled);
     fs::create_dir_all(home.join("shaderpacks/a-copy")).unwrap();
     fs::copy(
-        home.join("shaderpacks/renamed/horizon-shaders.toml"),
-        home.join("shaderpacks/a-copy/horizon-shaders.toml"),
+        home.join("shaderpacks/renamed/ll-shaders.toml"),
+        home.join("shaderpacks/a-copy/ll-shaders.toml"),
     )
     .unwrap();
     let listed = list(&home, Kind::Shader);
@@ -219,7 +219,7 @@ fn toggling_native_shader_preserves_legacy_options_before_renaming() {
         set_line(&home.join(GRAPHICS), "pickedShaderPack", old).unwrap();
         let pack = find(&home, Kind::Shader, "warm").unwrap();
         set_enabled(&home, &pack, false).unwrap();
-        let canonical = dir.join(".horizon-options/warm.txt");
+        let canonical = dir.join(".ll-options/warm.txt");
         assert_eq!(fs::read_to_string(&canonical).unwrap(), "strength=1.5\n");
         fs::rename(dir.join("warm"), dir.join("renamed")).unwrap();
         let renamed = find(&home, Kind::Shader, "renamed").unwrap();
@@ -249,7 +249,7 @@ fn switching_to_classic_preserves_the_outgoing_native_options_after_update() {
     let native = find(&home, Kind::Shader, "warm-2.0.hshader").unwrap();
     set_enabled(&home, &native, true).unwrap();
     assert_eq!(
-        fs::read_to_string(dir.join(".horizon-options/warm.txt")).unwrap(),
+        fs::read_to_string(dir.join(".ll-options/warm.txt")).unwrap(),
         "strength=1.5\n"
     );
     assert_eq!(fs::read_to_string(legacy).unwrap(), "strength=1.5\n");

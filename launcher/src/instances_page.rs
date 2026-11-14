@@ -1,9 +1,9 @@
-//! Instances in the window (`horizon_launcher::instances`): the sidebar's list, by group, and the
+//! Instances in the window (`ll_launcher::instances`): the sidebar's list, by group, and the
 //! dialog that makes one (empty, or a copy of the selected one) or changes its name, group and
 //! icon.
 use super::*;
 use gpui::RenderImage;
-use horizon_launcher::instances::{self, Icon, Instance, Kind as InstanceKind};
+use ll_launcher::instances::{self, Icon, Instance, Kind as InstanceKind};
 use servers_page::Field;
 use std::collections::HashMap;
 use std::sync::Arc;
@@ -223,7 +223,7 @@ impl Launcher {
                             let build = self.native_build_of(tag).unwrap_or_default();
                             trf(
                                 "Native build · {version}",
-                                &[("version", &build.horizon_short())],
+                                &[("version", &build.ll_short())],
                             )
                         }
                         (None, Some(tag), Some(_)) => format!("{} · {tag}", tr("Ready")),
@@ -290,7 +290,7 @@ impl Launcher {
                 loader: j
                     .loader
                     .as_ref()
-                    .map_or(horizon_launcher::loaders::Kind::Fabric, |l| l.kind),
+                    .map_or(ll_launcher::loaders::Kind::Fabric, |l| l.kind),
                 version: Some(j.minecraft.clone()),
                 ..Default::default()
             },
@@ -425,7 +425,7 @@ impl Launcher {
                 instances::set_picture(
                     &instance.home,
                     png.as_deref(),
-                    &horizon_launcher::desktop_seams::to_trash,
+                    &ll_launcher::desktop_seams::to_trash,
                 )?;
             }
             Ok(instance)

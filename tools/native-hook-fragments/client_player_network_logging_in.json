@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "client_player_network_logging_in",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_client_player_network_logging_in",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_client_player_network_logging_in",
       "neoforge": "ClientPlayerNetworkEvent.LoggingIn",
       "side": "client",
       "cancellable": false,

@@ -39,7 +39,7 @@ pub fn classify(args: &[String], is_setup_exe: bool) -> Invocation {
     }
 }
 
-/// The ids in `tasklist /FO CSV /NH` output (`"horizon-launcher.exe","1234","Console",...`),
+/// The ids in `tasklist /FO CSV /NH` output (`"ll-launcher.exe","1234","Console",...`),
 /// other than `own`: the launchers still running while this process removes their files.
 /// `tasklist` prints a sentence instead of rows when nothing matches; that gives no ids.
 pub fn other_launcher_pids(tasklist_csv: &str, own: u32) -> Vec<u32> {
@@ -48,7 +48,7 @@ pub fn other_launcher_pids(tasklist_csv: &str, own: u32) -> Vec<u32> {
         .filter_map(|line| {
             let mut fields = line.trim().trim_matches('"').split("\",\"");
             let image = fields.next()?;
-            if !image.eq_ignore_ascii_case("horizon-launcher.exe") {
+            if !image.eq_ignore_ascii_case("ll-launcher.exe") {
                 return None;
             }
             fields.next()?.trim().parse::<u32>().ok()
@@ -128,14 +128,14 @@ mod tests {
         }
     }
 
-    const TASKLIST: &str = "\"horizon-launcher.exe\",\"4120\",\"Console\",\"1\",\"212,044 K\"\r\n\
+    const TASKLIST: &str = "\"ll-launcher.exe\",\"4120\",\"Console\",\"1\",\"212,044 K\"\r\n\
         \"Horizon-Launcher.exe\",\"9988\",\"Console\",\"1\",\"80,000 K\"\r\n\
-        \"horizon-launcher.exe\",\"4120\",\"Console\",\"1\",\"212,044 K\"\r\n\
-        \"horizon-launcher-setup.exe\",\"77\",\"Console\",\"1\",\"9,000 K\"\r\n";
+        \"ll-launcher.exe\",\"4120\",\"Console\",\"1\",\"212,044 K\"\r\n\
+        \"ll-launcher-setup.exe\",\"77\",\"Console\",\"1\",\"9,000 K\"\r\n";
 
     #[test]
     fn a_running_launcher_is_found_but_not_this_process() {
-        // The uninstaller is itself `horizon-launcher.exe`: it must not ask itself to quit.
+        // The uninstaller is itself `ll-launcher.exe`: it must not ask itself to quit.
         assert_eq!(other_launcher_pids(TASKLIST, 9988), vec![4120]);
         assert_eq!(other_launcher_pids(TASKLIST, 1), vec![4120, 9988]);
         assert_eq!(other_launcher_pids(TASKLIST, 4120), vec![9988]);
@@ -147,8 +147,8 @@ mod tests {
         assert!(other_launcher_pids(none, 1).is_empty());
         assert!(other_launcher_pids("", 1).is_empty());
         // The setup exe and other programs are not launchers.
-        let other = "\"horizon-launcher-setup.exe\",\"77\",\"Console\",\"1\",\"9 K\"\r\n\
-            \"horizon-client.exe\",\"78\",\"Console\",\"1\",\"9 K\"\r\n";
+        let other = "\"ll-launcher-setup.exe\",\"77\",\"Console\",\"1\",\"9 K\"\r\n\
+            \"ll-client.exe\",\"78\",\"Console\",\"1\",\"9 K\"\r\n";
         assert!(other_launcher_pids(other, 1).is_empty());
     }
 }

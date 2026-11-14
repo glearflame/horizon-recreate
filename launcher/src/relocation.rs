@@ -141,11 +141,11 @@ fn ensure_idle(source: &Roots) -> Result<(), String> {
         let managed = roots.iter().any(|root| command.contains(root));
         if matches!(
             name,
-            "horizon-client" | "horizon-server" | "horizon-prepare"
+            "ll-client" | "ll-server" | "ll-prepare"
         ) || (managed
             && matches!(
                 name,
-                "java" | "javaw" | "cargo" | "rustc" | "horizon-mixins"
+                "java" | "javaw" | "cargo" | "rustc" | "ll-mixins"
             ))
         {
             return Err(format!(

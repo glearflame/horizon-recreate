@@ -17,20 +17,20 @@ impl gpui::AssetSource for Assets {
             .strip_prefix("icons/glass/")
             .and_then(|p| p.strip_suffix(".svg"))
         {
-            return Ok(horizon_theme::glass_icons::get(name).map(Cow::Borrowed));
+            return Ok(ll_theme::glass_icons::get(name).map(Cow::Borrowed));
         }
         let name = path
             .strip_prefix("icons/")
             .and_then(|p| p.strip_suffix(".svg"));
-        Ok(name.and_then(horizon_theme::icons::get).map(Cow::Borrowed))
+        Ok(name.and_then(ll_theme::icons::get).map(Cow::Borrowed))
     }
 
     fn list(&self, _path: &str) -> gpui::Result<Vec<SharedString>> {
-        Ok(horizon_theme::icons::ALL
+        Ok(ll_theme::icons::ALL
             .iter()
             .map(|(name, _)| format!("icons/{name}.svg").into())
             .chain(
-                horizon_theme::glass_icons::ALL
+                ll_theme::glass_icons::ALL
                     .iter()
                     .map(|(name, _)| format!("icons/glass/{name}.svg").into()),
             )
@@ -38,7 +38,7 @@ impl gpui::AssetSource for Assets {
     }
 }
 
-/// A pixel icon (`horizon_theme::icons`) in `color`.
+/// A pixel icon (`ll_theme::icons`) in `color`.
 pub fn icon(name: &'static str, size: f32, color: Hsla) -> Svg {
     svg()
         .path(format!("icons/{name}.svg"))
@@ -83,7 +83,7 @@ pub fn edges(top: Hsla, bottom: Hsla, lip: f32) -> [AnyElement; 2] {
 pub fn panel(t: &Theme) -> Div {
     // The glass look: a glass plate, round at 16 (its tokens leave no border or bevel to see).
     if t.glass {
-        return crate::glass::plate(horizon_theme::glass::radius::POPOVER);
+        return crate::glass::plate(ll_theme::glass::radius::POPOVER);
     }
     div()
         .relative()

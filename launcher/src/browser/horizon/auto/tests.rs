@@ -21,7 +21,7 @@ fn ruby(dir: &Path, version: &str, blocks: &[&str], items: &[&str]) -> PathBuf {
         .collect();
     let files: Vec<(&str, &[u8])> = names.iter().map(|(n, b)| (n.as_str(), *b)).collect();
     let manifest = format!("{MANIFEST}version = \"{version}\"\n");
-    let bytes = horizon_mods::Package::write_files(&manifest, None, &files).unwrap();
+    let bytes = ll_mods::Package::write_files(&manifest, None, &files).unwrap();
     let path = dir.join(format!("ruby-{version}.hmod"));
     fs::write(&path, bytes).unwrap();
     path
@@ -36,8 +36,8 @@ fn index_of(versions: &[(&str, &str, &Path)]) -> Index {
         .map(|(version, game, path)| index::Version {
             version: (*version).into(),
             api: "0.2".into(),
-            side: Some(horizon_mods::Side::Both),
-            capabilities: vec![horizon_mods::Capability::Registries],
+            side: Some(ll_mods::Side::Both),
+            capabilities: vec![ll_mods::Capability::Registries],
             api_level: None,
             game: (*game).into(),
             broken_on: Vec::new(),
@@ -78,7 +78,7 @@ fn entry(version: &str) -> installed::Entry {
         kind: Kind::Mod,
         version: version.into(),
         number: version.into(),
-        file: "horizon-mods/ruby.hmod".into(),
+        file: "ll-mods/ruby.hmod".into(),
         checksum: String::new(),
         page: String::new(),
         dependency: false,
@@ -122,7 +122,7 @@ fn updates_forward_on_the_same_game_only() {
     };
     assert_eq!(to(&entry("1.0.0"), &in_pack), None, "a modpack's profile");
     let native = installed::Entry {
-        file: "horizon-native-mods/ruby.hnmod".into(),
+        file: "ll-native-mods/ruby.hnmod".into(),
         ..entry("1.0.0")
     };
     let pinned = Context {

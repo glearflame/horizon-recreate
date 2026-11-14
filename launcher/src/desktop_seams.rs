@@ -80,7 +80,7 @@ mod tests {
 
     #[test]
     fn a_trash_folder_takes_what_would_go_to_the_trash() {
-        let root = std::env::temp_dir().join(format!("horizon-seams-{}", std::process::id()));
+        let root = std::env::temp_dir().join(format!("ll-seams-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&root);
         let (home, bin) = (root.join("home"), root.join("trash"));
         std::fs::create_dir_all(home.join("World/region")).unwrap();

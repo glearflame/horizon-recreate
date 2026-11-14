@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "player_spawn_location",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_player_spawn_location",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_player_spawn_location",
       "neoforge": "none (Spigot's PlayerSpawnLocationEvent)",
       "side": "server",
       "mod_api": {

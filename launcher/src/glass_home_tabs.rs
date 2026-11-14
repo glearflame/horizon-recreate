@@ -5,7 +5,7 @@
 use super::*;
 use crate::glass_ui::{self as ui, white};
 use home_tabs::HomeTab;
-use horizon_theme::glass::{ink, radius};
+use ll_theme::glass::{ink, radius};
 
 /// The tabbed panel's own body is at least this tall (`min-h-[340px]`), and so is the patch log.
 const BODY: f32 = 340.;

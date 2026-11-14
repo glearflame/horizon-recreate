@@ -8,7 +8,7 @@
 
 use super::*;
 use crate::glass_ui::{self as ui, Tone};
-use horizon_theme::glass::{ink, radius};
+use ll_theme::glass::{ink, radius};
 
 /// A release's day as the mockup writes it ("Nov 1"), with its time in UTC when known.
 pub(super) fn published(date: &str, time: &str) -> String {
@@ -59,7 +59,7 @@ fn nightly_card_text(release: &Release) -> Option<(String, String)> {
     release.nightly.as_ref()?;
     let date = published(&release.date, "");
     let title = format!("{} · {date}", tr("Nightly"));
-    let commit = horizon_launcher::nightly::label(&release.tag)
+    let commit = ll_launcher::nightly::label(&release.tag)
         .and_then(|label| {
             label
                 .split_once(" · ")
@@ -537,7 +537,7 @@ impl Launcher {
                     line.push(trf("Built on {base}", &[("base", &about.base)]));
                 }
                 if let Some(about) = build_import::about(&tag) {
-                    let base = horizon_launcher::nightly::label(&about.base).unwrap_or(about.base);
+                    let base = ll_launcher::nightly::label(&about.base).unwrap_or(about.base);
                     line.push(trf("Game files from {base}", &[("base", &base)]));
                     line.push(about.file);
                 }
@@ -548,7 +548,7 @@ impl Launcher {
                 } else {
                     self.glass_version_actions(&tag, cx).into_any_element()
                 };
-                let title = horizon_launcher::nightly::label(&tag)
+                let title = ll_launcher::nightly::label(&tag)
                     .or_else(|| build_import::label(&tag))
                     .unwrap_or_else(|| tag.trim_start_matches('v').to_string());
                 d = d.child(self.glass_version_card(&tag, title, &mut line, false, on_disk, right));

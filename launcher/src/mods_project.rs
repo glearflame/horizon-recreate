@@ -1,4 +1,4 @@
-//! The Mods page's project page, search filters and project icons (`horizon_launcher::browser`:
+//! The Mods page's project page, search filters and project icons (`ll_launcher::browser`:
 //! `details` for the data, `images` for the icons and gallery). Drawn only with the launcher's
 //! shared components, so a restyle of those restyles this.
 //!
@@ -12,7 +12,7 @@
 use super::mods_page::{Checking, Event};
 use super::*;
 use gpui::img;
-use horizon_launcher::browser::{
+use ll_launcher::browser::{
     self,
     details::{self, Details, Environment, Filters, Image, Sort, Tags},
     images, java, Kind as PackKind, Project, SourceId, Support, Version,
@@ -103,7 +103,7 @@ pub(super) struct Opened {
     details: Option<Result<Arc<Details>, String>>,
     versions: Option<Result<Arc<[ProjectVersion]>, String>>,
     version_list: cull::Cull,
-    checked_versions: HashMap<String, horizon_port_pack::check::Verdict>,
+    checked_versions: HashMap<String, ll_port_pack::check::Verdict>,
     /// The gallery image shown large.
     shot: usize,
 }
@@ -112,7 +112,7 @@ pub(super) struct Opened {
 #[derive(Clone)]
 pub(super) struct ProjectVersion {
     version: Version,
-    verdict: Option<horizon_port_pack::check::Verdict>,
+    verdict: Option<ll_port_pack::check::Verdict>,
 }
 
 /// The project page, filters and images' share of the Mods page's state.
@@ -137,7 +137,7 @@ pub(super) enum Loaded {
     Checked(
         (SourceId, String),
         String,
-        horizon_port_pack::check::Verdict,
+        ll_port_pack::check::Verdict,
     ),
     Image((String, u32), Option<PathBuf>),
     Tags((SourceId, PackKind), Result<Tags, String>),

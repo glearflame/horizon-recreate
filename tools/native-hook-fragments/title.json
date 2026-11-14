@@ -3,7 +3,7 @@
   "helpers": [
     {
       "name": "title",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_title"
+      "target": "ll_client::game::native_hooks::Game<'_>::native_title"
     }
   ],
   "rust_summary": "a title and subtitle on one player's screen (`native_title`), as Adventure's `showTitle`.",

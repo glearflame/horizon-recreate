@@ -4,7 +4,7 @@
 use super::*;
 use crate::glass_ui::{self as ui, white};
 use gpui::deferred;
-use horizon_theme::glass::{fill, ink, radius};
+use ll_theme::glass::{fill, ink, radius};
 use std::time::Instant;
 
 /// Play, the version and the big icons are this tall (`h-14`).
@@ -108,7 +108,7 @@ impl Launcher {
     /// ([`Self::switch_edition`]).
     fn edition_tabs(&mut self, java: bool, cx: &mut Context<Self>) -> Div {
         let grass = self.grass_mark(18.);
-        let horizon = self.horizon_mark(18.);
+        let horizon = self.ll_mark(18.);
         let tab = |label: &'static str, icon: AnyElement, open: bool| {
             let d = div()
                 .id(SharedString::from(format!("edition-{label}")))
@@ -119,7 +119,7 @@ impl Launcher {
                 .h(px(32.))
                 .px(px(12.))
                 .rounded(px(radius::CONTROL))
-                .font_family(horizon_theme::glass::FONT)
+                .font_family(ll_theme::glass::FONT)
                 .text_size(px(13.))
                 .line_height(px(18.))
                 .child(icon)
@@ -200,7 +200,7 @@ impl Launcher {
                 div()
                     .min_w_0()
                     .truncate()
-                    .font_family(horizon_theme::glass::DISPLAY_FONT)
+                    .font_family(ll_theme::glass::DISPLAY_FONT)
                     .font_weight(FontWeight::SEMIBOLD)
                     .text_size(px(64.))
                     .line_height(px(64.))
@@ -307,7 +307,7 @@ impl Launcher {
             (_, _, _) if own.is_some() => Some((tr("Installing"), own.flatten())),
             (_, true, _) => Some((
                 tr("Preparing"),
-                horizon_launcher::mojang::progress().map(|(d, n)| d as f32 / n.max(1) as f32),
+                ll_launcher::mojang::progress().map(|(d, n)| d as f32 / n.max(1) as f32),
             )),
             (_, _, Some(_)) => Some((tr("Starting"), None)),
             _ => None,
@@ -367,7 +367,7 @@ impl Launcher {
                 .justify_center()
                 .gap(px(10.))
                 .pr(px(40.))
-                .font_family(horizon_theme::glass::FONT)
+                .font_family(ll_theme::glass::FONT)
                 .text_size(px(18.))
                 .font_weight(FontWeight::SEMIBOLD)
                 .child(ui::icon(icon, 20., glyph))
@@ -393,7 +393,7 @@ impl Launcher {
                         .justify_center()
                         .pr(px(40.))
                         .text_color(on_accent)
-                        .font_family(horizon_theme::glass::FONT)
+                        .font_family(ll_theme::glass::FONT)
                         .text_size(px(16.))
                         .font_weight(FontWeight::SEMIBOLD)
                         .child(match progress {
@@ -479,7 +479,7 @@ impl Launcher {
                         "Stay on {version}",
                         &[(
                             "version",
-                            &horizon_launcher::nightly::label(tag).unwrap_or(tag.to_string()),
+                            &ll_launcher::nightly::label(tag).unwrap_or(tag.to_string()),
                         )],
                     ),
                     locked || !ready,
@@ -563,7 +563,7 @@ impl Launcher {
         let label = self.selected().map_or_else(
             || tr("No version").into(),
             |tag| {
-                horizon_launcher::nightly::label(tag)
+                ll_launcher::nightly::label(tag)
                     .or_else(|| build_import::label(tag))
                     .unwrap_or_else(|| tag.clone())
             },
@@ -631,7 +631,7 @@ impl Launcher {
             for tag in &self.installed {
                 let chosen = self.selected() == Some(tag);
                 let latest = follows.as_ref() == Some(tag);
-                let name = horizon_launcher::nightly::label(tag)
+                let name = ll_launcher::nightly::label(tag)
                     .or_else(|| build_import::label(tag))
                     .unwrap_or_else(|| tag.clone());
                 let note = if latest {
@@ -833,7 +833,7 @@ impl Launcher {
             .pr(px(pr))
             .rounded(px(radius::LARGE))
             .bg(white(if focused { 0.09 } else { 0.06 }))
-            .font_family(horizon_theme::glass::FONT)
+            .font_family(ll_theme::glass::FONT)
             .text_size(px(14.))
             .text_color(white(ink::FULL))
             .cursor_text()
@@ -873,7 +873,7 @@ impl Launcher {
                 cx.notify();
             }));
         let field = line_edit::mouse(field, cx, |this| &mut this.friend_code);
-        let valid = horizon_friends::invite::parse(self.friend_code.text()).is_some();
+        let valid = ll_friends::invite::parse(self.friend_code.text()).is_some();
         let can = valid && (tag.is_empty() || self.can_start(tag));
         let join = ui::quiet("join-friend", join_label, 40., &t);
         let join = if can {
@@ -914,10 +914,10 @@ fn friend_code_padding_right(join_label: &str) -> f32 {
 /// The instance of one edition (`java`) an edition tab goes to: of those the player can select,
 /// the one played last; among never played ones, the first listed.
 fn edition_pick(
-    list: &[horizon_launcher::instances::Instance],
+    list: &[ll_launcher::instances::Instance],
     java: bool,
-) -> Option<&horizon_launcher::instances::Instance> {
-    use horizon_launcher::instances::Kind;
+) -> Option<&ll_launcher::instances::Instance> {
+    use ll_launcher::instances::Kind;
     list.iter()
         .filter(|i| matches!(i.kind, Kind::Default | Kind::Own) && i.java.is_some() == java)
         .rev()
@@ -970,7 +970,7 @@ enum PlayItem {
 
 /// The command that plays instance `id` without the window, as its desktop shortcut runs it.
 fn launch_command(id: &str) -> String {
-    format!("horizon-launcher play --instance {id}")
+    format!("ll-launcher play --instance {id}")
 }
 
 #[cfg(test)]
@@ -979,7 +979,7 @@ mod tests {
 
     #[test]
     fn an_edition_tab_goes_to_that_editions_instance_played_last() {
-        use horizon_launcher::instances::{Instance, JavaGame, Kind};
+        use ll_launcher::instances::{Instance, JavaGame, Kind};
         use std::time::{SystemTime, UNIX_EPOCH};
         let at = |secs: u64| Some(UNIX_EPOCH + Duration::from_secs(secs));
         let one = |id: &str, kind: Kind, java: bool, last: Option<SystemTime>| Instance {

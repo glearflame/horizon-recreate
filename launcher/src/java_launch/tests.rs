@@ -6,7 +6,7 @@ use std::io::Write;
 
 fn scratch(name: &str) -> PathBuf {
     let dir =
-        std::env::temp_dir().join(format!("horizon-java-launch-{name}-{}", std::process::id()));
+        std::env::temp_dir().join(format!("ll-java-launch-{name}-{}", std::process::id()));
     let _ = fs::remove_dir_all(&dir);
     dir
 }
@@ -97,7 +97,7 @@ fn a_modern_version_gets_its_rules_placeholders_and_classpath() {
     assert!(a.contains(&format!("-Dlog4j.configurationFile={}", config.display())));
     assert!(at("-XstartOnFirstThread") < at("net.minecraft.client.main.Main"));
     assert!(at("-XX:+UseZGC") < at("net.minecraft.client.main.Main"));
-    assert!(a.contains(&"-Dminecraft.launcher.brand=horizon-launcher".into()));
+    assert!(a.contains(&"-Dminecraft.launcher.brand=ll-launcher".into()));
     assert_eq!(a[at("--username") + 1], "Notch");
     assert_eq!(a[at("--accessToken") + 1], "mc-token");
     assert_eq!(a[at("--assetIndex") + 1], "19");

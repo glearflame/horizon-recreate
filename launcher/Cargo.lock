@@ -2641,238 +2641,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "horizon-bench"
-version = "0.1.0"
-dependencies = [
- "horizon-telemetry",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "horizon-core"
-version = "0.1.0"
-dependencies = [
- "libm",
-]
-
-[[package]]
-name = "horizon-cosmetics"
-version = "0.1.0"
-dependencies = [
- "base64",
- "glam",
- "png 0.18.1",
- "serde",
- "serde_json",
- "ureq",
-]
-
-[[package]]
-name = "horizon-friends"
-version = "0.1.0"
-dependencies = [
- "chacha20poly1305",
- "getrandom 0.3.4",
- "hkdf",
- "if-addrs",
- "serde",
- "serde_json",
- "sha2",
- "socket2 0.6.5",
- "spake2",
-]
-
-[[package]]
-name = "horizon-launcher"
-version = "0.2.0"
-dependencies = [
- "base64",
- "chacha20poly1305",
- "chrono",
- "clap",
- "clap_complete",
- "dirs",
- "flate2",
- "futures-lite",
- "getrandom 0.3.4",
- "glam",
- "gpui-fast",
- "gpui-fast-platform",
- "horizon-bench",
- "horizon-core",
- "horizon-cosmetics",
- "horizon-friends",
- "horizon-mcp",
- "horizon-mod-api-gen",
- "horizon-mods",
- "horizon-port-pack",
- "horizon-prepare",
- "horizon-protocol",
- "horizon-release-sign",
- "horizon-shader-api",
- "horizon-telemetry",
- "horizon-theme",
- "horizon-world",
- "image",
- "keyring",
- "libc",
- "objc2-app-kit 0.3.2",
- "oo7",
- "png 0.18.1",
- "proc-macro2",
- "pulldown-cmark",
- "quote",
- "raw-window-handle",
- "security-framework 3.7.0",
- "semver",
- "serde",
- "serde_json",
- "sha1",
- "sha2",
- "syn 2.0.119",
- "sys-locale",
- "tar",
- "toml 1.1.8+spec-1.1.0",
- "trash",
- "ureq",
- "wgpu",
- "windows 0.62.2",
- "windows-sys 0.61.2",
- "winreg",
- "winresource",
- "zip",
-]
-
-[[package]]
-name = "horizon-mcp"
-version = "0.1.0"
-dependencies = [
- "serde_json",
-]
-
-[[package]]
-name = "horizon-mod-api-gen"
-version = "0.1.0"
-dependencies = [
- "heck 0.5.0",
- "quote",
- "serde",
- "serde_json",
- "syn 2.0.119",
-]
-
-[[package]]
-name = "horizon-mods"
-version = "0.1.0"
-dependencies = [
- "horizon-shader-api",
- "log",
- "minisign-verify",
- "serde",
- "serde_json",
- "sha2",
- "toml 1.1.8+spec-1.1.0",
- "wasmparser",
- "zip",
-]
-
-[[package]]
-name = "horizon-port-pack"
-version = "0.1.0"
-dependencies = [
- "horizon-mods",
- "serde",
- "serde_json",
- "sha1",
- "toml 1.1.8+spec-1.1.0",
- "ureq",
- "zip",
-]
-
-[[package]]
-name = "horizon-prepare"
-version = "0.1.0"
-dependencies = [
- "crc32fast",
- "libc",
- "regex",
- "sha1",
- "sha2",
- "zip",
-]
-
-[[package]]
-name = "horizon-protocol"
-version = "0.1.0"
-dependencies = [
- "aes",
- "flate2",
- "getrandom 0.3.4",
- "horizon-core",
- "horizon-world",
- "ipconfig",
- "log",
- "serde_json",
- "sha1",
- "sha2",
- "socket2 0.5.10",
-]
-
-[[package]]
-name = "horizon-release-sign"
-version = "0.1.0"
-dependencies = [
- "base64",
- "ring",
-]
-
-[[package]]
-name = "horizon-shader-api"
-version = "0.1.0"
-dependencies = [
- "bytemuck",
- "naga",
- "png 0.18.1",
- "serde",
- "serde_json",
- "sha2",
- "toml 1.1.8+spec-1.1.0",
- "zip",
-]
-
-[[package]]
-name = "horizon-telemetry"
-version = "0.1.0"
-dependencies = [
- "getrandom 0.3.4",
- "ruzstd",
- "serde",
- "serde_json",
- "ureq",
-]
-
-[[package]]
-name = "horizon-theme"
-version = "0.1.0"
-
-[[package]]
-name = "horizon-world"
-version = "0.1.0"
-dependencies = [
- "flate2",
- "horizon-core",
- "libm",
- "log",
- "lz4_flex",
- "postcard",
- "serde",
- "serde_json",
- "sha2",
- "xxhash-rust",
-]
-
-[[package]]
 name = "http"
 version = "1.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3396,6 +3164,238 @@ name = "litrs"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "4744e383959f0db86ede514b809b1c53251889093803c05267acc7d4e7030d70"
+
+[[package]]
+name = "ll-bench"
+version = "0.1.0"
+dependencies = [
+ "ll-telemetry",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "ll-core"
+version = "0.1.0"
+dependencies = [
+ "libm",
+]
+
+[[package]]
+name = "ll-cosmetics"
+version = "0.1.0"
+dependencies = [
+ "base64",
+ "glam",
+ "png 0.18.1",
+ "serde",
+ "serde_json",
+ "ureq",
+]
+
+[[package]]
+name = "ll-friends"
+version = "0.1.0"
+dependencies = [
+ "chacha20poly1305",
+ "getrandom 0.3.4",
+ "hkdf",
+ "if-addrs",
+ "serde",
+ "serde_json",
+ "sha2",
+ "socket2 0.6.5",
+ "spake2",
+]
+
+[[package]]
+name = "ll-launcher"
+version = "0.2.0"
+dependencies = [
+ "base64",
+ "chacha20poly1305",
+ "chrono",
+ "clap",
+ "clap_complete",
+ "dirs",
+ "flate2",
+ "futures-lite",
+ "getrandom 0.3.4",
+ "glam",
+ "gpui-fast",
+ "gpui-fast-platform",
+ "image",
+ "keyring",
+ "libc",
+ "ll-bench",
+ "ll-core",
+ "ll-cosmetics",
+ "ll-friends",
+ "ll-mcp",
+ "ll-mod-api-gen",
+ "ll-mods",
+ "ll-port-pack",
+ "ll-prepare",
+ "ll-protocol",
+ "ll-release-sign",
+ "ll-shader-api",
+ "ll-telemetry",
+ "ll-theme",
+ "ll-world",
+ "objc2-app-kit 0.3.2",
+ "oo7",
+ "png 0.18.1",
+ "proc-macro2",
+ "pulldown-cmark",
+ "quote",
+ "raw-window-handle",
+ "security-framework 3.7.0",
+ "semver",
+ "serde",
+ "serde_json",
+ "sha1",
+ "sha2",
+ "syn 2.0.119",
+ "sys-locale",
+ "tar",
+ "toml 1.1.8+spec-1.1.0",
+ "trash",
+ "ureq",
+ "wgpu",
+ "windows 0.62.2",
+ "windows-sys 0.61.2",
+ "winreg",
+ "winresource",
+ "zip",
+]
+
+[[package]]
+name = "ll-mcp"
+version = "0.1.0"
+dependencies = [
+ "serde_json",
+]
+
+[[package]]
+name = "ll-mod-api-gen"
+version = "0.1.0"
+dependencies = [
+ "heck 0.5.0",
+ "quote",
+ "serde",
+ "serde_json",
+ "syn 2.0.119",
+]
+
+[[package]]
+name = "ll-mods"
+version = "0.1.0"
+dependencies = [
+ "ll-shader-api",
+ "log",
+ "minisign-verify",
+ "serde",
+ "serde_json",
+ "sha2",
+ "toml 1.1.8+spec-1.1.0",
+ "wasmparser",
+ "zip",
+]
+
+[[package]]
+name = "ll-port-pack"
+version = "0.1.0"
+dependencies = [
+ "ll-mods",
+ "serde",
+ "serde_json",
+ "sha1",
+ "toml 1.1.8+spec-1.1.0",
+ "ureq",
+ "zip",
+]
+
+[[package]]
+name = "ll-prepare"
+version = "0.1.0"
+dependencies = [
+ "crc32fast",
+ "libc",
+ "regex",
+ "sha1",
+ "sha2",
+ "zip",
+]
+
+[[package]]
+name = "ll-protocol"
+version = "0.1.0"
+dependencies = [
+ "aes",
+ "flate2",
+ "getrandom 0.3.4",
+ "ipconfig",
+ "ll-core",
+ "ll-world",
+ "log",
+ "serde_json",
+ "sha1",
+ "sha2",
+ "socket2 0.5.10",
+]
+
+[[package]]
+name = "ll-release-sign"
+version = "0.1.0"
+dependencies = [
+ "base64",
+ "ring",
+]
+
+[[package]]
+name = "ll-shader-api"
+version = "0.1.0"
+dependencies = [
+ "bytemuck",
+ "naga",
+ "png 0.18.1",
+ "serde",
+ "serde_json",
+ "sha2",
+ "toml 1.1.8+spec-1.1.0",
+ "zip",
+]
+
+[[package]]
+name = "ll-telemetry"
+version = "0.1.0"
+dependencies = [
+ "getrandom 0.3.4",
+ "ruzstd",
+ "serde",
+ "serde_json",
+ "ureq",
+]
+
+[[package]]
+name = "ll-theme"
+version = "0.1.0"
+
+[[package]]
+name = "ll-world"
+version = "0.1.0"
+dependencies = [
+ "flate2",
+ "libm",
+ "ll-core",
+ "log",
+ "lz4_flex",
+ "postcard",
+ "serde",
+ "serde_json",
+ "sha2",
+ "xxhash-rust",
+]
 
 [[package]]
 name = "lock_api"

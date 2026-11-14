@@ -36,8 +36,8 @@ impl Launcher {
         if !tag.is_empty() {
             what.push(format!(
                 "Horizon {}",
-                horizon_launcher::nightly::label(tag)
-                    .or_else(|| horizon_launcher::build_import::label(tag))
+                ll_launcher::nightly::label(tag)
+                    .or_else(|| ll_launcher::build_import::label(tag))
                     .unwrap_or_else(|| tag.trim_start_matches('v').to_string())
             ));
         }
@@ -229,7 +229,7 @@ impl Launcher {
                     action("download-cancel", Action::Quiet, &t)
                         .child(label(tr("Cancel").to_string()))
                         .on_click(|_, _, _| {
-                            horizon_launcher::mojang::CANCEL.store(true, Ordering::Relaxed)
+                            ll_launcher::mojang::CANCEL.store(true, Ordering::Relaxed)
                         })
                 }));
         }
@@ -323,8 +323,8 @@ impl Launcher {
                         .relative()
                         .font_weight(FontWeight::BOLD)
                         .child(
-                            horizon_launcher::nightly::label(tag)
-                                .or_else(|| horizon_launcher::build_import::label(tag))
+                            ll_launcher::nightly::label(tag)
+                                .or_else(|| ll_launcher::build_import::label(tag))
                                 .unwrap_or_else(|| tag.trim_start_matches('v').to_string()),
                         ),
                 )
@@ -395,7 +395,7 @@ impl Launcher {
                 cx.notify();
             }));
         let field = line_edit::mouse(field, cx, |this| &mut this.friend_code);
-        let valid = horizon_friends::invite::parse(self.friend_code.text()).is_some();
+        let valid = ll_friends::invite::parse(self.friend_code.text()).is_some();
         let mut join =
             action("join-friend", Action::Raised, &t).child(label(tr("Join").to_string()));
         if can_play && valid {
@@ -423,7 +423,7 @@ impl Launcher {
         if getting_ready_preview() {
             return Some(Duration::from_secs(70));
         }
-        let Some((done, total)) = horizon_launcher::mojang::progress() else {
+        let Some((done, total)) = ll_launcher::mojang::progress() else {
             self.download_seen = None;
             return None;
         };
@@ -551,7 +551,7 @@ pub(super) fn getting_ready_preview() -> bool {
 
 /// The download under way, files done of how many.
 fn download_progress() -> Option<(usize, usize)> {
-    horizon_launcher::mojang::progress().or_else(|| getting_ready_preview().then_some((1754, 5160)))
+    ll_launcher::mojang::progress().or_else(|| getting_ready_preview().then_some((1754, 5160)))
 }
 
 /// The time `total - done` files take at the pace of `done - from` in `spent`: none for the

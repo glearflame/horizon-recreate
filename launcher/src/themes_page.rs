@@ -1,4 +1,4 @@
-//! Settings' accent colour and Home background rows (`horizon_launcher::themes`).
+//! Settings' accent colour and Home background rows (`ll_launcher::themes`).
 use super::*;
 use crate::glass_ui as ui;
 use crate::servers_page::Field;
@@ -6,7 +6,7 @@ use gpui::{
     canvas, fill, point, size, Bounds, MouseButton, MouseDownEvent, MouseMoveEvent, MouseUpEvent,
     Pixels, Point,
 };
-use horizon_launcher::themes::{self, Accent};
+use ll_launcher::themes::{self, Accent};
 use std::path::PathBuf;
 
 /// Settings' two sliders of the glass look (the mockup's `Slider`).

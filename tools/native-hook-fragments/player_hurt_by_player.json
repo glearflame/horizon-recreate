@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "player_hurt_by_player",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_player_hurt_by_player",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_player_hurt_by_player",
       "neoforge": "LivingIncomingDamageEvent (a player victim, a player source; Bukkit's EntityDamageByEntityEvent)",
       "side": "server",
       "cancellable": true,

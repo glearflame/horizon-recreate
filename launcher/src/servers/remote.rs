@@ -1,5 +1,5 @@
 //! A server on another computer (a VPS, a home server), reached over SSH: the launcher runs the same
-//! `horizon-server` commands there as `ssh HOST horizon-server --dir DIR ...`, with the system's `ssh` and the
+//! `ll-server` commands there as `ssh HOST ll-server --dir DIR ...`, with the system's `ssh` and the
 //! player's own keys and `~/.ssh/config`. `BatchMode` keeps ssh from asking for a password, so the launcher
 //! never sees or stores one. The other computer runs Linux or macOS (a POSIX shell runs the command there).
 
@@ -21,12 +21,12 @@ const OPTIONS: [&str; 8] = [
     "ServerAliveCountMax=4",
 ];
 
-/// `install.sh` puts `horizon-server` in `~/.local/bin`, which a command run over ssh (no login shell)
+/// `install.sh` puts `ll-server` in `~/.local/bin`, which a command run over ssh (no login shell)
 /// often doesn't have on its PATH.
 const PATH: &str = "PATH=\"$HOME/.local/bin:$PATH\"";
 
 /// What the check prints when the folder holds no `server.toml`.
-const NO_SERVER: &str = "horizon-server: no server in this folder";
+const NO_SERVER: &str = "ll-server: no server in this folder";
 
 /// Checks what the player typed as the computer: `user@host`, `host`, or a `Host` name from
 /// `~/.ssh/config`. Nothing that ssh could read as an option or that holds spaces.
@@ -61,11 +61,11 @@ pub fn quote(arg: &str) -> String {
     format!("'{}'", arg.replace('\'', r"'\''"))
 }
 
-/// ssh's arguments for `horizon-server --dir <dir> <args>` on `host`.
+/// ssh's arguments for `ll-server --dir <dir> <args>` on `host`.
 pub fn ssh_args(host: &str, dir: &str, args: &[&str]) -> Result<Vec<String>, String> {
     check_host(host)?;
     let dir = remote_dir(dir)?;
-    let mut line = format!("{PATH} exec horizon-server --dir {}", quote(dir));
+    let mut line = format!("{PATH} exec ll-server --dir {}", quote(dir));
     for arg in args {
         line.push(' ');
         line.push_str(&quote(arg));
@@ -75,7 +75,7 @@ pub fn ssh_args(host: &str, dir: &str, args: &[&str]) -> Result<Vec<String>, Str
     Ok(out)
 }
 
-/// `horizon-server --dir <dir> <args>` on `host`, through `ssh`.
+/// `ll-server --dir <dir> <args>` on `host`, through `ssh`.
 pub fn command(host: &str, dir: &str, args: &[&str]) -> Result<Command, String> {
     command_with("ssh", host, dir, args)
 }
@@ -123,7 +123,7 @@ fn check_with(ssh: impl AsRef<OsStr>, host: &str, dir: &str) -> Result<Status, S
         .find_map(|l| serde_json::from_str(l).ok())
         .ok_or_else(|| {
             trf(
-                "horizon-server on {host} answered something unexpected.",
+                "ll-server on {host} answered something unexpected.",
                 &[("host", host)],
             )
         })?;
@@ -135,7 +135,7 @@ pub fn explain(host: &str, dir: &str, code: Option<i32>, stderr: &str) -> String
     let has = |s: &str| stderr.contains(s);
     if has(NO_SERVER) {
         return trf(
-            "There's no server in {dir} on {host}. Check the folder, or set one up there with horizon-server init.",
+            "There's no server in {dir} on {host}. Check the folder, or set one up there with ll-server init.",
             &[("dir", dir), ("host", host)],
         );
     }
@@ -165,7 +165,7 @@ pub fn explain(host: &str, dir: &str, code: Option<i32>, stderr: &str) -> String
     }
     if code == Some(127) || has("command not found") {
         return trf(
-            "{host} has no horizon-server. Install it there first, as the hosting guide says.",
+            "{host} has no ll-server. Install it there first, as the hosting guide says.",
             &[("host", host)],
         );
     }
@@ -182,11 +182,11 @@ pub fn explain(host: &str, dir: &str, code: Option<i32>, stderr: &str) -> String
     let said = stderr
         .lines()
         .rev()
-        .find_map(|l| l.strip_prefix("horizon-server: "))
+        .find_map(|l| l.strip_prefix("ll-server: "))
         .map(str::to_string)
         .unwrap_or_else(|| {
             trf(
-                "horizon-server on {host} failed in {dir}.",
+                "ll-server on {host} failed in {dir}.",
                 &[("host", host), ("dir", dir)],
             )
         });

@@ -13,7 +13,7 @@ kind = "HEAD"
 helper = "frame.rs"
 bindings = [{ name = "game", ty = "&mut crate::game::Game<'_>", value = "&mut *self" }]
 
-# engine/ (its own Cargo.toml): a workspace member that horizon-client depends on, compiled and
+# engine/ (its own Cargo.toml): a workspace member that ll-client depends on, compiled and
 # cached on its own.
 [[crate]]
 id = "engine"

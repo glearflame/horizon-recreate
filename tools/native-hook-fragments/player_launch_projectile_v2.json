@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "player_launch_projectile_v2",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_player_launch_projectile_v2",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_player_launch_projectile_v2",
       "neoforge": "none (Bukkit's ProjectileLaunchEvent for a player's throw)",
       "side": "server",
       "cancellable": true,

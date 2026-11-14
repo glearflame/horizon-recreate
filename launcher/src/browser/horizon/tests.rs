@@ -1,9 +1,9 @@
-//! The registry source against the sample index of `horizon_mods::index`
-//! (`crates/horizon-mods/tests/index/`), its files served from disk.
+//! The registry source against the sample index of `ll_mods::index`
+//! (`crates/ll-mods/tests/index/`), its files served from disk.
 use super::*;
 
 fn fixtures() -> PathBuf {
-    Path::new(env!("CARGO_MANIFEST_DIR")).join("../crates/horizon-mods/tests/index")
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("../crates/ll-mods/tests/index")
 }
 
 /// The sample index with its files on disk, as a local test registry lists them.
@@ -21,7 +21,7 @@ pub(super) fn sample() -> Index {
 
 pub(super) fn scratch(name: &str) -> PathBuf {
     let dir = std::env::temp_dir().join(format!(
-        "horizon-launcher-registry-{name}-{}",
+        "ll-launcher-registry-{name}-{}",
         std::process::id()
     ));
     let _ = fs::remove_dir_all(&dir);
@@ -56,19 +56,19 @@ fn native_registry_entries_are_mods_that_say_they_run_native_code() {
         .unwrap()
     };
     assert_eq!(
-        mod_id(&entry("horizon-native-mods/veinminer.hnmod")),
+        mod_id(&entry("ll-native-mods/veinminer.hnmod")),
         Some("veinminer")
     );
-    assert_eq!(mod_id(&entry("horizon-mods/zoom.hmod")), Some("zoom"));
+    assert_eq!(mod_id(&entry("ll-mods/zoom.hmod")), Some("zoom"));
 }
 
 #[test]
 fn only_horizons_own_projects_go_without_the_not_endorsed_line() {
     let mut p = sample().projects[0].clone();
     p.authors = vec!["Horizon".into()];
-    p.source = "https://github.com/horizon-rust/horizon-mod-zoom".into();
+    p.source = "https://github.com/ll-rust/ll-mod-zoom".into();
     assert!(official(&p));
-    p.source = "https://github.com/someone/horizon-mod-zoom".into();
+    p.source = "https://github.com/someone/ll-mod-zoom".into();
     assert!(!official(&p), "the name alone doesn't make it official");
     p.authors = vec!["levzzz5154".into()];
     assert!(!official(&p));
@@ -79,10 +79,10 @@ fn only_horizons_own_projects_say_they_come_from_horizon() {
     let mut index = sample();
     let id = index.projects[0].id.clone();
     index.projects[0].authors = vec!["levzzz5154".into()];
-    index.projects[0].source = "https://github.com/levzzz5154/horizon-mod-zoom".into();
+    index.projects[0].source = "https://github.com/levzzz5154/ll-mod-zoom".into();
     assert!(!official_in(Some(&index), &id), "a contributor's project");
     index.projects[0].authors = vec!["Horizon".into()];
-    index.projects[0].source = "https://github.com/horizon-rust/horizon-mod-zoom".into();
+    index.projects[0].source = "https://github.com/ll-rust/ll-mod-zoom".into();
     assert!(official_in(Some(&index), &id));
     assert!(!official_in(Some(&index), "not_listed"));
     assert!(!official_in(None, &id), "no index read yet");
@@ -297,7 +297,7 @@ fn a_registry_data_pack_is_checked_then_goes_into_a_world() {
 fn screenshots_are_the_gallery_from_the_registry_only() {
     let mut p = sample().projects[0].clone();
     assert!(gallery_of(&p).is_empty());
-    let pages = "https://horizon-rust.github.io/horizon-mods/screenshots/coords_hud";
+    let pages = "https://ll-rust.github.io/ll-mods/screenshots/coords_hud";
     p.screenshots = vec![
         format!("{pages}/b.png"),
         "https://example.com/tracker.png".into(),
@@ -315,12 +315,12 @@ fn installs_checked_turns_on_and_removes() {
     let e = install_from(&index, true, None, &p, &home, &|_, _| {}).unwrap_err();
     assert_eq!(e, format!("Coordinates HUD {NEEDS_PORT}."));
     let done = put(&index, true, &home).unwrap();
-    assert_eq!(done[0].file, "horizon-mods/coords_hud.hmod");
+    assert_eq!(done[0].file, "ll-mods/coords_hud.hmod");
     assert_eq!(done[0].skipped, [format!("its code ({NEEDS_PORT})")]);
     assert_eq!(done[0].verdict.as_deref(), Some("Verified"));
     assert!(done[0].checksum.starts_with("SHA-256:e1135345"));
-    assert!(home.join("horizon-mods/coords_hud.hmod").is_file());
-    let list = fs::read_to_string(home.join("horizon-mods.txt")).unwrap();
+    assert!(home.join("ll-mods/coords_hud.hmod").is_file());
+    let list = fs::read_to_string(home.join("ll-mods.txt")).unwrap();
     assert_eq!(list, "mod.coords_hud:true\n");
     assert_eq!(
         fs::read_dir(home.join("mod-browser/downloads"))
@@ -342,33 +342,33 @@ fn installs_checked_turns_on_and_removes() {
     let said = turn_off_revoked(&revoked, &home);
     assert_eq!(said, ["Coordinates HUD was taken down and is off: Test."]);
     assert_eq!(
-        fs::read_to_string(home.join("horizon-mods.txt")).unwrap(),
+        fs::read_to_string(home.join("ll-mods.txt")).unwrap(),
         ""
     );
 
     installed::remove(&home, "coords_hud").unwrap();
-    assert!(!home.join("horizon-mods/coords_hud.hmod").exists());
+    assert!(!home.join("ll-mods/coords_hud.hmod").exists());
     assert!(installed::Installed::load(&home).entries.is_empty());
     fs::remove_dir_all(&home).unwrap();
 }
 
 #[test]
 fn a_mod_that_turned_native_keeps_its_hmod_until_removed() {
-    assert!(stays(true, "horizon-mods/coords_hud.hmod"));
-    assert!(!stays(false, "horizon-mods/coords_hud.hmod"));
-    assert!(!stays(true, "horizon-native-mods/coords_hud.hnmod"));
+    assert!(stays(true, "ll-mods/coords_hud.hmod"));
+    assert!(!stays(false, "ll-mods/coords_hud.hmod"));
+    assert!(!stays(true, "ll-native-mods/coords_hud.hnmod"));
     let index = sample();
     let home = scratch("turned-native");
     put(&index, true, &home).unwrap();
     // As install_version leaves it after the native update.
     let mut list = installed::Installed::load(&home);
-    list.entries[0].file = "horizon-native-mods/coords_hud.hnmod".into();
+    list.entries[0].file = "ll-native-mods/coords_hud.hnmod".into();
     list.save(&home).unwrap();
-    fs::create_dir_all(home.join("horizon-native-mods")).unwrap();
-    fs::write(home.join("horizon-native-mods/coords_hud.hnmod"), "").unwrap();
+    fs::create_dir_all(home.join("ll-native-mods")).unwrap();
+    fs::write(home.join("ll-native-mods/coords_hud.hnmod"), "").unwrap();
     installed::remove(&home, "coords_hud").unwrap();
-    assert!(!home.join("horizon-native-mods/coords_hud.hnmod").exists());
-    assert!(!home.join("horizon-mods/coords_hud.hmod").exists());
+    assert!(!home.join("ll-native-mods/coords_hud.hnmod").exists());
+    assert!(!home.join("ll-mods/coords_hud.hmod").exists());
     fs::remove_dir_all(&home).unwrap();
 }
 
@@ -382,8 +382,8 @@ fn installs_a_shader_pack_into_shaderpacks() {
     assert_eq!(done[0].file, "shaderpacks/glow-1.0.0.hshader");
     assert_eq!(done[0].kind, Kind::Shader);
     assert!(home.join("shaderpacks/glow-1.0.0.hshader").is_file());
-    // Not a mod: nothing turns on in horizon-mods.txt; the game's Shader Packs page picks it.
-    assert!(!home.join("horizon-mods.txt").exists());
+    // Not a mod: nothing turns on in ll-mods.txt; the game's Shader Packs page picks it.
+    assert!(!home.join("ll-mods.txt").exists());
 
     let mut revoked = index.clone();
     revoked.revoked.push(index::Revoked {
@@ -417,14 +417,14 @@ fn refuses_a_changed_file_a_taken_id_and_local_files_from_the_real_registry() {
     tampered.projects[0].versions[0].file.url = cozy;
     let e = put(&tampered, true, &home).unwrap_err();
     assert!(e.contains("larger than its source says"), "{e}");
-    assert!(!home.join("horizon-mods").exists());
+    assert!(!home.join("ll-mods").exists());
 
     let e = put(&index, false, &home).unwrap_err();
     assert!(e.contains("file servers"), "{e}");
 
-    fs::create_dir_all(home.join("horizon-mods/coords_hud")).unwrap();
+    fs::create_dir_all(home.join("ll-mods/coords_hud")).unwrap();
     let e = put(&index, true, &home).unwrap_err();
-    assert!(e.contains("already in horizon-mods"), "{e}");
+    assert!(e.contains("already in ll-mods"), "{e}");
 
     let mut taken_down = index.clone();
     taken_down.revoked.push(index::Revoked {
@@ -486,7 +486,7 @@ fn owner_links_only_take_github_logins() {
 
 /// A version that calls mod API functions the game doesn't have is marked and skipped.
 #[test]
-fn versions_for_a_newer_horizon_are_not_installed() {
+fn versions_for_a_newer_ll_are_not_installed() {
     let mut index = sample();
     index.projects[0].versions[0].api_level = Some(1);
     let p = index.project("coords_hud").unwrap();
@@ -533,30 +533,30 @@ fn ratings_keep_only_what_is_well_formed() {
 #[test]
 fn a_project_is_starred_on_the_repository_its_source_is_in() {
     let repo = |s: &str| github_repo(s);
-    let daybreak = Some("https://github.com/hildlabs/horizon-shaders".to_owned());
+    let daybreak = Some("https://github.com/hildlabs/ll-shaders".to_owned());
     // A folder of it, a trailing slash, `.git`, a query or an anchor: the same repository.
     for source in [
-        "https://github.com/hildlabs/horizon-shaders",
-        "https://github.com/hildlabs/horizon-shaders/tree/main/pack",
-        "https://github.com/hildlabs/horizon-shaders/",
-        "https://github.com/hildlabs/horizon-shaders.git",
-        "https://github.com/hildlabs/horizon-shaders?tab=readme",
-        "https://github.com/hildlabs/horizon-shaders#readme",
+        "https://github.com/hildlabs/ll-shaders",
+        "https://github.com/hildlabs/ll-shaders/tree/main/pack",
+        "https://github.com/hildlabs/ll-shaders/",
+        "https://github.com/hildlabs/ll-shaders.git",
+        "https://github.com/hildlabs/ll-shaders?tab=readme",
+        "https://github.com/hildlabs/ll-shaders#readme",
     ] {
         assert_eq!(repo(source), daybreak, "{source:?}");
     }
     assert_eq!(
-        repo("https://github.com/horizon-rust/horizon.v2_mods"),
-        Some("https://github.com/horizon-rust/horizon.v2_mods".to_owned())
+        repo("https://github.com/ll-rust/horizon.v2_mods"),
+        Some("https://github.com/ll-rust/horizon.v2_mods".to_owned())
     );
     // Not GitHub, no repository, or a name GitHub doesn't allow: no star button.
     for source in [
-        "https://gitlab.com/hildlabs/horizon-shaders",
-        "http://github.com/hildlabs/horizon-shaders",
-        "https://github.com.evil.example/hildlabs/horizon-shaders",
+        "https://gitlab.com/hildlabs/ll-shaders",
+        "http://github.com/hildlabs/ll-shaders",
+        "https://github.com.evil.example/hildlabs/ll-shaders",
         "https://github.com/hildlabs",
         "https://github.com/hildlabs/",
-        "https://github.com/-hildlabs/horizon-shaders",
+        "https://github.com/-hildlabs/ll-shaders",
         "https://github.com/hildlabs/..",
         "https://github.com/hildlabs/horizon shaders",
         "",

@@ -1,7 +1,7 @@
 //! The Wardrobe page's purchase history: the account's orders through Paddle (the merchant of
 //! record), newest first. Mojang's guidelines ask for it. The shop itself is on the website.
 use super::*;
-use horizon_launcher::wardrobe::{Me, Purchase};
+use ll_launcher::wardrobe::{Me, Purchase};
 
 /// A purchase's state, in words.
 fn purchase_state(p: &Purchase) -> &'static str {
@@ -27,7 +27,7 @@ fn chip(live: bool, label: impl Into<SharedString>) -> Div {
         .h(px(24.))
         .px(px(9.))
         .rounded(px(8.))
-        .font_family(horizon_theme::glass::FONT)
+        .font_family(ll_theme::glass::FONT)
         .text_size(px(12.))
         .font_weight(FontWeight::MEDIUM)
         .whitespace_nowrap();

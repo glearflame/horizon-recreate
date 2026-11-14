@@ -12,7 +12,7 @@
 //! rest goes under `overrides/`, which a launcher copies into the game folder.
 use crate::browser::installed::{Entry, Installed};
 use crate::browser::{FileRef, Kind, SourceId, GAME};
-use horizon_world::nbt::{self, Limits, Tag};
+use ll_world::nbt::{self, Limits, Tag};
 use sha2::Digest;
 use std::fs;
 use std::io::{Read, Write};
@@ -21,14 +21,14 @@ use std::path::{Path, PathBuf};
 /// The game folder's own files that are the instance's settings.
 pub const FILES: [&str; 6] = [
     "options.txt",
-    "horizon-graphics.txt",
-    "horizon-extras.txt",
-    "horizon-controller.txt",
-    "horizon-mods.txt",
+    "ll-graphics.txt",
+    "ll-extras.txt",
+    "ll-controller.txt",
+    "ll-mods.txt",
     "servers.dat",
 ];
 /// Its folders of packs, mods and their settings.
-pub const FOLDERS: [&str; 4] = ["resourcepacks", "shaderpacks", "horizon-mods", "config"];
+pub const FOLDERS: [&str; 4] = ["resourcepacks", "shaderpacks", "ll-mods", "config"];
 /// What a world keeps per player: left out.
 const PER_PLAYER: [&str; 4] = ["playerdata", "stats", "advancements", "session.lock"];
 const INDEX: &str = "modrinth.index.json";

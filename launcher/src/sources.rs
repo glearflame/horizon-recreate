@@ -1,7 +1,7 @@
 //! Where the player's own Minecraft files are: the folder they chose, the official launcher's,
 //! or another launcher's (Prism Launcher, MultiMC, Modrinth App, ATLauncher, GDLauncher, Dawn
 //! Client), #434.
-//! horizon-prepare reads the official launcher's layout and pins the version JSON's own sha1, so
+//! ll-prepare reads the official launcher's layout and pins the version JSON's own sha1, so
 //! files found elsewhere are linked into that layout in the launcher's data folder, with the
 //! pinned version JSON from Mojang when the other launcher keeps its own rewrite of it.
 
@@ -61,7 +61,7 @@ pub struct Found {
 }
 
 impl Found {
-    /// Whether `base` is in the official launcher's layout, so horizon-prepare reads it as is.
+    /// Whether `base` is in the official launcher's layout, so ll-prepare reads it as is.
     fn official_layout(&self, version: &str) -> bool {
         let dir = self.base.join("versions").join(version);
         self.client == dir.join(format!("{version}.jar"))

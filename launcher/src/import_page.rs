@@ -1,11 +1,11 @@
-//! Files dropped anywhere on the window (`horizon_launcher::import`): a shared instance becomes
+//! Files dropped anywhere on the window (`ll_launcher::import`): a shared instance becomes
 //! a new instance, a Java modpack goes to the Modpacks import, a resource or shader pack into
-//! the selected instance, a game build (a `horizon-client` program, or an archive or an Actions
+//! the selected instance, a game build (a `ll-client` program, or an archive or an Actions
 //! artifact holding one) installed as its own version. The Packs section and the world rows take
 //! their own drops first.
 use super::*;
 use gpui::ExternalPaths;
-use horizon_launcher::import::{self, Dropped};
+use ll_launcher::import::{self, Dropped};
 use std::path::PathBuf;
 
 #[derive(Default)]
@@ -49,7 +49,7 @@ impl Launcher {
                 }
                 Ok(Dropped::Modpack) => {
                     self.show_modpack(None);
-                    self.pack_job(move |log| horizon_launcher::modpacks::import(&file, log));
+                    self.pack_job(move |log| ll_launcher::modpacks::import(&file, log));
                     self.importing.note = Some(Ok(trf(
                         "{name} is a Java modpack: importing it on the Modpacks page.",
                         &[("name", &name)],
@@ -60,7 +60,7 @@ impl Launcher {
                         continue;
                     };
                     self.importing.note =
-                        Some(horizon_launcher::packs::add(&i.home, &file).map(|p| {
+                        Some(ll_launcher::packs::add(&i.home, &file).map(|p| {
                             trf(
                                 "Added {title} to {instance}'s packs: switch it on under Packs.",
                                 &[("title", &p.title), ("instance", &i.name)],

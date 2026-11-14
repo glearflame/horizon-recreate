@@ -107,7 +107,7 @@ fn target(minecraft: &str, loader: Option<&str>) -> Target {
 
 fn home(name: &str) -> PathBuf {
     let dir = std::env::temp_dir().join(format!(
-        "horizon-java-instance-{name}-{}",
+        "ll-java-instance-{name}-{}",
         std::process::id()
     ));
     let _ = fs::remove_dir_all(&dir);
@@ -343,7 +343,7 @@ fn a_planted_list_never_reaches_outside_the_instance() {
         entry("absolute", &absolute),
         entry("up", "../outside/id_ed25519"),
         entry("through-mods", "mods/../../outside/id_ed25519"),
-        entry("whole-folder", "horizon-mods"),
+        entry("whole-folder", "ll-mods"),
         entry("x", "mods/x.jar"),
     ]});
     fs::write(home.join("mod-browser.json"), manifest.to_string()).unwrap();

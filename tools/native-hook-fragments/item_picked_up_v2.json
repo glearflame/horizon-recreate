@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "item_picked_up_v2",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_item_picked_up_v2",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_item_picked_up_v2",
       "neoforge": "ItemEntityPickupEvent.Pre",
       "side": "server",
       "cancellable": true,

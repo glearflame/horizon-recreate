@@ -13,9 +13,9 @@ const HOSTS: [&str; 5] = [
     "https://cdn.modrinth.com/",
     "https://edge.forgecdn.net/",
     "https://mediafilez.forgecdn.net/",
-    horizon_mods::index::FILE_HOST,
-    // The registry's files at their address before the move to horizon-rust (GitHub redirects it).
-    "https://github.com/ludovic111/horizon-mods/releases/download/",
+    ll_mods::index::FILE_HOST,
+    // The registry's files at their address before the move to ll-rust (GitHub redirects it).
+    "https://github.com/ludovic111/ll-mods/releases/download/",
 ];
 /// `https://github.com/<owner>/<repo>/releases/download/<tag>/<name>`: a release asset of a mod's
 /// own repository, which the registry's index lists once its release passed the registry's checks
@@ -47,10 +47,10 @@ const MAX: u64 = 1 << 30;
 /// be a handshake per file, and a modpack brings hundreds.
 pub(super) fn agent(url: &str) -> ureq::Agent {
     let spec = crate::proxy::spec_for(url);
-    horizon_port_pack::net::keep("browser", spec.as_deref(), |proxy| {
+    ll_port_pack::net::keep("browser", spec.as_deref(), |proxy| {
         let builder = ureq::AgentBuilder::new()
             .user_agent(&format!(
-                "horizon-rust/horizon horizon-launcher/{} (github.com/horizon-rust/horizon)",
+                "ll-rust/horizon ll-launcher/{} (github.com/ll-rust/horizon)",
                 crate::backend::VERSION
             ))
             .timeout_connect(std::time::Duration::from_secs(15))

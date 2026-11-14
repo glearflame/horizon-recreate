@@ -1,12 +1,12 @@
 //! The Shop's pictures: each item seen alone (a shirt on a plain figure, an emote on the player
 //! at its fullest move), a look on the player, the pack as its looks side by side. Drawn by the
-//! Wardrobe's own renderer (`horizon_cosmetics::preview`) at the screen's pixels, twice as fine
+//! Wardrobe's own renderer (`ll_cosmetics::preview`) at the screen's pixels, twice as fine
 //! and then halved so that edges stay smooth, on a background thread; kept by the files' hashes,
 //! so a picture is drawn again only when an item's file, the skin or the screen changes.
 use super::*;
 use glam::{Mat4, Vec3};
-use horizon_cosmetics::preview::{self, Draw, Image};
-use horizon_cosmetics::{Emote, Pose, BODY};
+use ll_cosmetics::preview::{self, Draw, Image};
+use ll_cosmetics::{Emote, Pose, BODY};
 use std::collections::HashMap;
 
 /// What a picture shows.

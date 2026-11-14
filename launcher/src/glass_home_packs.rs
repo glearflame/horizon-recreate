@@ -6,8 +6,8 @@ use super::*;
 use crate::glass_ui::{self as ui, white};
 use glass_home_lists::{danger_button, danger_line, picture};
 use gpui::ExternalPaths;
-use horizon_launcher::packs::{self, Kind as PackKind, Pack};
-use horizon_theme::glass::{fill, ink, radius};
+use ll_launcher::packs::{self, Kind as PackKind, Pack};
+use ll_theme::glass::{fill, ink, radius};
 
 impl Launcher {
     /// Home's Packs tab: the selected instance's resource packs, then its shader packs.
@@ -207,7 +207,7 @@ impl Launcher {
             1 => tr("1 screenshot").to_string(),
             n => trf("{count} screenshots", &[("count", &n.to_string())]),
         };
-        let folder = horizon_launcher::screenshots::folder(&home);
+        let folder = ll_launcher::screenshots::folder(&home);
         // The mockup's blur toggle, then the folder (not in the mockup, kept), the same 32 px
         // `ICON_BUTTON`.
         let privacy = self.shots_privacy(cx);

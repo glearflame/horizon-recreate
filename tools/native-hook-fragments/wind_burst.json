@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "wind_burst",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_wind_burst",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_wind_burst",
       "side": "server",
       "cancellable": false,
       "mod_api": {

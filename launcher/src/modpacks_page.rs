@@ -1,9 +1,9 @@
 //! Imported modpacks, on the Mods page's Modpacks tab: import a pack, read its coverage report,
-//! port what this computer can and play it as its own profile (`horizon_launcher::modpacks`).
+//! port what this computer can and play it as its own profile (`ll_launcher::modpacks`).
 use super::*;
-use horizon_launcher::browser::horizon::pack as horizon_pack;
-use horizon_launcher::modpacks::{self, Imported};
-use horizon_port_pack::report::Status;
+use ll_launcher::browser::horizon::pack as ll_pack;
+use ll_launcher::modpacks::{self, Imported};
+use ll_port_pack::report::Status;
 use std::path::PathBuf;
 
 /// The report's filter: every row, or one status.
@@ -137,7 +137,7 @@ impl Launcher {
         if self.packs_loaded.is_none() {
             self.mods.report_list.reset();
             self.packs = modpacks::list();
-            self.registry_packs = horizon_pack::list();
+            self.registry_packs = ll_pack::list();
             self.reload_instances();
             if self.pack_open.is_none() {
                 self.pack_open = self.packs.first().map(|p| p.slug.clone());
@@ -268,7 +268,7 @@ impl Launcher {
                     .on_click(cx.listener(
                         move |this, _: &ClickEvent, _, cx| {
                             if this.confirm_remove.as_ref() == Some(&key) {
-                                match horizon_pack::remove(&remove) {
+                                match ll_pack::remove(&remove) {
                                     Ok(()) => this.packs_loaded = None,
                                     Err(e) => this.pack_error = Some(e),
                                 }
@@ -453,7 +453,7 @@ impl Launcher {
         if !can_play {
             notes.push(tr("Playing needs a prepared Horizon version (Play page).").into());
         }
-        let mut rows: Vec<&horizon_port_pack::report::Row> = p
+        let mut rows: Vec<&ll_port_pack::report::Row> = p
             .rows
             .iter()
             .filter(|r| self.pack_filter.is_none_or(|s| r.status == s))

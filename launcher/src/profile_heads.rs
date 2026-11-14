@@ -26,7 +26,7 @@ struct Head {
 /// The key an offline name's head is kept under: its offline UUID, as the game makes it, whose
 /// default skin it wears without one of its own.
 pub fn offline_key(name: &str) -> String {
-    format!("{:032x}", horizon_protocol::crypto::offline_uuid(name))
+    format!("{:032x}", ll_protocol::crypto::offline_uuid(name))
 }
 
 impl Heads {
@@ -44,7 +44,7 @@ impl Heads {
             .retain(|uuid, _| accounts.iter().any(|a| &a.uuid == uuid) || keys.contains(uuid));
         for (name, key) in offline.iter().zip(keys) {
             // The name's own skin, by when it was last changed, so a new one is read again.
-            let file = horizon_launcher::skins::files(&horizon_launcher::skins::dir(), name).0;
+            let file = ll_launcher::skins::files(&ll_launcher::skins::dir(), name).0;
             let url = std::fs::metadata(&file)
                 .and_then(|m| m.modified())
                 .ok()
@@ -71,8 +71,8 @@ impl Heads {
             std::thread::spawn(move || {
                 let face = std::fs::read(&file)
                     .ok()
-                    .and_then(|png| horizon_launcher::heads::face(&png))
-                    .or_else(|| horizon_launcher::heads::default_face(&resources, &key));
+                    .and_then(|png| ll_launcher::heads::face(&png))
+                    .or_else(|| ll_launcher::heads::default_face(&resources, &key));
                 let _ = tx.send(Msg::AccountHead(key, url, face, false));
             });
         }
@@ -98,7 +98,7 @@ impl Heads {
             );
             let (account, resources, tx) = (account.clone(), resources.clone(), tx.clone());
             std::thread::spawn(move || {
-                let (face, failed) = horizon_launcher::heads::profile_face(
+                let (face, failed) = ll_launcher::heads::profile_face(
                     &account,
                     &backend::data_dir().join("profile-heads"),
                     &resources,
@@ -185,7 +185,7 @@ mod tests {
         assert!(heads.0["player"].retry_at.is_none());
         let theme = Theme::for_appearance(
             backend::Appearance::Dark,
-            horizon_launcher::themes::Accent::VIOLET,
+            ll_launcher::themes::Accent::VIOLET,
             gpui::WindowAppearance::Dark,
         );
         let _ = heads.draw(Some("player"), 32., 2., &theme);

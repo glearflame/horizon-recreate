@@ -5,7 +5,7 @@ use crate::blocks::icon;
 use crate::plate::{alpha, cut, plate};
 use crate::theme::{self, night, Theme};
 use gpui::{div, prelude::*, px, rgb, Div, FontWeight, Hsla, Rgba};
-use horizon_theme::{contrast, MICRO};
+use ll_theme::{contrast, MICRO};
 use std::sync::LazyLock;
 
 /// Whether the launcher was opened on the specimen.
@@ -18,7 +18,7 @@ pub fn wanted() -> bool {
 /// Each sky stop's share of the window's height, top to bottom.
 const BANDS: [f32; 6] = [0.2, 0.18, 0.17, 0.15, 0.15, 0.15];
 
-fn text(step: horizon_theme::Step, color: impl Into<Hsla>) -> Div {
+fn text(step: ll_theme::Step, color: impl Into<Hsla>) -> Div {
     div()
         .font_family(if step.px >= night::DISPLAY.px {
             theme::DISPLAY_FONT
@@ -101,7 +101,7 @@ pub fn render(t: &Theme) -> Div {
         .flex_col()
         .gap(px(14.))
         .w(px(600.))
-        .child(mono(muted).child("horizon-theme · night · Bricolage Grotesque"))
+        .child(mono(muted).child("ll-theme · night · Bricolage Grotesque"))
         .child(text(night::DISPLAY, ink).child("Survival with friends"))
         .child(text(night::TITLE, ink).child("Java · Fabric 0.16.9 · 142 mods"))
         .child(

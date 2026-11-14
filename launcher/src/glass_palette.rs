@@ -9,9 +9,9 @@
 use super::line_edit::{self, Key, LineEdit};
 use super::*;
 use crate::glass_ui::{self as ui, white};
-use horizon_launcher::browser::Project;
-use horizon_launcher::instances::Kind as InstanceKind;
-use horizon_theme::glass::ink;
+use ll_launcher::browser::Project;
+use ll_launcher::instances::Kind as InstanceKind;
+use ll_theme::glass::ink;
 use std::path::PathBuf;
 
 /// Commands listed at most (`slice(0, 8)`).
@@ -219,7 +219,7 @@ impl Launcher {
             .h(px(48.))
             .px(px(12.))
             .cursor_text()
-            .font_family(horizon_theme::glass::FONT)
+            .font_family(ll_theme::glass::FONT)
             .text_size(px(15.))
             .text_color(white(ink::FULL))
             .child(ui::icon("search-01", 20., white(0.55)))

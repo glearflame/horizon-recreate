@@ -77,7 +77,7 @@ fn request_to(method: &str, url: &str) -> ureq::Request {
     crate::proxy::agent(
         ureq::AgentBuilder::new()
             .timeout(Duration::from_secs(20))
-            .user_agent(&format!("horizon-launcher/{}", crate::backend::VERSION)),
+            .user_agent(&format!("ll-launcher/{}", crate::backend::VERSION)),
         url,
     )
     .build()
@@ -909,7 +909,7 @@ fn machine_id() -> Option<Vec<u8>> {
 fn file_key(install_secret: &[u8; 32]) -> chacha20poly1305::Key {
     use sha2::Digest;
     let mut hash = sha2::Sha256::new();
-    hash.update(b"horizon-launcher account-secrets v2");
+    hash.update(b"ll-launcher account-secrets v2");
     let id = machine_id().unwrap_or_default();
     hash.update((id.len() as u64).to_le_bytes());
     hash.update(&id);
@@ -922,7 +922,7 @@ fn file_key(install_secret: &[u8; 32]) -> chacha20poly1305::Key {
 fn file_key_v1() -> chacha20poly1305::Key {
     use sha2::Digest;
     let mut hash = sha2::Sha256::new();
-    hash.update(b"horizon-launcher account-secrets v1");
+    hash.update(b"ll-launcher account-secrets v1");
     if let Some(id) = machine_id() {
         hash.update(id);
     }
@@ -1576,7 +1576,7 @@ pub struct Accounts {
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub offline: Vec<String>,
     /// The offline name that plays when no account is selected; none: the name the game made up
-    /// (`horizon-player.txt`).
+    /// (`ll-player.txt`).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub offline_selected: Option<String>,
     /// Each offline name's skin and cape (`skins`), by the name in lowercase.
@@ -2299,10 +2299,10 @@ fn split_sessions(
     }
 }
 
-/// Whether the game's Splitscreen setting is on (`horizon-extras.txt`, `splitscreen:true`): only
+/// Whether the game's Splitscreen setting is on (`ll-extras.txt`, `splitscreen:true`): only
 /// then do the other accounts' sessions go to it.
 fn splitscreen_on(game_home: &Path) -> bool {
-    std::fs::read_to_string(game_home.join("horizon-extras.txt"))
+    std::fs::read_to_string(game_home.join("ll-extras.txt"))
         .is_ok_and(|text| text.lines().any(|l| l.trim() == "splitscreen:true"))
 }
 

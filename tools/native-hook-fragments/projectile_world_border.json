@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "projectile_world_border",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_projectile_world_border",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_projectile_world_border",
       "neoforge": "none (26.3's projectile world border collision, MC-310476)",
       "side": "server",
       "mod_api": {

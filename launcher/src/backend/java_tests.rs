@@ -30,13 +30,13 @@ fn selected_jdk_reaches_external_preparers() {
         return;
     }
 
-    let root = std::env::temp_dir().join(format!("horizon-launcher-java-{}", std::process::id()));
+    let root = std::env::temp_dir().join(format!("ll-launcher-java-{}", std::process::id()));
     fs::create_dir_all(&root).unwrap();
     let executable =
         |bin: &Path, name: &str| bin.join(format!("{name}{}", std::env::consts::EXE_SUFFIX));
     let probe = executable(&root, "probe");
     let source = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../crates/horizon-prepare/tests/support/java_probe.rs");
+        .join("../crates/ll-prepare/tests/support/java_probe.rs");
     let output = crate::process::command("rustc")
         .arg(source)
         .arg("-o")

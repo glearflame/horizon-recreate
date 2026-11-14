@@ -43,7 +43,7 @@ impl Output {
 
 /// Cargo's stdout is JSON; the log stays readable and stderr still drives build progress.
 pub(super) fn capture(compiler: &Compiler<'_>, input: impl BufRead, mut log: impl Write) -> Output {
-    let plan = fs::read(compiler.stage.join(".horizon-mixins-stage.json"))
+    let plan = fs::read(compiler.stage.join(".ll-mixins-stage.json"))
         .ok()
         .and_then(|bytes| serde_json::from_slice::<Value>(&bytes).ok())
         .filter(|p| p["schema"].as_u64() == Some(6));
@@ -81,7 +81,7 @@ pub(super) fn capture(compiler: &Compiler<'_>, input: impl BufRead, mut log: imp
 }
 
 /// A file's functions (where each is, its name and its tokens), inline modules (where, name),
-/// and the blocks horizon-mixins wraps a helper in (where, the helper's name and tokens).
+/// and the blocks ll-mixins wraps a helper in (where, the helper's name and tokens).
 #[derive(Default)]
 struct Items {
     functions: Vec<(Range<usize>, String, String)>,
@@ -129,7 +129,7 @@ impl<'ast> Visit<'ast> for Items {
 /// A file being touched is insufficient: the error must be inside what a mod brought, and its
 /// owner be unique. That is a helper (the function with its tokens, or with its name when the
 /// pristine source has no function of that name: the staged file may be formatted, a trailing
-/// comma added, which changes its tokens and not its name, with the call horizon-mixins generates
+/// comma added, which changes its tokens and not its name, with the call ll-mixins generates
 /// for it), or a support module (the inline module of its name, when the pristine source has none).
 fn owner(compiler: &Compiler<'_>, plan: &Value, manifest: &Value, span: &Value) -> Option<String> {
     let stage = compiler.stage.canonicalize().ok()?;
@@ -257,7 +257,7 @@ mod tests {
 
     fn plan(dir: &Path, entries: serde_json::Value) {
         fs::write(
-            dir.join(".horizon-mixins-stage.json"),
+            dir.join(".ll-mixins-stage.json"),
             json!({"schema":6,"injections":entries}).to_string(),
         )
         .unwrap();
@@ -381,7 +381,7 @@ mod tests {
         )
         .unwrap();
         fs::write(
-            dir.join(".horizon-mixins-stage.json"),
+            dir.join(".ll-mixins-stage.json"),
             json!({"schema":6,"injections":[],"modules":[{"mod_id":"fast_mesh","mod_version":"0.1.0","file":"src/main.rs","name":"fast_mesh_tables"}]}).to_string(),
         )
         .unwrap();
@@ -397,7 +397,7 @@ mod tests {
         fs::write(dir.join("src/main.rs"), SOURCE).unwrap();
 
         for metadata in ["not json", "{}", r#"{"schema":99,"injections":[]}"#] {
-            fs::write(dir.join(".horizon-mixins-stage.json"), metadata).unwrap();
+            fs::write(dir.join(".ll-mixins-stage.json"), metadata).unwrap();
             let error =
                 capture(&compiler, Cursor::new(&stdout), Vec::new()).explain(original.clone());
             assert!(!error.contains("fast_mesh"), "{error}");
@@ -452,7 +452,7 @@ mod tests {
     }
 
     /// flair 1.0.0 on Horizon 66f3981: Horizon widened `extra` to five-element tuples, so the
-    /// call horizon-mixins generates for the mod's helper, outside the helper itself, fails.
+    /// call ll-mixins generates for the mod's helper, outside the helper itself, fails.
     #[test]
     fn an_error_in_the_generated_call_to_a_helper_names_its_mod() {
         const FLAIR: &str = "fn flair_armor(extra: &[(u8, u8)]) -> usize { extra.len() }";

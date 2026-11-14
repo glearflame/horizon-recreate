@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "player_tick_pre",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_player_tick_pre",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_player_tick_pre",
       "neoforge": "PlayerTickEvent.Pre",
       "side": "server",
       "cancellable": false,

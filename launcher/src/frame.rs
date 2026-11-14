@@ -6,9 +6,9 @@ use super::*;
 use crate::glass_ui::{self as ui, white, Tone};
 use crate::instances_page::java_line;
 use gpui::{anchored, canvas, deferred, point};
-use horizon_launcher::account::Player;
-use horizon_launcher::instances::{Icon, Instance, Kind as InstanceKind};
-use horizon_theme::glass::{fill, ink, radius};
+use ll_launcher::account::Player;
+use ll_launcher::instances::{Icon, Instance, Kind as InstanceKind};
+use ll_theme::glass::{fill, ink, radius};
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::rc::Rc;
@@ -47,7 +47,7 @@ impl Launcher {
     /// chosen), as `ColorTile` draws it.
     pub(super) fn glass_instance_icon(&mut self, i: &Instance, size: f32) -> AnyElement {
         if i.kind == InstanceKind::Default && i.icon.is_none() {
-            return self.horizon_mark(size);
+            return self.ll_mark(size);
         }
         if let Some(picture) = self.instance_picture(i, size) {
             return instance_icons::centred(picture, size, self.scale).into_any_element();
@@ -84,9 +84,9 @@ impl Launcher {
             .rounded(r)
             .bg(ui::color(colour))
             .font_family(if letter >= 40. {
-                horizon_theme::glass::DISPLAY_FONT
+                ll_theme::glass::DISPLAY_FONT
             } else {
-                horizon_theme::glass::HEADING_FONT
+                ll_theme::glass::HEADING_FONT
             })
             .font_weight(FontWeight::SEMIBOLD)
             .text_size(px(letter))
@@ -132,7 +132,7 @@ impl Launcher {
                             Tone::Live,
                             trf(
                                 "Native build · {version}",
-                                &[("version", &build.horizon_short())],
+                                &[("version", &build.ll_short())],
                             ),
                         )
                     }
@@ -512,8 +512,8 @@ impl Launcher {
                     .mt(px(12.))
                     .h(px(40.))
                     .rounded(px(radius::ROW))
-                    .bg(ui::color(horizon_theme::glass::DISCORD))
-                    .hover(|s| s.bg(ui::color(horizon_theme::glass::DISCORD_HOVER)))
+                    .bg(ui::color(ll_theme::glass::DISCORD))
+                    .hover(|s| s.bg(ui::color(ll_theme::glass::DISCORD_HOVER)))
                     .cursor_pointer()
                     .child(ui::icon("discord", 18., gpui::white()))
                     .child(
@@ -545,7 +545,7 @@ impl Launcher {
                         .child(
                             div()
                                 .relative()
-                                .font_family(horizon_theme::glass::FONT)
+                                .font_family(ll_theme::glass::FONT)
                                 .text_size(px(14.))
                                 .child(label),
                         )

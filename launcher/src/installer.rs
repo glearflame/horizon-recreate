@@ -1,17 +1,17 @@
 //! Per-user setup on Windows, no administrator needed.
 //!
-//! `horizon-launcher-setup.exe` (the launcher's own binary under another name, made by the
-//! release workflow) copies itself to `%LOCALAPPDATA%\Programs\Horizon Launcher\horizon-launcher.exe`,
+//! `ll-launcher-setup.exe` (the launcher's own binary under another name, made by the
+//! release workflow) copies itself to `%LOCALAPPDATA%\Programs\Horizon Launcher\ll-launcher.exe`,
 //! makes the Start menu shortcut (and the desktop one if asked) and the Uninstall entry under HKCU,
-//! and starts the installed copy. `horizon-launcher.exe uninstall` takes it all away again: the
+//! and starts the installed copy. `ll-launcher.exe uninstall` takes it all away again: the
 //! launcher's data folder only when asked, the game's folder never.
 //!
 //! Nothing here deletes a folder it didn't make: the install folder is always called
 //! "Horizon Launcher" ([`folder_for`]) and is removed with `remove_dir`, which only takes an empty one.
 //!
 //! Command lines (handled in `main` before the CLI parser, so MCP never sees them):
-//! `horizon-launcher-setup.exe` (window), `... setup --quiet [--dir <folder>] [--desktop-shortcut]`,
-//! `horizon-launcher.exe uninstall` (window), `... uninstall --quiet [--remove-data]`.
+//! `ll-launcher-setup.exe` (window), `... setup --quiet [--dir <folder>] [--desktop-shortcut]`,
+//! `ll-launcher.exe uninstall` (window), `... uninstall --quiet [--remove-data]`.
 use crate::backend;
 use crate::shortcut;
 use std::fs;
@@ -21,12 +21,12 @@ use winreg::enums::{HKEY_CURRENT_USER, KEY_READ, KEY_WRITE};
 use winreg::RegKey;
 
 pub const APP_NAME: &str = "Horizon Launcher";
-const BINARY: &str = "horizon-launcher.exe";
+const BINARY: &str = "ll-launcher.exe";
 const PUBLISHER: &str = "Horizon";
 const ABOUT_URL: &str = "https://playhorizon.dev";
 const UNINSTALL_KEY: &str = r"Software\Microsoft\Windows\CurrentVersion\Uninstall\HorizonLauncher";
 const OWN_KEY: &str = r"Software\Horizon\Launcher";
-const ASIDE_PREFIX: &str = "horizon-launcher-uninstall-";
+const ASIDE_PREFIX: &str = "ll-launcher-uninstall-";
 
 pub use crate::setup_args::Mode;
 use crate::setup_args::{classify, Invocation};
@@ -78,7 +78,7 @@ fn args() -> Vec<String> {
     std::env::args().skip(1).collect()
 }
 
-/// Whether this binary is the setup: its file name starts with `horizon-launcher-setup` (the
+/// Whether this binary is the setup: its file name starts with `ll-launcher-setup` (the
 /// release workflow copies the launcher under that name). `HORIZON_LAUNCHER_SETUP=1` forces it,
 /// for screenshots and tests.
 pub fn is_setup_exe() -> bool {
@@ -88,7 +88,7 @@ pub fn is_setup_exe() -> bool {
     backend::exe_path()
         .file_stem()
         .and_then(|s| s.to_str())
-        .is_some_and(|s| s.to_ascii_lowercase().starts_with("horizon-launcher-setup"))
+        .is_some_and(|s| s.to_ascii_lowercase().starts_with("ll-launcher-setup"))
 }
 
 /// The window to open instead of the launcher: the wizard for the setup exe started without
@@ -373,7 +373,7 @@ fn running_launchers() -> Vec<u32> {
             "CSV",
             "/NH",
             "/FI",
-            "IMAGENAME eq horizon-launcher.exe",
+            "IMAGENAME eq ll-launcher.exe",
         ])
         .output();
     out.map(|o| {
@@ -477,7 +477,7 @@ pub fn uninstall(remove_data: bool, progress: impl Fn(Step, f32)) -> Result<Vec<
     // Only what setup and self-updates put there: the launcher and what they moved aside.
     for entry in fs::read_dir(&dir).into_iter().flatten().flatten() {
         let name = entry.file_name().to_string_lossy().to_lowercase();
-        if name == BINARY || name.starts_with("horizon-launcher.exe.") {
+        if name == BINARY || name.starts_with("ll-launcher.exe.") {
             remove_file(&entry.path(), &mut left);
         }
     }
@@ -496,7 +496,7 @@ pub fn uninstall(remove_data: bool, progress: impl Fn(Step, f32)) -> Result<Vec<
         // Only the folder the launcher itself names: `HORIZON_LAUNCHER_HOME` may point anywhere.
         if data
             .file_name()
-            .is_some_and(|n| n.eq_ignore_ascii_case("horizon-launcher"))
+            .is_some_and(|n| n.eq_ignore_ascii_case("ll-launcher"))
         {
             remove_all(&data, &mut left);
             // A profile whose name isn't ASCII keeps the build folder in %ProgramData%
@@ -628,9 +628,9 @@ mod tests {
             .to_str()
             .and_then(|t| t.strip_prefix(r"\\?\"))
             .map_or(temp.clone(), PathBuf::from);
-        let dir = temp.join(format!("horizon-link-{}", std::process::id()));
+        let dir = temp.join(format!("ll-link-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
-        let exe = dir.join("Horizon Launcher").join("horizon-launcher.exe");
+        let exe = dir.join("Horizon Launcher").join("ll-launcher.exe");
         fs::create_dir_all(exe.parent().unwrap()).unwrap();
         fs::write(&exe, b"x").unwrap();
         let link = dir.join("Horizon Launcher.lnk");
@@ -644,7 +644,7 @@ mod tests {
         assert!(points_to(&link, &exe));
         assert!(!points_to(
             &link,
-            Path::new(r"C:\Other\horizon-launcher.exe")
+            Path::new(r"C:\Other\ll-launcher.exe")
         ));
         let _ = fs::remove_dir_all(&dir);
     }

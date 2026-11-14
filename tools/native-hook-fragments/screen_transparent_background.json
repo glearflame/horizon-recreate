@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "screen_transparent_background",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_screen_transparent_background",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_screen_transparent_background",
       "neoforge": "ScreenEvent.Render.Pre (transparent background)",
       "side": "client",
       "cancellable": true,
@@ -15,19 +15,19 @@
   "helpers": [
     {
       "name": "apply_screen_blur",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_apply_screen_blur"
+      "target": "ll_client::game::native_hooks::Game<'_>::native_apply_screen_blur"
     },
     {
       "name": "menu_blur_radius",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_menu_blur_radius"
+      "target": "ll_client::game::native_hooks::Game<'_>::native_menu_blur_radius"
     },
     {
       "name": "draw_menu_background",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_draw_menu_background"
+      "target": "ll_client::game::native_hooks::Game<'_>::native_draw_menu_background"
     },
     {
       "name": "tiled_sprite",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_tiled_sprite"
+      "target": "ll_client::game::native_hooks::Game<'_>::native_tiled_sprite"
     }
   ],
   "rust_summary": "transparent background rendering behind in-game screens (`native_screen_transparent_background`), menu background blur (`native_apply_screen_blur`, `native_menu_blur_radius`) and tiled menu backgrounds (`native_draw_menu_background`, `native_tiled_sprite`).",

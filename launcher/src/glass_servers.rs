@@ -1,11 +1,11 @@
-//! The Servers page in the glass look (the mockup's `ServersView`, horizon-site
+//! The Servers page in the glass look (the mockup's `ServersView`, ll-site
 //! `components/launcher/launcher-views.tsx`): the open server's glass with its state, name, numbers,
 //! Start or Restart and Stop, its console and command line; beside it the list of servers and how
 //! friends reach the open one. Below, what the mockup has no room for: the server's Players,
 //! Settings and Backups, then Sculk's banner (sponsor). Dark appearance only.
 use super::*;
 use crate::glass_ui::{self as ui, white, Tone};
-use horizon_theme::glass::{fill, ink, radius};
+use ll_theme::glass::{fill, ink, radius};
 
 /// The right column's width (`lg:grid-cols-[minmax(0,1fr)_320px]`).
 const SIDE: f32 = 320.;
@@ -204,7 +204,7 @@ impl Launcher {
                     .rounded(px(radius::LARGE))
                     .bg(ui::color(look.accent))
                     .text_color(ui::color(look.on_accent))
-                    .font_family(horizon_theme::glass::FONT)
+                    .font_family(ll_theme::glass::FONT)
                     .text_size(px(15.))
                     .font_weight(FontWeight::SEMIBOLD)
                     .cursor_pointer()
@@ -255,7 +255,7 @@ impl Launcher {
                             .child(
                                 div()
                                     .truncate()
-                                    .font_family(horizon_theme::glass::DISPLAY_FONT)
+                                    .font_family(ll_theme::glass::DISPLAY_FONT)
                                     .font_weight(FontWeight::SEMIBOLD)
                                     .text_size(px(43.5))
                                     .line_height(px(43.5))
@@ -832,7 +832,7 @@ pub(super) fn glass_setting_row(
     control: AnyElement,
 ) -> Div {
     let note = match error {
-        Some(e) => ui::card_note(tr(e)).text_color(gpui::rgb(horizon_theme::glass::DANGER)),
+        Some(e) => ui::card_note(tr(e)).text_color(gpui::rgb(ll_theme::glass::DANGER)),
         None => ui::card_note(about).text_color(white(0.6)),
     };
     div()

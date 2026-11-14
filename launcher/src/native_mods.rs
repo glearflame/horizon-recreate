@@ -1,5 +1,5 @@
 //! Native mods (docs/native-mods.md): mixin bundles that
-//! levzzz5154's horizon-mixins (MIT, <https://github.com/horizon-rust/horizon-mixins>) applies to
+//! levzzz5154's ll-mixins (MIT, <https://github.com/ll-rust/ll-mixins>) applies to
 //! Horizon's source, which the launcher then compiles into a game of its own with its portable Rust
 //! ([`rust_toolchain`]). Unlike `.hmod` mods they are not sandboxed: their code runs with the
 //! player's rights.
@@ -37,19 +37,19 @@ mod isolate;
 pub use isolate::LeftOut;
 
 const PREFIX: &str = "native-";
-/// horizon-mixins, for bundles that don't name the revision they were tested with.
-const MIXINS_GIT: &str = "https://github.com/horizon-rust/horizon-mixins";
+/// ll-mixins, for bundles that don't name the revision they were tested with.
+const MIXINS_GIT: &str = "https://github.com/ll-rust/ll-mixins";
 pub const MIXINS_REV: &str = "5a64af938ec86b00d53d16a408aabc0038fb3e57";
 /// The features of the release's own game (game-build.yml).
-const FEATURES: &str = "horizon-client/mods";
+const FEATURES: &str = "ll-client/mods";
 
 /// What a native build is compiled for. `Performance`, the default, is the workspace's `fast` (16
-/// codegen units, incremental, thin-local LTO only), so changing a mod recompiles only `horizon-client`'s
-/// changed parts; `Dev`, for developing a mod, is `fast` with `horizon-client` unoptimized: the
+/// codegen units, incremental, thin-local LTO only), so changing a mod recompiles only `ll-client`'s
+/// changed parts; `Dev`, for developing a mod, is `fast` with `ll-client` unoptimized: the
 /// quickest to rebuild after an edit, for a game about twice as slow; `Release` is the release's
 /// own (thin LTO, one codegen unit): slowest to build, slightly faster game. `Performance` and
 /// `Dev` share `native/target/fast/`: every other crate is built alike, so switching between them
-/// recompiles only `horizon-client`, and Cargo keeps both builds of it. Each profile has its own
+/// recompiles only `ll-client`, and Cargo keeps both builds of it. Each profile has its own
 /// key, so their builds never mix.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -100,23 +100,23 @@ impl Profile {
     fn cargo(self) -> (&'static str, &'static [&'static str]) {
         match self {
             Self::Performance => ("fast", &[]),
-            Self::Dev => ("fast", &["profile.fast.package.horizon-client.opt-level=0"]),
+            Self::Dev => ("fast", &["profile.fast.package.ll-client.opt-level=0"]),
             Self::Release => ("release", &[]),
         }
     }
 }
 
 /// What a native build compiles: the game the player plays, or the headless engine a dedicated
-/// server runs (`horizon-engine`, docs/server.md). Both build the same source with the same
+/// server runs (`ll-engine`, docs/server.md). Both build the same source with the same
 /// mixins. The server uses `--no-default-features` (no audio or controllers), a separate cache,
 /// and a standalone runtime folder outside the managed versions.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub enum Target {
-    /// The game: `horizon-client` as the release ships it.
+    /// The game: `ll-client` as the release ships it.
     #[default]
     Client,
     /// The headless engine: the same binary without the default features, installed and
-    /// exported as `horizon-engine`.
+    /// exported as `ll-engine`.
     Server,
 }
 
@@ -146,11 +146,11 @@ impl Target {
     }
 
     /// The name the built binary is installed under: the game's own, the engine's
-    /// (`horizon-engine`, docs/server.md).
+    /// (`ll-engine`, docs/server.md).
     fn binary(self) -> String {
         match self {
             Self::Client => backend::CLIENT.into(),
-            Self::Server => format!("horizon-engine{}", std::env::consts::EXE_SUFFIX),
+            Self::Server => format!("ll-engine{}", std::env::consts::EXE_SUFFIX),
         }
     }
 }
@@ -331,7 +331,7 @@ pub fn classify(exists: bool, before: Option<&Record>, now: &Record) -> Plan {
         changes.push(format!("mods {}", changed.join(", ")));
     }
     if before.mixins != now.mixins {
-        changes.push("horizon-mixins".into());
+        changes.push("ll-mixins".into());
     }
     if changes.is_empty() {
         changes.push("the build settings".into());
@@ -602,12 +602,12 @@ pub fn cache_info(clear: bool) -> Result<CacheInfo, String> {
     })
 }
 
-const MANIFEST: &str = "horizon-mixin.toml";
-/// A registry download's manifest (`.hnmod`, `horizon_mods::index::native`), beside `mixins/<id>/`.
-const NATIVE_MANIFEST: &str = horizon_mods::index::native::MANIFEST;
+const MANIFEST: &str = "ll-mixin.toml";
+/// A registry download's manifest (`.hnmod`, `ll_mods::index::native`), beside `mixins/<id>/`.
+const NATIVE_MANIFEST: &str = ll_mods::index::native::MANIFEST;
 /// Where an instance keeps the native mods installed from the registry, `<id>.hnmod`, each on or
-/// off in `horizon-mods.txt` like any mod.
-pub const INSTALLED: &str = "horizon-native-mods";
+/// off in `ll-mods.txt` like any mod.
+pub const INSTALLED: &str = "ll-native-mods";
 
 /// The native mods turned on in the game folder `home`, unpacked into a folder [`build`] takes.
 /// Each `.hnmod` is checked again as the registry checks it (Rust and TOML under
@@ -622,7 +622,7 @@ pub fn installed_mods(home: &Path) -> Result<PathBuf, String> {
     paths.sort();
     let mut count = 0;
     for path in paths {
-        let bundle = horizon_mods::index::native::Bundle::read(&path)
+        let bundle = ll_mods::index::native::Bundle::read(&path)
             .map_err(|e| format!("{}: {e}", path.display()))?;
         if !crate::browser::java::is_enabled(home, &bundle.manifest.id) {
             continue;
@@ -644,25 +644,25 @@ pub fn installed_mods(home: &Path) -> Result<PathBuf, String> {
     Ok(out)
 }
 
-/// A mixin bundle: a folder with a `horizon-mixin.toml`, and the revisions it pins.
+/// A mixin bundle: a folder with a `ll-mixin.toml`, and the revisions it pins.
 #[derive(Clone, Debug, PartialEq)]
 pub struct Bundle {
     pub id: String,
     pub version: String,
     pub dir: PathBuf,
-    /// The Horizon commit it builds on (`[compatibility] horizon_revision`, or its `.hnmod`'s).
+    /// The Horizon commit it builds on (`[compatibility] ll_revision`, or its `.hnmod`'s).
     pub horizon: Option<String>,
-    /// The horizon-mixins commit it was tested with (its `.hnmod`'s).
+    /// The ll-mixins commit it was tested with (its `.hnmod`'s).
     pub mixins: Option<String>,
     /// The native hook points' version it needs (its `.hnmod`'s `hooks`): then `horizon` is the
     /// revision it was tested on, and it builds on any with these hook points or later ones.
     pub hooks: Option<u32>,
     /// The bundle-relative trait package folder (`[api] path`).
     pub api: Option<String>,
-    /// True when the manifest has content for horizon-mixins.
+    /// True when the manifest has content for ll-mixins.
     pub mixins_content: bool,
     /// Its `[[injection]]` entries, for the build's warnings. Read leniently:
-    /// an entry the launcher cannot make sense of is left out, horizon-mixins
+    /// an entry the launcher cannot make sense of is left out, ll-mixins
     /// refuses it when it applies.
     pub injections: Vec<Injection>,
 }
@@ -675,7 +675,7 @@ pub struct Injection {
     /// Where it injects: a native hook point by name, or a raw function path.
     pub site: InjectionSite,
     /// A named hook point's `hook_version`: with the name, what the revision's
-    /// `native-hooks.json` must list for horizon-mixins to find it.
+    /// `native-hooks.json` must list for ll-mixins to find it.
     pub hook_version: Option<u32>,
     /// Its `kind` (`HEAD`, `RETURN`, …) as written.
     pub kind: Option<String>,
@@ -683,7 +683,7 @@ pub struct Injection {
     /// sites of one function apart.
     pub selector: Option<String>,
     pub ordinal: Option<i64>,
-    /// The `[mod]` `priority` unless the entry overrides it. horizon-mixins
+    /// The `[mod]` `priority` unless the entry overrides it. ll-mixins
     /// defaults it to 0 (`#[serde(default)] priority: i32`).
     pub priority: i64,
     /// `cancellable = true` (a `HEAD`, `BEFORE_CALL`, `AFTER_CALL` or
@@ -724,7 +724,7 @@ impl Bundle {
 
 impl Injection {
     /// The place it sits at, as the manifest tells it: the function, the
-    /// kind, and the selector and ordinal of interior hooks. horizon-mixins
+    /// kind, and the selector and ordinal of interior hooks. ll-mixins
     /// resolves the same place against the source (`plan.rs` sorts by file,
     /// node, call site, constant site, then priority descending, mod id
     /// ascending, injection id ascending): same manifest place, and its
@@ -754,8 +754,8 @@ impl Injection {
     }
 }
 
-/// The bundles in `folder`: the folder itself when it is one (a `horizon-mixin.toml`, or an
-/// unpacked `.hnmod`: `horizon-native.json` and `mixins/<id>/`), else each of its subfolders that is.
+/// The bundles in `folder`: the folder itself when it is one (a `ll-mixin.toml`, or an
+/// unpacked `.hnmod`: `ll-native.json` and `mixins/<id>/`), else each of its subfolders that is.
 pub fn bundles(folder: &Path) -> Result<Vec<Bundle>, String> {
     if let Some(found) = bundle_in(folder)? {
         return Ok(vec![found]);
@@ -827,7 +827,7 @@ fn bundle(dir: &Path, mixins: Option<String>) -> Result<Bundle, String> {
     let need = |name: &str| {
         field("mod", name).ok_or_else(|| format!("{} has no [mod] {name}.", path.display()))
     };
-    // The `[mod]` `priority` the injections fall back to. horizon-mixins
+    // The `[mod]` `priority` the injections fall back to. ll-mixins
     // defaults it to 0 (`#[serde(default)] priority: i32`), not to a README
     // example's 100.
     let mod_priority = value
@@ -836,7 +836,7 @@ fn bundle(dir: &Path, mixins: Option<String>) -> Result<Bundle, String> {
         .and_then(|v| v.as_integer())
         .unwrap_or(0);
     // Read leniently: an entry without an id and a site (`hook` or `target`)
-    // is left out — horizon-mixins refuses it when it applies.
+    // is left out — ll-mixins refuses it when it applies.
     let injections = value
         .get("injection")
         .and_then(|v| v.as_array())
@@ -885,7 +885,7 @@ fn bundle(dir: &Path, mixins: Option<String>) -> Result<Bundle, String> {
         id,
         version: need("version")?,
         dir: dir.to_owned(),
-        horizon: field("compatibility", "horizon_revision"),
+        horizon: field("compatibility", "ll_revision"),
         mixins,
         hooks: None,
         injections,
@@ -903,12 +903,12 @@ fn is_revision(text: &str) -> bool {
 /// cancelling injection on a native hook point. Neither stops the build —
 /// they say what the player and the author could not otherwise see. The
 /// places are the manifest's: whether two selectors pick the same call, or
-/// a raw `target` names a hook point's function, only horizon-mixins
+/// a raw `target` names a hook point's function, only ll-mixins
 /// resolves, so the warnings stay to what the manifest says for sure.
 fn warn_conflicts(mods: &[Bundle]) -> Vec<String> {
     let mut out = Vec::new();
     // One place (the function, the kind, the selector, the ordinal), the
-    // injections of at least two mods on it, ordered as horizon-mixins runs
+    // injections of at least two mods on it, ordered as ll-mixins runs
     // same-place injections: priority descending, mod id ascending,
     // injection id ascending — the tail of its own sort, which the place
     // prefixes already fixed.
@@ -1050,7 +1050,7 @@ fn agreed(
 }
 
 /// The revision `bundles` build on for `which` when their pins differ: the newest of the pins and
-/// `also` (the launcher's own horizon-mixins), by its commit's time (`date`), so no mod gets an
+/// `also` (the launcher's own ll-mixins), by its commit's time (`date`), so no mod gets an
 /// older one than it was made for. With one pin or none, it is [`agreed`]'s.
 fn newest(
     bundles: &[Bundle],
@@ -1152,7 +1152,7 @@ fn mismatch(mods: &[Bundle], revision: &str) -> Option<String> {
 }
 
 /// Where Horizon declares its native hook points' version, and the line that does.
-const HOOKS_FILE: &str = "crates/horizon-client/src/game/native_hooks.rs";
+const HOOKS_FILE: &str = "crates/ll-client/src/game/native_hooks.rs";
 const HOOKS_LINE: &str = "pub(crate) const NATIVE_HOOKS_API: u32 = ";
 
 /// The native hook points' version in `HOOKS_FILE`'s text.
@@ -1195,7 +1195,7 @@ fn catalog_at(revision: &str) -> Option<HookCatalog> {
     catalog_in(&text)
 }
 
-/// Where Horizon lists its named hook points, at the workspace root (horizon-mixins reads it there).
+/// Where Horizon lists its named hook points, at the workspace root (ll-mixins reads it there).
 const CATALOG: &str = "native-hooks.json";
 type HookCatalog = std::collections::BTreeSet<(String, u32)>;
 
@@ -1203,7 +1203,7 @@ type HookCatalog = std::collections::BTreeSet<(String, u32)>;
 /// when every mod naming a hook points' version finds it or a later one there (`at` reads a
 /// revision's), and finds each named hook point it injects at in that revision's catalog
 /// (`catalog`): hook points v2 came before `native-hooks.json`, so a pin on such a revision
-/// would fail in horizon-mixins (E_HOOK_CATALOG). Else, when nothing pins it, the revision those mods were tested on. Else the
+/// would fail in ll-mixins (E_HOOK_CATALOG). Else, when nothing pins it, the revision those mods were tested on. Else the
 /// revision of the release or Nightly the build starts from (`game`), when they find theirs
 /// there: a rebuild that stayed on an older Horizon, or mods pinning one, then move to the game
 /// the player installed, and pinned mods wait for the player's Build anyway ([`mismatch`]).
@@ -1265,7 +1265,7 @@ fn with_hooks(
 }
 
 /// A bundle that names a hook points' version builds on another revision than the one it was
-/// tested on: its `horizon_revision` (which horizon-mixins checks) becomes the build's.
+/// tested on: its `ll_revision` (which ll-mixins checks) becomes the build's.
 fn repin(bundle: &Bundle, revision: &str) -> Result<(), String> {
     let path = bundle.dir.join(MANIFEST);
     let text = fs::read_to_string(&path).map_err(|e| format!("{}: {e}", path.display()))?;
@@ -1273,7 +1273,7 @@ fn repin(bundle: &Bundle, revision: &str) -> Result<(), String> {
         .parse()
         .map_err(|e| format!("{}: {e}", path.display()))?;
     if let Some(toml::Value::Table(compat)) = value.get_mut("compatibility") {
-        compat.insert("horizon_revision".into(), revision.into());
+        compat.insert("ll_revision".into(), revision.into());
     }
     let text = toml::to_string(&value).map_err(|e| e.to_string())?;
     fs::write(&path, text).map_err(|e| format!("{}: {e}", path.display()))
@@ -1282,7 +1282,7 @@ fn repin(bundle: &Bundle, revision: &str) -> Result<(), String> {
 /// Whether Horizon's source at `source` has the `mods` feature (the WebAssembly mods' runtime,
 /// gone from later revisions).
 fn has_mods_feature(source: &Path) -> bool {
-    let path = source.join("crates/horizon-client/Cargo.toml");
+    let path = source.join("crates/ll-client/Cargo.toml");
     let text = fs::read_to_string(path).unwrap_or_default();
     let value: toml::Table = text.parse().unwrap_or_default();
     value.get("features").and_then(|f| f.get("mods")).is_some()
@@ -1446,7 +1446,7 @@ pub fn newer_than(base: &str, installed: &[String]) -> Option<String> {
 }
 
 /// Every file under `dir`, by its path relative to `dir` (with `/`), sorted. A symlink is refused:
-/// horizon-mixins refuses them too.
+/// ll-mixins refuses them too.
 fn files(dir: &Path) -> Result<Vec<(String, PathBuf)>, String> {
     files_with_api(dir, None)
 }
@@ -1498,7 +1498,7 @@ fn files_with_api(dir: &Path, api: Option<&str>) -> Result<Vec<(String, PathBuf)
     Ok(out)
 }
 
-/// The installed version `bundles` built on Horizon `revision` with horizon-mixins `mixins`
+/// The installed version `bundles` built on Horizon `revision` with ll-mixins `mixins`
 /// become: `native-<7 digits of the revision>-<12 hex digits>`. The two targets' keys never mix:
 /// a server build salts its hash, so it is another version than the client build of the same
 /// mods, and the client key is unchanged.
@@ -1557,7 +1557,7 @@ pub fn digest<'a>(files: impl Iterator<Item = (&'a str, &'a [u8])>) -> String {
 }
 
 /// The digest of a bundle's files as the Mods page reads it (`native_status::enabled`): an
-/// unpacked `.hnmod`'s whole folder, its `horizon-native.json` included, else the bundle's own
+/// unpacked `.hnmod`'s whole folder, its `ll-native.json` included, else the bundle's own
 /// folder. A build records it, so a build of the mods turned on reads as up to date.
 fn source_digest(bundle: &Bundle) -> Option<String> {
     let root = bundle
@@ -1628,7 +1628,7 @@ impl Step {
                     ("done", &format!("{:.0}", done * 100.0)),
                 ],
             ),
-            Self::Tool => tr("Building horizon-mixins (once)").into(),
+            Self::Tool => tr("Building ll-mixins (once)").into(),
             Self::Source(revision) => trf(
                 "Downloading Horizon's source at {revision}",
                 &[("revision", &revision[..7])],
@@ -1823,7 +1823,7 @@ fn mod_id_from_file(file: &str) -> Option<&str> {
     None
 }
 
-/// A horizon-mixins diagnostic (`{"code", "message", "file"}`) in one line, led by the mod it
+/// A ll-mixins diagnostic (`{"code", "message", "file"}`) in one line, led by the mod it
 /// names (`mod_id`, its `injection_id`, or extracted from its `file` path for `E_MODULE_CONFLICT`),
 /// so a player with several mods sees which one doesn't apply to the build's Horizon: their files'
 /// paths are deep in the launcher's folder.
@@ -1849,13 +1849,13 @@ fn diagnostic(text: &str) -> Option<String> {
     Some(line)
 }
 
-/// horizon-mixins at commit `rev`, built once with the launcher's cargo (`cargo install --locked`);
+/// ll-mixins at commit `rev`, built once with the launcher's cargo (`cargo install --locked`);
 /// `progress` hears [`Step::Tool`] only when it is built.
 fn tool(rust: &Toolchain, rev: &str, progress: &impl Fn(Step)) -> Result<PathBuf, String> {
     let dir = root().join("tools").join(&rev[..12]);
     let bin = dir
         .join("bin")
-        .join(format!("horizon-mixins{}", std::env::consts::EXE_SUFFIX));
+        .join(format!("ll-mixins{}", std::env::consts::EXE_SUFFIX));
     if !bin.is_file() {
         progress(Step::Tool);
         let mut cmd = rust.command(&rust.cargo());
@@ -1865,13 +1865,13 @@ fn tool(rust: &Toolchain, rev: &str, progress: &impl Fn(Step)) -> Result<PathBuf
             "install", "--locked", "--git", MIXINS_GIT, "--rev", rev, "--root",
         ])
         .arg(&dir)
-        .arg("horizon-mixins-cli");
-        run(cmd, "Building horizon-mixins", |_| {})?;
+        .arg("ll-mixins-cli");
+        run(cmd, "Building ll-mixins", |_| {})?;
     }
     Ok(bin)
 }
 
-/// `horizon-mixins apply`: the mods in `mods` applied to `source`, into `out`. It runs
+/// `ll-mixins apply`: the mods in `mods` applied to `source`, into `out`. It runs
 /// `cargo metadata`, so it gets the launcher's toolchain like a build does: on a computer with no
 /// Rust of its own, a plain command found no cargo (E_METADATA).
 fn apply(rust: &Toolchain, tool: &Path, source: &Path, mods: &Path, out: &Path) -> Command {
@@ -1916,7 +1916,7 @@ fn compile(
     if has_mods_feature(stage) {
         cmd.args(["--features", FEATURES]);
     }
-    cmd.args(["-p", package, "--bin", "horizon-client"]);
+    cmd.args(["-p", package, "--bin", "ll-client"]);
     cmd
 }
 
@@ -1943,7 +1943,7 @@ fn cargo(rust: &Toolchain, dir: &Path, subcommand: &str) -> Command {
 }
 
 /// Checks the mods' crates (`native-crates/`) against `source`'s `Cargo.lock`, Horizon's own.
-/// horizon-mixins already wrote them into `stage`'s lock (and refused a crate the lock lacks,
+/// ll-mixins already wrote them into `stage`'s lock (and refused a crate the lock lacks,
 /// `E_CRATE_DEPENDENCY`), leaving every other package as it was: this checks that again, a crate
 /// they name must be in Horizon's lock and every package downloaded exactly as there. Then the
 /// crates are fetched, so a feature turning on a dependency the lock lacks fails here, readably.
@@ -1985,8 +1985,8 @@ fn lock_crates(
 /// Builds the mods' post-build programs with the game's profile in `target`; each step and its
 /// program, in mod order. A bin's file name doesn't include its package, so two mods' bins of the
 /// same name (or one named like the game) are the same file in `target`: each program is copied
-/// to `programs/<step>/` as soon as it is built. horizon-mixins refuses such names too
-/// (`E_POST_BUILD`, horizon-mixins#8); this keeps a bundle built by an older one safe.
+/// to `programs/<step>/` as soon as it is built. ll-mixins refuses such names too
+/// (`E_POST_BUILD`, ll-mixins#8); this keeps a bundle built by an older one safe.
 fn post_build_programs(
     rust: &Toolchain,
     stage: &Path,
@@ -2028,12 +2028,12 @@ fn post_build_programs(
 }
 
 /// Horizon's source at commit `revision`: GitHub's archive of it, unpacked once, with the commit in
-/// `.horizon-revision` (bundles pin it). A Nightly's commit stays downloadable after the Nightly
+/// `.ll-revision` (bundles pin it). A Nightly's commit stays downloadable after the Nightly
 /// is gone: its `nightly-source/…` tag keeps it (docs/release-flow.md). Links are left out:
-/// horizon-mixins refuses them, and none is needed to build.
+/// ll-mixins refuses them, and none is needed to build.
 fn source(revision: &str) -> Result<PathBuf, String> {
     let dir = root().join("source").join(revision);
-    if dir.join(".horizon-revision").is_file() {
+    if dir.join(".ll-revision").is_file() {
         return Ok(dir);
     }
     let archive = format!(
@@ -2042,7 +2042,7 @@ fn source(revision: &str) -> Result<PathBuf, String> {
     );
     let partial = root().join("source").join(format!(".{revision}.partial"));
     let top = unpack_archive(&archive, &partial, u64::MAX)?;
-    fs::write(top.join(".horizon-revision"), revision).map_err(|e| e.to_string())?;
+    fs::write(top.join(".ll-revision"), revision).map_err(|e| e.to_string())?;
     let _ = fs::remove_dir_all(&dir);
     fs::rename(&top, &dir).map_err(|e| e.to_string())?;
     let _ = fs::remove_dir_all(&partial);
@@ -2127,7 +2127,7 @@ fn copy_bundle(bundle: &Bundle, to: &Path) -> Result<(), String> {
     backend::copy_dir_except(&root, to, skip.as_deref()).map_err(|e| e.to_string())
 }
 
-/// Stage only manifests horizon-mixins can apply, after trait injections are prepared.
+/// Stage only manifests ll-mixins can apply, after trait injections are prepared.
 fn stage_mixins(mods: &[Bundle], to: &Path) -> Result<(), String> {
     if to.exists() {
         fs::remove_dir_all(to).map_err(|e| e.to_string())?;
@@ -2139,7 +2139,7 @@ fn stage_mixins(mods: &[Bundle], to: &Path) -> Result<(), String> {
     Ok(())
 }
 
-/// The `data/` of the bundles horizon-mixins doesn't apply, staged in `stage` where it stages the
+/// The `data/` of the bundles ll-mixins doesn't apply, staged in `stage` where it stages the
 /// others' (`native-data/<mod id>/`), for `native_data!` and the mods' build steps.
 fn stage_trait_data(mods: &[Bundle], stage: &Path) -> Result<(), String> {
     for bundle in mods.iter().filter(|b| !b.mixins_content) {
@@ -2201,11 +2201,11 @@ impl From<Failed> for String {
 /// (the game, or the headless engine) and installed as its own version,
 /// `native-<revision>-<key>` (the key hashes the revision, the mods' files, the tool's commit,
 /// the profile and the target). A build already made is used again. Mods pinning different
-/// revisions build on the newest one, with the newest horizon-mixins they name, only when the
+/// revisions build on the newest one, with the newest ll-mixins they name, only when the
 /// player agreed to try (`anyway`): else the error starts with [`MISMATCH`] and says which.
 /// With `on_base`, every mod builds on `base`'s own commit, pinned or not (the player's choice).
 /// The mods in `skip` and those needing them are left out; with `isolate`, a mod that alone
-/// stops horizon-mixins or the compiler ends it with [`Failed::Mods`], so it can be left out too.
+/// stops ll-mixins or the compiler ends it with [`Failed::Mods`], so it can be left out too.
 /// Nothing of the player's outside the launcher's data is touched: no instance is edited and
 /// no version selected here.
 #[allow(clippy::too_many_arguments)]
@@ -2353,11 +2353,11 @@ fn pipeline(
     };
     let mixins = newest(
         &mods,
-        "horizon-mixins",
+        "ll-mixins",
         |b| b.mixins.as_ref(),
         || Ok(MIXINS_REV.into()),
         Some(MIXINS_REV),
-        |r| committed("horizon-rust/horizon-mixins", r),
+        |r| committed("ll-rust/ll-mixins", r),
     )?;
     let version = version_for(
         &revision,
@@ -2400,7 +2400,7 @@ fn pipeline(
         let needs_mixins = mods.iter().any(|m| m.mixins_content);
         progress(Step::Source(revision.clone()));
         let source = source(&revision)?;
-        // `root()` is already the form horizon-mixins and MinGW take: resolved (no link, which
+        // `root()` is already the form ll-mixins and MinGW take: resolved (no link, which
         // it refuses) and, on Windows, ASCII (which they can't read past), both by build_dir.
         let real = root();
         let fresh = real.join("stage.new");
@@ -2419,7 +2419,7 @@ fn pipeline(
                 progress(Step::Mixins);
                 let result = run_checked(
                     apply(&rust, &tool, &source, &mixin_input, &fresh),
-                    "horizon-mixins",
+                    "ll-mixins",
                     |_| {},
                     None,
                 );
@@ -2491,7 +2491,7 @@ fn pipeline(
                 if has_api {
                     api::PACKAGE
                 } else {
-                    "horizon-client"
+                    "ll-client"
                 },
             ),
             "Compiling the game",
@@ -2575,7 +2575,7 @@ fn pipeline(
             "base_horizon": base_horizon,
             "pinned_by": pinned_by,
             "on_base": on_base,
-            "horizon_mixins": mixins,
+            "ll_mixins": mixins,
             "hooks": mods.iter().find_map(|m| m.hooks),
             "rust": rust_toolchain::VERSION,
             "profile": compiled.name(),
@@ -2607,7 +2607,7 @@ fn pipeline(
 }
 
 /// How many times a build compiles again without the mods the compiler's errors were traced to:
-/// each costs a compile, where a mod that doesn't apply costs only horizon-mixins' run.
+/// each costs a compile, where a mod that doesn't apply costs only ll-mixins' run.
 const COMPILE_RETRIES: usize = 3;
 
 /// Runs `pipeline` until it builds, each time without the mods that stopped it before (they
@@ -2666,7 +2666,7 @@ fn isolated(
 /// whose game files the build reuses: a native build's own revision when it is one, [`base_for`])
 /// and points `instance` at the build, the default one included. Returns the build's version; a
 /// build already made is used again. Mods pinning different revisions build on the newest one,
-/// with the newest horizon-mixins they name, only when the player agreed to try (`anyway`): else
+/// with the newest ll-mixins they name, only when the player agreed to try (`anyway`): else
 /// the error starts with [`MISMATCH`] and says which. With `on_base`, every mod builds on `base`'s
 /// own commit, pinned or not: the player's Rebuild on Horizon.
 pub fn build(
@@ -2713,7 +2713,7 @@ pub fn build(
     })
 }
 
-/// Builds `folder`'s mods as the headless engine a dedicated server runs (`horizon-engine`,
+/// Builds `folder`'s mods as the headless engine a dedicated server runs (`ll-engine`,
 /// docs/server.md): the same pipeline as [`build`] on the same revision, compiled with
 /// `--no-default-features`, installed as its own version (its key distinct from the game's, so
 /// the two never stand in for each other) and exported into `output` as a standalone runtime
@@ -2854,7 +2854,7 @@ fn copy_runtime(from: &Path, to: &Path) -> std::io::Result<()> {
         if entry.file_type()?.is_dir() {
             copy_runtime(&entry.path(), &destination)?;
         } else {
-            horizon_prepare::clone_or_copy(&entry.path(), &destination)?;
+            ll_prepare::clone_or_copy(&entry.path(), &destination)?;
             fs::set_permissions(&destination, entry.metadata()?.permissions())?;
         }
     }
@@ -2913,8 +2913,8 @@ pub(crate) fn copy_base(from: &Path, to: &Path, target: Target) -> Result<(), St
         let copied = if entry.path().is_dir() {
             backend::copy_dir(&entry.path(), &to)
         } else {
-            // A clone is a new file: horizon-ctl and horizon-server keep their permissions.
-            horizon_prepare::clone_or_copy(&entry.path(), &to)
+            // A clone is a new file: ll-ctl and ll-server keep their permissions.
+            ll_prepare::clone_or_copy(&entry.path(), &to)
                 .and_then(|()| fs::set_permissions(&to, entry.metadata()?.permissions()))
         };
         copied.map_err(|e| format!("Could not copy {}: {e}", entry.path().display()))?;
@@ -2926,7 +2926,7 @@ pub(crate) fn copy_base(from: &Path, to: &Path, target: Target) -> Result<(), St
 /// target's own binary), its record, and the mods' post-build data (`native-data/`, which the
 /// new build's steps write again) are the new build's own: a mod turned off leaves none of its
 /// data behind. A server build is the headless engine: it keeps neither the game's own binary
-/// nor any `horizon-engine` the base shipped, which would run unmodded beside its own.
+/// nor any `ll-engine` the base shipped, which would run unmodded beside its own.
 fn carried_over(name: &std::ffi::OsStr, target: Target) -> bool {
     let mut own: Vec<String> = ["Horizon.app", "native-mods.json", "native-data"]
         .iter()
@@ -2935,7 +2935,7 @@ fn carried_over(name: &std::ffi::OsStr, target: Target) -> bool {
     own.push(backend::CLIENT.to_string());
     own.push(".installed".to_string());
     if target == Target::Server {
-        own.push("horizon-engine".to_string());
+        own.push("ll-engine".to_string());
     }
     let named = |n: &str| name == std::ffi::OsStr::new(n);
     !own.iter()
@@ -3060,10 +3060,10 @@ mod tests {
         ] {
             assert!(!carried_over(OsStr::new(own), Target::Client), "{own}");
         }
-        for kept in ["horizon-ctl", "resources", "LICENSE"] {
+        for kept in ["ll-ctl", "resources", "LICENSE"] {
             assert!(carried_over(OsStr::new(kept), Target::Client), "{kept}");
         }
-        // A server build keeps neither the game's own binary nor a stale `horizon-engine` the
+        // A server build keeps neither the game's own binary nor a stale `ll-engine` the
         // base shipped, which would run unmodded beside the built one.
         let engine = Target::Server.binary();
         assert!(
@@ -3075,7 +3075,7 @@ mod tests {
     }
 
     pub(super) fn dir(name: &str) -> PathBuf {
-        let d = std::env::temp_dir().join(format!("horizon-native-{name}-{}", std::process::id()));
+        let d = std::env::temp_dir().join(format!("ll-native-{name}-{}", std::process::id()));
         let _ = fs::remove_dir_all(&d);
         fs::create_dir_all(&d).unwrap();
         d
@@ -3123,16 +3123,16 @@ mod tests {
     }
 
     #[test]
-    fn horizon_mixins_finds_the_launchers_cargo() {
+    fn ll_mixins_finds_the_launchers_cargo() {
         for rust in toolchains("/rust/1.99.1-x") {
-            horizon_mixins_finds(&rust);
+            ll_mixins_finds(&rust);
         }
     }
 
-    fn horizon_mixins_finds(rust: &Toolchain) {
+    fn ll_mixins_finds(rust: &Toolchain) {
         let cmd = apply(
             rust,
-            Path::new("/tools/horizon-mixins"),
+            Path::new("/tools/ll-mixins"),
             Path::new("/src"),
             Path::new("/mods"),
             Path::new("/out"),
@@ -3197,7 +3197,7 @@ mod tests {
         );
     }
 
-    /// horizon-mixins defaults a mod's priority to 0, not to the README
+    /// ll-mixins defaults a mod's priority to 0, not to the README
     /// example's 100: a mod without one runs after `priority = 50`.
     #[test]
     fn the_default_priority_is_zero() {
@@ -3293,7 +3293,7 @@ mod tests {
     }
 
     /// Two interior injections of one function with different selectors are
-    /// different places: horizon-mixins resolves the selector against the
+    /// different places: ll-mixins resolves the selector against the
     /// source, the launcher does not guess it.
     #[test]
     fn different_selectors_are_different_places() {
@@ -3434,7 +3434,7 @@ mod tests {
         for (id, injection) in [
             ("plain", ""),
             ("ordinary", "[[injection]]\nid = 'ordinary'\n"),
-            ("trait_injection", "[[injection]]\nid = 'hook'\ntarget = 'horizon_client::game::tick'\nkind = 'HEAD'\ntrait_method = 'tick'\n"),
+            ("trait_injection", "[[injection]]\nid = 'hook'\ntarget = 'll_client::game::tick'\nkind = 'HEAD'\ntrait_method = 'tick'\n"),
         ] {
             let bundle = incoming.join(id);
             fs::create_dir_all(bundle.join("engine")).unwrap();
@@ -3459,10 +3459,10 @@ mod tests {
         assert!(input.join("ordinary").join(MANIFEST).is_file());
         assert!(input
             .join("trait_injection")
-            .join("horizon-trait-injection-0.rs")
+            .join("ll-trait-injection-0.rs")
             .is_file());
         let manifest = fs::read_to_string(input.join("trait_injection").join(MANIFEST)).unwrap();
-        assert!(manifest.contains("horizon-trait-injection-0.rs"));
+        assert!(manifest.contains("ll-trait-injection-0.rs"));
         assert!(!manifest.contains("trait_method"));
 
         for id in ["plain", "ordinary"] {
@@ -3474,21 +3474,21 @@ mod tests {
         let read =
             |id: &str| fs::read_to_string(stage.join("native-data").join(id).join("table.txt"));
         assert_eq!(read("plain").unwrap(), "plain");
-        assert!(read("ordinary").is_err(), "horizon-mixins stages it");
+        assert!(read("ordinary").is_err(), "ll-mixins stages it");
         fs::remove_dir_all(root).unwrap();
     }
 
     const A: &str = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
     const B: &str = "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 
-    /// An unpacked `.hnmod`, as the registry ships one (horizon_mods::index::native).
+    /// An unpacked `.hnmod`, as the registry ships one (ll_mods::index::native).
     fn write_native(at: &Path, id: &str, horizon: &str, mixins: &str) {
         let manifest = serde_json::json!({"schema": 1, "id": id, "version": "0.3.0", "game": "26.3",
             "horizon": horizon, "mixins": mixins});
         fs::create_dir_all(at.join("mixins").join(id)).unwrap();
         fs::write(at.join(NATIVE_MANIFEST), manifest.to_string()).unwrap();
         let toml = format!(
-            "[mod]\nid = \"{id}\"\nversion = \"0.3.0\"\n[compatibility]\nhorizon_revision = \"{horizon}\"\n"
+            "[mod]\nid = \"{id}\"\nversion = \"0.3.0\"\n[compatibility]\nll_revision = \"{horizon}\"\n"
         );
         fs::write(at.join("mixins").join(id).join(MANIFEST), toml).unwrap();
     }
@@ -3520,7 +3520,7 @@ mod tests {
             let mut zip =
                 zip::ZipWriter::new(fs::File::create(home.join(INSTALLED).join(name)).unwrap());
             let options = zip::write::SimpleFileOptions::default();
-            for file in [NATIVE_MANIFEST, "mixins/veinminer/horizon-mixin.toml"] {
+            for file in [NATIVE_MANIFEST, "mixins/veinminer/ll-mixin.toml"] {
                 zip.start_file(file, options).unwrap();
                 zip.write_all(&fs::read(d.join(file)).unwrap()).unwrap();
             }
@@ -3701,14 +3701,14 @@ mod tests {
             newest(&split, "Horizon", horizon, never, None, date).unwrap(),
             B
         );
-        // horizon-mixins: never older than a pin, and the launcher's own when it is newer.
+        // ll-mixins: never older than a pin, and the launcher's own when it is newer.
         assert_eq!(
-            newest(&split, "horizon-mixins", mixins, never, Some(B), date).unwrap(),
+            newest(&split, "ll-mixins", mixins, never, Some(B), date).unwrap(),
             c
         );
         let older = [pinned("a", None, Some(A)), pinned("b", None, Some(B))];
         assert_eq!(
-            newest(&older, "horizon-mixins", mixins, never, Some(&c), date).unwrap(),
+            newest(&older, "ll-mixins", mixins, never, Some(&c), date).unwrap(),
             c
         );
         // One pin, or the same one everywhere: that pin, and no date is asked for.
@@ -3878,7 +3878,7 @@ mod tests {
     /// likeluca_ on Discord (11-04, Windows, launchers 0.2.38 to 0.2.40): blockscope (hook points
     /// v2, all named) beside shulker_peek, which pins 5e391eb, a commit that had hook points v2 but
     /// no `native-hooks.json` yet (it came in d3e0774, still v2). The build stayed on the pin and
-    /// horizon-mixins stopped: "E_HOOK_CATALOG: a named hook needs native-hooks.json at the
+    /// ll-mixins stopped: "E_HOOK_CATALOG: a named hook needs native-hooks.json at the
     /// workspace root". The build now moves to the game, whose catalog lists them.
     #[test]
     fn named_hook_points_need_the_revisions_catalog() {
@@ -3887,7 +3887,7 @@ mod tests {
             d.join(MANIFEST),
             "[mod]\nid = \"blockscope\"\nversion = \"0.3.1\"\n\
              [[injection]]\nid = \"hud\"\nkind = \"HEAD\"\nhook = \"hud\"\nhook_version = 1\n\
-             [[injection]]\nid = \"raw\"\nkind = \"HEAD\"\ntarget = \"horizon_client::game::tick\"\n",
+             [[injection]]\nid = \"raw\"\nkind = \"HEAD\"\ntarget = \"ll_client::game::tick\"\n",
         )
         .unwrap();
         let c = "c".repeat(40);
@@ -4136,10 +4136,10 @@ mod tests {
         let fresh = d.join("fresh");
         let snapshot = d.join("snapshot");
         let stage = d.join("stage");
-        fs::create_dir_all(fresh.join("crates/horizon-client")).unwrap();
+        fs::create_dir_all(fresh.join("crates/ll-client")).unwrap();
         fs::write(
-            fresh.join("crates/horizon-client/Cargo.toml"),
-            "[package]\nname = 'horizon-client'\nversion = '0.1.0'\n[build-dependencies]\nhorizon-mod-api-gen = { path = '../horizon-mod-api-gen' }\n",
+            fresh.join("crates/ll-client/Cargo.toml"),
+            "[package]\nname = 'll-client'\nversion = '0.1.0'\n[build-dependencies]\nll-mod-api-gen = { path = '../ll-mod-api-gen' }\n",
         )
         .unwrap();
         let rusts = toolchains(d.join("rust"));
@@ -4204,7 +4204,7 @@ mod tests {
                         target,
                         Path::new("/native/target"),
                         Profile::Performance,
-                        "horizon-client",
+                        "ll-client",
                     );
                     args_after_host(rust, &cmd)
                 })
@@ -4221,9 +4221,9 @@ mod tests {
         let client = flags(&d, Target::Client);
         assert!(!client.contains(&"--no-default-features".into()));
         // A source with the `mods` feature keeps it in both builds.
-        fs::create_dir_all(d.join("crates/horizon-client")).unwrap();
+        fs::create_dir_all(d.join("crates/ll-client")).unwrap();
         fs::write(
-            d.join("crates/horizon-client/Cargo.toml"),
+            d.join("crates/ll-client/Cargo.toml"),
             "[features]\nmods = []\n",
         )
         .unwrap();
@@ -4343,9 +4343,9 @@ mod tests {
         let base = "native-test-server-base";
         let version = "native-test-server-cache";
         let source = backend::version_dir(base);
-        fs::create_dir_all(source.join(".local/horizon-client/26.3")).unwrap();
+        fs::create_dir_all(source.join(".local/ll-client/26.3")).unwrap();
         fs::write(
-            source.join(".local/horizon-client/26.3/facts.json"),
+            source.join(".local/ll-client/26.3/facts.json"),
             b"facts",
         )
         .unwrap();
@@ -4376,7 +4376,7 @@ mod tests {
         );
         assert_eq!(fs::read(output.join("native-data/test")).unwrap(), b"baked");
         assert_eq!(
-            fs::read(output.join(".local/horizon-client/26.3/facts.json")).unwrap(),
+            fs::read(output.join(".local/ll-client/26.3/facts.json")).unwrap(),
             b"facts"
         );
         assert!(output.join("native-mods.json").is_file());
@@ -4651,8 +4651,8 @@ mod tests {
         use std::time::{Duration, SystemTime};
         let (from, to) = (dir("sync-old-from"), dir("sync-old-to"));
         let commit = SystemTime::UNIX_EPOCH + Duration::from_secs(1_000_000_000);
-        fs::create_dir_all(from.join("crates/horizon-core/src")).unwrap();
-        let file = from.join("crates/horizon-core/src/storage.rs");
+        fs::create_dir_all(from.join("crates/ll-core/src")).unwrap();
+        let file = from.join("crates/ll-core/src/storage.rs");
         fs::write(&file, "pub fn unpack_into() {}").unwrap();
         fs::File::options()
             .write(true)
@@ -4660,9 +4660,9 @@ mod tests {
             .unwrap()
             .set_modified(commit)
             .unwrap();
-        fs::create_dir_all(to.join("crates/horizon-core/src")).unwrap();
+        fs::create_dir_all(to.join("crates/ll-core/src")).unwrap();
         fs::write(
-            to.join("crates/horizon-core/src/storage.rs"),
+            to.join("crates/ll-core/src/storage.rs"),
             "pub fn unpack() {}",
         )
         .unwrap();
@@ -4670,7 +4670,7 @@ mod tests {
         let built = SystemTime::now();
         std::thread::sleep(Duration::from_millis(20));
         sync(&from, &to).unwrap();
-        let staged = to.join("crates/horizon-core/src/storage.rs");
+        let staged = to.join("crates/ll-core/src/storage.rs");
         assert_eq!(
             fs::read_to_string(&staged).unwrap(),
             "pub fn unpack_into() {}"
@@ -4704,7 +4704,7 @@ mod tests {
     /// levzzz5154's decision (2026-10-29): a rebuild stays on the Horizon the instance plays;
     /// only "Rebuild on Horizon {version}" moves it to a newer one.
     #[test]
-    fn a_rebuild_stays_on_the_instances_horizon_until_an_update() {
+    fn a_rebuild_stays_on_the_instances_ll_until_an_update() {
         let installed: Vec<String> = [
             "nightly-2026-10-29-4baa571",
             "v2026.10.20",
@@ -4777,7 +4777,7 @@ mod tests {
             Target::Client,
             Path::new("/native/target"),
             Profile::Performance,
-            "horizon-client",
+            "ll-client",
         );
         let args = args_after_host(rust, &cmd);
         assert_eq!(
@@ -4789,7 +4789,7 @@ mod tests {
             ]
         );
         assert!(
-            args.ends_with(&["-p", "horizon-client", "--bin", "horizon-client"].map(String::from))
+            args.ends_with(&["-p", "ll-client", "--bin", "ll-client"].map(String::from))
         );
         let dir = cmd.get_current_dir().expect("a folder of its own");
         assert!(
@@ -4806,7 +4806,7 @@ mod tests {
             Target::Client,
             Path::new("/native/target"),
             Profile::Performance,
-            "horizon-client",
+            "ll-client",
         );
         let args = args_after_host(rust, &cmd);
         assert_eq!(args[1], "--config");
@@ -4843,7 +4843,7 @@ mod tests {
                         Target::Client,
                         Path::new("/native/target"),
                         profile,
-                        "horizon-client",
+                        "ll-client",
                     );
                     args_after_host(rust, &cmd)
                 })
@@ -4859,7 +4859,7 @@ mod tests {
         assert!(dev.windows(2).any(|w| w
             == [
                 "--config",
-                "profile.fast.package.horizon-client.opt-level=0"
+                "profile.fast.package.ll-client.opt-level=0"
             ]));
         let release = args(Profile::Release);
         assert!(release.windows(2).any(|w| w == ["--profile", "release"]));
@@ -4880,15 +4880,15 @@ mod tests {
 
     #[test]
     fn a_tool_error_starts_with_the_mod_that_does_not_apply() {
-        // horizon-mixins e8cd0aa on Horizon 998b1d8 with fast_items 0.1.0 and appleskin 1.0.0
+        // ll-mixins e8cd0aa on Horizon 998b1d8 with fast_items 0.1.0 and appleskin 1.0.0
         // (made for ba6344a), as a player's build was on 2026-11-04.
         let err = r#"{
   "code": "E_TARGET_NOT_FOUND",
-  "message": "no source function 'horizon_client::game::titles::Game<'_>::draw_titles'",
-  "file": "/home/p/.local/share/horizon-launcher/native/mixins.incoming/appleskin/horizon-mixin.toml",
+  "message": "no source function 'll_client::game::titles::Game<'_>::draw_titles'",
+  "file": "/home/p/.local/share/ll-launcher/native/mixins.incoming/appleskin/ll-mixin.toml",
   "mod_id": "appleskin",
   "injection_id": "hud",
-  "target": "horizon_client::game::titles::Game<'_>::draw_titles"
+  "target": "ll_client::game::titles::Game<'_>::draw_titles"
 }"#;
         let line = diagnostic(err).unwrap();
         assert!(
@@ -4905,16 +4905,16 @@ mod tests {
 
     #[test]
     fn a_tool_error_without_mod_id_extracts_culprit_from_file_path() {
-        // horizon-mixins e8cd0aa emits E_MODULE_CONFLICT without mod_id (issue #9391).
+        // ll-mixins e8cd0aa emits E_MODULE_CONFLICT without mod_id (issue #9391).
         let err = r#"{
   "code": "E_MODULE_CONFLICT",
-  "message": "conflict in module horizon_physics",
-  "file": "/home/p/.local/share/horizon-launcher/native/mixins.incoming/horizon_physics/horizon-mixin.toml"
+  "message": "conflict in module ll_physics",
+  "file": "/home/p/.local/share/ll-launcher/native/mixins.incoming/ll_physics/ll-mixin.toml"
 }"#;
         let line = diagnostic(err).unwrap();
         assert!(
             line.starts_with(
-                "horizon_physics: E_MODULE_CONFLICT: conflict in module horizon_physics"
+                "ll_physics: E_MODULE_CONFLICT: conflict in module ll_physics"
             ),
             "{line}"
         );
@@ -4923,7 +4923,7 @@ mod tests {
         let err_win = r#"{
   "code": "E_MODULE_CONFLICT",
   "message": "conflict in module biomecompass",
-  "file": "C:\\Users\\p\\AppData\\Local\\horizon-launcher\\native\\mixins.incoming\\biomecompass\\horizon-mixin.toml"
+  "file": "C:\\Users\\p\\AppData\\Local\\ll-launcher\\native\\mixins.incoming\\biomecompass\\ll-mixin.toml"
 }"#;
         let line_win = diagnostic(err_win).unwrap();
         assert!(
@@ -4936,7 +4936,7 @@ mod tests {
         let err_mods = r#"{
   "code": "E_MODULE_CONFLICT",
   "message": "conflict in module worldedit",
-  "file": "/home/p/.local/share/horizon-launcher/native/mods.incoming/worldedit/horizon-mod.toml"
+  "file": "/home/p/.local/share/ll-launcher/native/mods.incoming/worldedit/ll-mod.toml"
 }"#;
         let line_mods = diagnostic(err_mods).unwrap();
         assert!(
@@ -4964,7 +4964,7 @@ mod tests {
             "{e}"
         );
         // An error still among the last lines isn't said twice.
-        let e = failure("horizon-mixins", "exit status: 1", &errors, &errors);
+        let e = failure("ll-mixins", "exit status: 1", &errors, &errors);
         assert!(e.contains("The end of its output") && e.matches("alsa-sys").count() == 1);
     }
 
@@ -4986,14 +4986,14 @@ mod tests {
             for i in 1 2 3 4 5 6 7 8 9 10 11 12 13; do echo "warning: build failed, waiting ($i)" >&2; done
             exit 101
         "#]);
-        let e = run(cmd, "Building horizon-mixins", |_| {}).unwrap_err();
+        let e = run(cmd, "Building ll-mixins", |_| {}).unwrap_err();
         assert!(e.starts_with(&rust_toolchain::smart_app_control()), "{e}");
         assert!(e.contains("quote v1.0.47"), "{e}");
         // Another failure says nothing about it.
         let mut cmd = Command::new("sh");
         cmd.args([
             "-c",
-            "echo 'error: could not compile `horizon-client`' >&2; exit 101",
+            "echo 'error: could not compile `ll-client`' >&2; exit 101",
         ]);
         let e = run(cmd, "Compiling the game", |_| {}).unwrap_err();
         assert!(!e.contains("Smart App Control"), "{e}");

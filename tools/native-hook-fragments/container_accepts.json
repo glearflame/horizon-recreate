@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "container_accepts",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_container_accepts",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_container_accepts",
       "neoforge": "IItemHandler.isItemValid (Capabilities.Item.BLOCK)",
       "side": "server",
       "cancellable": true,

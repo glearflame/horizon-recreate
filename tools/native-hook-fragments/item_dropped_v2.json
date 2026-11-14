@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "item_dropped_v2",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_item_dropped_v2",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_item_dropped_v2",
       "neoforge": "ItemTossEvent",
       "side": "server",
       "cancellable": true,

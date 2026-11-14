@@ -12,7 +12,7 @@ use std::path::{Path, PathBuf};
 use std::process::Command;
 
 /// The Rust release native mods build with: the stable release when it was pinned (CI builds the
-/// game on stable; horizon-mixins needs 1.95 or newer).
+/// game on stable; ll-mixins needs 1.95 or newer).
 pub const VERSION: &str = "1.99.1";
 const DIST: &str = "https://static.rust-lang.org/dist/2026-10-15";
 
@@ -441,7 +441,7 @@ pub fn root() -> PathBuf {
     backend::build_dir().join("rust")
 }
 
-/// The Cargo home of native builds (downloaded crates, horizon-mixins), never the player's own.
+/// The Cargo home of native builds (downloaded crates, ll-mixins), never the player's own.
 pub fn cargo_home() -> PathBuf {
     backend::build_dir().join("cargo")
 }
@@ -696,7 +696,7 @@ fn link(full: bool) -> Result<(), String> {
 
 /// What to do when Windows' Smart App Control refused one of the build's programs (#5911). It
 /// lets only signed programs or ones Microsoft knows run, and a build runs programs it has just
-/// compiled (every crate's build script, horizon-mixins, the game) and the toolchain's own
+/// compiled (every crate's build script, ll-mixins, the game) and the toolchain's own
 /// (`dlltool.exe`). Windows refuses them with os error 4551 ("An Application Control policy has
 /// blocked this file"). Nothing is checked before the build: with Smart App Control on, a build
 /// whose programs already ran before it was turned on still succeeds.
@@ -895,7 +895,7 @@ mod tests {
     }
 
     #[test]
-    fn every_system_horizon_ships_for_can_build_native_mods() {
+    fn every_system_ll_ships_for_can_build_native_mods() {
         // An Intel Mac had a game and a launcher but no compiler (#1161): native builds stopped
         // with "the launcher has none for macos x86_64".
         for (os, arch, game, _) in backend::PLATFORMS {
@@ -1042,7 +1042,7 @@ mod tests {
 
     #[test]
     fn a_component_archive_unpacks_as_its_installer_would() {
-        let dir = std::env::temp_dir().join(format!("horizon-rust-unpack-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("ll-rust-unpack-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).unwrap();
         let archive = dir.join("cargo.tar.gz");
@@ -1170,7 +1170,7 @@ mod tests {
 
     #[test]
     fn a_mingw_zip_unpacks_its_programs_and_not_its_documentation() {
-        let dir = std::env::temp_dir().join(format!("horizon-mingw-unpack-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("ll-mingw-unpack-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).unwrap();
         let archive = dir.join("mingw.zip");
@@ -1212,7 +1212,7 @@ mod tests {
     #[test]
     fn an_llvm_mingw_zip_unpacks_to_its_managed_folder() {
         let dir =
-            std::env::temp_dir().join(format!("horizon-llvm-mingw-unpack-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-llvm-mingw-unpack-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         fs::create_dir_all(&dir).unwrap();
         let archive = dir.join("llvm-mingw.zip");
@@ -1243,7 +1243,7 @@ mod tests {
 
     #[test]
     fn arm64_toolchain_is_incomplete_without_each_required_c_and_link_tool() {
-        let dir = std::env::temp_dir().join(format!("horizon-arm64-tools-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("ll-arm64-tools-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         let host = HOSTS
             .iter()
@@ -1273,7 +1273,7 @@ mod tests {
 
     #[test]
     fn the_command_puts_mingw_after_rust_when_the_toolchain_has_it() {
-        let dir = std::env::temp_dir().join(format!("horizon-mingw-path-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("ll-mingw-path-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         let host = HOSTS
             .iter()
@@ -1306,7 +1306,7 @@ mod tests {
     #[test]
     fn the_arm64_command_selects_managed_llvm_c_and_link_tools() {
         let dir = std::env::temp_dir().join(format!(
-            "horizon-arm64-toolchain-{} with spaces",
+            "ll-arm64-toolchain-{} with spaces",
             std::process::id()
         ));
         let host = HOSTS
@@ -1456,7 +1456,7 @@ mod tests {
         let home = std::env::var_os("HORIZON_LAUNCHER_HOME").map_or_else(
             || {
                 std::env::temp_dir().join(format!(
-                    "horizon-managed-native-arm64-{}",
+                    "ll-managed-native-arm64-{}",
                     std::process::id()
                 ))
             },
@@ -1485,9 +1485,9 @@ mod tests {
                 "--profile",
                 "fast",
                 "-p",
-                "horizon-client",
+                "ll-client",
                 "--bin",
-                "horizon-client",
+                "ll-client",
             ])
             .env("CARGO_TARGET_DIR", &target_dir)
             .env(

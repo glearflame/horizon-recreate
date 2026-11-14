@@ -4,7 +4,7 @@
 //! account's own player in 3D (drag to turn), with its items for a look or the pack, Buy and
 //! Gift. Nothing here asks for attention: the tab has no badge, the page never opens by itself,
 //! and a catalogue that doesn't load says so in one quiet line. Buying starts Paddle's checkout on
-//! the service and opens playhorizon.dev/shop/pay in the browser (`horizon_launcher::shop::pay_url`);
+//! the service and opens playhorizon.dev/shop/pay in the browser (`ll_launcher::shop::pay_url`);
 //! no card is typed here. The founder set is claimed the same way, or at once where Paddle
 //! doesn't sell (`Claim::here`).
 //!
@@ -13,10 +13,10 @@
 //! Supporter badge all come from the catalogue: an item it doesn't price isn't sold.
 use super::*;
 use gpui::Hsla;
-use horizon_cosmetics::viewer::BodyMotion;
-use horizon_cosmetics::{Part, Pose, BODY};
-use horizon_launcher::shop::{self as rules, FOUNDER_SET};
-use horizon_launcher::wardrobe::{words, Me, Order, Player, Set};
+use ll_cosmetics::viewer::BodyMotion;
+use ll_cosmetics::{Part, Pose, BODY};
+use ll_launcher::shop::{self as rules, FOUNDER_SET};
+use ll_launcher::wardrobe::{words, Me, Order, Player, Set};
 use std::collections::{BTreeMap, HashSet};
 
 mod buy;
@@ -126,7 +126,7 @@ fn tint(slot: &str) -> u32 {
         "emote" => 0x5b8cff,
         "name_tag" => 0xc9c4d8,
         // Sets and the pack.
-        _ => horizon_theme::glass::ACCENT,
+        _ => ll_theme::glass::ACCENT,
     }
 }
 
@@ -136,7 +136,7 @@ fn ground(colour: Hsla, top: f32) -> [Div; 2] {
     let solid = if ui::light() {
         gpui::white().opacity(0.86)
     } else {
-        ui::color(horizon_theme::glass::PAGE).opacity(0.84)
+        ui::color(ll_theme::glass::PAGE).opacity(0.84)
     };
     [
         div().absolute().top_0().left_0().size_full().bg(solid),
@@ -162,7 +162,7 @@ struct Played {
 impl Played {
     fn motion(item: Arc<Item>) -> Option<Arc<dyn BodyMotion>> {
         item.emote.as_ref()?;
-        let body = horizon_cosmetics::preview::player_model(false);
+        let body = ll_cosmetics::preview::player_model(false);
         let rest = BODY.map(|b| {
             (body.children.iter().find(|p: &&Part| p.name == b.part())).map_or([0.0; 9], |p| p.pose)
         });
@@ -604,7 +604,7 @@ impl Launcher {
                 .gap(px(12.))
                 .children(title.map(|s| {
                     div()
-                        .font_family(horizon_theme::glass::HEADING_FONT)
+                        .font_family(ll_theme::glass::HEADING_FONT)
                         .font_weight(FontWeight::SEMIBOLD)
                         .text_size(px(22.))
                         .text_color(ui::white(ink::FULL))
@@ -721,7 +721,7 @@ impl Launcher {
         let n = unpack(id, c, me).len().to_string();
         let price = self.shop_price(id, c, owned, currency);
         let picture = self.shop_picture(id, HERO, c, me);
-        let accent = ui::color(horizon_theme::glass::ACCENT);
+        let accent = ui::color(ll_theme::glass::ACCENT);
         let warm = ui::color(tint("head"));
         let open = id.to_owned();
         let opened = id.to_owned();
@@ -774,7 +774,7 @@ impl Launcher {
                     .pr(px(36.))
                     .child(
                         div()
-                            .font_family(horizon_theme::glass::DISPLAY_FONT)
+                            .font_family(ll_theme::glass::DISPLAY_FONT)
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_size(px(40.))
                             .line_height(px(44.))
@@ -866,7 +866,7 @@ impl Launcher {
             .min_w_0()
             .child(
                 div()
-                    .font_family(horizon_theme::glass::DISPLAY_FONT)
+                    .font_family(ll_theme::glass::DISPLAY_FONT)
                     .font_weight(FontWeight::SEMIBOLD)
                     .text_size(px(38.))
                     .line_height(px(42.))
@@ -1052,7 +1052,7 @@ impl Launcher {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use horizon_launcher::wardrobe::Collection;
+    use ll_launcher::wardrobe::Collection;
 
     fn set(id: &str, items: &[&str], priced: bool) -> Set {
         Set {

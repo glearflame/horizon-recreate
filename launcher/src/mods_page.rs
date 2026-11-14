@@ -4,17 +4,17 @@
 //! always come from Modrinth, for its version), see where each comes
 //! from and how well it runs (a Java mod's jar is checked first; a Horizon mod says whether it is
 //! signed and what it may do), install it with its checksum checked, turn Horizon mods on and
-//! off, and update or remove what was installed (`horizon_launcher::browser`). Imported modpacks
+//! off, and update or remove what was installed (`ll_launcher::browser`). Imported modpacks
 //! are listed on its Modpacks tab.
 use super::line_edit::{self, Key, LineEdit};
 use super::*;
-use horizon_launcher::browser::{
+use ll_launcher::browser::{
     self, horizon, installed, java, java_instance, Kind as PackKind, Project, Query, SourceId,
     Support,
 };
-use horizon_launcher::modpacks;
-use horizon_launcher::native_status;
-use horizon_port_pack::check::Check;
+use ll_launcher::modpacks;
+use ll_launcher::native_status;
+use ll_port_pack::check::Check;
 use java_instance::Target;
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -143,7 +143,7 @@ impl Mods {
     /// Reads the instance's worlds again; the world picked for data packs stays when it is
     /// still there, else the last played.
     fn read_worlds(&mut self) {
-        self.worlds = horizon_launcher::worlds::list(&self.home())
+        self.worlds = ll_launcher::worlds::list(&self.home())
             .into_iter()
             .map(|w| (w.path, w.name))
             .collect();
@@ -492,7 +492,7 @@ impl Launcher {
                 .and_then(|s| s.search(&query));
             let about: HashMap<String, Vec<String>> = match (&result, source) {
                 (Ok(found), SourceId::Horizon) => {
-                    let instance = horizon_launcher::instances::selected();
+                    let instance = ll_launcher::instances::selected();
                     found
                         .iter()
                         .map(|p| {
@@ -838,7 +838,7 @@ impl Launcher {
                     if modpack && p.source == SourceId::Horizon {
                         let pack = horizon::pack::install(&p.id, &progress)?;
                         if let Some(url) = &p.icon {
-                            horizon_launcher::instances::adopt_icon(
+                            ll_launcher::instances::adopt_icon(
                                 &horizon::pack::home(&pack.work),
                                 url,
                             );
@@ -861,7 +861,7 @@ impl Launcher {
                         let log = |line: String| progress(&line, 1.);
                         let pack = modpacks::import_and_port(&file, resources.as_deref(), &log)?;
                         if let Some(url) = &p.icon {
-                            horizon_launcher::instances::adopt_icon(
+                            ll_launcher::instances::adopt_icon(
                                 &modpacks::profile_home(&pack.work),
                                 url,
                             );
@@ -886,7 +886,7 @@ impl Launcher {
                     }
                     if p.source == SourceId::Horizon && p.kind == PackKind::Mod {
                         return Ok(trf(
-                            "Installed {mods} into horizon-mods and turned it on, checksum \
+                            "Installed {mods} into ll-mods and turned it on, checksum \
                              checked (Options > Mods in the game).",
                             &[("mods", &mods)],
                         ));
@@ -894,7 +894,7 @@ impl Launcher {
                     if p.kind == PackKind::Mod {
                         let skipped = done.last().map_or(0, |e| e.skipped.len());
                         let ported = trf(
-                            "Ported {mods} into horizon-mods and turned on (Options > Mods in \
+                            "Ported {mods} into ll-mods and turned on (Options > Mods in \
                              the game).",
                             &[("mods", &mods)],
                         );
@@ -978,7 +978,7 @@ impl Launcher {
                 .border_0()
                 .rounded(px(12.))
                 .bg(crate::glass_ui::white(if focused { 0.11 } else { 0.07 }))
-                .font_family(horizon_theme::glass::FONT)
+                .font_family(ll_theme::glass::FONT)
                 .text_size(px(14.))
         } else {
             field
@@ -1719,7 +1719,7 @@ impl Launcher {
                     "native-update",
                     trf(
                         "Rebuild on Horizon {version}",
-                        &[("version", &native_status::horizon_label(&newer))],
+                        &[("version", &native_status::ll_label(&newer))],
                     ),
                     Kind::Secondary,
                     &t,

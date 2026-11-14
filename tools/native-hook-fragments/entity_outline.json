@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "entity_outline",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_entity_outline",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_entity_outline",
       "side": "client",
       "mod_api": {
         "contract": "listen"

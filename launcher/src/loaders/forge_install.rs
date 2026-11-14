@@ -386,7 +386,7 @@ pub(super) fn install(
     ));
     let made = fetch_libraries(&libraries, dir, &mut installer, fetch)?;
     let scratch = dir
-        .join(".horizon-install")
+        .join(".ll-install")
         .join(format!("{}-{version}", kind.id()));
     let _ = fs::remove_dir_all(&scratch);
     let ran = data(&profile, &mut installer, minecraft, dir, &scratch)

@@ -6,7 +6,7 @@
 //!   window, or a preview for an account on its list), the account claimed it, or the public
 //!   window has dates. With no window set, the launcher shows neither.
 //! - A basket's prices, before the checkout, with the service's own rules (the website's shop
-//!   does the same, `components/shop/pricing.ts` in horizon-site): an item the account owns drops
+//!   does the same, `components/shop/pricing.ts` in ll-site): an item the account owns drops
 //!   out, an item also inside a set in the same basket drops out, a set partly owned costs its
 //!   price times the share of its items not owned yet. The checkout's total is what Paddle
 //!   charges; the launcher only previews it and never decides a price. Every price comes from

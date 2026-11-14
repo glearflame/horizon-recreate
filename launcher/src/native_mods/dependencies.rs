@@ -365,7 +365,7 @@ mod tests {
     #[test]
     fn rewrites_installed_and_absent_optional_dependencies() {
         let deps = deps("[dependencies]\nbase = '^1'\nextra = { version = '^2', optional = true }");
-        let mut manifest: toml::Table = "[dependencies]\nhorizon-client = '1'".parse().unwrap();
+        let mut manifest: toml::Table = "[dependencies]\nll-client = '1'".parse().unwrap();
         let packages = [
             Package {
                 dependency: &deps[0],

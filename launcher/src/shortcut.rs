@@ -1,9 +1,9 @@
 //! A shortcut on the desktop that plays one instance: it runs
-//! `horizon-launcher play --instance <id>`, so the game starts without the launcher's window.
+//! `ll-launcher play --instance <id>`, so the game starts without the launcher's window.
 //!
 //! - Linux: `<name> (Horizon).desktop` on the desktop (executable, and marked trusted with `gio`
 //!   where it exists, so GNOME starts it), and the same entry in the applications menu
-//!   (`applications/horizon-instance-<id>.desktop`, `desktop::data_home`).
+//!   (`applications/ll-instance-<id>.desktop`, `desktop::data_home`).
 //! - macOS: `<name> (Horizon).app`, a small app whose program is a shell script, with Horizon's
 //!   icon. It has no Dock icon of its own (`LSUIElement`): the game's window is the one to see.
 //! - Windows: `<name> (Horizon).lnk`, a Shell Link as Microsoft's published [MS-SHLLINK] format
@@ -313,7 +313,7 @@ fn write(path: &Path, bytes: &[u8], program: bool) -> Result<(), String> {
     if let Some(dir) = path.parent() {
         fs::create_dir_all(dir).map_err(fail)?;
     }
-    let temp = path.with_extension("horizon-tmp");
+    let temp = path.with_extension("ll-tmp");
     fs::write(&temp, bytes).map_err(fail)?;
     #[cfg(unix)]
     if program {
@@ -341,7 +341,7 @@ pub fn make_in(
     trash: Trash,
 ) -> Result<Vec<PathBuf>, String> {
     let path = desktop.join(file_name(name, system));
-    let item = menu.map(|m| m.join(format!("horizon-instance-{}.desktop", slug(id))));
+    let item = menu.map(|m| m.join(format!("ll-instance-{}.desktop", slug(id))));
     for old in find_in(desktop, menu, id) {
         if old != path && Some(&old) != item.as_ref() {
             trash(&old)?;
@@ -392,7 +392,7 @@ pub fn find_in(desktop: &Path, menu: Option<&Path>, id: &str) -> Vec<PathBuf> {
         .filter(|p| plays(p, id))
         .collect();
     if let Some(item) = menu
-        .map(|m| m.join(format!("horizon-instance-{}.desktop", slug(id))))
+        .map(|m| m.join(format!("ll-instance-{}.desktop", slug(id))))
         .filter(|p| plays(p, id))
     {
         found.push(item);

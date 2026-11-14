@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "tooltip_render_pre",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_tooltip_render_pre",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_tooltip_render_pre",
       "neoforge": "RenderTooltipEvent.Pre",
       "side": "client",
       "cancellable": true,
@@ -15,27 +15,27 @@
   "helpers": [
     {
       "name": "gui_draw_item",
-      "target": "horizon_client::game::native_client_services::Game<'_>::native_gui_draw_item"
+      "target": "ll_client::game::native_client_services::Game<'_>::native_gui_draw_item"
     },
     {
       "name": "gui_draw_item_with",
-      "target": "horizon_client::game::native_client_services::Game<'_>::native_gui_draw_item_with"
+      "target": "ll_client::game::native_client_services::Game<'_>::native_gui_draw_item_with"
     },
     {
       "name": "has_shift_down",
-      "target": "horizon_client::game::native_client_services::Game<'_>::native_has_shift_down"
+      "target": "ll_client::game::native_client_services::Game<'_>::native_has_shift_down"
     },
     {
       "name": "has_control_down",
-      "target": "horizon_client::game::native_client_services::Game<'_>::native_has_control_down"
+      "target": "ll_client::game::native_client_services::Game<'_>::native_has_control_down"
     },
     {
       "name": "has_alt_down",
-      "target": "horizon_client::game::native_client_services::Game<'_>::native_has_alt_down"
+      "target": "ll_client::game::native_client_services::Game<'_>::native_has_alt_down"
     },
     {
       "name": "is_key_down",
-      "target": "horizon_client::game::native_client_services::Game<'_>::native_is_key_down"
+      "target": "ll_client::game::native_client_services::Game<'_>::native_is_key_down"
     }
   ],
   "rust_summary": "item tooltip rendering interception (`native_tooltip_render_pre`), GUI item drawing helpers (`gui_draw_item`, `gui_draw_item_with`), and live keyboard modifier/key state checks (`has_shift_down`, `has_control_down`, `has_alt_down`, `is_key_down`).",

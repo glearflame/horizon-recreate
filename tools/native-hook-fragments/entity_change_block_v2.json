@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "entity_change_block_v2",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_entity_change_block_v2",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_entity_change_block_v2",
       "neoforge": "none (NeoForge has no such event; Bukkit's EntityChangeBlockEvent is cancellable)",
       "side": "server",
       "cancellable": true,

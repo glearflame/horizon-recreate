@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "block_entity_accepts_fluid",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_block_entity_accepts_fluid",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_block_entity_accepts_fluid",
       "neoforge": "IFluidHandler.isFluidValid",
       "side": "server",
       "cancellable": true,

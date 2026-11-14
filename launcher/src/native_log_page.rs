@@ -7,7 +7,7 @@
 //! build starts or ends.
 use super::*;
 use gpui::{ClipboardItem, ScrollHandle, SharedString};
-use horizon_launcher::native_mods;
+use ll_launcher::native_mods;
 
 /// How much of the log the panel shows: its last lines. Copy log still copies all of it.
 const SHOWN: usize = LOG_LINES;
@@ -347,7 +347,7 @@ mod tests {
 
     #[test]
     fn snapshot_keeps_complete_diagnostics_and_only_renders_the_tail() {
-        let dir = std::env::temp_dir().join(format!("horizon-log-preview-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("ll-log-preview-{}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         let path = dir.join("build.log");
         let full = "first build context\n".repeat(SHOWN + 5)

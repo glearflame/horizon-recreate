@@ -1,9 +1,9 @@
-//! Settings' AI rows: the No AI switch (`horizon_core::no_ai`, shared with the game) and "Connect
+//! Settings' AI rows: the No AI switch (`ll_core::no_ai`, shared with the game) and "Connect
 //! an AI agent", the ready-made MCP config of each common client with Copy buttons, a one-click
 //! add where the client has a CLI (run only on that click, its command shown first), and a test
 //! that starts the MCP server and lists its tools. With No AI on, only the switch shows.
 use super::*;
-use horizon_launcher::agents;
+use ll_launcher::agents;
 
 #[derive(Default)]
 pub(crate) struct AgentsUi {
@@ -33,9 +33,9 @@ impl Launcher {
             Some(
                 div()
                     .child(tr(if on {
-                        "On: every AI feature is hidden and off. The game opens no control socket, and horizon-ctl and the MCP servers refuse."
+                        "On: every AI feature is hidden and off. The game opens no control socket, and ll-ctl and the MCP servers refuse."
                     } else {
-                        "Hides and turns off every AI feature: agent control of the launcher and the game, horizon-ctl and the MCP servers."
+                        "Hides and turns off every AI feature: agent control of the launcher and the game, ll-ctl and the MCP servers."
                     }))
                     .into_any_element(),
             ),
@@ -218,7 +218,7 @@ impl Launcher {
 
 /// Runs a client's add command; (went well, what it said).
 fn run_add(program: &str, args: &[String]) -> (bool, String) {
-    match horizon_launcher::process::command(agents::locate(program))
+    match ll_launcher::process::command(agents::locate(program))
         .args(args)
         .output()
     {

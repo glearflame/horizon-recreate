@@ -80,7 +80,7 @@ impl Versions {
             id => id,
         };
         self.all.iter().find(|v| v.id == id).ok_or_else(|| {
-            format!("Minecraft has no version {name:?}. `horizon-launcher instance versions` lists them.")
+            format!("Minecraft has no version {name:?}. `ll-launcher instance versions` lists them.")
         })
     }
 
@@ -155,7 +155,7 @@ mod tests {
 
     #[test]
     fn the_kept_list_shows_offline() {
-        let dir = std::env::temp_dir().join(format!("horizon-mc-versions-{}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!("ll-mc-versions-{}", std::process::id()));
         let _ = fs::remove_dir_all(&dir);
         let cache = dir.join("minecraft/version_manifest_v2.json");
         let offline = |_: &str| -> Result<String, String> { Err("no network".into()) };

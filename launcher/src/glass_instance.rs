@@ -1,13 +1,13 @@
-//! The instance dialog in the glass look (the mockup's `InstanceModal`, horizon-site
+//! The instance dialog in the glass look (the mockup's `InstanceModal`, ll-site
 //! `components/launcher/instance-modal.tsx`): one plate round at 28 over the dimmed page. On the
 //! left, what the instance will be (its icon, name and what it plays) and its kind; on the right,
 //! what it plays, its name and group, and its icon; Cancel and Create at the foot. Dark
 //! appearance only: the light look keeps `instance_dialog`.
 use super::*;
 use crate::glass_ui::{self as ui, white};
-use horizon_launcher::instances::{self, Icon, Instance};
-use horizon_launcher::loaders::Kind as Loader;
-use horizon_theme::glass::{fill, ink, radius};
+use ll_launcher::instances::{self, Icon, Instance};
+use ll_launcher::loaders::Kind as Loader;
+use ll_theme::glass::{fill, ink, radius};
 use new_instance::{NewKind, VersionList};
 use servers_page::Field;
 use std::sync::Arc;
@@ -136,9 +136,9 @@ pub(super) fn letter_tile(colour: Hsla, name: &str, size: f32) -> Div {
         .rounded(px((size * 0.26).round()))
         .bg(colour)
         .font_family(if letter >= 40. {
-            horizon_theme::glass::DISPLAY_FONT
+            ll_theme::glass::DISPLAY_FONT
         } else {
-            horizon_theme::glass::HEADING_FONT
+            ll_theme::glass::HEADING_FONT
         })
         .font_weight(FontWeight::SEMIBOLD)
         .text_size(px(letter))
@@ -260,17 +260,17 @@ impl Launcher {
     fn followed_version(&self) -> Option<String> {
         self.launcher_version()
             .cloned()
-            .or_else(|| self.horizon_choices().into_iter().next())
+            .or_else(|| self.ll_choices().into_iter().next())
     }
 
     /// The Horizon versions the dialog offers (the mockup's `data.nightlies`): see
-    /// [`horizon_choices`].
-    pub(super) fn horizon_choices(&self) -> Vec<String> {
+    /// [`ll_choices`].
+    pub(super) fn ll_choices(&self) -> Vec<String> {
         let releases = match &self.releases {
             Load::Ready(r) => r.as_slice(),
             _ => &[],
         };
-        horizon_choices(releases, &self.installed)
+        ll_choices(releases, &self.installed)
     }
 
     /// The release to download for the Horizon version `tag`, when it isn't installed.
@@ -288,7 +288,7 @@ impl Launcher {
     /// loader's logo.
     fn auto_mark(&mut self, kind: NewKind, loader: Loader, size: f32) -> AnyElement {
         let mark = match kind {
-            NewKind::Horizon => return self.horizon_mark(size),
+            NewKind::Horizon => return self.ll_mark(size),
             NewKind::Vanilla => self.grass_mark(size),
             NewKind::Modded => self.loader_logo(loader.id(), size),
         };
@@ -470,7 +470,7 @@ impl Launcher {
                     .px(px(8.))
                     .rounded(px(radius::CONTROL))
                     .cursor_pointer()
-                    .font_family(horizon_theme::glass::FONT)
+                    .font_family(ll_theme::glass::FONT)
                     .text_size(px(14.))
                     .text_color(white(ink::BODY))
                     .hover(|s| s.bg(white(fill::ROW_HOVER)).text_color(white(ink::FULL)))
@@ -517,7 +517,7 @@ impl Launcher {
                 div()
                     .mt(px(20.))
                     .truncate()
-                    .font_family(horizon_theme::glass::DISPLAY_FONT)
+                    .font_family(ll_theme::glass::DISPLAY_FONT)
                     .font_weight(FontWeight::SEMIBOLD)
                     .text_size(px(30.))
                     .line_height(px(32.))
@@ -551,7 +551,7 @@ impl Launcher {
 /// Every Nightly published with a build for this platform, newest first, then the installed
 /// versions that list lacks (older Nightlies, imported builds). Picking one not installed installs
 /// it on Create.
-pub(super) fn horizon_choices(releases: &[Release], installed: &[String]) -> Vec<String> {
+pub(super) fn ll_choices(releases: &[Release], installed: &[String]) -> Vec<String> {
     let published = releases
         .iter()
         .filter(|r| r.nightly.is_some() && r.asset.is_some())
@@ -567,7 +567,7 @@ pub(super) fn horizon_choices(releases: &[Release], installed: &[String]) -> Vec
 
 /// "Nightly · c9d474d", "Imported · 2026-10-30", or the tag.
 fn version_label(tag: &str) -> String {
-    horizon_launcher::nightly::label(tag)
+    ll_launcher::nightly::label(tag)
         .or_else(|| build_import::label(tag))
         .unwrap_or_else(|| tag.to_string())
 }
@@ -615,7 +615,7 @@ impl Launcher {
                     .child(
                         div()
                             .truncate()
-                            .font_family(horizon_theme::glass::DISPLAY_FONT)
+                            .font_family(ll_theme::glass::DISPLAY_FONT)
                             .font_weight(FontWeight::SEMIBOLD)
                             .text_size(px(size))
                             .line_height(px(size * 1.25))
@@ -659,7 +659,7 @@ impl Launcher {
             body = body.children(self.switch_notice(i));
         }
         if kind == NewKind::Horizon {
-            body = body.child(self.horizon_versions(cx));
+            body = body.child(self.ll_versions(cx));
             if editing.is_none() {
                 body = body.child(self.start_from(copy, cx));
             }
@@ -724,7 +724,7 @@ impl Launcher {
                 .px(px(20.))
                 .rounded(px(radius::ROW))
                 .cursor_pointer()
-                .font_family(horizon_theme::glass::FONT)
+                .font_family(ll_theme::glass::FONT)
                 .text_size(px(15.))
                 .font_weight(FontWeight::MEDIUM)
                 .text_color(white(ink::BODY))
@@ -751,7 +751,7 @@ impl Launcher {
                 .bg(accent)
                 .cursor_pointer()
                 .hover(move |s| s.bg(lit))
-                .font_family(horizon_theme::glass::FONT)
+                .font_family(ll_theme::glass::FONT)
                 .text_size(px(15.))
                 .font_weight(FontWeight::SEMIBOLD)
                 .text_color(ui::color(self.look.on_accent))
@@ -804,23 +804,23 @@ impl Launcher {
 
     /// Horizon's versions, the newest first: picking the one the launcher plays lets the
     /// instance follow it; any other is kept, and installed on Create when it isn't yet.
-    fn horizon_versions(&mut self, cx: &mut Context<Self>) -> Div {
+    fn ll_versions(&mut self, cx: &mut Context<Self>) -> Div {
         let t = self.theme;
         let soft = self.look.accent_soft;
         let follows = self.followed_version();
         let chosen = self.draft_horizon();
         let rows: Vec<_> = self
-            .horizon_choices()
+            .ll_choices()
             .into_iter()
             .enumerate()
             .map(|(i, tag)| {
                 let latest = follows.as_ref() == Some(&tag);
                 let newest = i == 0;
                 let on = chosen.as_ref() == Some(&tag);
-                let date = horizon_launcher::nightly::date_of(&tag)
+                let date = ll_launcher::nightly::date_of(&tag)
                     .map(|d| glass_versions::published(d, ""));
                 let pick = tag.clone();
-                list_choice(format!("horizon-version-{tag}"), on, &t)
+                list_choice(format!("ll-version-{tag}"), on, &t)
                     .py(px(12.))
                     .child(choice_text(version_label(&tag), date.unwrap_or_default()).flex_1())
                     .children(newest.then(|| {
@@ -842,14 +842,14 @@ impl Launcher {
                 Load::Loading => tr("Loading releases…"),
                 _ => tr("No version installed"),
             };
-            list_box("horizon-versions", 248.).child(
+            list_box("ll-versions", 248.).child(
                 ui::text(14., FontWeight::NORMAL, ink::QUIET)
                     .px(px(16.))
                     .py(px(24.))
                     .child(empty),
             )
         } else {
-            list_box("horizon-versions", 248.).children(rows)
+            list_box("ll-versions", 248.).children(rows)
         };
         section(tr("Version").into(), None, list)
     }
@@ -863,7 +863,7 @@ impl Launcher {
             .map_or_else(|| "Horizon".into(), |i| i.name.clone());
         let icon = match &selected {
             Some(i) => self.glass_instance_icon(i, 36.),
-            None => self.horizon_mark(36.),
+            None => self.ll_mark(36.),
         };
         let card = |on: bool, id: &'static str| {
             choice(id, on, &t)
@@ -1105,7 +1105,7 @@ mod tests {
             "imported-2026-10-30".to_string(),
         ];
         assert_eq!(
-            horizon_choices(&releases, &installed),
+            ll_choices(&releases, &installed),
             [
                 "nightly-2026-11-03-aaaaaaa",
                 "nightly-2026-11-01-ccccccc",
@@ -1114,6 +1114,6 @@ mod tests {
             ]
         );
         // Offline, or before the list arrives: what is installed.
-        assert_eq!(horizon_choices(&[], &installed), installed);
+        assert_eq!(ll_choices(&[], &installed), installed);
     }
 }

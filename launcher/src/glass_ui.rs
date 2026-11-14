@@ -6,7 +6,7 @@ use gpui::{
     div, prelude::*, px, rgb, rgba, svg, App, ClickEvent, Div, FontWeight, Hsla, SharedString,
     Stateful, Svg, TextRun, Window,
 };
-use horizon_theme::glass::{fill, ink, radius, Glass};
+use ll_theme::glass::{fill, ink, radius, Glass};
 use std::cell::Cell;
 
 thread_local! {
@@ -22,7 +22,7 @@ thread_local! {
 
 /// The light appearance's ink: the mockup's text on white (`#100a1f`), at the opacities the dark
 /// look gives white.
-const INK: u32 = horizon_theme::glass::ON_LIGHT;
+const INK: u32 = ll_theme::glass::ON_LIGHT;
 
 /// Set as each frame's pages start being built: whether the appearance is light.
 pub fn set_light(light: bool) {
@@ -57,7 +57,7 @@ pub fn live() -> Hsla {
     color(if light() {
         0x15803d
     } else {
-        horizon_theme::glass::LIVE
+        ll_theme::glass::LIVE
     })
 }
 
@@ -66,7 +66,7 @@ pub fn warn() -> Hsla {
     color(if light() {
         0xb45309
     } else {
-        horizon_theme::glass::WARN
+        ll_theme::glass::WARN
     })
 }
 
@@ -75,7 +75,7 @@ pub fn danger() -> Hsla {
     color(if light() {
         0xdc2626
     } else {
-        horizon_theme::glass::DANGER
+        ll_theme::glass::DANGER
     })
 }
 
@@ -177,7 +177,7 @@ pub fn wide_field(field: Stateful<Div>, focused: bool) -> Stateful<Div> {
         .border_0()
         .rounded(px(radius::ROW))
         .bg(white(if focused { 0.11 } else { 0.07 }))
-        .font_family(horizon_theme::glass::FONT)
+        .font_family(ll_theme::glass::FONT)
         .text_size(px(14.))
         .relative()
         .when(focused, |d| d.child(focus_ring(radius::ROW)))
@@ -235,7 +235,7 @@ pub fn color(c: u32) -> Hsla {
 /// Text at `size` px in Geist, white at `a`, at `weight`.
 pub fn text(size: f32, weight: FontWeight, a: f32) -> Div {
     div()
-        .font_family(horizon_theme::glass::FONT)
+        .font_family(ll_theme::glass::FONT)
         .text_size(px(size))
         .line_height(px((size * 1.4).round()))
         .font_weight(weight)
@@ -414,7 +414,7 @@ pub fn tab(
         .px(px(14.))
         .rounded(px(radius::CONTROL))
         .cursor_pointer()
-        .font_family(horizon_theme::glass::FONT)
+        .font_family(ll_theme::glass::FONT)
         .text_size(px(15.))
         .line_height(px(20.));
     let d = if open {
@@ -455,7 +455,7 @@ const POPOVER_PADDING: f32 = 6.;
 
 /// Width needed to fit the longest translated row, including the icon and both paddings.
 pub fn menu_content_width(window: &Window, labels: &[&str]) -> f32 {
-    let font = gpui::font(horizon_theme::glass::FONT);
+    let font = gpui::font(ll_theme::glass::FONT);
     let widest = labels
         .iter()
         .map(|&label| {
@@ -496,7 +496,7 @@ pub fn menu_row(
         (white(ink::FULL), white(ink::NOTE))
     };
     let hover_color = if danger {
-        rgba(horizon_theme::glass::DANGER_HOVER << 8 | 0x1f).into()
+        rgba(ll_theme::glass::DANGER_HOVER << 8 | 0x1f).into()
     } else {
         white(0.07)
     };
@@ -548,7 +548,7 @@ pub fn scrim_backdrop() -> impl IntoElement {
 /// The scrim over [`scrim_backdrop`]: 50 % in the dark look, 20 % in light, so the dimmed
 /// launcher stays day-lit.
 pub fn scrim() -> Hsla {
-    color(horizon_theme::glass::SCRIM).opacity(if light() { 0.2 } else { 0.5 })
+    color(ll_theme::glass::SCRIM).opacity(if light() { 0.2 } else { 0.5 })
 }
 
 /// A dialog's plate, round at `radius` (`hzl-glass` over the scrim): its piece of the scene
@@ -566,9 +566,9 @@ pub fn dialog_plate(radius: f32) -> Div {
     crate::glass::plate(radius)
         // Light plates are already day-lit: no dimming under them.
         .child(layer(
-            color(horizon_theme::glass::SCRIM).opacity(if light() { 0. } else { 0.5 }),
+            color(ll_theme::glass::SCRIM).opacity(if light() { 0. } else { 0.5 }),
         ))
-        .child(layer(white(horizon_theme::glass::TINT)))
+        .child(layer(white(ll_theme::glass::TINT)))
 }
 
 /// Text on a white button (`SOLID`): `#100a1f`, medium.
@@ -594,7 +594,7 @@ pub fn solid(
             .bg(paper())
             .cursor_pointer()
             .hover(|s| s.opacity(0.9))
-            .font_family(horizon_theme::glass::FONT)
+            .font_family(ll_theme::glass::FONT)
             .text_size(px(size))
             .font_weight(FontWeight::MEDIUM)
             .text_color(on_paper())
@@ -745,7 +745,7 @@ pub fn quiet_icon(
             .bg(white(fill::BUTTON))
             .hover(|s| s.bg(white(0.14)))
             .cursor_pointer()
-            .font_family(horizon_theme::glass::FONT)
+            .font_family(ll_theme::glass::FONT)
             .text_size(px(14.))
             .font_weight(FontWeight::MEDIUM)
             .text_color(white(ink::FULL))
@@ -855,7 +855,7 @@ pub fn link(id: impl Into<SharedString>, label: impl Into<SharedString>) -> Stat
 /// 12 % while what it holds is refused.
 pub fn field(focused: bool, invalid: bool) -> Div {
     let bg: Hsla = if invalid {
-        rgba(horizon_theme::glass::DANGER_HOVER << 8 | 0x1f).into()
+        rgba(ll_theme::glass::DANGER_HOVER << 8 | 0x1f).into()
     } else {
         white(if focused {
             fill::FIELD_FOCUS
@@ -872,7 +872,7 @@ pub fn field(focused: bool, invalid: bool) -> Div {
         .overflow_hidden()
         .rounded(px(radius::ROW))
         .bg(bg)
-        .font_family(horizon_theme::glass::FONT)
+        .font_family(ll_theme::glass::FONT)
         .text_size(px(14.))
 }
 
@@ -929,7 +929,7 @@ pub fn button(id: SharedString, label: SharedString, kind: Kind, t: &Theme) -> S
         .px(px(14.))
         .rounded(px(radius::CONTROL))
         .cursor_pointer()
-        .font_family(horizon_theme::glass::FONT)
+        .font_family(ll_theme::glass::FONT)
         .text_size(px(14.))
         .line_height(px(20.))
         .font_weight(FontWeight::MEDIUM);
@@ -981,7 +981,7 @@ pub fn segments<T: Copy + PartialEq + 'static>(
                 .px(px(12.))
                 .rounded(px(radius::CONTROL))
                 .cursor_pointer()
-                .font_family(horizon_theme::glass::FONT)
+                .font_family(ll_theme::glass::FONT)
                 .text_size(px(14.))
                 .line_height(px(20.))
                 .when(active, |d| {
@@ -1011,7 +1011,7 @@ pub fn page_head(title: impl Into<SharedString>, note: impl Into<SharedString>) 
         .mb(px(28.))
         .child(
             div()
-                .font_family(horizon_theme::glass::DISPLAY_FONT)
+                .font_family(ll_theme::glass::DISPLAY_FONT)
                 .font_weight(FontWeight::SEMIBOLD)
                 .text_size(px(46.))
                 .line_height(px(46.))

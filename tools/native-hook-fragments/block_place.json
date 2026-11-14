@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "block_place",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_block_place",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_block_place",
       "neoforge": "BlockEvent.EntityPlaceEvent (Bukkit's BlockPlaceEvent)",
       "side": "server",
       "cancellable": true,

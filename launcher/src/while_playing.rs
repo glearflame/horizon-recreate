@@ -22,7 +22,7 @@ impl Aside {
 
 impl Launcher {
     /// The game started: get out of its way as the player asked. Read from `settings.json`, so
-    /// `horizon-launcher settings while-playing …` counts at once.
+    /// `ll-launcher settings while-playing …` counts at once.
     pub(super) fn step_aside(&mut self, cx: &mut Context<Self>) {
         // Keep a choice whose save failed available for Retry instead of replacing it from disk.
         if self.settings_save_error.is_none() {

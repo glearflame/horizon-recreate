@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "inventory_drag",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_inventory_drag",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_inventory_drag",
       "neoforge": "none (Bukkit's InventoryDragEvent)",
       "side": "server",
       "cancellable": true,

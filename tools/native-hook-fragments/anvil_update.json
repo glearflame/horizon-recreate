@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "anvil_update",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_anvil_update",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_anvil_update",
       "neoforge": "AnvilUpdateEvent",
       "side": "both",
       "cancellable": true,

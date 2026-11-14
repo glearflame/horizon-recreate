@@ -57,7 +57,7 @@ fn status_reads_as_the_cli_writes_it() {
 #[test]
 fn status_asks_the_cli_read_only() {
     use std::os::unix::fs::PermissionsExt;
-    let dir = std::env::temp_dir().join(format!("horizon-tailscale-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!("ll-tailscale-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
     let json = dir.join("status.json");

@@ -5,7 +5,7 @@
 use crate::i18n::{tr, trf};
 use crate::instances::Instance;
 use crate::{backend, native_mods};
-use horizon_mods::index::BrokenOn;
+use ll_mods::index::BrokenOn;
 use std::collections::HashMap;
 use std::path::Path;
 use std::sync::Mutex;
@@ -31,7 +31,7 @@ pub enum Fit {
     Clashes { pin: String, with: Vec<String> },
     /// It pins another commit, alone: the build compiles the game on that commit.
     MovesTo { pin: String },
-    /// The registry found it doesn't apply on the Horizon the player plays (horizon-mixins'
+    /// The registry found it doesn't apply on the Horizon the player plays (ll-mixins'
     /// `code`): a build leaves it out.
     Broken { code: String },
 }
@@ -230,7 +230,7 @@ mod tests {
     }
 
     #[test]
-    fn a_mod_the_registry_found_broken_on_the_horizon_played_says_so() {
+    fn a_mod_the_registry_found_broken_on_the_ll_played_says_so() {
         let broken = [BrokenOn {
             horizon: YOURS.into(),
             code: "E_TARGET_NOT_FOUND".into(),

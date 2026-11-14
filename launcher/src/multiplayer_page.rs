@@ -1,10 +1,10 @@
-//! The selected instance's server list on Home (`horizon_launcher::server_list`, the game's own
+//! The selected instance's server list on Home (`ll_launcher::server_list`, the game's own
 //! `servers.dat`): each server with the picture the game last saw, Join (the game starts straight
 //! into it), Remove after a confirmation, and a line to add one. The official server is put on top
 //! once, as the game does, at the address links.json gives (`server_list::add_official`).
 use super::*;
 use gpui::{Image, ImageFormat};
-use horizon_launcher::server_list::{self, Server};
+use ll_launcher::server_list::{self, Server};
 use servers_page::Field;
 use std::collections::HashMap;
 use std::path::PathBuf;
@@ -54,7 +54,7 @@ impl Launcher {
             let address = ip.clone();
             let task = cx
                 .background_executor()
-                .spawn(async move { horizon_launcher::telemetry::server_players(&address) });
+                .spawn(async move { ll_launcher::telemetry::server_players(&address) });
             cx.spawn(async move |this, cx| {
                 let answer = task.await;
                 let _ = this.update(cx, |this, cx| {

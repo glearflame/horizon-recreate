@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "living_damage_pre",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_living_damage_pre",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_living_damage_pre",
       "neoforge": "LivingDamageEvent.Pre",
       "side": "server",
       "cancellable": false,
@@ -12,7 +12,7 @@
     },
     {
       "name": "living_damage_post",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_living_damage_post",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_living_damage_post",
       "neoforge": "LivingDamageEvent.Post",
       "side": "server",
       "cancellable": false,

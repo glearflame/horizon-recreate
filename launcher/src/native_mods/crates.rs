@@ -1,5 +1,5 @@
 //! Native mods' own crates and post-build steps (docs/native-mods.md, "Crates" and
-//! "Post-build steps"). horizon-mixins stages a mod's `[[crate]]` as
+//! "Post-build steps"). ll-mixins stages a mod's `[[crate]]` as
 //! `native-crates/<mod>/<crate>/`, a workspace member, and lists its `[[post_build]]` steps in
 //! `native-post-build.json`. A mod's crate may use only what Horizon's own `Cargo.lock` has: the
 //! lock file is the allow list, so a build never downloads a crate Horizon doesn't already ship.
@@ -8,7 +8,7 @@ use std::fs;
 use std::path::{Component, Path, PathBuf};
 use std::process::Command;
 
-/// Where horizon-mixins stages the mods' crates, in the workspace it writes.
+/// Where ll-mixins stages the mods' crates, in the workspace it writes.
 pub(super) const DIR: &str = "native-crates";
 /// The post-build steps it found, in mod order.
 const POST_BUILD: &str = "native-post-build.json";
@@ -315,8 +315,8 @@ pub(super) struct PostBuild {
     pub args: Vec<String>,
 }
 
-/// The post-build steps horizon-mixins listed in `stage` (none without the file: an older
-/// horizon-mixins, or no mod has one).
+/// The post-build steps ll-mixins listed in `stage` (none without the file: an older
+/// ll-mixins, or no mod has one).
 pub(super) fn post_builds(stage: &Path) -> Result<Vec<PostBuild>, String> {
     let path = stage.join(POST_BUILD);
     match fs::read_to_string(&path) {
@@ -325,7 +325,7 @@ pub(super) fn post_builds(stage: &Path) -> Result<Vec<PostBuild>, String> {
                 serde_json::from_str(&text).map_err(|e| format!("{}: {e}", path.display()))?;
             match steps
                 .iter()
-                .find(|s| !horizon_mods::index::valid_id(&s.mod_id))
+                .find(|s| !ll_mods::index::valid_id(&s.mod_id))
             {
                 Some(bad) => Err(format!(
                     "{}: invalid mod id {:?}",
@@ -400,7 +400,7 @@ mod tests {
         fn new() -> Self {
             let root = loop {
                 let root = std::env::temp_dir().join(format!(
-                    "horizon-native-sibling-{}-{}",
+                    "ll-native-sibling-{}-{}",
                     std::process::id(),
                     NEXT_STAGE.fetch_add(1, Ordering::Relaxed)
                 ));
@@ -468,7 +468,7 @@ mod tests {
 version = 4
 
 [[package]]
-name = "horizon-client"
+name = "ll-client"
 version = "0.1.0"
 
 [[package]]
@@ -542,7 +542,7 @@ checksum = "def"
     #[test]
     fn every_dependency_table_of_every_mod_crate_is_read() {
         let stage =
-            std::env::temp_dir().join(format!("horizon-native-crates-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-native-crates-{}", std::process::id()));
         let _ = fs::remove_dir_all(&stage);
         let krate = stage.join(DIR).join("bake").join("engine");
         fs::create_dir_all(&krate).unwrap();
@@ -751,7 +751,7 @@ checksum = "def"
     fn post_build_steps_run_in_the_version_folder_with_the_mods_folders() {
         let json = r#"[{"mod":"bake","package":"bake-engine","bin":"bake","args":["--fast"]},
             {"mod":"zoom","package":"zoom-tables","bin":"tables"}]"#;
-        let root = std::env::temp_dir().join(format!("horizon-native-post-{}", std::process::id()));
+        let root = std::env::temp_dir().join(format!("ll-native-post-{}", std::process::id()));
         let _ = fs::remove_dir_all(&root);
         fs::create_dir_all(&root).unwrap();
         fs::write(root.join(POST_BUILD), json).unwrap();

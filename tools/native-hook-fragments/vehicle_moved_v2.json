@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "vehicle_moved_v2",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_vehicle_moved_v2",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_vehicle_moved_v2",
       "neoforge": "none (NeoForge has no such event; Bukkit's VehicleMoveEvent)",
       "side": "server",
       "cancellable": true,

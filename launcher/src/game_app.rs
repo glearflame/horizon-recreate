@@ -1,5 +1,5 @@
 //! The game's app bundle on macOS. Started as a bare executable, the game shows in the Dock and
-//! in Cmd+Tab as "horizon-client" with the generic executable icon (winit's window icon does
+//! in Cmd+Tab as "ll-client" with the generic executable icon (winit's window icon does
 //! nothing there). So the launcher starts it from a small Horizon.app inside its version folder:
 //! the Info.plist names it and the icon is the launcher's own. The programs inside are hard links
 //! to the version's, so the bundle takes no disk space and the release's signature is untouched.
@@ -12,8 +12,8 @@ use std::sync::atomic::{AtomicU64, Ordering};
 /// The bundle's folder in a version folder.
 pub const APP: &str = "Horizon.app";
 
-/// The game, then horizon-ctl, which the game looks for beside itself (Copy Connection Details).
-const PROGRAMS: [&str; 2] = ["horizon-client", "horizon-ctl"];
+/// The game, then ll-ctl, which the game looks for beside itself (Copy Connection Details).
+const PROGRAMS: [&str; 2] = ["ll-client", "ll-ctl"];
 
 const ICON: &[u8] = include_bytes!("../../packaging/icons/horizon.icns");
 
@@ -26,7 +26,7 @@ const INFO_PLIST: &str = r#"<?xml version="1.0" encoding="UTF-8"?>
 	<key>CFBundleDisplayName</key>
 	<string>Horizon</string>
 	<key>CFBundleExecutable</key>
-	<string>horizon-client</string>
+	<string>ll-client</string>
 	<key>CFBundleIconFile</key>
 	<string>horizon</string>
 	<key>CFBundleIdentifier</key>
@@ -71,7 +71,7 @@ pub fn ensure(version: &Path) -> io::Result<PathBuf> {
     write_if_changed(&contents.join("Resources/horizon.icns"), ICON)?;
     for (i, name) in PROGRAMS.into_iter().enumerate() {
         let (from, to) = (version.join(name), programs.join(name));
-        // Releases before horizon-ctl shipped have only the game.
+        // Releases before ll-ctl shipped have only the game.
         if i > 0 && !from.exists() {
             continue;
         }
@@ -164,10 +164,10 @@ mod tests {
 
     fn native_version(name: &str) -> PathBuf {
         let version =
-            std::env::temp_dir().join(format!("horizon-game-app-{name}-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-game-app-{name}-{}", std::process::id()));
         let _ = fs::remove_dir_all(&version);
         fs::create_dir_all(&version).unwrap();
-        fs::write(version.join("horizon-client"), "unchanged signed game").unwrap();
+        fs::write(version.join("ll-client"), "unchanged signed game").unwrap();
         version
     }
 
@@ -190,7 +190,7 @@ mod tests {
         assert_eq!(fs::read(&bundled).unwrap(), second);
         assert_eq!(fs::read(&receipt).unwrap(), second);
         assert_eq!(fs::read(version.join("old-receipt")).unwrap(), first);
-        assert!(same_file(&program, &version.join("horizon-client")));
+        assert!(same_file(&program, &version.join("ll-client")));
         assert_eq!(fs::read(&program).unwrap(), b"unchanged signed game");
 
         fs::remove_file(&receipt).unwrap();
@@ -260,7 +260,7 @@ mod tests {
         );
         assert_eq!(fs::read(unexpected.join("keep")).unwrap(), b"user file");
         assert_eq!(
-            fs::read(version.join("horizon-client")).unwrap(),
+            fs::read(version.join("ll-client")).unwrap(),
             b"unchanged signed game"
         );
         fs::remove_dir_all(version).unwrap();
@@ -284,21 +284,21 @@ mod tests {
 
     #[test]
     fn the_bundle_links_the_version_programs_and_follows_a_replaced_one() {
-        let version = std::env::temp_dir().join(format!("horizon-game-app-{}", std::process::id()));
+        let version = std::env::temp_dir().join(format!("ll-game-app-{}", std::process::id()));
         let _ = fs::remove_dir_all(&version);
         fs::create_dir_all(&version).unwrap();
-        fs::write(version.join("horizon-client"), "game 1").unwrap();
-        fs::write(version.join("horizon-ctl"), "ctl").unwrap();
+        fs::write(version.join("ll-client"), "game 1").unwrap();
+        fs::write(version.join("ll-ctl"), "ctl").unwrap();
 
         let program = ensure(&version).unwrap();
         assert_eq!(
             program,
-            version.join("Horizon.app/Contents/MacOS/horizon-client")
+            version.join("Horizon.app/Contents/MacOS/ll-client")
         );
-        assert!(same_file(&program, &version.join("horizon-client")));
+        assert!(same_file(&program, &version.join("ll-client")));
         assert!(same_file(
-            &version.join("Horizon.app/Contents/MacOS/horizon-ctl"),
-            &version.join("horizon-ctl")
+            &version.join("Horizon.app/Contents/MacOS/ll-ctl"),
+            &version.join("ll-ctl")
         ));
         let plist = fs::read_to_string(version.join("Horizon.app/Contents/Info.plist")).unwrap();
         assert!(plist.contains("<string>Horizon</string>"));
@@ -322,8 +322,8 @@ mod tests {
         );
 
         // A new build copied over the version's game: the bundle runs it, not the old one.
-        fs::remove_file(version.join("horizon-client")).unwrap();
-        fs::write(version.join("horizon-client"), "game 2").unwrap();
+        fs::remove_file(version.join("ll-client")).unwrap();
+        fs::write(version.join("ll-client"), "game 2").unwrap();
         assert_eq!(
             fs::read_to_string(ensure(&version).unwrap()).unwrap(),
             "game 2"
@@ -332,15 +332,15 @@ mod tests {
     }
 
     #[test]
-    fn a_version_without_horizon_ctl_still_gets_its_bundle() {
+    fn a_version_without_ll_ctl_still_gets_its_bundle() {
         let version =
-            std::env::temp_dir().join(format!("horizon-game-app-old-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-game-app-old-{}", std::process::id()));
         let _ = fs::remove_dir_all(&version);
         fs::create_dir_all(&version).unwrap();
-        fs::write(version.join("horizon-client"), "game").unwrap();
+        fs::write(version.join("ll-client"), "game").unwrap();
         assert!(ensure(&version).unwrap().exists());
         assert!(!version
-            .join("Horizon.app/Contents/MacOS/horizon-ctl")
+            .join("Horizon.app/Contents/MacOS/ll-ctl")
             .exists());
         fs::remove_dir_all(&version).unwrap();
     }
@@ -348,7 +348,7 @@ mod tests {
     #[test]
     fn a_version_without_the_game_has_no_bundle_program() {
         let version =
-            std::env::temp_dir().join(format!("horizon-game-app-none-{}", std::process::id()));
+            std::env::temp_dir().join(format!("ll-game-app-none-{}", std::process::id()));
         let _ = fs::remove_dir_all(&version);
         fs::create_dir_all(&version).unwrap();
         assert!(ensure(&version).is_err());

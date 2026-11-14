@@ -1,12 +1,12 @@
 //! Launch… on Home's Instance row: what runs around the selected instance's game
-//! (`horizon_launcher::launch`): a command before it, a wrapper, and environment variables.
+//! (`ll_launcher::launch`): a command before it, a wrapper, and environment variables.
 use super::servers_page::Field;
 use super::*;
 use gpui::{
     canvas, relative, Bounds, FontWeight, MouseButton, MouseDownEvent, MouseMoveEvent,
     MouseUpEvent, Pixels, Point,
 };
-use horizon_launcher::launch;
+use ll_launcher::launch;
 
 pub(super) struct LaunchPanel {
     /// The instance it is for: picking another closes it.

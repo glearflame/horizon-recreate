@@ -3,7 +3,7 @@ use chrono::TimeZone;
 
 fn scratch(name: &str) -> PathBuf {
     let root = std::env::temp_dir().join(format!(
-        "horizon-launcher-worlds-{name}-{}",
+        "ll-launcher-worlds-{name}-{}",
         std::process::id()
     ));
     let _ = fs::remove_dir_all(&root);

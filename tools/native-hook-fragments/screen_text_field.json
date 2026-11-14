@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "screen_text_field_char_typed_pre",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_screen_text_field_char_typed_pre",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_screen_text_field_char_typed_pre",
       "side": "client",
       "cancellable": true,
       "mod_api": {

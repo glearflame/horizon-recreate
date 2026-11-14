@@ -3,7 +3,7 @@
   "helpers": [
     {
       "name": "boss_bar",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_boss_bar"
+      "target": "ll_client::game::native_hooks::Game<'_>::native_boss_bar"
     }
   ],
   "rust_summary": "boss bars for one player (`native_boss_bar`, `NativeBossBar`), as Bukkit's `BossBar.addPlayer`.",

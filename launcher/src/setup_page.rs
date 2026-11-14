@@ -1,6 +1,6 @@
-//! The Windows setup window: `horizon-launcher-setup.exe` installs, `horizon-launcher.exe
+//! The Windows setup window: `ll-launcher-setup.exe` installs, `ll-launcher.exe
 //! uninstall` removes. The launcher's own sky and plates (docs/design-system.md, "Night"); the
-//! work is `horizon_launcher::installer`, on a thread, reported over a channel.
+//! work is `ll_launcher::installer`, on a thread, reported over a channel.
 use crate::glass_ui;
 use crate::scene;
 use crate::shell::{c, text};
@@ -12,9 +12,9 @@ use gpui::{
     div, prelude::*, px, size, App, Bounds, ClickEvent, Context, Div, PathPromptOptions, Render,
     Task, Window, WindowBounds, WindowOptions,
 };
-use horizon_launcher::backend::Settings;
-use horizon_launcher::i18n::{self, tr};
-use horizon_launcher::installer::{self, Mode, Options, Step};
+use ll_launcher::backend::Settings;
+use ll_launcher::i18n::{self, tr};
+use ll_launcher::installer::{self, Mode, Options, Step};
 use std::sync::mpsc::{channel, Receiver};
 use std::time::{Duration, Instant};
 
@@ -57,7 +57,7 @@ pub fn open(mode: Mode, cx: &mut App) {
             window_bounds: Some(WindowBounds::Windowed(bounds)),
             window_min_size: Some(size(px(760.), px(520.))),
             titlebar: Some(titlebar::options()),
-            app_id: Some("horizon-launcher".into()),
+            app_id: Some("ll-launcher".into()),
             ..Default::default()
         },
         |window, cx| cx.new(|cx| Setup::new(mode, window, cx)),
@@ -102,7 +102,7 @@ impl Setup {
     /// The settings file's write time and size, to notice a change made in the launcher.
     fn settings_stamp() -> Option<(std::time::SystemTime, u64)> {
         let meta =
-            std::fs::metadata(horizon_launcher::backend::data_dir().join("settings.json")).ok()?;
+            std::fs::metadata(ll_launcher::backend::data_dir().join("settings.json")).ok()?;
         Some((meta.modified().ok()?, meta.len()))
     }
 
@@ -390,7 +390,7 @@ impl Setup {
                     );
             }
         }
-        glass_ui::dialog_plate(horizon_theme::glass::radius::MODAL)
+        glass_ui::dialog_plate(ll_theme::glass::radius::MODAL)
             .w(px(560.))
             .p(px(32.))
             .flex()
@@ -435,8 +435,8 @@ impl Render for Setup {
         // player's accent as the launcher tints it, and the dawn sky in the light one (the
         // redesign has no light scene yet). The setup therefore looks like the client it
         // installs: a player with a blue accent gets the blue scene, not the night sunset.
-        let tint = (t.dark && t.look.accent != horizon_theme::glass::ACCENT)
-            .then(|| horizon_theme::glass::mix_oklab(t.look.accent, 0x767676, 0.58));
+        let tint = (t.dark && t.look.accent != ll_theme::glass::ACCENT)
+            .then(|| ll_theme::glass::mix_oklab(t.look.accent, 0x767676, 0.58));
         self.scene
             .update(cx, |scene, cx| scene.set_look(tint, t.look.blur, cx));
         let sky = if t.dark {

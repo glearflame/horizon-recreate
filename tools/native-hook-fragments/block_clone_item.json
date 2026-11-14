@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "block_clone_item",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_block_clone_item",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_block_clone_item",
       "mod_api": {"contract": "replace", "out": "stack"}
     }
   ],

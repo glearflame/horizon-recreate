@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "player_move",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_player_move",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_player_move",
       "neoforge": "none (Bukkit's PlayerMoveEvent)",
       "side": "server",
       "cancellable": true,

@@ -4,7 +4,7 @@
 //! `benchmarks/` of the launcher's data folder, a local log the player can attach to an issue;
 //! nothing leaves the machine (an upload needs the telemetry consent).
 //!
-//! `horizon-launcher benchmark` measures the same things on purpose: several starts (the first is
+//! `ll-launcher benchmark` measures the same things on purpose: several starts (the first is
 //! the cold one), page switching, repeated release list fetches, idle CPU.
 
 use std::collections::BTreeMap;
@@ -13,7 +13,7 @@ use std::sync::mpsc::{self, Receiver, TryRecvError};
 use std::sync::OnceLock;
 use std::time::{Duration, Instant};
 
-use horizon_bench::{App, Frames, Hardware, Kind, Report};
+use ll_bench::{App, Frames, Hardware, Kind, Report};
 
 /// The first thing `main` does; every start time counts from here.
 pub fn process_started() -> Instant {
@@ -23,7 +23,7 @@ pub fn process_started() -> Instant {
 
 /// Frames further apart than this are the UI resting, not UI frame times.
 const IDLE_GAP: Duration = Duration::from_millis(250);
-pub use horizon_launcher::backend::GAME_FIRST_FRAME;
+pub use ll_launcher::backend::GAME_FIRST_FRAME;
 
 pub struct Perf {
     report: Report,
@@ -34,7 +34,7 @@ pub struct Perf {
     ui_frames: Vec<f32>,
     saved: Instant,
     dirty: bool,
-    /// Off for the windows `horizon-launcher benchmark` starts: they report to it instead.
+    /// Off for the windows `ll-launcher benchmark` starts: they report to it instead.
     log: bool,
     /// Machine probes run after the first frame, never while opening the window.
     hardware: Option<Receiver<Machine>>,
@@ -51,8 +51,8 @@ impl Machine {
     fn detect() -> Self {
         Self {
             hardware: Hardware::detect(),
-            power: horizon_bench::power_source().map(str::to_owned),
-            load_average: horizon_bench::load_average(),
+            power: ll_bench::power_source().map(str::to_owned),
+            load_average: ll_bench::load_average(),
         }
     }
 }
@@ -136,7 +136,7 @@ impl Perf {
         if self.saved.elapsed() < Duration::from_secs(5) {
             return;
         }
-        if let Some(rss) = horizon_bench::rss_bytes(std::process::id()) {
+        if let Some(rss) = ll_bench::rss_bytes(std::process::id()) {
             self.values
                 .entry("launcher.rss_mb".into())
                 .or_default()
@@ -156,7 +156,7 @@ impl Perf {
         self.report.frames = Frames::of("ui", 0, &self.ui_frames, &[], &[])
             .into_iter()
             .collect();
-        self.report.created = horizon_bench::utc_now();
+        self.report.created = ll_bench::utc_now();
         &self.report
     }
 
@@ -199,7 +199,7 @@ impl Drop for Perf {
     }
 }
 
-/// What a window started by `horizon-launcher benchmark` does next (`Launcher::drain`, every 80 ms).
+/// What a window started by `ll-launcher benchmark` does next (`Launcher::drain`, every 80 ms).
 pub enum Step {
     Wait,
     /// Show this page (an index into `Page::ALL`, wrapping).
@@ -277,14 +277,14 @@ impl Bench {
         let Some((rested, cpu)) = self.idle_cpu else {
             self.idle_cpu = Some((
                 Instant::now(),
-                horizon_bench::cpu_seconds(pid).unwrap_or(0.0),
+                ll_bench::cpu_seconds(pid).unwrap_or(0.0),
             ));
             return Step::Wait;
         };
         if rested.elapsed() < IDLE {
             return Step::Wait;
         }
-        let cpu_idle_pct = horizon_bench::cpu_seconds(pid)
+        let cpu_idle_pct = ll_bench::cpu_seconds(pid)
             .map(|now| 100.0 * (now - cpu) / rested.elapsed().as_secs_f64());
         let epoch_ms = |at: Instant| {
             let ago = at.elapsed();
@@ -302,7 +302,7 @@ impl Bench {
             "first_frame_epoch_ms": epoch_ms(first),
             "ui_ms": ui,
             "scroll_ms": scroll,
-            "rss_mb": horizon_bench::rss_bytes(pid).map(|b| b as f64 / f64::from(1 << 20)),
+            "rss_mb": ll_bench::rss_bytes(pid).map(|b| b as f64 / f64::from(1 << 20)),
             "cpu_idle_pct": cpu_idle_pct,
         });
         let _ = std::fs::write(&self.out, result.to_string());
@@ -310,18 +310,18 @@ impl Bench {
     }
 }
 
-/// `horizon-launcher benchmark`: starts the launcher `repeats` times (the first start is the cold
+/// `ll-launcher benchmark`: starts the launcher `repeats` times (the first start is the cold
 /// one), each switching pages then resting, times the release list fetch, and writes one report.
 pub fn benchmark(repeats: usize) -> Result<PathBuf, String> {
     let exe = std::env::current_exe().map_err(|e| e.to_string())?;
     let mut report = Report::new(Kind::Launcher, app());
     report.conditions.scenario = Some("benchmark".into());
     report.conditions.repeats = Some(repeats as u32);
-    report.conditions.power = horizon_bench::power_source().map(str::to_owned);
-    report.conditions.load_avg_1m = horizon_bench::load_average();
+    report.conditions.power = ll_bench::power_source().map(str::to_owned);
+    report.conditions.load_avg_1m = ll_bench::load_average();
     let (mut starts, mut rss, mut cpu) = (Vec::new(), Vec::new(), Vec::new());
     let scratch =
-        std::env::temp_dir().join(format!("horizon-launcher-bench-{}", std::process::id()));
+        std::env::temp_dir().join(format!("ll-launcher-bench-{}", std::process::id()));
     for repeat in 0..repeats {
         let _ = std::fs::remove_file(&scratch);
         let spawned = std::time::SystemTime::now();
@@ -408,12 +408,12 @@ pub fn benchmark(repeats: usize) -> Result<PathBuf, String> {
     }
     // Kept for upload only if the player allows benchmark uploads (the outbox checks).
     if let Ok(data) = serde_json::to_value(report.for_upload()) {
-        let item = horizon_telemetry::Item::new(
-            horizon_telemetry::Source::Launcher,
+        let item = ll_telemetry::Item::new(
+            ll_telemetry::Source::Launcher,
             crate::backend::VERSION,
-            horizon_telemetry::Payload::Benchmark(data),
+            ll_telemetry::Payload::Benchmark(data),
         );
-        let _ = horizon_telemetry::outbox::push(&crate::backend::game_home(), &item);
+        let _ = ll_telemetry::outbox::push(&crate::backend::game_home(), &item);
     }
     report
         .write_to(&crate::backend::data_dir().join("benchmarks"))
@@ -422,7 +422,7 @@ pub fn benchmark(repeats: usize) -> Result<PathBuf, String> {
 
 fn app() -> App {
     App {
-        name: "horizon-launcher".into(),
+        name: "ll-launcher".into(),
         version: crate::backend::VERSION.into(),
         ..App::default()
     }

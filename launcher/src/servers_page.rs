@@ -1,13 +1,13 @@
 //! The Servers page: create a server in one dialog, then start, stop and watch it, give friends its
 //! address, manage who may join, change its settings, back it up and update it, all with buttons. Every
-//! action runs `horizon-server` or calls the running server's control API (`horizon_launcher::servers`).
+//! action runs `ll-server` or calls the running server's control API (`ll_launcher::servers`).
 use super::line_edit::{self, Key, LineEdit};
 use super::*;
-use horizon_launcher::heads;
-use horizon_launcher::servers::{
+use ll_launcher::heads;
+use ll_launcher::servers::{
     self, Applied, Backup, Entry, Fix, NewServer, Problem, Status, World,
 };
-use horizon_theme::glass::radius;
+use ll_theme::glass::radius;
 use serde_json::Value;
 use std::collections::{BTreeSet, HashMap};
 use std::path::{Path, PathBuf};
@@ -403,7 +403,7 @@ pub(super) fn keep_running_through_update() {
 }
 
 /// The player's own name, to let them in on a friends-only server: the Microsoft account that plays,
-/// else the name the game made up for them (`horizon-player.txt`).
+/// else the name the game made up for them (`ll-player.txt`).
 fn own_name(accounts: &Accounts) -> Option<String> {
     accounts
         .selected()
@@ -432,7 +432,7 @@ fn backup_label(b: &Backup) -> (String, String) {
         "auto" => "Automatic".to_string(),
         "manual" => "Made by hand".to_string(),
         "before-update" => "Before an update".to_string(),
-        // horizon-server writes the tag with dashes (before-v2026-10-19-10).
+        // ll-server writes the tag with dashes (before-v2026-10-19-10).
         k if k.starts_with("before-v")
             && k[8..].chars().all(|c| c.is_ascii_digit() || c == '-') =>
         {
@@ -479,7 +479,7 @@ impl Launcher {
         });
     }
 
-    /// `horizon-server <args>` on the open server, as a job.
+    /// `ll-server <args>` on the open server, as a job.
     fn server_command(&mut self, label: &str, args: Vec<String>) {
         let Some(dir) = self.servers.open.clone() else {
             return;
@@ -747,7 +747,7 @@ impl Launcher {
         });
     }
 
-    /// Queues a setting for `horizon-server config set`; they go one batch at a time.
+    /// Queues a setting for `ll-server config set`; they go one batch at a time.
     fn set_setting(&mut self, key: &str, value: String) {
         self.servers.queued.retain(|(k, _)| k != key);
         self.servers.queued.push((key.to_string(), value));
@@ -892,7 +892,7 @@ impl Launcher {
             Vec::new()
         };
         let details = if glass {
-            horizon_launcher::worlds::list(&backend::game_home())
+            ll_launcher::worlds::list(&backend::game_home())
                 .into_iter()
                 .map(|w| {
                     let line = format!("Horizon · {} · {}", tr(w.mode), bytes(w.size));
@@ -2827,7 +2827,7 @@ impl Launcher {
             .child(rows)
     }
 
-    /// The server's details came back without its settings: its horizon-server predates
+    /// The server's details came back without its settings: its ll-server predates
     /// `config` (and `backups --json`).
     fn older_horizon(&self) -> bool {
         self.servers.service.is_some() && self.servers.config.is_none()

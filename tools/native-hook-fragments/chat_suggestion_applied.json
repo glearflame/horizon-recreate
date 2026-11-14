@@ -2,7 +2,7 @@
   "hooks": [
     {
       "name": "chat_suggestion_applied",
-      "target": "horizon_client::game::native_hooks::Game<'_>::native_chat_suggestion_applied",
+      "target": "ll_client::game::native_hooks::Game<'_>::native_chat_suggestion_applied",
       "side": "client",
       "cancellable": false,
       "mod_api": {

@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 fn scratch(name: &str) -> PathBuf {
     let root = std::env::temp_dir().join(format!(
-        "horizon-launcher-servers-{name}-{}",
+        "ll-launcher-servers-{name}-{}",
         std::process::id()
     ));
     let _ = fs::remove_dir_all(&root);

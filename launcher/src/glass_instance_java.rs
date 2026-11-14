@@ -6,10 +6,10 @@ use crate::glass_ui::{self as ui, white};
 use glass_instance::{
     choice, choice_text, letter_tile, list_box, list_choice, loaders, section, tick, tile_image,
 };
-use horizon_launcher::instances::{self, Instance, Plays, Unkept};
-use horizon_launcher::loaders::Loader;
-use horizon_launcher::minecraft_versions::Kind as VersionKind;
-use horizon_theme::glass::{fill, ink, radius};
+use ll_launcher::instances::{self, Instance, Plays, Unkept};
+use ll_launcher::loaders::Loader;
+use ll_launcher::minecraft_versions::Kind as VersionKind;
+use ll_theme::glass::{fill, ink, radius};
 use new_instance::{NewKind, VersionList};
 use servers_page::Field;
 
@@ -41,7 +41,7 @@ impl Launcher {
                     .px(px(12.))
                     .rounded(px(radius::CONTROL))
                     .cursor_pointer()
-                    .font_family(horizon_theme::glass::FONT)
+                    .font_family(ll_theme::glass::FONT)
                     .text_size(px(13.))
                     .when(on, |d| {
                         d.bg(white(fill::BUTTON_HOVER))
@@ -261,7 +261,7 @@ impl Launcher {
         if lines.is_empty() {
             return None;
         }
-        let warn = ui::color(horizon_theme::glass::WARN);
+        let warn = ui::color(ll_theme::glass::WARN);
         Some(
             div()
                 .flex()
