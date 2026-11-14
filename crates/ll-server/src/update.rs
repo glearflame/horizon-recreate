@@ -14,7 +14,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-const REPO: &str = "horizon-rust/horizon";
+const REPO: &str = "glearflame/horizon";
 /// The release archives for this computer, most specific first: on Linux the server build (no ALSA or
 /// udev), else the full game (releases before the server build).
 fn assets_for(os: &str, arch: &str, musl: bool) -> &'static [&'static str] {

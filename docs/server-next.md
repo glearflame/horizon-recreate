@@ -9,7 +9,7 @@ vanilla Java clients welcome and vanilla's rules kept exactly. Two bars:
    harnesses (each one runs the real 26.3 jars and Horizon on the same inputs and compares the results).
 
 All of it lives in this repo. Single player's integrated server, LAN, `--dedicated` and the
-`horizon-server` supervisor run the same server code (section 3). horizon-rust/horizon-server is only a
+`horizon-server` supervisor run the same server code (section 3). glearflame/horizon-server is only a
 download home, for people who want a standalone server.
 
 Contents: the measured baseline (section 1), the targets (2), where the work goes (3), the design of each part
@@ -167,7 +167,7 @@ already the same binary.
   [server.md](server.md) §3) stays the server engine and the harnesses' server. With `HORIZON_SERIAL_TICK` it is also the serial
   reference every parallel phase is compared against (4.3).
 - **`horizon-server`** (the supervisor) stays the program owners run.
-- **horizon-rust/horizon-server** holds no code. Its releases repack the engine and the supervisor, built from
+- **glearflame/horizon-server** holds no code. Its releases repack the engine and the supervisor, built from
   this repo's tags, for people who only want a standalone server (W8).
 
 ## 4. Ticking on more cores
@@ -412,7 +412,7 @@ negotiation, so a Horizon client still plays on every vanilla server.
 | W5 | **Saving off the tick thread** | no autosave spike in p99 | bench with an autosave window |
 | W6 | **Fast path**: hello, `chunk-zstd`, `entity-batch`, `far-terrain` | −50 % bytes for Horizon clients | per-capability harness |
 | W7 | **Operations**: metrics endpoint (Prometheus text, loopback/tailnet only), scheduled restarts | the official server's checklist (9.2) | an hour-long soak with 100 bots |
-| W8 | **Downloads**: a workflow in horizon-rust/horizon-server repacks the engine and supervisor from this repo's release tags | one archive per OS, the same checksums as horizon's release | the release |
+| W8 | **Downloads**: a workflow in glearflame/horizon-server repacks the engine and supervisor from this repo's release tags | one archive per OS, the same checksums as horizon's release | the release |
 | W9 | **Plugin API**: server-side mods on `horizon-mods`, with events, commands, permissions and a scheduler, on the server hooks (#3706, #3878). Led by levzzz5154, who leads modding; roadmap item `server-mods` | a plugin can do what bunchy7s asks for, measured per-tick cost under 0.1 ms with no plugin loaded | mod harness on the integrated server and `--dedicated` |
 
 W0 comes first: without a bench that repeats within 5 %, no tick PR can show its gain. W1, W2 and W4 can run
@@ -448,10 +448,10 @@ the ones that should land in horizon first: the server builds on them, so triage
 
 | PR | Author | Verdict |
 |---|---|---|
-| ★ #3815, ★ #3847 | ludovic111 | **use**: tick-thread costs (section 1). In the merger; #3834 merged |
+| ★ #3815, ★ #3847 | glearflame | **use**: tick-thread costs (section 1). In the merger; #3834 merged |
 | ★ #3036 | hectoreccles | **use**: chunk batch bodies on helper threads, the base of W1 (5.3) |
 | ★ #2608 | FusselTV | **use**: nothing kept around spawn while nobody is on. It cuts idle CPU, idle RAM and start time, two of the three numbers where Pumpkin leads. It conflicts since `streaming.rs` moved to `horizon-client-render`; triage carries it if needed, as #2698 did |
-| ★ #3756 | ludovic111 | **use**: the server names itself `horizon`, which the fast path (8) builds on |
+| ★ #3756 | glearflame | **use**: the server names itself `horizon`, which the fast path (8) builds on |
 | ★ #3441 | xKumorio | **use**: guests' known movement as vanilla's; server players' gameplay |
 | ★ #3873 | DUzzL | **use**: breeding statistics and advancements credited on the server thread |
 | ★ #3300, ★ #3802 | masa-masa-0314, ThatCakeIsAPie | **use**: a world's data packs reach recipes, loot, advancements, tags and block state providers. Servers run packs |

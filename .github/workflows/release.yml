@@ -1,5 +1,5 @@
 name: release
-# Automatic game releases (docs/release-flow.md). Horizon ships only the Nightly since 2026-10-28 (Ludovic): this
+# Automatic game releases (docs/release-flow.md). Horizon ships only the Nightly since 2026-10-28 (Samuel): this
 # workflow is the batch train that decides when a new Nightly goes out, and `nightly build` (nightly-build.yml) builds,
 # signs and publishes it. After every green `checks` run on main, every 10 minutes (so a batch waiting for merges to
 # settle goes out without another merge) and by hand, tools/release_train.py decides, for a commit whose checks and

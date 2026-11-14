@@ -24,10 +24,10 @@
     "explore_speed": 0.8,
     "gamerule": "",
     "heap": "4g",
-    "out": "/home/ludovic/sh10/out/mixed-equal-paper-10.json",
+    "out": "/home/samuel/sh10/out/mixed-equal-paper-10.json",
     "nice": 19,
     "bots_via": "ssh macmini",
-    "bots_bin": "/Users/ludovicmarie/code/horizon/.claude/worktrees/sh10-bench/target/release/horizon-bots",
+    "bots_bin": "/Users/samuelmarie/code/horizon/.claude/worktrees/sh10-bench/target/release/horizon-bots",
     "connect": "the ThinkPad's tailnet address",
     "properties": {
       "level-seed": "12345",

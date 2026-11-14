@@ -5,7 +5,7 @@ Two kinds of mod run in Horizon:
 | Kind | File | What it is | Where it runs |
 |---|---|---|---|
 | **Content mod** | `.hmod` | Data and assets: blocks, items, recipes, loot, tags, models, textures, structures. No code. | Read when the game starts |
-| **Native mod** | `.hnmod` | A [horizon-mixins](https://github.com/horizon-rust/horizon-mixins) bundle: Rust that changes the game's own source before it is compiled. | In a game the launcher builds for the player ([native-mods.md](native-mods.md)) |
+| **Native mod** | `.hnmod` | A [horizon-mixins](https://github.com/glearflame/horizon-mixins) bundle: Rust that changes the game's own source before it is compiled. | In a game the launcher builds for the player ([native-mods.md](native-mods.md)) |
 
 Fabric and NeoForge jars do **not** run as they are: their code calls and patches Minecraft's Java classes, and
 Horizon has none. What carries over is the data and assets inside a jar ([modpacks.md](modpacks.md)).
@@ -38,9 +38,9 @@ Benchmarks (`--benchmark`) never load mods.
 
 ```sh
 # A prebuilt binary for Linux x86_64/aarch64, macOS x86_64/arm64 or Windows x86_64 (#2120):
-cargo binstall --git https://github.com/horizon-rust/horizon cargo-horizon-mod
+cargo binstall --git https://github.com/glearflame/horizon cargo-horizon-mod
 # Or build it from source, without cargo-binstall:
-cargo install --git https://github.com/horizon-rust/horizon cargo-horizon-mod
+cargo install --git https://github.com/glearflame/horizon cargo-horizon-mod
 cargo horizon-mod new my-mod        # a content mod: manifest, one block with its model, loot and recipe
 cd my-mod
 cargo horizon-mod run               # build my-mod.hmod, then start the game with it turned on
@@ -311,7 +311,7 @@ under their names.
 A component type no vanilla item has is refused, so a misspelt one fails
 the load instead of doing nothing. Behaviour the game ties to a vanilla
 item's id doesn't come along yet: a copy of the trident doesn't throw
-([#3305](https://github.com/horizon-rust/horizon/issues/3305)).
+([#3305](https://github.com/glearflame/horizon/issues/3305)).
 
 A mod effect is declared in `data/<id>/horizon/mob_effect/<name>.json` with what vanilla's `MobEffect` takes: its
 category (`beneficial`, `harmful` or `neutral`) and its RGB colour (0 to `0xFFFFFF`), which its particles take:
@@ -505,7 +505,7 @@ radius. `kernel_size` 0 is none.
 
 Behaviour that needs code (a new key, a HUD, a tool that changes how mining works) is a native mod. It is a bundle of
 a `horizon-mixin.toml` and a few `.rs` helpers that hook into named functions of the game. Start from
-[horizon-native-mod-template](https://github.com/horizon-rust/horizon-native-mod-template). How the launcher builds
+[horizon-native-mod-template](https://github.com/glearflame/horizon-native-mod-template). How the launcher builds
 one, what it pins and why it is not sandboxed: [native-mods.md](native-mods.md).
 
 A native mod's config files go in the game's shared `config/` folder, beside `options.txt` (on a dedicated server,
@@ -530,7 +530,7 @@ which checks every file before it installs it.
    pack's `.zip`), and its `.minisig` beside it if you sign. The release notes are the changelog.
 4. List the project once: open [playhorizon.dev/mods/submit](https://playhorizon.dev/mods/submit), sign in with GitHub
    and give the repository and the page (name, summary, licence, optionally a minisign public key). It opens a pull
-   request in [horizon-rust/horizon-mods](https://github.com/horizon-rust/horizon-mods) adding `mods/<id>.toml`, with
+   request in [glearflame/horizon-mods](https://github.com/glearflame/horizon-mods) adding `mods/<id>.toml`, with
    you as owner. A reviewer reads the repository and its source and merges it.
 
 **Releasing a version is only step 3.** Publish a GitHub release (not a draft or a pre-release); within the hour the
@@ -563,7 +563,7 @@ words win. Its owners, key, kind and icon are the registry's, changed by a pull 
 ## Horizon's official mods
 
 Horizon's own mods are native. They live in
-[horizon-rust/horizon-mods](https://github.com/horizon-rust/horizon-mods) under `native/<name>/`:
+[glearflame/horizon-mods](https://github.com/glearflame/horizon-mods) under `native/<name>/`:
 
 | Mod | Folder | Replaces |
 |---|---|---|

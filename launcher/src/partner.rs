@@ -1,4 +1,4 @@
-//! Sculk, a server host that sponsors Horizon (Ludovic, 2026-10-26): its wide banner on the Servers
+//! Sculk, a server host that sponsors Horizon (Samuel, 2026-10-26): its wide banner on the Servers
 //! page, and a card made for the sidebar on the other pages, where the banner's baked-in text was too
 //! small to read. The pictures are in the binary, never fetched; a click opens Sculk's page in the
 //! browser. A "Partner" label above each says it is an ad. After `SEEN_BEFORE_HIDE` seconds on screen

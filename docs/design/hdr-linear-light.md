@@ -1,8 +1,8 @@
 # Linear light for HDR and shader packs (shader API 0.2)
 
 A design note, before any code: what a colour means to a shader pack from API 0.2 on, how the frame stores the
-picture, and how HDR output stops reading light from the frame's alpha. Part of [#3125](https://github.com/horizon-rust/horizon/issues/3125)
-and [#1441](https://github.com/horizon-rust/horizon/issues/1441). The shader API is experimental (0.1), which needs a
+picture, and how HDR output stops reading light from the frame's alpha. Part of [#3125](https://github.com/glearflame/horizon/issues/3125)
+and [#1441](https://github.com/glearflame/horizon/issues/1441). The shader API is experimental (0.1), which needs a
 design note for a new line ([api/stability.md](../api/stability.md)); this is that note.
 
 ## Why
@@ -235,7 +235,7 @@ paper white) are a later, optional addition for pack authors.
 
 They read the frame as it is stored and, outside the 0.1 path, have no marks to keep, which fixes the alpha problems
 above. Native upscaling
-([#1403](https://github.com/horizon-rust/horizon/issues/1403)) should take the float frame. TAA over values above 1
+([#1403](https://github.com/glearflame/horizon/issues/1403)) should take the float frame. TAA over values above 1
 may need a tone-weighted resolve so bright pixels don't sparkle. Frame generation stays off with HDR output, as today.
 
 ## Tests
@@ -244,11 +244,11 @@ may need a tone-weighted resolve so bright pixels don't sparkle. Frame generatio
    `frame_format` and the pipelines' targets). A screenshot test pins the picture: pictures of the game hold
    Minecraft's textures and can't be committed, so it is differential. A runner with a copy of Minecraft and Mesa's
    software Vulkan builds main and the change, captures fixed scenes offscreen with `HORIZON_STILL=1` (repeatable
-   frames, [#9398](https://github.com/horizon-rust/horizon/pull/9398), in review), and requires identical PNGs, also
+   frames, [#9398](https://github.com/glearflame/horizon/pull/9398), in review), and requires identical PNGs, also
    after turning HDR on and off, picking and dropping a 0.2 pack, and, while 0.1 is served, swapping it for a 0.1 one.
 2. **Golden Hour (0.1) against main**, while 0.1 is served: the same capture in SDR, and the offscreen HDR capture in
    HDR, identical.
-3. **HDR on, HDR Lighting off, against SDR**: the offscreen HDR capture ([#8947](https://github.com/horizon-rust/horizon/pull/8947)),
+3. **HDR on, HDR Lighting off, against SDR**: the offscreen HDR capture ([#8947](https://github.com/glearflame/horizon/pull/8947)),
    within one 8-bit step outside the spots vanilla clips.
 4. **HDR look against today**: the same captures within a tolerance, with screenshots in the pull request,
    including the vignette and the world border's red warning over bright light, the crosshair, chat over a torch,
@@ -278,7 +278,7 @@ break no pack, so they can wait: telling post stages which pixels are light sour
 displays that dim large bright areas below `peak` (Windows reports it, DXGI's `MaxFullFrameLuminance`; other systems
 mostly don't).
 
-## Decisions for Ludovic
+## Decisions for Samuel
 
 Each has a recommendation; the step it blocks says when it's needed.
 

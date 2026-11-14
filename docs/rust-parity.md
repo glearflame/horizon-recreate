@@ -1,4 +1,4 @@
-# Horizon Rust rewrite status
+# L&L rewrite status
 
 The behavior target is the repository's pinned **Minecraft Java Edition 26.3**.
 One-to-one parity with vanilla gameplay is the acceptance criterion. It has **not**
@@ -57,7 +57,7 @@ interpolation and game-loop synchronization remain unfinished.
 
 ## Completion criteria and playable builds
 
-The final deliverable is the complete Horizon Rust game with one-to-one parity
+The final deliverable is the complete L&L game with one-to-one parity
 with pinned Java Edition 26.3, plus a playable **Linux** build that the user can
 download and test. The target platform is a Linux x86-64 desktop with an NVIDIA
 GPU (Vulkan) on Wayland. macOS and Windows are out of scope. The build must include a packaged native

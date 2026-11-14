@@ -13,7 +13,7 @@ use std::{
 
 /// Modrinth asks every client to name itself.
 const AGENT: &str = concat!(
-    "horizon-rust/horizon/",
+    "glearflame/horizon/",
     env!("CARGO_PKG_VERSION"),
     " (in-game resource pack browser)"
 );

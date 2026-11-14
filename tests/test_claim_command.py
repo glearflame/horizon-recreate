@@ -7,12 +7,12 @@ from tools.ci import nightly_set as ns
 
 ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 10, 29, 12, tzinfo=timezone.utc)
-# Fixture accounts: the decision is by numeric ID, so each test login has one. Ludovic's real ID may not be filled in
+# Fixture accounts: the decision is by numeric ID, so each test login has one. Samuel's real ID may not be filled in
 # yet (tools/ci/resolve_reviewer_ids.py), so tests use their own unless it is.
-LUDOVIC_ID = ns.OWNER_ID or 1
-ns.OWNER_ID = LUDOVIC_ID
-cc.ns.OWNER_ID = LUDOVIC_ID  # the script's own import of nightly_set
-IDS = {"ludovic111": LUDOVIC_ID, "kacpherek": 101, "rdbtcvs": 102, "levzzz5154": 104}
+SAMUEL_ID = ns.OWNER_ID or 1
+ns.OWNER_ID = SAMUEL_ID
+cc.ns.OWNER_ID = SAMUEL_ID  # the script's own import of nightly_set
+IDS = {"glearflame": SAMUEL_ID, "kacpherek": 101, "rdbtcvs": 102, "levzzz5154": 104}
 
 
 def actor(login):
@@ -130,7 +130,7 @@ class ClaimTests(unittest.TestCase):
         do("/claim", Fake(claims=cc.MAX_CLAIMS - 1))
 
     def test_team_has_no_limit_unless_paused(self):
-        do("/claim", Fake(claims=50), login="ludovic111")
+        do("/claim", Fake(claims=50), login="glearflame")
         do("/claim", Fake(claims=50), login="RdbtCVS")
         with self.assertRaises(cc.Refused):
             do("/claim", Fake(claims=50), login="rdbtCVS", reviewers=listing("rdbtCVS", "paused"))
@@ -161,7 +161,7 @@ class UnclaimTests(unittest.TestCase):
 
     def test_someone_who_holds_nothing(self):
         with self.assertRaisesRegex(cc.Refused, "`ghost` doesn't hold"):
-            do("/unclaim @ghost", login="ludovic111")
+            do("/unclaim @ghost", login="glearflame")
 
 
 def node(number=7, holders=("dev",), events=(), closing=()):

@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   stamp:
-    if: github.repository == 'horizon-rust/horizon'
+    if: github.repository == 'glearflame/horizon'
     runs-on: ubuntu-latest
     permissions:
       contents: write

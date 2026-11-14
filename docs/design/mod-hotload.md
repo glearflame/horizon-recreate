@@ -1,11 +1,11 @@
 # Mods from inside the game, loaded and unloaded in seconds
 
-Asked by Ludovic on 2026-11-05: players add mods from inside the game, and turn them on and off in a few seconds,
+Asked by Samuel on 2026-11-05: players add mods from inside the game, and turn them on and off in a few seconds,
 without a restart wherever one can be avoided. This note says what can change live, what needs a world reload or a
 restart, how the in-game browser installs, and which native-mod path gets a code change from "minutes, then
 restart" to seconds. It builds on the registry v2 ([registry-v2.md](registry-v2.md)), the content mods of
 [mods.md](../mods.md), the native mods of [native-mods.md](../native-mods.md) and the plan in
-[#7386](https://github.com/horizon-rust/horizon/issues/7386).
+[#7386](https://github.com/glearflame/horizon/issues/7386).
 
 ## Where things stand
 

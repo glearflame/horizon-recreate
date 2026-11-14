@@ -30,7 +30,7 @@ on what the stock client renders, never on a client mod.
 | Part | Where | What |
 |---|---|---|
 | Server hook points | this repository, `crates/horizon-client/src/game/native_hooks.rs` ([native-mods.md](native-mods.md)) | stable, versioned (`NATIVE_HOOKS_API`), empty when no mod hooks them |
-| The `smp` mod | [horizon-rust/horizon-mods](https://github.com/horizon-rust/horizon-mods), `native/smp/` | a horizon-mixins bundle: `smp_store.rs`, `smp_economy.rs`, `smp_market.rs`... hold the rules and data (also the mod's own crate, with its tests, no game types), `glue.rs` and small helpers hook the points |
+| The `smp` mod | [glearflame/horizon-mods](https://github.com/glearflame/horizon-mods), `native/smp/` | a horizon-mixins bundle: `smp_store.rs`, `smp_economy.rs`, `smp_market.rs`... hold the rules and data (also the mod's own crate, with its tests, no game types), `glue.rs` and small helpers hook the points |
 | The official server's engine | built from a Horizon release's commit with the bundle applied | `horizon-server`'s `[engine] path` points at it; the rest of the server is unchanged |
 
 Why a native mod: it is the mod system Horizon has now, it runs on the server
@@ -68,7 +68,7 @@ The currency is earned in game only (the market, trades, playing). Rules that no
   with money.
 
 Games of chance are off in the mod by default (`gambling.enabled: false`): a server that builds the mod turns them
-on itself. The official server has them on (Ludovic's decision, 2026-10-30). Operators' corrections (`/eco`) are
+on itself. The official server has them on (Samuel's decision, 2026-10-30). Operators' corrections (`/eco`) are
 logged like every other transaction.
 
 ## Commands

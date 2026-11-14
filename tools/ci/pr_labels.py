@@ -236,7 +236,7 @@ if __name__ == "__main__":
     if verb == "event" and not rest:
         sys.exit(event(Api(os.environ["REPO"])))
     if verb in ("create", "backfill") and rest in ([], ["--apply"]):
-        api, apply = Api(os.environ.get("REPO", "horizon-rust/horizon")), rest == ["--apply"]
+        api, apply = Api(os.environ.get("REPO", "glearflame/horizon")), rest == ["--apply"]
         for line in (create(api, apply) if verb == "create" else backfill(api, apply)):
             print(line)
         sys.exit(0)

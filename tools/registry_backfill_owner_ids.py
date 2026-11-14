@@ -4,7 +4,7 @@
     registry_backfill_owner_ids.py <registry checkout>           shows what it would write (changes nothing)
     registry_backfill_owner_ids.py <registry checkout> --write   writes `owner_ids = [...]` into mods/<id>.toml
 
-Run it in a checkout of horizon-rust/horizon-mods, with `gh` signed in, after the registry's CI runs a
+Run it in a checkout of glearflame/horizon-mods, with `gh` signed in, after the registry's CI runs a
 cargo-horizon-mod that knows the field (older ones refuse unknown fields). Commit the result as one pull request.
 
 For each entry without `owner_ids`, every login in `owners` is looked up (`gh api users/<login>`). An entry is

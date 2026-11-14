@@ -210,7 +210,7 @@ turn the switch off.
   game with no display, no window and no GPU: it runs where no display server is (an SSH session,
   a server) and runs its own loop instead of winit's (`game/headless.rs`), one frame a tick. It
   plays through these commands only; commands that need the screen's pixels (`screenshot`, clicks
-  at GUI points) answer with an error ([#4951](https://github.com/horizon-rust/horizon/issues/4951)).
+  at GUI points) answer with an error ([#4951](https://github.com/glearflame/horizon/issues/4951)).
 
 ## Design rules for a new command
 
@@ -369,7 +369,7 @@ A recording is one folder, a bundle is that folder plus the logs in one zip:
 `HORIZON_STILL=1` (a dev switch, off by default) makes a frozen scene draw the same frame in every
 run, pixel for pixel, on the same build, GPU and driver: a change's before and after are then
 compared by a pixel diff, not by eye, where two runs otherwise differ by a shade or two over much
-of the frame ([#8750](https://github.com/horizon-rust/horizon/issues/8750)).
+of the frame ([#8750](https://github.com/glearflame/horizon/issues/8750)).
 
 - The world starts frozen (`/tick freeze`) before its first tick, on the server and the client:
   how many ticks run while the world loads differs between runs, and the torch flicker and the

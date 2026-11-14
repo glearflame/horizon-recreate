@@ -1,12 +1,12 @@
 //! Launcher/hub visual do Glear-Mine — UI nativa em egui (eframe).
 //!
-//! Telas no estilo horizon-rust/horizon (MIT):
+//! Telas no estilo glearflame/horizon (MIT):
 //! - Title Screen (menu principal)
 //! - Opções (vídeo, controles, etc.)
 //! - Vídeo (configurações completas)
 //! - Jogar (lançar Minecraft)
 //!
-//! Créditos: estrutura baseada em horizon-rust/horizon
+//! Créditos: estrutura baseada em glearflame/horizon
 //! Licença: MIT (veja LICENSE)
 
 mod app;

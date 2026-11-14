@@ -467,7 +467,7 @@ fn registry_versions_run_when_made_for_this_game() {
 
 #[test]
 fn owner_links_only_take_github_logins() {
-    for ok in ["Stink-O", "ludovic111", "a"] {
+    for ok in ["Stink-O", "glearflame", "a"] {
         assert!(github_login(ok), "{ok}");
     }
     for bad in [

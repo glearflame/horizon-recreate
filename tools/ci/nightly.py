@@ -5,7 +5,7 @@
     nightly.py rotate              renames the current `nightly` pre-release to nightly-<its date>, frees the tag
     nightly.py prune [--days 7]    deletes the nightly-<date> pre-releases and tags older than that, nothing else
     nightly.py prune-builds [--days 7]   deletes the nightly/build-<date>-<n> branches older than that, but the
-                                   newest and any a published nightly points to (Ludovic, 2026-10-27)
+                                   newest and any a published nightly points to (Samuel, 2026-10-27)
     nightly.py keep-source <sha> <date>  tags the nightly's commit nightly-source/<date>-<short>, for good
 
 A nightly builds main plus the pull requests the trusted reviewers picked (the set: tools/ci/nightly_set.py), merged
@@ -172,7 +172,7 @@ def build_set(main: Ref, prs: list[dict], left_out: list[str], today: str, force
         if e["number"] in gone:
             left_out.append(f"#{e['number']} {e['title']}: its head {e['head'][:7]} is gone; ask for it again")
         elif bad := [f for f in ns.changed_files(main.sha, e["head"]) if ns.guarded(f, patterns)]:
-            left_out.append(f"#{e['number']} {e['title']}: changes `{bad[0]}`, which only Ludovic merges")
+            left_out.append(f"#{e['number']} {e['title']}: changes `{bad[0]}`, which only Samuel merges")
         else:
             kept.append(e)
     try:

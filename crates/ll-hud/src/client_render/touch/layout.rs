@@ -1,6 +1,6 @@
 // Adapted from Starling (https://github.com/starling-client/starling, `android` branch at
 // 150a414b09a1, `crates/horizon-client-render/src/touch/layout.rs`), written by Vasysik and the
-// Starling contributors. Copyright (c) 2026 Ludovic Marie and the Horizon contributors, under the
+// Starling contributors. Copyright (c) 2026 Samuel Queiroz and the Horizon contributors, under the
 // same MIT license as Horizon (LICENSE at the repository root).
 
 //! The touch layout: which on-screen controls exist, where each one sits for

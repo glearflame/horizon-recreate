@@ -234,7 +234,7 @@ pub fn edit(
     write(gh, &writes, &branch, &message)?;
     let body = format!(
         "<!-- submitted-by: {login} -->\n🤖 Page edit sent through the form by @{login}, an owner of `{id}` (GitHub ID \
-         {user_id}). The form opens the pull request with the registry's token: neither Ludovic nor a reviewer wrote it.\n\n\
+         {user_id}). The form opens the pull request with the registry's token: neither Samuel nor a reviewer wrote it.\n\n\
          No new version: it changes the {fields}. Reviewers: read the new page text and look at the images.",
         id = form.id,
         fields = changed.join(", "),

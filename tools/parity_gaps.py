@@ -21,7 +21,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 README = ROOT / "README.md"
-REPO = "horizon-rust/horizon"
+REPO = "glearflame/horizon"
 # The gap lists, one per area, filed from the port ledger on 2026-10-28 (#3859 step 5).
 ISSUES = list(range(3512, 3522))
 # The block is one paragraph, found by its first words: no HTML comment markers, which the website would print.

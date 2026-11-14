@@ -1,10 +1,10 @@
-//! Painel de configurações de vídeo — estilo horizon-rust/horizon (MIT).
+//! Painel de configurações de vídeo — estilo glearflame/horizon (MIT).
 //!
 //! Recria o menu "Video Settings" completo com aparência autêntica do Minecraft:
 //! painéis escuros, texto branco, botões cinza, sliders com trilho.
 //!
-//! Créditos: baseado na estrutura pública do horizon-rust/horizon
-//! (https://github.com/horizon-rust/horizon), licença MIT.
+//! Créditos: baseado na estrutura pública do glearflame/horizon
+//! (https://github.com/glearflame/horizon), licença MIT.
 
 use egui::Ui;
 

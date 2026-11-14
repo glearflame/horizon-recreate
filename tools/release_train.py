@@ -6,7 +6,7 @@
     python3 tools/release_train.py notes --kind game --tag v2026.10.15 --out dist/notes
     python3 tools/release_train.py gate --kind game --smoke dist/smoke-test.json [--blockers]   # before publishing
 
-The game ships only the Nightly since 2026-10-28 (Ludovic): when `decide --kind game` says so, release.yml starts
+The game ships only the Nightly since 2026-10-28 (Samuel): when `decide --kind game` says so, release.yml starts
 `nightly build` on the commit it decided (tools/ci/nightly.py), and "the last release" is the published Nightly.
 
 A kind releases when a pull request merged into main since its last published release changed one of its
@@ -42,9 +42,9 @@ import subprocess
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
-REPO = os.environ.get("GITHUB_REPOSITORY", "horizon-rust/horizon")
-# The maintainer, left out of the notes' thanks (the repository's owner is the horizon-rust organization).
-MAINTAINER = "ludovic111"
+REPO = os.environ.get("GITHUB_REPOSITORY", "glearflame/horizon")
+# The maintainer, left out of the notes' thanks (the repository's owner is the glearflame organization).
+MAINTAINER = "glearflame"
 # Releases ship in batches, so players get a few releases a day rather than one per merge: BATCH player-facing pull
 # requests, settled for DEBOUNCE, or whatever is waiting once the oldest has waited MAX_WAIT.
 BATCH = 5

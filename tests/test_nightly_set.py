@@ -10,11 +10,11 @@ from tools.ci import nightly_set as ns
 ROOT = Path(__file__).resolve().parents[1]
 NOW = "2026-10-28T12:00:00+00:00"
 PATTERNS = ns.guarded_patterns((ROOT / ".github/CODEOWNERS").read_text())
-# Fixture accounts: the decision is by numeric ID, so each test login has one. Ludovic's real ID may not be filled in
+# Fixture accounts: the decision is by numeric ID, so each test login has one. Samuel's real ID may not be filled in
 # yet (tools/ci/resolve_reviewer_ids.py), so tests use their own unless it is.
-LUDOVIC_ID = ns.OWNER_ID or 1
-ns.OWNER_ID = LUDOVIC_ID
-IDS = {"ludovic111": LUDOVIC_ID, "kacpherek": 101, "rdbtcvs": 102, "levzzz5154": 104}
+SAMUEL_ID = ns.OWNER_ID or 1
+ns.OWNER_ID = SAMUEL_ID
+IDS = {"glearflame": SAMUEL_ID, "kacpherek": 101, "rdbtcvs": 102, "levzzz5154": 104}
 
 
 def actor(login):
@@ -44,7 +44,7 @@ class CommandTests(unittest.TestCase):
 
     def run_command(self, body, author=ns.OWNER):
         answers = []
-        env = {"GITHUB_REPOSITORY": "horizon-rust/horizon", "ISSUE": "1", "AUTHOR": author,
+        env = {"GITHUB_REPOSITORY": "glearflame/horizon", "ISSUE": "1", "AUTHOR": author,
                "AUTHOR_ID": str(IDS.get(author.lower(), 9999)), "BODY": body, "COMMENT_URL": "", "GH_TOKEN": "token"}
         with mock.patch.dict(os.environ, env), \
                 mock.patch.object(ns, "load_state", return_value=({"prs": [], "blocked": []}, "", None)), \
@@ -62,7 +62,7 @@ class CommandTests(unittest.TestCase):
 
 
 class NoReviewNeededTests(unittest.TestCase):
-    """Ludovic, 2026-10-30, at the Team's request: a Nightly takes any open pull request to main, reviewed or not."""
+    """Samuel, 2026-10-30, at the Team's request: a Nightly takes any open pull request to main, reviewed or not."""
 
     def test_an_unreviewed_pull_request_is_accepted(self):
         for text in ("/nightly add 1", "/nightly 1", "/nightly dry-run 1"):
@@ -72,7 +72,7 @@ class NoReviewNeededTests(unittest.TestCase):
 
     def test_a_guarded_file_is_still_refused(self):
         for text in ("/nightly add 1", "/nightly dry-run 1"):
-            with self.assertRaisesRegex(ns.Refused, "only Ludovic merges"):
+            with self.assertRaisesRegex(ns.Refused, "only Samuel merges"):
                 run({}, text, "kacpherek", pr(1, files=["crates/horizon-world/src/lib.rs", ".github/CODEOWNERS"]))
 
     def test_the_other_guards_stay(self):
@@ -109,19 +109,19 @@ class ParseTests(unittest.TestCase):
 
     def test_answers_never_quote_markdown_or_mentions(self):
         with self.assertRaises(ns.Refused) as e:
-            ns.parse("/nightly @ludovic111`x`")
+            ns.parse("/nightly @glearflame`x`")
         self.assertNotIn("@", str(e.exception).split("isn't")[0])
         self.assertNotIn("`x`", str(e.exception))
 
 
 class AllowTests(unittest.TestCase):
-    LIST = "# trusted\n101 kacpherek   # added by Ludovic\n102 rdbtCVS\n\nnot a login!\n"
+    LIST = "# trusted\n101 kacpherek   # added by Samuel\n102 rdbtCVS\n\nnot a login!\n"
 
-    def test_listed_reviewers_and_ludovic(self):
+    def test_listed_reviewers_and_samuel(self):
         reviewers = ns.read_reviewers(self.LIST)
         ns.authorize(actor("kacpherek"), reviewers)
         ns.authorize(actor("RDBTcvs"), reviewers)
-        ns.authorize(actor("ludovic111"), reviewers)
+        ns.authorize(actor("glearflame"), reviewers)
         for login in ("levzzz5154", "someone", "not"):
             with self.assertRaises(ns.Refused):
                 ns.authorize(actor(login), reviewers)
@@ -132,10 +132,10 @@ class AllowTests(unittest.TestCase):
         with self.assertRaises(ns.Refused):
             ns.authorize(ns.Actor("kacpherek", 555), reviewers)
         with self.assertRaises(ns.Refused):
-            ns.authorize(ns.Actor("ludovic111", 556), reviewers)
+            ns.authorize(ns.Actor("glearflame", 556), reviewers)
         # The listed account under a new name keeps its access.
         ns.authorize(ns.Actor("kacper-renamed", 101), reviewers)
-        ns.authorize(ns.Actor("new-name", LUDOVIC_ID), reviewers)
+        ns.authorize(ns.Actor("new-name", SAMUEL_ID), reviewers)
 
     def test_old_format_lines_grant_nothing(self):
         reviewers = ns.read_reviewers("kacpherek\n101\n101 kacpherek extra\n0 zero\n")
@@ -148,17 +148,17 @@ class AllowTests(unittest.TestCase):
         saved = ns.OWNER_ID
         try:
             ns.OWNER_ID = None
-            self.assertFalse(ns.is_owner(ns.Actor("ludovic111", LUDOVIC_ID)))
+            self.assertFalse(ns.is_owner(ns.Actor("glearflame", SAMUEL_ID)))
             self.assertFalse(ns.is_owner_id(None))
         finally:
             ns.OWNER_ID = saved
 
-    def test_paused_stops_reviewers_not_ludovic(self):
-        reviewers = ns.read_reviewers(self.LIST + "paused  # Ludovic, 2026-10-29\n")
+    def test_paused_stops_reviewers_not_samuel(self):
+        reviewers = ns.read_reviewers(self.LIST + "paused  # Samuel, 2026-10-29\n")
         self.assertTrue(reviewers.paused)
         with self.assertRaises(ns.Refused):
             ns.authorize(actor("kacpherek"), reviewers)
-        ns.authorize(actor("ludovic111"), reviewers)
+        ns.authorize(actor("glearflame"), reviewers)
 
     def test_the_author_id_comes_from_the_workflow(self):
         self.assertEqual(ns.actor_from_env({"AUTHOR": "kacpherek", "AUTHOR_ID": "101"}), ns.Actor("kacpherek", 101))
@@ -235,14 +235,14 @@ class SetTests(unittest.TestCase):
         self.assertIs(dry.state, state)
         self.assertEqual([e["number"] for e in dry.dry_run], [2, 3])
 
-    def test_ludovics_remove_wins(self):
+    def test_samuels_remove_wins(self):
         state = run({}, "/nightly 1 2", "kacpherek", pr(1), pr(2)).state
-        state = run(state, "/nightly remove 2", "ludovic111").state
+        state = run(state, "/nightly remove 2", "glearflame").state
         self.assertEqual(state["blocked"], [2])
         for text in ("/nightly add 2", "/nightly 1 2", "/nightly dry-run 2"):
             with self.assertRaises(ns.Refused):
                 run(state, text, "kacpherek", pr(1), pr(2))
-        state = run(state, "/nightly add 2", "ludovic111", pr(2)).state
+        state = run(state, "/nightly add 2", "glearflame", pr(2)).state
         self.assertEqual(state["blocked"], [])
         self.assertEqual([e["number"] for e in run(state, "/nightly add 2", "kacpherek", pr(2)).state["prs"]], [1, 2])
 

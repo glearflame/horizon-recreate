@@ -31,9 +31,9 @@ cargo build --release --locked --target aarch64-pc-windows-msvc
 
 ## Releases and limitations
 
-The game archive, `horizon-windows-arm64.zip`, is attached to the [Nightly release](https://github.com/horizon-rust/horizon/releases/tag/nightly)
+The game archive, `horizon-windows-arm64.zip`, is attached to the [Nightly release](https://github.com/glearflame/horizon/releases/tag/nightly)
 and listed in its signed `SHA256SUMS`. The launcher archive, `horizon-launcher-windows-arm64.zip`,
-and `horizon-launcher-setup-arm64.exe` are attached to the [launcher releases](https://github.com/horizon-rust/horizon/releases)
+and `horizon-launcher-setup-arm64.exe` are attached to the [launcher releases](https://github.com/glearflame/horizon/releases)
 and listed in their signed `SHA256SUMS`.
 
 Launcher updates always follow the launcher's own process architecture. Game architecture is a

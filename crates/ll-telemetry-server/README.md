@@ -31,7 +31,7 @@ The totals are grouped per version, OS, GPU vendor and render distance. Each gro
 
 ## Benchmarks summary
 
-`src/summary.rs` makes it with the same rules as the website's `scripts/benchmarks.mjs` (horizon-rust/horizon-site), which bakes the page's fallback copy; both are tested against the same fixtures (`tests/fixtures/benchmarks/` here, copied in the site's repository).
+`src/summary.rs` makes it with the same rules as the website's `scripts/benchmarks.mjs` (glearflame/horizon-site), which bakes the page's fallback copy; both are tested against the same fixtures (`tests/fixtures/benchmarks/` here, copied in the site's repository).
 
 - Only reports that compare: a version 1 `horizon-benchmark-report` of the standard flight over the four scenes, VSync off, no frame cap, on screen, from Horizon or plain vanilla, naming its GPU and CPU.
 - A group (GPU, CPU, render distance, game) is published only with **at least 3 different installs**. Each install counts once: the median of its runs, then the median across installs.
@@ -92,7 +92,7 @@ All are environment variables:
 - `HORIZON_TELEMETRY_HUB_REPORTS_PER_DAY` from everyone (30): each opens an issue
 - `HORIZON_TELEMETRY_HUB_KEEP_DAYS` (90)
 - `HORIZON_TELEMETRY_GITHUB_TOKEN`: a fine-grained token with Issues read and write on the repository only (unset: `POST /hub/report` answers 503 and the form points to GitHub and Discord)
-- `HORIZON_TELEMETRY_GITHUB_REPO` (`horizon-rust/horizon`)
+- `HORIZON_TELEMETRY_GITHUB_REPO` (`glearflame/horizon`)
 - `HORIZON_TELEMETRY_READS_PER_HOUR` per address, for `/v1/aggregate` and `/v1/benchmarks/summary` (600, bursts of 60)
 - `HORIZON_TELEMETRY_AGGREGATE_BUILDS_PER_HOUR` from everyone (600, bursts of 60): totals built from the database on a cache miss; past it a miss answers 503
 - `HORIZON_TELEMETRY_AGGREGATE_DAYS`, e.g. `7,30,90,366`: the only `days` `/v1/aggregate` answers (others get 400), so the cache holds a handful of windows. Unset: any value from 1 to 366. List every value the website asks for before setting it.

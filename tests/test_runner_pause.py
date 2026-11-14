@@ -55,7 +55,7 @@ class Machine:
 
 class RunnerPauseTests(unittest.TestCase):
     def test_starts_only_after_nobody_was_there_for_resume_after(self):
-        machine = Machine([(0, 600, "session 3 of ludovic at the screen (seat0)")])
+        machine = Machine([(0, 600, "session 3 of samuel at the screen (seat0)")])
         machine.run()
         self.assertEqual(machine.first("start"), 585 + 300)  # the last sample that saw him
 

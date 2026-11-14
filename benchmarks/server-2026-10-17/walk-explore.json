@@ -21,10 +21,10 @@
     "explore_speed": 0,
     "gamerule": "",
     "heap": "4g",
-    "out": "/home/ludovic/code/horizon/.claude/worktrees/server-host-4/.local/bench-out/walk-explore.json",
+    "out": "/home/samuel/code/horizon/.claude/worktrees/server-host-4/.local/bench-out/walk-explore.json",
     "nice": 19,
     "bots_via": "ssh macmini",
-    "bots_bin": "/Users/ludovicmarie/code/horizon/.claude/worktrees/server-host-4/target/release/horizon-bots",
+    "bots_bin": "/Users/samuelmarie/code/horizon/.claude/worktrees/server-host-4/target/release/horizon-bots",
     "connect": "<server address>",
     "properties": {
       "level-seed": "12345",

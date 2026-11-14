@@ -1,4 +1,4 @@
-//! Tela de título (Title Screen) — estilo horizon-rust/horizon (MIT).
+//! Tela de título (Title Screen) — estilo glearflame/horizon (MIT).
 //!
 //! Recria o menu principal do Horizon/Minecraft com fundo escuro, logo,
 //! botões centrais e versão no canto.
@@ -75,7 +75,7 @@ impl TitleScreen {
                             .color(egui::Color32::from_gray(120)),
                     );
                     ui.label(
-                        egui::RichText::new("Recriação do zero — baseada em horizon-rust/horizon (MIT)")
+                        egui::RichText::new("Recriação do zero — baseada em glearflame/horizon (MIT)")
                             .size(10.0)
                             .color(egui::Color32::from_gray(80)),
                     );
@@ -134,7 +134,7 @@ impl TitleScreen {
                 ui.with_layout(egui::Layout::bottom_up(egui::Align::Center), |ui| {
                     ui.horizontal(|ui| {
                         ui.label(
-                            egui::RichText::new("Créditos: horizon-rust/horizon (MIT)")
+                            egui::RichText::new("Créditos: glearflame/horizon (MIT)")
                                 .size(10.0)
                                 .color(egui::Color32::from_gray(100)),
                         );

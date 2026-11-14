@@ -3,7 +3,7 @@
 Where another launcher puts content in a Horizon game folder, how it turns content on and off, and what it checks
 first. It is the install side of the [Launch API](launch.md). The registry's file it installs from is
 [mod-index.md](mod-index.md). `horizon-launcher` is the reference implementation. Proposed in
-horizon-rust/horizon#10562.
+glearflame/horizon#10562.
 
 ## Overview
 
@@ -57,7 +57,7 @@ The checks `horizon_mods::index::check_file` makes, which [mod-index.md](mod-ind
 specifies. A launcher that installs from the index makes the same ones:
 
 1. **Where it comes from.** An `https://` address of the index's shape: a registry release
-   (`https://github.com/horizon-rust/horizon-mods/releases/download/...`) or a release asset of the project's own
+   (`https://github.com/glearflame/horizon-mods/releases/download/...`) or a release asset of the project's own
    GitHub repository. Anything else is refused.
 2. **Size and SHA-256.** The size is at most 64 MiB and equals the entry's, and the SHA-256 is the entry's.
    Check both before the file reaches the game folder.

@@ -3,7 +3,7 @@
 # signed SHA256SUMS when OpenSSL 3 is found (docs/release-flow.md, "Signed checksums"), else against the SHA-256
 # GitHub publishes for it. OpenSSL is looked for on the PATH and in Git for Windows, which ships it.
 #
-#   irm https://raw.githubusercontent.com/horizon-rust/horizon/main/packaging/server/install.ps1 | iex
+#   irm https://raw.githubusercontent.com/glearflame/horizon/main/packaging/server/install.ps1 | iex
 #   & ([scriptblock]::Create((irm .../install.ps1))) -Version v0.5.0 -Dir D:\Horizon
 #
 # Releases go to <Dir>\releases\<version>, <Dir>\current points at the one in use, and <Dir>\bin (added to
@@ -16,7 +16,7 @@ param(
 $ErrorActionPreference = "Stop"
 $ProgressPreference = "SilentlyContinue"
 
-$Repo = "horizon-rust/horizon"
+$Repo = "glearflame/horizon"
 # Horizon's release public keys, base64: copy of crates/horizon-release-sign/release-keys.txt (rotation adds a key
 # there first; keep the two in step, and install.sh's RELEASE_KEYS too).
 $ReleaseKeys = @("MU4oiIQcCxkZvbwSjjXs7SySCuM6ywRQ3nGaJYZG0gw=")

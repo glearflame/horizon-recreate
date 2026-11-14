@@ -4,7 +4,7 @@
 # checked against the release's signed SHA256SUMS when OpenSSL 3 is installed (docs/release-flow.md, "Signed
 # checksums"), else against the SHA-256 GitHub publishes for it. On Linux that is the server build (horizon-server-linux-x86_64.tar.gz), which needs neither ALSA nor udev.
 #
-#   curl -fsSL https://raw.githubusercontent.com/horizon-rust/horizon/main/packaging/server/install.sh | sh
+#   curl -fsSL https://raw.githubusercontent.com/glearflame/horizon/main/packaging/server/install.sh | sh
 #   curl -fsSL .../install.sh | sh -s -- --version v0.5.0 --dir /opt/horizon --bin /usr/local/bin
 #   sh install.sh --archive horizon-server-linux-x86_64.tar.gz --version mybuild   (an archive you have)
 #
@@ -15,7 +15,7 @@
 # Nothing of Mojang's is downloaded.
 set -eu
 
-REPO=horizon-rust/horizon
+REPO=glearflame/horizon
 VERSION=latest
 DIR="${XDG_DATA_HOME:-$HOME/.local/share}/horizon"
 BIN="$HOME/.local/bin"

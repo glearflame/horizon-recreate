@@ -30,11 +30,11 @@ Horizon is Minecraft: Java Edition 26.3 rewritten from scratch in Rust, so it ru
 
 Making Horizon faster than vanilla on every computer, with smooth camera movement even at 32 chunks, by spreading the work better over the processor's cores.
 
-Owner: [ludovic111](https://github.com/ludovic111) · Tracking: [#3909](https://github.com/horizon-rust/horizon/issues/3909)
+Owner: [glearflame](https://github.com/glearflame) · Tracking: [#3909](https://github.com/glearflame/horizon/issues/3909)
 
 <details><summary>Technical</summary>
 
-Frame pacing at render distance 32 ([#678](https://github.com/horizon-rust/horizon/issues/678)): long frames come from work competing with the render thread. In review: no main-thread tick stutter at high render distances ([#3827](https://github.com/horizon-rust/horizon/issues/3827)), each proto chunk's light view built once ([#3815](https://github.com/horizon-rust/horizon/issues/3815)), video memory handed back by the vertex arena ([#3466](https://github.com/horizon-rust/horizon/issues/3466)), chunk batches assembled on helper threads ([#3036](https://github.com/horizon-rust/horizon/issues/3036)), free structure starts in the generation workers ([#1760](https://github.com/horizon-rust/horizon/issues/1760)). Still open: far terrain at 48 to 64 chunks ([#718](https://github.com/horizon-rust/horizon/issues/718)) and CPU-bound fields of block entities ([#717](https://github.com/horizon-rust/horizon/issues/717)). Every change shows before and after numbers from `tools/perf_bench.py` against vanilla 26.3 ([docs/benchmark.md](docs/benchmark.md)).
+Frame pacing at render distance 32 ([#678](https://github.com/glearflame/horizon/issues/678)): long frames come from work competing with the render thread. In review: no main-thread tick stutter at high render distances ([#3827](https://github.com/glearflame/horizon/issues/3827)), each proto chunk's light view built once ([#3815](https://github.com/glearflame/horizon/issues/3815)), video memory handed back by the vertex arena ([#3466](https://github.com/glearflame/horizon/issues/3466)), chunk batches assembled on helper threads ([#3036](https://github.com/glearflame/horizon/issues/3036)), free structure starts in the generation workers ([#1760](https://github.com/glearflame/horizon/issues/1760)). Still open: far terrain at 48 to 64 chunks ([#718](https://github.com/glearflame/horizon/issues/718)) and CPU-bound fields of block entities ([#717](https://github.com/glearflame/horizon/issues/717)). Every change shows before and after numbers from `tools/perf_bench.py` against vanilla 26.3 ([docs/benchmark.md](docs/benchmark.md)).
 
 </details>
 
@@ -42,13 +42,13 @@ Frame pacing at render distance 32 ([#678](https://github.com/horizon-rust/horiz
 
 Servers that keep 20 ticks per second with 50 to 100 players. Today Horizon holds it up to 50 bots and drops to about 10 at 100.
 
-Owner: [ludovic111](https://github.com/ludovic111) · Tracking: [#3910](https://github.com/horizon-rust/horizon/issues/3910)
+Owner: [glearflame](https://github.com/glearflame) · Tracking: [#3910](https://github.com/glearflame/horizon/issues/3910)
 
 <details><summary>Technical</summary>
 
 Measured against vanilla on equal work ([docs/server.md](docs/server.md), Scale): Horizon is ahead with few players and when exploring, but vanilla's tick is shorter with 25 to 50 players near spawn. Ideas on the list: send entity changes instead of rebuilding every entity each tick (about 15 percent), fewer memory reads in random ticks and collision scans, cheaper item collision checks, mob AI and natural spawning. The bot benchmark (`horizon-bots`) is the proof.
 
-More: [#3847](https://github.com/horizon-rust/horizon/issues/3847) · [#2608](https://github.com/horizon-rust/horizon/issues/2608)
+More: [#3847](https://github.com/glearflame/horizon/issues/3847) · [#2608](https://github.com/glearflame/horizon/issues/2608)
 
 </details>
 
@@ -58,11 +58,11 @@ More: [#3847](https://github.com/horizon-rust/horizon/issues/3847) · [#2608](ht
 
 Making the world-generation mods of popular modpacks (new structures, YUNG's dungeons and mineshafts, packs built on Lithostitched) generate their worlds in Horizon, natively and fast.
 
-Owner: [ThatCakeIsAPie](https://github.com/ThatCakeIsAPie) · Tracking: [#3913](https://github.com/horizon-rust/horizon/issues/3913)
+Owner: [ThatCakeIsAPie](https://github.com/ThatCakeIsAPie) · Tracking: [#3913](https://github.com/glearflame/horizon/issues/3913)
 
 <details><summary>Technical</summary>
 
-`horizon-port-pack` carries a pack's data-driven content over, and 26.2 data packs are upgraded to 26.3's format ([#3369](https://github.com/horizon-rust/horizon/issues/3369)). In review: worlds taller than 32 sections and each level's shape from its dimension type ([#3480](https://github.com/horizon-rust/horizon/issues/3480), [#3488](https://github.com/horizon-rust/horizon/issues/3488)), data-pack biomes in local and remote worlds ([#3491](https://github.com/horizon-rust/horizon/issues/3491)), block state providers ([#3802](https://github.com/horizon-rust/horizon/issues/3802)), surface rules by biome id ([#3366](https://github.com/horizon-rust/horizon/issues/3366)), Lithostitched's pool and processor modifiers ([#1777](https://github.com/horizon-rust/horizon/issues/1777)). Mods whose Java code does more than world generation don't run ([docs/modpacks.md](docs/modpacks.md)).
+`horizon-port-pack` carries a pack's data-driven content over, and 26.2 data packs are upgraded to 26.3's format ([#3369](https://github.com/glearflame/horizon/issues/3369)). In review: worlds taller than 32 sections and each level's shape from its dimension type ([#3480](https://github.com/glearflame/horizon/issues/3480), [#3488](https://github.com/glearflame/horizon/issues/3488)), data-pack biomes in local and remote worlds ([#3491](https://github.com/glearflame/horizon/issues/3491)), block state providers ([#3802](https://github.com/glearflame/horizon/issues/3802)), surface rules by biome id ([#3366](https://github.com/glearflame/horizon/issues/3366)), Lithostitched's pool and processor modifiers ([#1777](https://github.com/glearflame/horizon/issues/1777)). Mods whose Java code does more than world generation don't run ([docs/modpacks.md](docs/modpacks.md)).
 
 </details>
 
@@ -72,13 +72,13 @@ Owner: [ThatCakeIsAPie](https://github.com/ThatCakeIsAPie) · Tracking: [#3913](
 
 Mods for Horizon, as one line of work led by the modding team: native mods the launcher builds into your game, mods on servers, mod screens and settings, tools for mod makers, the registry and machines.
 
-Owner: [levzzz5154](https://github.com/levzzz5154) · Tracking: [#3911](https://github.com/horizon-rust/horizon/issues/3911)
+Owner: [levzzz5154](https://github.com/levzzz5154) · Tracking: [#3911](https://github.com/glearflame/horizon/issues/3911)
 
 <details><summary>Technical</summary>
 
-One item for all modding work ([#3911](https://github.com/horizon-rust/horizon/issues/3911)), led by levzzz5154 with vladislav_hagen; the order between the parts is theirs. Native mods on stable hook points (game/native_hooks.rs, [#3345](https://github.com/horizon-rust/horizon/issues/3345), [#3346](https://github.com/horizon-rust/horizon/issues/3346), [#3434](https://github.com/horizon-rust/horizon/issues/3434), [#3435](https://github.com/horizon-rust/horizon/issues/3435)) built by the launcher ([#3388](https://github.com/horizon-rust/horizon/issues/3388), [#3855](https://github.com/horizon-rust/horizon/issues/3855)); server-side hooks ([#3878](https://github.com/horizon-rust/horizon/issues/3878), [#3706](https://github.com/horizon-rust/horizon/issues/3706)); mod-owned screens, input and drawing; tools for mod makers (templates, `native.py check`); the registry ([#1634](https://github.com/horizon-rust/horizon/issues/1634), [#1642](https://github.com/horizon-rust/horizon/issues/1642), [#1659](https://github.com/horizon-rust/horizon/issues/1659)); machines with inventories and menus ([#1189](https://github.com/horizon-rust/horizon/issues/1189)); mods that read and change the world through the server. [docs/native-mods.md](docs/native-mods.md).
+One item for all modding work ([#3911](https://github.com/glearflame/horizon/issues/3911)), led by levzzz5154 with vladislav_hagen; the order between the parts is theirs. Native mods on stable hook points (game/native_hooks.rs, [#3345](https://github.com/glearflame/horizon/issues/3345), [#3346](https://github.com/glearflame/horizon/issues/3346), [#3434](https://github.com/glearflame/horizon/issues/3434), [#3435](https://github.com/glearflame/horizon/issues/3435)) built by the launcher ([#3388](https://github.com/glearflame/horizon/issues/3388), [#3855](https://github.com/glearflame/horizon/issues/3855)); server-side hooks ([#3878](https://github.com/glearflame/horizon/issues/3878), [#3706](https://github.com/glearflame/horizon/issues/3706)); mod-owned screens, input and drawing; tools for mod makers (templates, `native.py check`); the registry ([#1634](https://github.com/glearflame/horizon/issues/1634), [#1642](https://github.com/glearflame/horizon/issues/1642), [#1659](https://github.com/glearflame/horizon/issues/1659)); machines with inventories and menus ([#1189](https://github.com/glearflame/horizon/issues/1189)); mods that read and change the world through the server. [docs/native-mods.md](docs/native-mods.md).
 
-More: [#3351](https://github.com/horizon-rust/horizon/issues/3351) · [#3353](https://github.com/horizon-rust/horizon/issues/3353) · [#3360](https://github.com/horizon-rust/horizon/issues/3360) · [#1596](https://github.com/horizon-rust/horizon/issues/1596) · [#1635](https://github.com/horizon-rust/horizon/issues/1635)
+More: [#3351](https://github.com/glearflame/horizon/issues/3351) · [#3353](https://github.com/glearflame/horizon/issues/3353) · [#3360](https://github.com/glearflame/horizon/issues/3360) · [#1596](https://github.com/glearflame/horizon/issues/1596) · [#1635](https://github.com/glearflame/horizon/issues/1635)
 
 </details>
 
@@ -88,11 +88,11 @@ More: [#3351](https://github.com/horizon-rust/horizon/issues/3351) · [#3353](ht
 
 Single player now runs a small server in the background, as vanilla does. We are fixing what still behaves differently there; every fix also works for LAN and server players.
 
-Owner: [ludovic111](https://github.com/ludovic111) · Tracking: [#3914](https://github.com/horizon-rust/horizon/issues/3914)
+Owner: [glearflame](https://github.com/glearflame) · Tracking: [#3914](https://github.com/glearflame/horizon/issues/3914)
 
 <details><summary>Technical</summary>
 
-Since [#1514](https://github.com/horizon-rust/horizon/issues/1514) single player runs on the server thread (`game/integrated.rs`) and the window joins it as a client. The open `[server-thread]` issues list the gaps. In review: breeding's advancement and statistic ([#3873](https://github.com/horizon-rust/horizon/issues/3873)), the client's menu when the server replaces the player ([#3841](https://github.com/horizon-rust/horizon/issues/3841)), splashes when falling in water ([#3621](https://github.com/horizon-rust/horizon/issues/3621)). [docs/server-levels.md](docs/server-levels.md).
+Since [#1514](https://github.com/glearflame/horizon/issues/1514) single player runs on the server thread (`game/integrated.rs`) and the window joins it as a client. The open `[server-thread]` issues list the gaps. In review: breeding's advancement and statistic ([#3873](https://github.com/glearflame/horizon/issues/3873)), the client's menu when the server replaces the player ([#3841](https://github.com/glearflame/horizon/issues/3841)), splashes when falling in water ([#3621](https://github.com/glearflame/horizon/issues/3621)). [docs/server-levels.md](docs/server-levels.md).
 
 </details>
 
@@ -102,13 +102,13 @@ Since [#1514](https://github.com/horizon-rust/horizon/issues/1514) single player
 
 Play the real Java game from the Horizon launcher too: vanilla and modded instances, any version, mods from Modrinth filtered to what fits, and your instances imported from other launchers.
 
-Owner: [ludovic111](https://github.com/ludovic111) · Tracking: [#3915](https://github.com/horizon-rust/horizon/issues/3915)
+Owner: [glearflame](https://github.com/glearflame) · Tracking: [#3915](https://github.com/glearflame/horizon/issues/3915)
 
 <details><summary>Technical</summary>
 
-For an account that owns the game: any version downloaded with the Java it needs ([#3406](https://github.com/horizon-rust/horizon/issues/3406)), Java instances, the version list and the CLI ([#3395](https://github.com/horizon-rust/horizon/issues/3395)), the start command read from the version JSON ([#3419](https://github.com/horizon-rust/horizon/issues/3419)). Next: Play for a Java instance, Fabric and Quilt, then NeoForge and Forge; Modrinth with compatibility filtering and dependencies; imports from Prism, MultiMC, the CurseForge app, the Modrinth App, ATLauncher and the official launcher, each from its documented on-disk format.
+For an account that owns the game: any version downloaded with the Java it needs ([#3406](https://github.com/glearflame/horizon/issues/3406)), Java instances, the version list and the CLI ([#3395](https://github.com/glearflame/horizon/issues/3395)), the start command read from the version JSON ([#3419](https://github.com/glearflame/horizon/issues/3419)). Next: Play for a Java instance, Fabric and Quilt, then NeoForge and Forge; Modrinth with compatibility filtering and dependencies; imports from Prism, MultiMC, the CurseForge app, the Modrinth App, ATLauncher and the official launcher, each from its documented on-disk format.
 
-More: [#3506](https://github.com/horizon-rust/horizon/issues/3506)
+More: [#3506](https://github.com/glearflame/horizon/issues/3506)
 
 </details>
 
@@ -118,11 +118,11 @@ More: [#3506](https://github.com/horizon-rust/horizon/issues/3506)
 
 Cleaning up Horizon's code: removing what nothing uses and making it quicker to build, so fixes and new features land faster.
 
-Owner: [ludovic111](https://github.com/ludovic111) · Tracking: [#3916](https://github.com/horizon-rust/horizon/issues/3916)
+Owner: [glearflame](https://github.com/glearflame) · Tracking: [#3916](https://github.com/glearflame/horizon/issues/3916)
 
 <details><summary>Technical</summary>
 
-A review of the whole tree: dead code and stubs removed ([#1432](https://github.com/horizon-rust/horizon/issues/1432), [#1658](https://github.com/horizon-rust/horizon/issues/1658)), one probe binary per crate ([#1453](https://github.com/horizon-rust/horizon/issues/1453), [#1454](https://github.com/horizon-rust/horizon/issues/1454)), shared harness helpers ([#1448](https://github.com/horizon-rust/horizon/issues/1448)), clippy clean on the whole tree ([#1707](https://github.com/horizon-rust/horizon/issues/1707)). [docs/architecture.md](docs/architecture.md) maps each feature to its files and harnesses.
+A review of the whole tree: dead code and stubs removed ([#1432](https://github.com/glearflame/horizon/issues/1432), [#1658](https://github.com/glearflame/horizon/issues/1658)), one probe binary per crate ([#1453](https://github.com/glearflame/horizon/issues/1453), [#1454](https://github.com/glearflame/horizon/issues/1454)), shared harness helpers ([#1448](https://github.com/glearflame/horizon/issues/1448)), clippy clean on the whole tree ([#1707](https://github.com/glearflame/horizon/issues/1707)). [docs/architecture.md](docs/architecture.md) maps each feature to its files and harnesses.
 
 </details>
 
@@ -130,13 +130,13 @@ A review of the whole tree: dead code and stubs removed ([#1432](https://github.
 
 Every method of the Java game is tracked with where Horizon does it, and the differences players can see are being closed, list by list: mobs, blocks, items, screens, rendering, servers.
 
-Owner: [kacpherek](https://github.com/kacpherek) · Tracking: [#3912](https://github.com/horizon-rust/horizon/issues/3912)
+Owner: [kacpherek](https://github.com/kacpherek) · Tracking: [#3912](https://github.com/glearflame/horizon/issues/3912)
 
 <details><summary>Technical</summary>
 
-The port ledger ([tools/port_ledger.py](tools/port_ledger.py), tools/port_map/, [#3139](https://github.com/horizon-rust/horizon/issues/3139)) gives every 26.3 method a verdict and links the harnesses that cover it ([#3526](https://github.com/horizon-rust/horizon/issues/3526)). The player-visible gaps are ten lists, one per area ([#3512](https://github.com/horizon-rust/horizon/issues/3512) to [#3521](https://github.com/horizon-rust/horizon/issues/3521)); a fix translates the vanilla method, ticks its row and carries the `parity` label. Start from .claude/skills/vanilla-parity.
+The port ledger ([tools/port_ledger.py](tools/port_ledger.py), tools/port_map/, [#3139](https://github.com/glearflame/horizon/issues/3139)) gives every 26.3 method a verdict and links the harnesses that cover it ([#3526](https://github.com/glearflame/horizon/issues/3526)). The player-visible gaps are ten lists, one per area ([#3512](https://github.com/glearflame/horizon/issues/3512) to [#3521](https://github.com/glearflame/horizon/issues/3521)); a fix translates the vanilla method, ticks its row and carries the `parity` label. Start from .claude/skills/vanilla-parity.
 
-More: [#3513](https://github.com/horizon-rust/horizon/issues/3513) · [#3514](https://github.com/horizon-rust/horizon/issues/3514) · [#3515](https://github.com/horizon-rust/horizon/issues/3515) · [#3516](https://github.com/horizon-rust/horizon/issues/3516) · [#3517](https://github.com/horizon-rust/horizon/issues/3517) · [#3518](https://github.com/horizon-rust/horizon/issues/3518) · [#3519](https://github.com/horizon-rust/horizon/issues/3519) · [#3520](https://github.com/horizon-rust/horizon/issues/3520)
+More: [#3513](https://github.com/glearflame/horizon/issues/3513) · [#3514](https://github.com/glearflame/horizon/issues/3514) · [#3515](https://github.com/glearflame/horizon/issues/3515) · [#3516](https://github.com/glearflame/horizon/issues/3516) · [#3517](https://github.com/glearflame/horizon/issues/3517) · [#3518](https://github.com/glearflame/horizon/issues/3518) · [#3519](https://github.com/glearflame/horizon/issues/3519) · [#3520](https://github.com/glearflame/horizon/issues/3520)
 
 </details>
 
@@ -150,7 +150,7 @@ New public numbers comparing Horizon with vanilla on many kinds of computers, me
 
 <details><summary>Technical</summary>
 
-Redo the comparison after the current performance work ([#1073](https://github.com/horizon-rust/horizon/issues/1073)); reliability, coverage and presentation ([#1346](https://github.com/horizon-rust/horizon/issues/1346)); a scene must count as loaded only once its first chunk arrives ([#1749](https://github.com/horizon-rust/horizon/issues/1749)). Next: a performance history across releases (an automatic comparison of each release with the last, on a timeline), more report fields (server TPS and MSPT, power, battery drain, temperature, throttling) and more hardware (a MacBook on battery, low-end laptops, community reports). Players' reports come in through `--benchmark` and `horizon-launcher data benchmark` ([docs/benchmark.md](docs/benchmark.md)).
+Redo the comparison after the current performance work ([#1073](https://github.com/glearflame/horizon/issues/1073)); reliability, coverage and presentation ([#1346](https://github.com/glearflame/horizon/issues/1346)); a scene must count as loaded only once its first chunk arrives ([#1749](https://github.com/glearflame/horizon/issues/1749)). Next: a performance history across releases (an automatic comparison of each release with the last, on a timeline), more report fields (server TPS and MSPT, power, battery drain, temperature, throttling) and more hardware (a MacBook on battery, low-end laptops, community reports). Players' reports come in through `--benchmark` and `horizon-launcher data benchmark` ([docs/benchmark.md](docs/benchmark.md)).
 
 </details>
 
@@ -160,7 +160,7 @@ Creating a world and joining it should be quick even on a four-thread laptop, wh
 
 <details><summary>Technical</summary>
 
-Cut the per-column generation cost (noise sampling, surface rules, aquifers) and the lock convoy on structure starts, and leave one core free for the rest of the game as vanilla does ([#1760](https://github.com/horizon-rust/horizon/issues/1760) and [#1778](https://github.com/horizon-rust/horizon/issues/1778), in review, are listed under 'Steady frames at long render distances'). Still to profile on small CPUs: the first seconds of a fresh world deliver no chunk, and fluids remesh for about a minute after loading. Measured with `tools/perf_bench.py` ([docs/benchmark.md](docs/benchmark.md), [docs/profiling.md](docs/profiling.md)).
+Cut the per-column generation cost (noise sampling, surface rules, aquifers) and the lock convoy on structure starts, and leave one core free for the rest of the game as vanilla does ([#1760](https://github.com/glearflame/horizon/issues/1760) and [#1778](https://github.com/glearflame/horizon/issues/1778), in review, are listed under 'Steady frames at long render distances'). Still to profile on small CPUs: the first seconds of a fresh world deliver no chunk, and fluids remesh for about a minute after loading. Measured with `tools/perf_bench.py` ([docs/benchmark.md](docs/benchmark.md), [docs/profiling.md](docs/profiling.md)).
 
 </details>
 
@@ -182,9 +182,9 @@ Draw the game at a lower resolution and sharpen it to your screen's size, in the
 
 <details><summary>Technical</summary>
 
-A render-scale setting below the window size with an upscaler of our own that runs on every wgpu backend. Proof: frame time against native resolution on integrated GPUs, and screenshots for image quality. Issue [#1403](https://github.com/horizon-rust/horizon/issues/1403).
+A render-scale setting below the window size with an upscaler of our own that runs on every wgpu backend. Proof: frame time against native resolution on integrated GPUs, and screenshots for image quality. Issue [#1403](https://github.com/glearflame/horizon/issues/1403).
 
-More: [#3762](https://github.com/horizon-rust/horizon/issues/3762) · [#3763](https://github.com/horizon-rust/horizon/issues/3763) · [#3764](https://github.com/horizon-rust/horizon/issues/3764)
+More: [#3762](https://github.com/glearflame/horizon/issues/3762) · [#3763](https://github.com/glearflame/horizon/issues/3763) · [#3764](https://github.com/glearflame/horizon/issues/3764)
 
 </details>
 
@@ -194,7 +194,7 @@ Speeding up the code that reads and writes the blocks of the world, which almost
 
 <details><summary>Technical</summary>
 
-`PalettedContainer` and `PackedStorage` find an entry's word by multiply and shift instead of an integer division ([#1790](https://github.com/horizon-rust/horizon/issues/1790), [#1794](https://github.com/horizon-rust/horizon/issues/1794)); meshing looks up baked models by index, not by name ([#1747](https://github.com/horizon-rust/horizon/issues/1747)). Each change keeps the paletted storage harnesses identical and shows its microbenchmark ([docs/performance/paletted-container-access-results.md](docs/performance/paletted-container-access-results.md)).
+`PalettedContainer` and `PackedStorage` find an entry's word by multiply and shift instead of an integer division ([#1790](https://github.com/glearflame/horizon/issues/1790), [#1794](https://github.com/glearflame/horizon/issues/1794)); meshing looks up baked models by index, not by name ([#1747](https://github.com/glearflame/horizon/issues/1747)). Each change keeps the paletted storage harnesses identical and shows its microbenchmark ([docs/performance/paletted-container-access-results.md](docs/performance/paletted-container-access-results.md)).
 
 </details>
 
@@ -206,7 +206,7 @@ Manage a server from a console, ban and pardon players, and drive it from other 
 
 <details><summary>Technical</summary>
 
-`horizon-server console` (a text interface), `ban`, `pardon`, `ban-ip` and `mcp` over stdio. Admin API additions: the player list, kick, ban, op and whitelist, an SSE stream of logs and events, a text metrics endpoint, config GET and PATCH, backup delete and download. The last pieces merged: bans edited while the server is stopped ([#9767](https://github.com/horizon-rust/horizon/issues/9767)) and the MCP tools' contracts pinned by a test ([#9748](https://github.com/horizon-rust/horizon/issues/9748)). The panel's later features and vanilla's management protocol are their own item (server-panel-management). [docs/server.md](docs/server.md), [docs/api/server.md](docs/api/server.md).
+`horizon-server console` (a text interface), `ban`, `pardon`, `ban-ip` and `mcp` over stdio. Admin API additions: the player list, kick, ban, op and whitelist, an SSE stream of logs and events, a text metrics endpoint, config GET and PATCH, backup delete and download. The last pieces merged: bans edited while the server is stopped ([#9767](https://github.com/glearflame/horizon/issues/9767)) and the MCP tools' contracts pinned by a test ([#9748](https://github.com/glearflame/horizon/issues/9748)). The panel's later features and vanilla's management protocol are their own item (server-panel-management). [docs/server.md](docs/server.md), [docs/api/server.md](docs/api/server.md).
 
 </details>
 
@@ -216,7 +216,7 @@ Smoother hosting: a real Windows service, a backup before every update, backups 
 
 <details><summary>Technical</summary>
 
-A Windows service wrapper instead of the logon scheduled task; `backups.before_update`; hot reload of config for view distance and the message of the day (needs engine support); backups that keep world and player state ([#1808](https://github.com/horizon-rust/horizon/issues/1808), a contributor's draft, in review). [docs/hosting.md](docs/hosting.md), docs/server.md.
+A Windows service wrapper instead of the logon scheduled task; `backups.before_update`; hot reload of config for view distance and the message of the day (needs engine support); backups that keep world and player state ([#1808](https://github.com/glearflame/horizon/issues/1808), a contributor's draft, in review). [docs/hosting.md](docs/hosting.md), docs/server.md.
 
 </details>
 
@@ -226,7 +226,7 @@ When you play on a server, other players, mobs, items and menus look and behave 
 
 <details><summary>Technical</summary>
 
-Client-of-a-server fixes in `game/remote*.rs` and `horizon-protocol`: mobs' aggressive and item-use flags ([#1802](https://github.com/horizon-rust/horizon/issues/1802), [#1798](https://github.com/horizon-rust/horizon/issues/1798)), ghost items after a remote menu ([#1795](https://github.com/horizon-rust/horizon/issues/1795)), skins ([#1652](https://github.com/horizon-rust/horizon/issues/1652)), cookies and transfer packets for proxy networks ([#1650](https://github.com/horizon-rust/horizon/issues/1650)), firework boosts ([#1671](https://github.com/horizon-rust/horizon/issues/1671)), living-entity attributes and simulation distance ([#1731](https://github.com/horizon-rust/horizon/issues/1731)), styled item names ([#1702](https://github.com/horizon-rust/horizon/issues/1702)), primed TNT between updates ([#1710](https://github.com/horizon-rust/horizon/issues/1710)).
+Client-of-a-server fixes in `game/remote*.rs` and `horizon-protocol`: mobs' aggressive and item-use flags ([#1802](https://github.com/glearflame/horizon/issues/1802), [#1798](https://github.com/glearflame/horizon/issues/1798)), ghost items after a remote menu ([#1795](https://github.com/glearflame/horizon/issues/1795)), skins ([#1652](https://github.com/glearflame/horizon/issues/1652)), cookies and transfer packets for proxy networks ([#1650](https://github.com/glearflame/horizon/issues/1650)), firework boosts ([#1671](https://github.com/glearflame/horizon/issues/1671)), living-entity attributes and simulation distance ([#1731](https://github.com/glearflame/horizon/issues/1731)), styled item names ([#1702](https://github.com/glearflame/horizon/issues/1702)), primed TNT between updates ([#1710](https://github.com/glearflame/horizon/issues/1710)).
 
 </details>
 
@@ -238,7 +238,7 @@ Single player has one way to run, the server thread, so every fix works everywhe
 
 <details><summary>Technical</summary>
 
-`--in-frame` (also `--no-server-thread` and `HORIZON_SERVER_THREAD=0`) ticked the world inside the window's `Game`. [#6473](https://github.com/horizon-rust/horizon/issues/6473) removes it with the code only it reached (the window's world loader and player tick, its portal travel and loading screen, the in-frame LAN host); the harnesses run on the server thread. See also 'Single player as a server' and [docs/server-levels.md](docs/server-levels.md).
+`--in-frame` (also `--no-server-thread` and `HORIZON_SERVER_THREAD=0`) ticked the world inside the window's `Game`. [#6473](https://github.com/glearflame/horizon/issues/6473) removes it with the code only it reached (the window's world loader and player tick, its portal travel and loading screen, the in-frame LAN host); the harnesses run on the server thread. See also 'Single player as a server' and [docs/server-levels.md](docs/server-levels.md).
 
 </details>
 
@@ -250,9 +250,9 @@ Owner: [martipops](https://github.com/martipops)
 
 <details><summary>Technical</summary>
 
-Issue [#2054](https://github.com/horizon-rust/horizon/issues/2054), built by martipops as a series: up to 16 local players on the server thread's multiplayer ([#3541](https://github.com/horizon-rust/horizon/issues/3541)), each controller driving its own player ([#3794](https://github.com/horizon-rust/horizon/issues/3794)), joining with a controller ([#3801](https://github.com/horizon-rust/horizon/issues/3801)), players in windows of their own ([#3825](https://github.com/horizon-rust/horizon/issues/3825)) and the profile page ([#3826](https://github.com/horizon-rust/horizon/issues/3826)).
+Issue [#2054](https://github.com/glearflame/horizon/issues/2054), built by martipops as a series: up to 16 local players on the server thread's multiplayer ([#3541](https://github.com/glearflame/horizon/issues/3541)), each controller driving its own player ([#3794](https://github.com/glearflame/horizon/issues/3794)), joining with a controller ([#3801](https://github.com/glearflame/horizon/issues/3801)), players in windows of their own ([#3825](https://github.com/glearflame/horizon/issues/3825)) and the profile page ([#3826](https://github.com/glearflame/horizon/issues/3826)).
 
-More: [#3777](https://github.com/horizon-rust/horizon/issues/3777)
+More: [#3777](https://github.com/glearflame/horizon/issues/3777)
 
 </details>
 
@@ -264,9 +264,9 @@ Shader packs were removed and are being rebuilt from scratch. They come back, of
 
 <details><summary>Technical</summary>
 
-A clean-room rewrite in `horizon-shaderpack`, from the packs' public format documentation only: reading packs, the preprocessor and `.properties` files are merged ([#1584](https://github.com/horizon-rust/horizon/issues/1584), [#1585](https://github.com/horizon-rust/horizon/issues/1585), [#1586](https://github.com/horizon-rust/horizon/issues/1586)); translating programs to WGSL through naga, buffers, uniforms and the terrain, entity, sky, weather and hand stages are in review ([#1698](https://github.com/horizon-rust/horizon/issues/1698) to [#1801](https://github.com/horizon-rust/horizon/issues/1801)).
+A clean-room rewrite in `horizon-shaderpack`, from the packs' public format documentation only: reading packs, the preprocessor and `.properties` files are merged ([#1584](https://github.com/glearflame/horizon/issues/1584), [#1585](https://github.com/glearflame/horizon/issues/1585), [#1586](https://github.com/glearflame/horizon/issues/1586)); translating programs to WGSL through naga, buffers, uniforms and the terrain, entity, sky, weather and hand stages are in review ([#1698](https://github.com/glearflame/horizon/issues/1698) to [#1801](https://github.com/glearflame/horizon/issues/1801)).
 
-More: [#1561](https://github.com/horizon-rust/horizon/issues/1561) · [#1771](https://github.com/horizon-rust/horizon/issues/1771) · [#1786](https://github.com/horizon-rust/horizon/issues/1786) · [#9045](https://github.com/horizon-rust/horizon/issues/9045) · [#6233](https://github.com/horizon-rust/horizon/issues/6233) · [#6485](https://github.com/horizon-rust/horizon/issues/6485) · [#3734](https://github.com/horizon-rust/horizon/issues/3734) · [#3125](https://github.com/horizon-rust/horizon/issues/3125)
+More: [#1561](https://github.com/glearflame/horizon/issues/1561) · [#1771](https://github.com/glearflame/horizon/issues/1771) · [#1786](https://github.com/glearflame/horizon/issues/1786) · [#9045](https://github.com/glearflame/horizon/issues/9045) · [#6233](https://github.com/glearflame/horizon/issues/6233) · [#6485](https://github.com/glearflame/horizon/issues/6485) · [#3734](https://github.com/glearflame/horizon/issues/3734) · [#3125](https://github.com/glearflame/horizon/issues/3125)
 
 </details>
 
@@ -276,13 +276,13 @@ More: [#1561](https://github.com/horizon-rust/horizon/issues/1561) · [#1771](ht
 
 A redesigned launcher: every button where you expect it, the fewest clicks to play, add an instance or add mods, smooth animations, and instant startup.
 
-Owner: [ludovic111](https://github.com/ludovic111)
+Owner: [glearflame](https://github.com/glearflame)
 
 <details><summary>Technical</summary>
 
 Based on the site concept by the Team (Bricolage Grotesque, a night sky and an animated pixel sunset). Screens and flows are designed first, then small PRs; tokens in [crates/horizon-theme](crates/horizon-theme) and rules in [docs/design-system.md](docs/design-system.md), the game's vanilla look unchanged. Measured before and after: startup, frame time and idle CPU/GPU, reduced motion honoured. Mods screens separate Horizon native mods from Java mods; a running instance can be stopped from the launcher.
 
-More: [#3635](https://github.com/horizon-rust/horizon/issues/3635) · [#3636](https://github.com/horizon-rust/horizon/issues/3636) · [#3637](https://github.com/horizon-rust/horizon/issues/3637)
+More: [#3635](https://github.com/glearflame/horizon/issues/3635) · [#3636](https://github.com/glearflame/horizon/issues/3636) · [#3637](https://github.com/glearflame/horizon/issues/3637)
 
 </details>
 
@@ -296,9 +296,9 @@ Far terrain drawn from the world you really built and explored, caves and builds
 
 <details><summary>Technical</summary>
 
-Keep a 3D mip store on disk built from real chunks, drawn by the GPU beside the seed preview for areas nobody has visited. Written from scratch and measured before it is kept. Builds on Far Detail and the far-terrain levels of detail already shipped; the open work on them is [#718](https://github.com/horizon-rust/horizon/issues/718).
+Keep a 3D mip store on disk built from real chunks, drawn by the GPU beside the seed preview for areas nobody has visited. Written from scratch and measured before it is kept. Builds on Far Detail and the far-terrain levels of detail already shipped; the open work on them is [#718](https://github.com/glearflame/horizon/issues/718).
 
-More: [#4678](https://github.com/horizon-rust/horizon/issues/4678)
+More: [#4678](https://github.com/glearflame/horizon/issues/4678)
 
 </details>
 
@@ -308,9 +308,9 @@ Several smaller speed-ups, each measured: idle block entities that sleep, cheape
 
 <details><summary>Technical</summary>
 
-Block entities and hoppers that skip work when idle (the hopper item scan is already skipped when no item is near); a particle frustum test first (also a parity gap), then particle quads built on the GPU; jigsaw shortcuts that skip blocked connectors and pool elements known not to fit, with layouts unchanged (trial chambers and ancient cities first); batched raw mouse input on Windows for 8000 Hz mice; a better atlas packer for huge resource packs (a 64x pack builds a 704 MiB atlas for 452 MiB of textures); sign-heavy scenes ([#1461](https://github.com/horizon-rust/horizon/issues/1461)). Profile first, keep what pays, show before and after numbers.
+Block entities and hoppers that skip work when idle (the hopper item scan is already skipped when no item is near); a particle frustum test first (also a parity gap), then particle quads built on the GPU; jigsaw shortcuts that skip blocked connectors and pool elements known not to fit, with layouts unchanged (trial chambers and ancient cities first); batched raw mouse input on Windows for 8000 Hz mice; a better atlas packer for huge resource packs (a 64x pack builds a 704 MiB atlas for 452 MiB of textures); sign-heavy scenes ([#1461](https://github.com/glearflame/horizon/issues/1461)). Profile first, keep what pays, show before and after numbers.
 
-More: [docs/profiling.md](docs/profiling.md) · [#7752](https://github.com/horizon-rust/horizon/issues/7752) · [#8251](https://github.com/horizon-rust/horizon/issues/8251) · [#10229](https://github.com/horizon-rust/horizon/issues/10229)
+More: [docs/profiling.md](docs/profiling.md) · [#7752](https://github.com/glearflame/horizon/issues/7752) · [#8251](https://github.com/glearflame/horizon/issues/8251) · [#10229](https://github.com/glearflame/horizon/issues/10229)
 
 </details>
 
@@ -324,7 +324,7 @@ Recognise mods built for versions before 26.1 in the mod browser, so they can be
 
 A mapping table from intermediary and SRG names so pre-26.1 jars can be classified, and a rename for mod ids with dashes (`fabric-api`); the port step then treats them like newer jars ([docs/mod-browser.md](docs/mod-browser.md)).
 
-More: [#10262](https://github.com/horizon-rust/horizon/issues/10262)
+More: [#10262](https://github.com/glearflame/horizon/issues/10262)
 
 </details>
 
@@ -354,7 +354,7 @@ Run Java mods that nobody has rewritten for Horizon yet, through a bridge or a c
 
 <details><summary>Technical</summary>
 
-Earlier research ([#527](https://github.com/horizon-rust/horizon/issues/527), closed) found that Java mods can't simply run, because they call Minecraft's own classes. Option to look at again: a bridge for simple Fabric mods.
+Earlier research ([#527](https://github.com/glearflame/horizon/issues/527), closed) found that Java mods can't simply run, because they call Minecraft's own classes. Option to look at again: a bridge for simple Fabric mods.
 
 </details>
 
@@ -384,7 +384,7 @@ Making mods that add machines, magic and mobs work in Horizon, in steps, startin
 
 <details><summary>Technical</summary>
 
-333 of the 496 mods in a big pack (ATM10) contain code. Issue [#1854](https://github.com/horizon-rust/horizon/issues/1854) ranks the gaps (ticking block entities, networking, rendering, menus, inventories) that unlock them in tiers, with machines first as the recommended path. Code mods are native mods now ([docs/native-mods.md](docs/native-mods.md)): each port is a horizon-mixins bundle. The path isn't started yet ([docs/modpacks.md](docs/modpacks.md)).
+333 of the 496 mods in a big pack (ATM10) contain code. Issue [#1854](https://github.com/glearflame/horizon/issues/1854) ranks the gaps (ticking block entities, networking, rendering, menus, inventories) that unlock them in tiers, with machines first as the recommended path. Code mods are native mods now ([docs/native-mods.md](docs/native-mods.md)): each port is a horizon-mixins bundle. The path isn't started yet ([docs/modpacks.md](docs/modpacks.md)).
 
 </details>
 
@@ -418,7 +418,7 @@ Join servers that run older Minecraft versions, such as 1.21 or 1.8 PvP servers,
 
 Asked often in the suggestion queue. Horizon speaks 26.3's protocol; the path is a native protocol adapter in Rust that translates older versions' packets, not a downloaded Java proxy. Java instances in the launcher already play any version with the real game.
 
-More: [#3023](https://github.com/horizon-rust/horizon/issues/3023)
+More: [#3023](https://github.com/glearflame/horizon/issues/3023)
 
 </details>
 
@@ -438,7 +438,7 @@ Set up Horizon, a server first, without Java on your computer: published tables 
 
 <details><summary>Technical</summary>
 
-Today `horizon-prepare` runs Mojang's exporters with Java. Issue [#1750](https://github.com/horizon-rust/horizon/issues/1750) proposes publishing the computed version tables once from CI and assembling the rest locally from the player's own jar and assets, provided the tables hold no Mojang content; a contributor offered a pull request, and it would help phones too. A server-only prepare from `server.jar` alone is the first step ([docs/server.md](docs/server.md)).
+Today `horizon-prepare` runs Mojang's exporters with Java. Issue [#1750](https://github.com/glearflame/horizon/issues/1750) proposes publishing the computed version tables once from CI and assembling the rest locally from the player's own jar and assets, provided the tables hold no Mojang content; a contributor offered a pull request, and it would help phones too. A server-only prepare from `server.jar` alone is the first step ([docs/server.md](docs/server.md)).
 
 </details>
 
@@ -528,9 +528,9 @@ Contraptions and physics like the Create and Aeronautics mods, as a mod for Hori
 
 <details><summary>Technical</summary>
 
-Issue [#805](https://github.com/horizon-rust/horizon/issues/805) (porting QOL mods) closed with this answer: it would come as a native Horizon mod.
+Issue [#805](https://github.com/glearflame/horizon/issues/805) (porting QOL mods) closed with this answer: it would come as a native Horizon mod.
 
-More: [#6302](https://github.com/horizon-rust/horizon/issues/6302) · [#5313](https://github.com/horizon-rust/horizon/issues/5313) · [#5556](https://github.com/horizon-rust/horizon/issues/5556)
+More: [#6302](https://github.com/glearflame/horizon/issues/6302) · [#5313](https://github.com/glearflame/horizon/issues/5313) · [#5556](https://github.com/glearflame/horizon/issues/5556)
 
 </details>
 
@@ -554,7 +554,7 @@ Every past and future Minecraft version prepared for Horizon automatically. When
 
 The port pipeline ([docs/version-ports.md](docs/version-ports.md), `tools/version_port.py`) detects a release, prepares it, diffs its classes against the pinned 26.3, regenerates the data-driven tables, runs every parity harness on it and writes a port report that becomes issues. The goal is as little human work as possible for any version, past or future. Detection and the first slices are merged; the scheduled agent that runs it every day isn't installed yet. Two versions in one build are out of scope.
 
-More: [#4758](https://github.com/horizon-rust/horizon/issues/4758)
+More: [#4758](https://github.com/glearflame/horizon/issues/4758)
 
 </details>
 
@@ -566,7 +566,7 @@ Make controller support solid: tested with real PlayStation and Xbox pads and a 
 
 The game side is merged ([docs/controllers.md](docs/controllers.md)): pads read with gilrs, menus, rumble, glyphs, remapping and DualSense adaptive triggers, lightbar and haptics, but not yet confirmed on real pads or a Steam Deck (DualSense haptics stay behind a switch until then). Left: a test pass on real hardware, and the same focus navigation in the GPUI launcher.
 
-More: [#10298](https://github.com/horizon-rust/horizon/issues/10298) · [#8678](https://github.com/horizon-rust/horizon/issues/8678)
+More: [#10298](https://github.com/glearflame/horizon/issues/10298) · [#8678](https://github.com/glearflame/horizon/issues/8678)
 
 </details>
 
@@ -576,7 +576,7 @@ Vanilla's complete F3 screen: debug options, a profiler chart, ten-second captur
 
 <details><summary>Technical</summary>
 
-Today F3 shows position, chunk, light, biome and FPS ([docs/native-client.md](docs/native-client.md)). Vanilla also has F3+F6 debug options with profiles, F3+1 the profiler pie, F3+L a ten-second capture and F3+S the atlas dump ([#562](https://github.com/horizon-rust/horizon/issues/562) asked for the F3 editor).
+Today F3 shows position, chunk, light, biome and FPS ([docs/native-client.md](docs/native-client.md)). Vanilla also has F3+F6 debug options with profiles, F3+1 the profiler pie, F3+L a ten-second capture and F3+S the atlas dump ([#562](https://github.com/glearflame/horizon/issues/562) asked for the F3 editor).
 
 </details>
 
@@ -586,7 +586,7 @@ Pistons and slime blocks will push players, mobs and items as in vanilla. Today 
 
 <details><summary>Technical</summary>
 
-Port `PistonMovingBlockEntity.moveCollidedEntities` and `moveStuckEntities` (honey), the slime bounce and `Entity.limitPistonMovement` for `MoverType.PISTON`, in single player and for a server's players. Issues [#1496](https://github.com/horizon-rust/horizon/issues/1496), [#1609](https://github.com/horizon-rust/horizon/issues/1609), [#1608](https://github.com/horizon-rust/horizon/issues/1608), [#1704](https://github.com/horizon-rust/horizon/issues/1704), [#1758](https://github.com/horizon-rust/horizon/issues/1758).
+Port `PistonMovingBlockEntity.moveCollidedEntities` and `moveStuckEntities` (honey), the slime bounce and `Entity.limitPistonMovement` for `MoverType.PISTON`, in single player and for a server's players. Issues [#1496](https://github.com/glearflame/horizon/issues/1496), [#1609](https://github.com/glearflame/horizon/issues/1609), [#1608](https://github.com/glearflame/horizon/issues/1608), [#1704](https://github.com/glearflame/horizon/issues/1704), [#1758](https://github.com/glearflame/horizon/issues/1758).
 
 </details>
 
@@ -596,7 +596,7 @@ Villages and fights behaving as in vanilla: iron golems defending villages, vill
 
 <details><summary>Technical</summary>
 
-Villages: iron golem village goals, villager memories across saves, villager age, job-site claiming on dedicated servers, flower offers ([#1639](https://github.com/horizon-rust/horizon/issues/1639) is one report). Combat: the mobs' `attack_knockback` attribute, mace smash logic, the hit knockback source on the host, the fire burnout biome tag. Each is checked against vanilla by a harness ([docs/rust-parity.md](docs/rust-parity.md)).
+Villages: iron golem village goals, villager memories across saves, villager age, job-site claiming on dedicated servers, flower offers ([#1639](https://github.com/glearflame/horizon/issues/1639) is one report). Combat: the mobs' `attack_knockback` attribute, mace smash logic, the hit knockback source on the host, the fire burnout biome tag. Each is checked against vanilla by a harness ([docs/rust-parity.md](docs/rust-parity.md)).
 
 </details>
 
@@ -606,7 +606,7 @@ Pick the speakers or headphones Horizon plays through, in Music & Sounds.
 
 <details><summary>Technical</summary>
 
-An output device list in Music & Sounds, falling back to the system default. [#1035](https://github.com/horizon-rust/horizon/issues/1035) started it: a player on an older Windows computer had no sound at all, and a device choice is how such cases are found and fixed.
+An output device list in Music & Sounds, falling back to the system default. [#1035](https://github.com/glearflame/horizon/issues/1035) started it: a player on an older Windows computer had no sound at all, and a device choice is how such cases are found and fixed.
 
 </details>
 
@@ -630,7 +630,7 @@ An optional ray-tracing mode for graphics cards that support it (RTX and recent 
 
 <details><summary>Technical</summary>
 
-A spike with ray-traced sun shadows, off by default, is a draft ([#1180](https://github.com/horizon-rust/horizon/issues/1180)). Reflections, global illumination, Apple M3 and newer if it is cheap, and a performance report per card come after.
+A spike with ray-traced sun shadows, off by default, is a draft ([#1180](https://github.com/glearflame/horizon/issues/1180)). Reflections, global illumination, Apple M3 and newer if it is cheap, and a performance report per card come after.
 
 </details>
 
@@ -674,7 +674,7 @@ Screen readers read the launcher's buttons, lists and settings, and every part o
 
 <details><summary>Technical</summary>
 
-Issue [#4537](https://github.com/horizon-rust/horizon/issues/4537): the launcher is GPUI (not Electron), so it exposes nothing to UI Automation, NSAccessibility or AT-SPI yet. Needs an accessibility tree from GPUI (an AccessKit bridge) and a role and label on each widget.
+Issue [#4537](https://github.com/glearflame/horizon/issues/4537): the launcher is GPUI (not Electron), so it exposes nothing to UI Automation, NSAccessibility or AT-SPI yet. Needs an accessibility tree from GPUI (an AccessKit bridge) and a role and label on each widget.
 
 </details>
 
@@ -696,7 +696,7 @@ Game and launcher builds for 64-bit ARM Linux computers.
 
 <details><summary>Technical</summary>
 
-Issue [#1709](https://github.com/horizon-rust/horizon/issues/1709): aarch64 builds of the game and the launcher in the release workflow, tested on a real ARM machine with its Vulkan driver. The server build already drops audio and controllers (`--no-default-features`).
+Issue [#1709](https://github.com/glearflame/horizon/issues/1709): aarch64 builds of the game and the launcher in the release workflow, tested on a real ARM machine with its Vulkan driver. The server build already drops audio and controllers (`--no-default-features`).
 
 </details>
 
@@ -706,7 +706,7 @@ On a system Horizon has no download for, such as FreeBSD, the launcher offers to
 
 <details><summary>Technical</summary>
 
-Issue [#4354](https://github.com/horizon-rust/horizon/issues/4354): when no release asset matches the platform, the launcher fetches the tagged source and runs the same pinned-toolchain `cargo build --locked` its native-mod builds use, with a warning about the time it takes. The build is unsigned, so the launcher marks the version as built locally.
+Issue [#4354](https://github.com/glearflame/horizon/issues/4354): when no release asset matches the platform, the launcher fetches the tagged source and runs the same pinned-toolchain `cargo build --locked` its native-mod builds use, with a warning about the time it takes. The build is unsigned, so the launcher marks the version as built locally.
 
 More: [docs/native-mods.md](docs/native-mods.md)
 
@@ -730,9 +730,9 @@ Versions of Horizon for Android, iOS and web browsers. Nothing official yet; con
 
 <details><summary>Technical</summary>
 
-No official build. Android was first closed as not planned, with touch controls, a mobile interface, packaging and loading the player's own assets all missing; the roadmap now includes it, iOS and a build for the browser as long-term goals. First pieces from contributors: `horizon-dualsense` compiling on iOS ([#1813](https://github.com/horizon-rust/horizon/issues/1813)) and helper-thread limits on Android ([#1751](https://github.com/horizon-rust/horizon/issues/1751)). Preparing without Java ([#1750](https://github.com/horizon-rust/horizon/issues/1750)) matters here too. Horizon ships none of Mojang's files on any platform.
+No official build. Android was first closed as not planned, with touch controls, a mobile interface, packaging and loading the player's own assets all missing; the roadmap now includes it, iOS and a build for the browser as long-term goals. First pieces from contributors: `horizon-dualsense` compiling on iOS ([#1813](https://github.com/glearflame/horizon/issues/1813)) and helper-thread limits on Android ([#1751](https://github.com/glearflame/horizon/issues/1751)). Preparing without Java ([#1750](https://github.com/glearflame/horizon/issues/1750)) matters here too. Horizon ships none of Mojang's files on any platform.
 
-More: [#9134](https://github.com/horizon-rust/horizon/issues/9134) · [#8069](https://github.com/horizon-rust/horizon/issues/8069) · [#4153](https://github.com/horizon-rust/horizon/issues/4153)
+More: [#9134](https://github.com/glearflame/horizon/issues/9134) · [#8069](https://github.com/glearflame/horizon/issues/8069) · [#4153](https://github.com/glearflame/horizon/issues/4153)
 
 </details>
 
@@ -742,7 +742,7 @@ Builds of the game and the launcher for Macs with an Intel processor.
 
 <details><summary>Technical</summary>
 
-x86_64 game and launcher builds, picked per processor ([#1171](https://github.com/horizon-rust/horizon/issues/1171)). Before it ships it needs a run on a real Intel Mac: Rosetta on Apple Silicon only proves the CPU code. Requests: [#1161](https://github.com/horizon-rust/horizon/issues/1161), [#1792](https://github.com/horizon-rust/horizon/issues/1792).
+x86_64 game and launcher builds, picked per processor ([#1171](https://github.com/glearflame/horizon/issues/1171)). Before it ships it needs a run on a real Intel Mac: Rosetta on Apple Silicon only proves the CPU code. Requests: [#1161](https://github.com/glearflame/horizon/issues/1161), [#1792](https://github.com/glearflame/horizon/issues/1792).
 
 </details>
 
@@ -752,7 +752,7 @@ Fixes for Linux desktops that use Wayland and Hyprland: fullscreen, the clipboar
 
 <details><summary>Technical</summary>
 
-Open: the GUI Scale is clamped to 2 after a restart under Hyprland, while XWayland keeps it ([#1866](https://github.com/horizon-rust/horizon/issues/1866)). Earlier reports covered fullscreen dropping on menu clicks, the clipboard and a white overlay ([#1007](https://github.com/horizon-rust/horizon/issues/1007), closed). Checked on a real Wayland session.
+Open: the GUI Scale is clamped to 2 after a restart under Hyprland, while XWayland keeps it ([#1866](https://github.com/glearflame/horizon/issues/1866)). Earlier reports covered fullscreen dropping on menu clicks, the clipboard and a white overlay ([#1007](https://github.com/glearflame/horizon/issues/1007), closed). Checked on a real Wayland session.
 
 </details>
 
@@ -776,7 +776,7 @@ Record, replay and edit videos without leaving the game: record in a keypress, r
 
 Three stages. Recording: capture gameplay in a keypress with an encoder thread and little frame-time cost. Replay: a replay mode for recorded sessions. Editing: cuts, camera paths, titles and export. None of it exists yet; the agent-control socket ([docs/agent-control.md](docs/agent-control.md)) already lets tools drive the game for scripted shots.
 
-More: [#10025](https://github.com/horizon-rust/horizon/issues/10025)
+More: [#10025](https://github.com/glearflame/horizon/issues/10025)
 
 </details>
 
@@ -798,7 +798,7 @@ An optional AI teammate you can talk to by voice. It plays beside you, helps or 
 
 <details><summary>Technical</summary>
 
-Draft pull requests: the companion ([#1068](https://github.com/horizon-rust/horizon/issues/1068)), its safety modes and their evaluation ([#1069](https://github.com/horizon-rust/horizon/issues/1069)) and a route that finishes the game ([#1070](https://github.com/horizon-rust/horizon/issues/1070)). In the drafts: a companion that follows, fights, mines, crafts, sleeps and respawns; chat and push-to-talk voice, with speech recognition and a choice of voices; presets (very strong, helper, beat the game); a guard model with Clean, Kid and Salty modes; perception levels from Fair to All-knowing; hardware detection with a simple mode and an Advanced tab; local models first, cloud keys optional. The No AI switch is already in the game. Left: the speedrun route doesn't finish the game reliably yet, voices for more languages, and the safety evaluation, which must pass before it ships.
+Draft pull requests: the companion ([#1068](https://github.com/glearflame/horizon/issues/1068)), its safety modes and their evaluation ([#1069](https://github.com/glearflame/horizon/issues/1069)) and a route that finishes the game ([#1070](https://github.com/glearflame/horizon/issues/1070)). In the drafts: a companion that follows, fights, mines, crafts, sleeps and respawns; chat and push-to-talk voice, with speech recognition and a choice of voices; presets (very strong, helper, beat the game); a guard model with Clean, Kid and Salty modes; perception levels from Fair to All-knowing; hardware detection with a simple mode and an Advanced tab; local models first, cloud keys optional. The No AI switch is already in the game. Left: the speedrun route doesn't finish the game reliably yet, voices for more languages, and the safety evaluation, which must pass before it ships.
 
 </details>
 
@@ -856,7 +856,7 @@ Safer releases: changes to the release machinery need the owner's review, and AI
 
 <details><summary>Technical</summary>
 
-`.github/CODEOWNERS` lists the workflows, the release and signing tools, the update-checking code and the installers ([#1015](https://github.com/horizon-rust/horizon/issues/1015)); the branch protection that makes it count waits for the `horizon-agent` GitHub App, which reads and writes code, pull requests and issues but can't change settings, workflows, secrets or members, and whose tokens last an hour. It needs the owner to create the App and switch the protection on ([docs/security.md](docs/security.md)).
+`.github/CODEOWNERS` lists the workflows, the release and signing tools, the update-checking code and the installers ([#1015](https://github.com/glearflame/horizon/issues/1015)); the branch protection that makes it count waits for the `horizon-agent` GitHub App, which reads and writes code, pull requests and issues but can't change settings, workflows, secrets or members, and whose tokens last an hour. It needs the owner to create the App and switch the protection on ([docs/security.md](docs/security.md)).
 
 </details>
 
@@ -866,9 +866,9 @@ Every download Horizon makes is checked against the project's signature, includi
 
 <details><summary>Technical</summary>
 
-Releases carry signed checksums, and the launcher and `horizon-server update` refuse anything unsigned ([#1011](https://github.com/horizon-rust/horizon/issues/1011), [#1014](https://github.com/horizon-rust/horizon/issues/1014)). Left: the first install through `install.sh` and `install.ps1` still trusts only the checksum GitHub publishes, because verifying Ed25519 signatures needs OpenSSL 3, which macOS doesn't ship ([docs/security.md](docs/security.md)).
+Releases carry signed checksums, and the launcher and `horizon-server update` refuse anything unsigned ([#1011](https://github.com/glearflame/horizon/issues/1011), [#1014](https://github.com/glearflame/horizon/issues/1014)). Left: the first install through `install.sh` and `install.ps1` still trusts only the checksum GitHub publishes, because verifying Ed25519 signatures needs OpenSSL 3, which macOS doesn't ship ([docs/security.md](docs/security.md)).
 
-More: [#10354](https://github.com/horizon-rust/horizon/issues/10354)
+More: [#10354](https://github.com/glearflame/horizon/issues/10354)
 
 </details>
 
@@ -882,7 +882,7 @@ Run Horizon's built-in benchmark and share the report: every new computer makes 
 
 <details><summary>Technical</summary>
 
-`horizon-launcher play --arg=--benchmark --arg=standard` writes a JSON report; `horizon-launcher data benchmark <report>` shows what would be sent and uploads it (playhorizon.dev/docs/performance). Results from three installs with the same hardware appear on the Benchmarks page. Example: [#1711](https://github.com/horizon-rust/horizon/issues/1711).
+`horizon-launcher play --arg=--benchmark --arg=standard` writes a JSON report; `horizon-launcher data benchmark <report>` shows what would be sent and uploads it (playhorizon.dev/docs/performance). Results from three installs with the same hardware appear on the Benchmarks page. Example: [#1711](https://github.com/glearflame/horizon/issues/1711).
 
 More: [https://playhorizon.dev/docs/performance](https://playhorizon.dev/docs/performance)
 
@@ -890,27 +890,27 @@ More: [https://playhorizon.dev/docs/performance](https://playhorizon.dev/docs/pe
 
 ## Recently shipped
 
-- **Enchanted loot in End cities** (v0.2.73): Armour and tools in End city chests should come enchanted, as in vanilla. [#1437](https://github.com/horizon-rust/horizon/issues/1437) · [#1660](https://github.com/horizon-rust/horizon/issues/1660) · [#1911](https://github.com/horizon-rust/horizon/issues/1911) · [#2037](https://github.com/horizon-rust/horizon/issues/2037)
-- **End city banners keep their pattern** (v0.2.67): Banners in End cities show as plain magenta instead of with their pattern. [#1438](https://github.com/horizon-rust/horizon/issues/1438) · [#526](https://github.com/horizon-rust/horizon/issues/526) · [#1928](https://github.com/horizon-rust/horizon/issues/1928)
-- **Play in your language** (v0.2.65): Item names, container titles and server messages follow the language you pick, as in vanilla. Today parts of the game stay in English. [#1806](https://github.com/horizon-rust/horizon/issues/1806) · [#1594](https://github.com/horizon-rust/horizon/issues/1594) · [#1672](https://github.com/horizon-rust/horizon/issues/1672)
-- **Chickens flap while they fall** (v0.2.67): Chickens should flap their wings while they fall, not stand still in the air. [#1706](https://github.com/horizon-rust/horizon/issues/1706) · [#1892](https://github.com/horizon-rust/horizon/issues/1892)
-- **Ctrl+Backspace and scroll bars in menus** (v0.2.67): Ctrl+Backspace should delete a whole word in the creative search, and every list's scroll bar should be draggable. [#1764](https://github.com/horizon-rust/horizon/issues/1764) · [#1782](https://github.com/horizon-rust/horizon/issues/1782) · [#1884](https://github.com/horizon-rust/horizon/issues/1884) · [#1931](https://github.com/horizon-rust/horizon/issues/1931)
-- **A pointing hand over buttons** (v0.2.67): The mouse pointer should turn into a pointing hand over menu buttons, as in vanilla 26.3. [#1347](https://github.com/horizon-rust/horizon/issues/1347) · [#1897](https://github.com/horizon-rust/horizon/issues/1897)
-- **Chat settings and team prefixes** (v0.2.67): The Hidden and Commands Only chat settings should hide chat, and team prefixes should appear before names in chat. [#1376](https://github.com/horizon-rust/horizon/issues/1376) · [#1378](https://github.com/horizon-rust/horizon/issues/1378) · [#1932](https://github.com/horizon-rust/horizon/issues/1932) · [#1841](https://github.com/horizon-rust/horizon/issues/1841)
-- **Cooldowns drawn on items** (v0.2.67): After you throw an ender pearl, its slot should show the cooldown sweeping away, as in vanilla. [#1763](https://github.com/horizon-rust/horizon/issues/1763) · [#1933](https://github.com/horizon-rust/horizon/issues/1933)
-- **Pre-generate an area with /pregen** (v0.2.67): A /pregen command that builds an area of the world ahead of time, so players don't wait for new terrain when they explore. [#1805](https://github.com/horizon-rust/horizon/issues/1805)
-- **Horizon's own shader format and kit** (v0.2.70): Horizon's own way to make shader packs, with tools to write and test them. Every pack is checked before it runs, and the registry will list them. [#1820](https://github.com/horizon-rust/horizon/issues/1820) · [#1822](https://github.com/horizon-rust/horizon/issues/1822) · [#1861](https://github.com/horizon-rust/horizon/issues/1861) · [#1863](https://github.com/horizon-rust/horizon/issues/1863) · [#1855](https://github.com/horizon-rust/horizon/issues/1855) · [docs/shaders.md](docs/shaders.md) · [docs/api/shaders.md](docs/api/shaders.md)
-- **Discord Rich Presence** (v0.2.58): Your Discord profile can show that you are playing Horizon, with a switch to turn it off. [#1787](https://github.com/horizon-rust/horizon/issues/1787) · [#1788](https://github.com/horizon-rust/horizon/issues/1788)
-- **Server dialogs and login screens** (v0.2.67): Servers that show dialogs, such as the register and login screens of AuthMe, will work in Horizon. [#1720](https://github.com/horizon-rust/horizon/issues/1720) · [#1734](https://github.com/horizon-rust/horizon/issues/1734) · [#1735](https://github.com/horizon-rust/horizon/issues/1735)
-- **Microsoft sign-in** (launcher@0.2.17): Sign in with your Microsoft account in the launcher to play on online-mode servers. [docs/microsoft-account.md](docs/microsoft-account.md) · [#2879](https://github.com/horizon-rust/horizon/issues/2879)
-- **HDR monitors** (v0.2.74): Output for HDR monitors: brighter highlights and richer colour where your screen supports it. [#1441](https://github.com/horizon-rust/horizon/issues/1441) · [#2021](https://github.com/horizon-rust/horizon/issues/2021) · [#2292](https://github.com/horizon-rust/horizon/issues/2292)
-- **OpenGL for old computers** (v0.2.63): Horizon now starts on old PCs whose graphics card has no Vulkan or DirectX 12 driver: it switches to OpenGL by itself, and Options > Graphics can pick OpenGL by hand. [#1917](https://github.com/horizon-rust/horizon/issues/1917) · [#1920](https://github.com/horizon-rust/horizon/issues/1920) · [#1936](https://github.com/horizon-rust/horizon/issues/1936)
-- **Server resource packs** (v0.2.48): Servers can send you their resource pack: Horizon asks, downloads it and applies it, like vanilla. [#1562](https://github.com/horizon-rust/horizon/issues/1562) · [#1569](https://github.com/horizon-rust/horizon/issues/1569) · [#1570](https://github.com/horizon-rust/horizon/issues/1570)
-- **Single player on its own server thread** (v0.2.39): Single player runs on a server thread, as vanilla does, so the world keeps ticking smoothly while the window draws. [#1514](https://github.com/horizon-rust/horizon/issues/1514) · [docs/server-levels.md](docs/server-levels.md)
-- **GPU occlusion culling on Macs** (v0.2.17): On Macs the GPU now skips terrain hidden behind hills and caves: 8 to 48% more frames per second at 32 chunks on an M4 Pro. [#1434](https://github.com/horizon-rust/horizon/issues/1434)
-- **Animated textures on the GPU** (v0.2.5): Water, lava and other animated blocks are now animated by the graphics card: 1.7 to 2.4 times better 1% lows on Intel graphics. [#1239](https://github.com/horizon-rust/horizon/issues/1239)
-- **Far Detail for integrated graphics** (v0.2.5): An optional Reduced setting for far terrain, suggested on integrated graphics, that saves 2 to 4 ms of GPU time per frame. [#1199](https://github.com/horizon-rust/horizon/issues/1199) · [#1029](https://github.com/horizon-rust/horizon/issues/1029)
-- **The launcher's mod browser** (launcher@0.2.0): Search Modrinth for mods, modpacks and resource packs from the launcher; it says before installing what works in Horizon. [#1154](https://github.com/horizon-rust/horizon/issues/1154) · [#1242](https://github.com/horizon-rust/horizon/issues/1242) · [#1243](https://github.com/horizon-rust/horizon/issues/1243) · [#1246](https://github.com/horizon-rust/horizon/issues/1246) · [docs/mod-browser.md](docs/mod-browser.md)
-- **A blocky, Minecraft-like launcher** (launcher@0.2.0): The launcher got a new blocky look in Horizon's purple, in dark and light. [#1269](https://github.com/horizon-rust/horizon/issues/1269) · [docs/design-system.md](docs/design-system.md)
-- **Dynamic lights** (v2026.10.22): An optional extra: torches you hold, drop or set on fire light up what is around them. [#1162](https://github.com/horizon-rust/horizon/issues/1162)
-- **Host a server from the launcher** (launcher-v0.15.0): The launcher's Servers page creates, starts, backs up and updates a Horizon server with buttons, and invites friends. [#1026](https://github.com/horizon-rust/horizon/issues/1026) · [docs/hosting.md](docs/hosting.md)
+- **Enchanted loot in End cities** (v0.2.73): Armour and tools in End city chests should come enchanted, as in vanilla. [#1437](https://github.com/glearflame/horizon/issues/1437) · [#1660](https://github.com/glearflame/horizon/issues/1660) · [#1911](https://github.com/glearflame/horizon/issues/1911) · [#2037](https://github.com/glearflame/horizon/issues/2037)
+- **End city banners keep their pattern** (v0.2.67): Banners in End cities show as plain magenta instead of with their pattern. [#1438](https://github.com/glearflame/horizon/issues/1438) · [#526](https://github.com/glearflame/horizon/issues/526) · [#1928](https://github.com/glearflame/horizon/issues/1928)
+- **Play in your language** (v0.2.65): Item names, container titles and server messages follow the language you pick, as in vanilla. Today parts of the game stay in English. [#1806](https://github.com/glearflame/horizon/issues/1806) · [#1594](https://github.com/glearflame/horizon/issues/1594) · [#1672](https://github.com/glearflame/horizon/issues/1672)
+- **Chickens flap while they fall** (v0.2.67): Chickens should flap their wings while they fall, not stand still in the air. [#1706](https://github.com/glearflame/horizon/issues/1706) · [#1892](https://github.com/glearflame/horizon/issues/1892)
+- **Ctrl+Backspace and scroll bars in menus** (v0.2.67): Ctrl+Backspace should delete a whole word in the creative search, and every list's scroll bar should be draggable. [#1764](https://github.com/glearflame/horizon/issues/1764) · [#1782](https://github.com/glearflame/horizon/issues/1782) · [#1884](https://github.com/glearflame/horizon/issues/1884) · [#1931](https://github.com/glearflame/horizon/issues/1931)
+- **A pointing hand over buttons** (v0.2.67): The mouse pointer should turn into a pointing hand over menu buttons, as in vanilla 26.3. [#1347](https://github.com/glearflame/horizon/issues/1347) · [#1897](https://github.com/glearflame/horizon/issues/1897)
+- **Chat settings and team prefixes** (v0.2.67): The Hidden and Commands Only chat settings should hide chat, and team prefixes should appear before names in chat. [#1376](https://github.com/glearflame/horizon/issues/1376) · [#1378](https://github.com/glearflame/horizon/issues/1378) · [#1932](https://github.com/glearflame/horizon/issues/1932) · [#1841](https://github.com/glearflame/horizon/issues/1841)
+- **Cooldowns drawn on items** (v0.2.67): After you throw an ender pearl, its slot should show the cooldown sweeping away, as in vanilla. [#1763](https://github.com/glearflame/horizon/issues/1763) · [#1933](https://github.com/glearflame/horizon/issues/1933)
+- **Pre-generate an area with /pregen** (v0.2.67): A /pregen command that builds an area of the world ahead of time, so players don't wait for new terrain when they explore. [#1805](https://github.com/glearflame/horizon/issues/1805)
+- **Horizon's own shader format and kit** (v0.2.70): Horizon's own way to make shader packs, with tools to write and test them. Every pack is checked before it runs, and the registry will list them. [#1820](https://github.com/glearflame/horizon/issues/1820) · [#1822](https://github.com/glearflame/horizon/issues/1822) · [#1861](https://github.com/glearflame/horizon/issues/1861) · [#1863](https://github.com/glearflame/horizon/issues/1863) · [#1855](https://github.com/glearflame/horizon/issues/1855) · [docs/shaders.md](docs/shaders.md) · [docs/api/shaders.md](docs/api/shaders.md)
+- **Discord Rich Presence** (v0.2.58): Your Discord profile can show that you are playing Horizon, with a switch to turn it off. [#1787](https://github.com/glearflame/horizon/issues/1787) · [#1788](https://github.com/glearflame/horizon/issues/1788)
+- **Server dialogs and login screens** (v0.2.67): Servers that show dialogs, such as the register and login screens of AuthMe, will work in Horizon. [#1720](https://github.com/glearflame/horizon/issues/1720) · [#1734](https://github.com/glearflame/horizon/issues/1734) · [#1735](https://github.com/glearflame/horizon/issues/1735)
+- **Microsoft sign-in** (launcher@0.2.17): Sign in with your Microsoft account in the launcher to play on online-mode servers. [docs/microsoft-account.md](docs/microsoft-account.md) · [#2879](https://github.com/glearflame/horizon/issues/2879)
+- **HDR monitors** (v0.2.74): Output for HDR monitors: brighter highlights and richer colour where your screen supports it. [#1441](https://github.com/glearflame/horizon/issues/1441) · [#2021](https://github.com/glearflame/horizon/issues/2021) · [#2292](https://github.com/glearflame/horizon/issues/2292)
+- **OpenGL for old computers** (v0.2.63): Horizon now starts on old PCs whose graphics card has no Vulkan or DirectX 12 driver: it switches to OpenGL by itself, and Options > Graphics can pick OpenGL by hand. [#1917](https://github.com/glearflame/horizon/issues/1917) · [#1920](https://github.com/glearflame/horizon/issues/1920) · [#1936](https://github.com/glearflame/horizon/issues/1936)
+- **Server resource packs** (v0.2.48): Servers can send you their resource pack: Horizon asks, downloads it and applies it, like vanilla. [#1562](https://github.com/glearflame/horizon/issues/1562) · [#1569](https://github.com/glearflame/horizon/issues/1569) · [#1570](https://github.com/glearflame/horizon/issues/1570)
+- **Single player on its own server thread** (v0.2.39): Single player runs on a server thread, as vanilla does, so the world keeps ticking smoothly while the window draws. [#1514](https://github.com/glearflame/horizon/issues/1514) · [docs/server-levels.md](docs/server-levels.md)
+- **GPU occlusion culling on Macs** (v0.2.17): On Macs the GPU now skips terrain hidden behind hills and caves: 8 to 48% more frames per second at 32 chunks on an M4 Pro. [#1434](https://github.com/glearflame/horizon/issues/1434)
+- **Animated textures on the GPU** (v0.2.5): Water, lava and other animated blocks are now animated by the graphics card: 1.7 to 2.4 times better 1% lows on Intel graphics. [#1239](https://github.com/glearflame/horizon/issues/1239)
+- **Far Detail for integrated graphics** (v0.2.5): An optional Reduced setting for far terrain, suggested on integrated graphics, that saves 2 to 4 ms of GPU time per frame. [#1199](https://github.com/glearflame/horizon/issues/1199) · [#1029](https://github.com/glearflame/horizon/issues/1029)
+- **The launcher's mod browser** (launcher@0.2.0): Search Modrinth for mods, modpacks and resource packs from the launcher; it says before installing what works in Horizon. [#1154](https://github.com/glearflame/horizon/issues/1154) · [#1242](https://github.com/glearflame/horizon/issues/1242) · [#1243](https://github.com/glearflame/horizon/issues/1243) · [#1246](https://github.com/glearflame/horizon/issues/1246) · [docs/mod-browser.md](docs/mod-browser.md)
+- **A blocky, Minecraft-like launcher** (launcher@0.2.0): The launcher got a new blocky look in Horizon's purple, in dark and light. [#1269](https://github.com/glearflame/horizon/issues/1269) · [docs/design-system.md](docs/design-system.md)
+- **Dynamic lights** (v2026.10.22): An optional extra: torches you hold, drop or set on fire light up what is around them. [#1162](https://github.com/glearflame/horizon/issues/1162)
+- **Host a server from the launcher** (launcher-v0.15.0): The launcher's Servers page creates, starts, backs up and updates a Horizon server with buttons, and invites friends. [#1026](https://github.com/glearflame/horizon/issues/1026) · [docs/hosting.md](docs/hosting.md)

@@ -2,7 +2,7 @@
 """Fills in the numeric GitHub IDs the comment commands decide by (tools/ci/nightly_set.py).
 
     resolve_reviewer_ids.py           every `<login>` line of .github/trusted-reviewers.txt becomes `<id> <login>`,
-                                      and OWNER_ID in tools/ci/nightly_set.py gets ludovic111's ID
+                                      and OWNER_ID in tools/ci/nightly_set.py gets glearflame's ID
     resolve_reviewer_ids.py --check   changes nothing: fails if a listed ID's account now has another login (a rename:
                                       look at it before keeping the line) or no longer exists
 

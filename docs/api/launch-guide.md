@@ -14,7 +14,7 @@ launcher downloads them (step 3), it does so only for that owner, as it would fo
 
 ## 1. Pick a build
 
-Builds are GitHub releases of `horizon-rust/horizon`, one archive per platform:
+Builds are GitHub releases of `glearflame/horizon`, one archive per platform:
 
 | Platform | Archive |
 | --- | --- |

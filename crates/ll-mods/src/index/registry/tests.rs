@@ -28,9 +28,9 @@ name = "Coordinates HUD"
 summary = "Your coordinates, facing and the time of day in a corner of the screen."
 description = "`/where` puts them in chat, `/coords` hides or shows the panel."
 authors = ["Horizon"]
-owners = ["ludovic111"]
+owners = ["glearflame"]
 license = "MIT"
-source = "https://github.com/horizon-rust/horizon/tree/main/crates/horizon-mod-sdk/examples/coords-hud"
+source = "https://github.com/glearflame/horizon/tree/main/crates/horizon-mod-sdk/examples/coords-hud"
 icon = "icons/coords_hud.png"
 categories = ["utility"]
 key = "RWTVtuGb/GRXcBf3Re5hzM07EzoStr2sLTJjghJia0xX15ULoZRFFZDb"
@@ -54,9 +54,9 @@ description = "Coordinates HUD with a calm render distance, played together as o
 categories = ["lightweight"]
 icon = "icons/cozy.png"
 authors = ["Horizon"]
-owners = ["ludovic111"]
+owners = ["glearflame"]
 license = "MIT"
-source = "https://github.com/horizon-rust/horizon-mods"
+source = "https://github.com/glearflame/horizon-mods"
 
 [[versions]]
 version = "1.0.0"
@@ -74,9 +74,9 @@ description = "A soft bloom drawn over the world after it renders, in Horizon's 
 categories = ["bloom"]
 icon = "icons/glow.png"
 authors = ["Horizon"]
-owners = ["ludovic111"]
+owners = ["glearflame"]
 license = "MIT"
-source = "https://github.com/horizon-rust/horizon-mods"
+source = "https://github.com/glearflame/horizon-mods"
 
 [[versions]]
 version = "1.0.0"
@@ -147,7 +147,7 @@ impl Scratch {
             registry: &repo,
             files: &files,
             release: super::super::FILE_HOST,
-            site: "https://horizon-rust.github.io/horizon-mods/",
+            site: "https://glearflame.github.io/horizon-mods/",
             generated: "2026-10-24T18:00:00Z".into(),
         })
     }
@@ -247,20 +247,20 @@ fn an_entry_written_reads_back() {
 #[test]
 fn owners_and_owner_ids_must_name_the_same_accounts() {
     let entry = |extra: &str| -> Entry {
-        toml::from_str(&hud_entry().replacen("owners = [\"ludovic111\"]", extra, 1)).unwrap()
+        toml::from_str(&hud_entry().replacen("owners = [\"glearflame\"]", extra, 1)).unwrap()
     };
     let mismatch = |e: &Entry| e.check_fields().iter().any(|m| m.contains("owner_ids"));
     // No IDs yet (older entries), or one ID per login: fine.
-    assert!(!mismatch(&entry(r#"owners = ["ludovic111"]"#)));
+    assert!(!mismatch(&entry(r#"owners = ["glearflame"]"#)));
     assert!(!mismatch(&entry(
-        "owner_ids = [136255825, 583231]\nowners = [\"ludovic111\", \"someone\"]"
+        "owner_ids = [136255825, 583231]\nowners = [\"glearflame\", \"someone\"]"
     )));
     // A co-owner added to `owners` alone would silently not be an owner: refused when it's made.
     assert!(mismatch(&entry(
-        "owner_ids = [136255825]\nowners = [\"ludovic111\", \"someone\"]"
+        "owner_ids = [136255825]\nowners = [\"glearflame\", \"someone\"]"
     )));
     assert!(mismatch(&entry(
-        "owner_ids = [136255825, 583231]\nowners = [\"ludovic111\"]"
+        "owner_ids = [136255825, 583231]\nowners = [\"glearflame\"]"
     )));
 }
 
@@ -281,7 +281,7 @@ fn owner_ids_are_optional_and_kept() {
     let r = review(
         std::slice::from_ref(&old),
         std::slice::from_ref(&new),
-        "ludovic111",
+        "glearflame",
     );
     assert!(
         r.notes
@@ -303,7 +303,7 @@ fn a_review_protects_published_files() {
     let mut next = update.versions[0].clone();
     next.version = "0.2.0".into();
     update.versions.insert(0, next);
-    let r = review(one, std::slice::from_ref(&update), "ludovic111");
+    let r = review(one, std::slice::from_ref(&update), "glearflame");
     assert!(r.errors.is_empty(), "{r:?}");
     assert_eq!(r.notes, ["coords_hud: 1 new version(s)"]);
     let r = review(one, &[update], "stranger");
@@ -313,7 +313,7 @@ fn a_review_protects_published_files() {
     swapped.versions[0].sha256 = HPACK.into();
     swapped.kind = Kind::ResourcePack;
     swapped.key = None;
-    let r = review(&[base.clone(), cozy.clone()], &[swapped], "ludovic111");
+    let r = review(&[base.clone(), cozy.clone()], &[swapped], "glearflame");
     assert_eq!(r.errors.len(), 3, "{r:?}");
     assert!(r.errors.iter().any(|e| e.contains("cozy: removed")));
     assert!(r.errors.iter().any(|e| e.contains("never changes")));
@@ -321,7 +321,7 @@ fn a_review_protects_published_files() {
     assert!(r.notes.iter().any(|n| n.contains("signing key")));
 
     let r = review(&[], &[cozy], "newcomer");
-    assert_eq!(r.notes, ["cozy: a new modpack by ludovic111"]);
+    assert_eq!(r.notes, ["cozy: a new modpack by glearflame"]);
 }
 
 #[test]
@@ -364,7 +364,7 @@ fn a_mod_may_turn_native_once() {
     let r = review(
         std::slice::from_ref(&base),
         std::slice::from_ref(&native),
-        "ludovic111",
+        "glearflame",
     );
     assert!(r.errors.is_empty(), "{r:?}");
     assert!(r.notes.iter().any(|n| n.contains("turns native")), "{r:?}");
@@ -390,7 +390,7 @@ fn a_mod_may_turn_native_once() {
     );
     std::fs::remove_file(unified).unwrap();
     // And never back.
-    let r = review(&[native], &[base], "ludovic111");
+    let r = review(&[native], &[base], "glearflame");
     assert!(
         r.errors.iter().any(|e| e.contains("kind can't change")),
         "{r:?}"
@@ -410,7 +410,7 @@ fn page_fields_and_screenshots_reach_the_index() {
     assert_eq!(p.tags, ["hud", "coordinates"]);
     assert_eq!(
         p.screenshots,
-        ["https://horizon-rust.github.io/horizon-mods/screenshots/coords_hud/1.png"]
+        ["https://glearflame.github.io/horizon-mods/screenshots/coords_hud/1.png"]
     );
     Index::parse(&serde_json::to_string(&built).unwrap()).unwrap();
 

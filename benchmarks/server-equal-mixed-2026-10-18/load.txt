@@ -5,7 +5,7 @@ macmini ok: 25.9 GB free, 14 threads 73% busy, 1 sessions
 macbook offline
   RAM   27.0 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 42% busy (agents 0.0, rest 1.6 cores) · 80°C · load 5.9
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:33:44Z
 ludothinkpad ok: 26.7 GB free, 4 threads 19% busy, 0 sessions
@@ -14,7 +14,7 @@ macmini busy: 26.7 GB free, 14 threads 93% busy, 1 sessions
 macbook offline
   RAM   26.7 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 34% busy (agents 0.0, rest 1.7 cores) · 81°C · load 4.0
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:34:48Z
 ludothinkpad ok: 26.4 GB free, 4 threads 56% busy, 0 sessions
@@ -23,7 +23,7 @@ macmini busy: 26.9 GB free, 14 threads 90% busy, 1 sessions
 macbook offline
   RAM   26.4 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 54% busy (agents 0.0, rest 2.2 cores) · 79°C · load 2.8
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:35:52Z
 ludothinkpad ok: 26.7 GB free, 4 threads 27% busy, 0 sessions
@@ -32,7 +32,7 @@ macmini ok: 25.4 GB free, 14 threads 85% busy, 1 sessions
 macbook offline
   RAM   26.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 30% busy (agents 0.0, rest 1.1 cores) · 82°C · load 2.2
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:36:57Z
 ludothinkpad ok: 26.7 GB free, 4 threads 25% busy, 0 sessions
@@ -41,7 +41,7 @@ macmini busy: 25.4 GB free, 14 threads 93% busy, 1 sessions
 macbook offline
   RAM   26.7 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 37% busy (agents 0.0, rest 1.2 cores) · 80°C · load 1.5
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:38:01Z
 ludothinkpad ok: 26.6 GB free, 4 threads 54% busy, 0 sessions
@@ -50,7 +50,7 @@ macmini ok: 26.7 GB free, 14 threads 64% busy, 1 sessions
 macbook offline
   RAM   26.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 21% busy (agents 0.0, rest 1.2 cores) · 81°C · load 1.9
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:39:05Z
 ludothinkpad ok: 26.7 GB free, 4 threads 20% busy, 0 sessions
@@ -59,7 +59,7 @@ macmini ok: 26.1 GB free, 14 threads 70% busy, 1 sessions
 macbook offline
   RAM   26.7 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 28% busy (agents 0.0, rest 1.0 cores) · 81°C · load 1.3
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:40:10Z
 ludothinkpad ok: 26.7 GB free, 4 threads 39% busy, 0 sessions
@@ -68,7 +68,7 @@ macmini ok: 29.2 GB free, 14 threads 73% busy, 1 sessions
 macbook offline
   RAM   26.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 32% busy (agents 0.0, rest 1.7 cores) · 80°C · load 0.9
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:41:14Z
 ludothinkpad ok: 26.7 GB free, 4 threads 31% busy, 0 sessions
@@ -77,7 +77,7 @@ macmini ok: 28.8 GB free, 14 threads 77% busy, 1 sessions
 macbook offline
   RAM   26.7 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 15% busy (agents 0.0, rest 1.1 cores) · 82°C · load 1.3
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:42:19Z
 ludothinkpad ok: 26.5 GB free, 4 threads 26% busy, 0 sessions
@@ -86,7 +86,7 @@ macmini busy: 26.1 GB free, 14 threads 94% busy, 1 sessions
 macbook offline
   RAM   26.2 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 30% busy (agents 0.0, rest 1.3 cores) · 78°C · load 1.1
-  ·     disk 289.6 GB free · battery 96% · Ludovic: away
+  ·     disk 289.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:43:23Z
 ludothinkpad busy: 26.7 GB free, 4 threads 99% busy, 0 sessions
@@ -95,7 +95,7 @@ macmini ok: 28.2 GB free, 14 threads 83% busy, 1 sessions
 macbook offline
   RAM   26.3 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 99% busy (agents 0.0, rest 3.8 cores) · 86°C · load 2.4
-  ·     disk 289.6 GB free · battery 96% · Ludovic: away
+  ·     disk 289.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:44:27Z
 ludothinkpad busy: 25.2 GB free, 4 threads 98% busy, 0 sessions
@@ -104,7 +104,7 @@ macmini ok: 29.0 GB free, 14 threads 73% busy, 1 sessions
 macbook offline
   RAM   24.9 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 83% busy (agents 0.0, rest 3.7 cores) · 83°C · load 5.5
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:45:31Z
 ludothinkpad ok: 24.5 GB free, 4 threads 39% busy, 0 sessions
@@ -113,7 +113,7 @@ macmini busy: 27.0 GB free, 14 threads 93% busy, 1 sessions
 macbook offline
   RAM   24.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 34% busy (agents 0.0, rest 1.5 cores) · 84°C · load 3.5
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:46:35Z
 ludothinkpad ok: 23.7 GB free, 4 threads 69% busy, 0 sessions
@@ -122,7 +122,7 @@ macmini busy: 26.2 GB free, 14 threads 90% busy, 1 sessions
 macbook offline
   RAM   23.8 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 75% busy (agents 0.0, rest 2.8 cores) · 87°C · load 2.7
-  ·     disk 289.5 GB free · battery 96% · Ludovic: away
+  ·     disk 289.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:47:40Z
 ludothinkpad ok: 23.8 GB free, 4 threads 66% busy, 0 sessions
@@ -131,7 +131,7 @@ macmini busy: 25.9 GB free, 14 threads 85% busy, 1 sessions
 macbook offline
   RAM   23.8 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 59% busy (agents 0.0, rest 2.5 cores) · 83°C · load 2.9
-  ·     disk 291.7 GB free · battery 96% · Ludovic: away
+  ·     disk 291.7 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:48:44Z
 ludothinkpad ok: 24.2 GB free, 4 threads 61% busy, 0 sessions
@@ -140,7 +140,7 @@ macmini busy: 29.0 GB free, 14 threads 90% busy, 1 sessions
 macbook offline
   RAM   24.3 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 62% busy (agents 0.0, rest 2.5 cores) · 84°C · load 3.2
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:49:48Z
 ludothinkpad ok: 25.1 GB free, 4 threads 59% busy, 0 sessions
@@ -149,7 +149,7 @@ macmini ok: 31.1 GB free, 14 threads 81% busy, 1 sessions
 macbook offline
   RAM   25.1 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 57% busy (agents 0.0, rest 2.4 cores) · 85°C · load 2.9
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:50:52Z
 ludothinkpad ok: 25.7 GB free, 4 threads 39% busy, 0 sessions
@@ -158,7 +158,7 @@ macmini busy: 28.4 GB free, 14 threads 88% busy, 2 sessions
 macbook offline
   RAM   25.8 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 18% busy (agents 0.0, rest 1.4 cores) · 67°C · load 2.4
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:51:57Z
 ludothinkpad ok: 23.7 GB free, 4 threads 40% busy, 0 sessions
@@ -167,7 +167,7 @@ macmini ok: 27.9 GB free, 14 threads 83% busy, 1 sessions
 macbook offline
   RAM   23.7 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 23% busy (agents 0.0, rest 1.4 cores) · 81°C · load 1.8
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:53:01Z
 ludothinkpad ok: 25.3 GB free, 4 threads 25% busy, 0 sessions
@@ -176,7 +176,7 @@ macmini ok: 27.1 GB free, 14 threads 84% busy, 1 sessions
 macbook offline
   RAM   25.1 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 31% busy (agents 0.0, rest 1.2 cores) · 80°C · load 1.8
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:54:05Z
 ludothinkpad ok: 26.5 GB free, 4 threads 75% busy, 0 sessions
@@ -185,7 +185,7 @@ macmini busy: 27.1 GB free, 14 threads 91% busy, 1 sessions
 macbook offline
   RAM   26.5 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 69% busy (agents 0.0, rest 2.5 cores) · 78°C · load 2.3
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:55:09Z
 ludothinkpad busy: 26.4 GB free, 4 threads 89% busy, 0 sessions
@@ -194,7 +194,7 @@ macmini busy: 26.3 GB free, 14 threads 86% busy, 1 sessions
 macbook offline
   RAM   26.3 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 32% busy (agents 0.0, rest 2.4 cores) · 79°C · load 2.9
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:56:14Z
 ludothinkpad ok: 26.4 GB free, 4 threads 39% busy, 0 sessions
@@ -203,7 +203,7 @@ macmini ok: 27.1 GB free, 14 threads 68% busy, 1 sessions
 macbook offline
   RAM   26.4 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 63% busy (agents 0.0, rest 1.8 cores) · 82°C · load 2.3
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:57:18Z
 ludothinkpad ok: 26.3 GB free, 4 threads 20% busy, 0 sessions
@@ -212,7 +212,7 @@ macmini busy: 29.2 GB free, 14 threads 85% busy, 1 sessions
 macbook offline
   RAM   26.3 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 19% busy (agents 0.0, rest 1.0 cores) · 80°C · load 1.8
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:58:22Z
 ludothinkpad ok: 26.3 GB free, 4 threads 28% busy, 0 sessions
@@ -221,7 +221,7 @@ macmini busy: 27.3 GB free, 14 threads 88% busy, 1 sessions
 macbook offline
   RAM   26.1 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 93% busy (agents 0.0, rest 2.5 cores) · 80°C · load 2.0
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T19:59:27Z
 ludothinkpad ok: 26.2 GB free, 4 threads 52% busy, 0 sessions
@@ -230,7 +230,7 @@ macmini ok: 35.0 GB free, 14 threads 85% busy, 1 sessions
 macbook offline
   RAM   26.2 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 22% busy (agents 0.0, rest 1.8 cores) · 80°C · load 3.6
-  ·     disk 291.4 GB free · battery 96% · Ludovic: away
+  ·     disk 291.4 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:00:31Z
 ludothinkpad busy: 25.8 GB free, 4 threads 87% busy, 0 sessions
@@ -239,7 +239,7 @@ macmini busy: 33.0 GB free, 14 threads 87% busy, 1 sessions
 macbook offline
   RAM   27.5 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 51% busy (agents 0.0, rest 2.9 cores) · 79°C · load 3.6
-  ·     disk 291.5 GB free · battery 96% · Ludovic: away
+  ·     disk 291.5 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:01:35Z
 ludothinkpad ok: 25.6 GB free, 4 threads 35% busy, 0 sessions
@@ -248,7 +248,7 @@ macmini ok: 32.4 GB free, 14 threads 81% busy, 1 sessions
 macbook ok: 7.2 GB free, 12 threads 32% busy, 0 sessions
   RAM   25.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 34% busy (agents 0.0, rest 1.3 cores) · 81°C · load 2.5
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:02:40Z
 ludothinkpad ok: 26.6 GB free, 4 threads 35% busy, 0 sessions
@@ -257,7 +257,7 @@ macmini ok: 29.2 GB free, 14 threads 79% busy, 1 sessions
 macbook ok: 6.5 GB free, 12 threads 39% busy, 0 sessions
   RAM   26.5 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 33% busy (agents 0.0, rest 1.3 cores) · 81°C · load 2.7
-  ·     disk 291.6 GB free · battery 96% · Ludovic: away
+  ·     disk 291.6 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:03:44Z
 ludothinkpad ok: 25.5 GB free, 4 threads 56% busy, 0 sessions
@@ -266,7 +266,7 @@ macmini busy: 31.1 GB free, 14 threads 89% busy, 1 sessions
 macbook ok: 6.8 GB free, 12 threads 6% busy, 0 sessions
   RAM   25.2 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 66% busy (agents 0.0, rest 2.5 cores) · 87°C · load 2.5
-  ·     disk 291.3 GB free · battery 96% · Ludovic: away
+  ·     disk 291.3 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:04:48Z
 ludothinkpad busy: 26.2 GB free, 4 threads 99% busy, 0 sessions
@@ -275,7 +275,7 @@ macmini busy: 30.0 GB free, 14 threads 89% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 31% busy, 0 sessions
   RAM   25.8 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 84% busy (agents 0.0, rest 3.7 cores) · 85°C · load 3.4
-  ·     disk 291.3 GB free · battery 96% · Ludovic: away
+  ·     disk 291.3 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:05:52Z
 ludothinkpad busy: 24.5 GB free, 4 threads 100% busy, 0 sessions
@@ -284,7 +284,7 @@ macmini busy: 34.1 GB free, 14 threads 89% busy, 1 sessions
 macbook ok: 6.6 GB free, 12 threads 10% busy, 0 sessions
   RAM   24.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 100% busy (agents 0.0, rest 4.0 cores) · 83°C · load 9.0
-  ·     disk 291.0 GB free · battery 96% · Ludovic: away
+  ·     disk 291.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:06:57Z
 ludothinkpad busy: 23.5 GB free, 4 threads 100% busy, 0 sessions
@@ -293,7 +293,7 @@ macmini busy: 28.3 GB free, 14 threads 88% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 5% busy, 0 sessions
   RAM   23.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 99% busy (agents 0.0, rest 4.0 cores) · 82°C · load 10.1
-  ·     disk 309.2 GB free · battery 96% · Ludovic: away
+  ·     disk 309.2 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:08:01Z
 ludothinkpad busy: 23.4 GB free, 4 threads 88% busy, 0 sessions
@@ -302,7 +302,7 @@ macmini ok: 29.6 GB free, 14 threads 83% busy, 1 sessions
 macbook ok: 6.6 GB free, 12 threads 2% busy, 0 sessions
   RAM   23.4 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 77% busy (agents 0.0, rest 3.4 cores) · 84°C · load 7.5
-  ·     disk 309.2 GB free · battery 96% · Ludovic: away
+  ·     disk 309.2 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:09:05Z
 ludothinkpad busy: 24.0 GB free, 4 threads 89% busy, 0 sessions
@@ -311,7 +311,7 @@ macmini ok: 25.9 GB free, 14 threads 83% busy, 1 sessions
 macbook ok: 7.1 GB free, 12 threads 19% busy, 0 sessions
   RAM   23.9 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 91% busy (agents 0.0, rest 3.6 cores) · 82°C · load 5.9
-  ·     disk 309.1 GB free · battery 96% · Ludovic: away
+  ·     disk 309.1 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:10:09Z
 ludothinkpad busy: 24.0 GB free, 4 threads 98% busy, 0 sessions
@@ -320,7 +320,7 @@ macmini busy: 27.1 GB free, 14 threads 88% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 19% busy, 0 sessions
   RAM   24.0 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 92% busy (agents 0.0, rest 3.7 cores) · 84°C · load 6.6
-  ·     disk 309.1 GB free · battery 96% · Ludovic: away
+  ·     disk 309.1 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:11:14Z
 ludothinkpad busy: 24.3 GB free, 4 threads 92% busy, 0 sessions
@@ -329,7 +329,7 @@ macmini ok: 26.3 GB free, 14 threads 84% busy, 1 sessions
 macbook ok: 6.6 GB free, 12 threads 18% busy, 0 sessions
   RAM   24.4 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 99% busy (agents 0.0, rest 3.7 cores) · 85°C · load 6.5
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:12:18Z
 ludothinkpad busy: 24.7 GB free, 4 threads 89% busy, 0 sessions
@@ -338,7 +338,7 @@ macmini ok: 28.6 GB free, 14 threads 78% busy, 1 sessions
 macbook ok: 7.3 GB free, 12 threads 20% busy, 0 sessions
   RAM   24.7 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 82% busy (agents 0.0, rest 3.4 cores) · 84°C · load 6.1
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:13:22Z
 ludothinkpad ok: 23.4 GB free, 4 threads 53% busy, 0 sessions
@@ -347,7 +347,7 @@ macmini ok: 28.1 GB free, 14 threads 77% busy, 1 sessions
 macbook ok: 7.3 GB free, 12 threads 20% busy, 0 sessions
   RAM   23.4 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 48% busy (agents 0.0, rest 2.4 cores) · 80°C · load 4.2
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:14:27Z
 ludothinkpad ok: 24.0 GB free, 4 threads 44% busy, 0 sessions
@@ -356,7 +356,7 @@ macmini ok: 28.0 GB free, 14 threads 71% busy, 1 sessions
 macbook ok: 6.9 GB free, 12 threads 2% busy, 0 sessions
   RAM   24.1 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 23% busy (agents 0.0, rest 2.0 cores) · 77°C · load 4.3
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:15:31Z
 ludothinkpad ok: 22.7 GB free, 4 threads 31% busy, 0 sessions
@@ -365,7 +365,7 @@ macmini busy: 27.2 GB free, 14 threads 86% busy, 1 sessions
 macbook ok: 6.9 GB free, 12 threads 19% busy, 0 sessions
   RAM   22.5 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 30% busy (agents 0.0, rest 1.3 cores) · 77°C · load 2.6
-  ·     disk 309.1 GB free · battery 96% · Ludovic: away
+  ·     disk 309.1 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:16:35Z
 ludothinkpad ok: 26.8 GB free, 4 threads 37% busy, 0 sessions
@@ -374,7 +374,7 @@ macmini ok: 28.6 GB free, 14 threads 82% busy, 1 sessions
 macbook ok: 6.8 GB free, 12 threads 9% busy, 0 sessions
   RAM   26.8 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 42% busy (agents 0.0, rest 1.7 cores) · 81°C · load 2.3
-  ·     disk 309.1 GB free · battery 96% · Ludovic: away
+  ·     disk 309.1 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:17:39Z
 ludothinkpad ok: 26.3 GB free, 4 threads 63% busy, 0 sessions
@@ -383,7 +383,7 @@ macmini ok: 26.8 GB free, 14 threads 78% busy, 1 sessions
 macbook ok: 7.0 GB free, 12 threads 19% busy, 0 sessions
   RAM   26.4 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 64% busy (agents 0.0, rest 2.6 cores) · 87°C · load 1.9
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:18:43Z
 ludothinkpad ok: 26.9 GB free, 4 threads 37% busy, 0 sessions
@@ -392,7 +392,7 @@ macmini busy: 32.2 GB free, 14 threads 87% busy, 1 sessions
 macbook ok: 7.0 GB free, 12 threads 10% busy, 0 sessions
   RAM   26.9 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 56% busy (agents 0.0, rest 1.9 cores) · 84°C · load 3.9
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:19:48Z
 ludothinkpad ok: 26.0 GB free, 4 threads 77% busy, 0 sessions
@@ -401,7 +401,7 @@ macmini ok: 29.2 GB free, 14 threads 83% busy, 1 sessions
 macbook ok: 7.0 GB free, 12 threads 10% busy, 0 sessions
   RAM   26.0 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 66% busy (agents 0.0, rest 2.9 cores) · 86°C · load 3.2
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:20:52Z
 ludothinkpad ok: 25.9 GB free, 4 threads 80% busy, 0 sessions
@@ -410,7 +410,7 @@ macmini ok: 26.8 GB free, 14 threads 84% busy, 1 sessions
 macbook ok: 7.0 GB free, 12 threads 17% busy, 0 sessions
   RAM   25.9 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 68% busy (agents 0.0, rest 3.2 cores) · 86°C · load 4.4
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:21:56Z
 ludothinkpad ok: 26.3 GB free, 4 threads 63% busy, 0 sessions
@@ -419,7 +419,7 @@ macmini ok: 26.3 GB free, 14 threads 77% busy, 1 sessions
 macbook ok: 6.8 GB free, 12 threads 14% busy, 0 sessions
   RAM   26.3 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 66% busy (agents 0.0, rest 2.8 cores) · 84°C · load 3.1
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:23:00Z
 ludothinkpad ok: 26.8 GB free, 4 threads 74% busy, 0 sessions
@@ -428,7 +428,7 @@ macmini ok: 26.1 GB free, 14 threads 82% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 11% busy, 0 sessions
   RAM   26.7 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 65% busy (agents 0.0, rest 2.8 cores) · 84°C · load 5.0
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:24:05Z
 ludothinkpad ok: 26.9 GB free, 4 threads 64% busy, 0 sessions
@@ -437,7 +437,7 @@ macmini busy: 28.3 GB free, 14 threads 90% busy, 1 sessions
 macbook ok: 6.8 GB free, 12 threads 8% busy, 0 sessions
   RAM   26.9 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 64% busy (agents 0.0, rest 2.7 cores) · 86°C · load 4.9
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:25:09Z
 ludothinkpad ok: 26.0 GB free, 4 threads 56% busy, 0 sessions
@@ -446,7 +446,7 @@ macmini busy: 26.2 GB free, 14 threads 88% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 12% busy, 0 sessions
   RAM   26.0 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 49% busy (agents 0.0, rest 2.1 cores) · 72°C · load 5.5
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:26:13Z
 ludothinkpad ok: 25.8 GB free, 4 threads 47% busy, 0 sessions
@@ -455,7 +455,7 @@ macmini ok: 27.8 GB free, 14 threads 78% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 8% busy, 0 sessions
   RAM   25.8 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 56% busy (agents 0.0, rest 2.1 cores) · 78°C · load 3.1
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:27:18Z
 ludothinkpad busy: 25.5 GB free, 4 threads 94% busy, 0 sessions
@@ -464,7 +464,7 @@ macmini ok: 26.6 GB free, 14 threads 82% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 17% busy, 0 sessions
   RAM   25.4 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 100% busy (agents 0.0, rest 3.9 cores) · 78°C · load 4.7
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:28:22Z
 ludothinkpad busy: 24.6 GB free, 4 threads 100% busy, 0 sessions
@@ -473,7 +473,7 @@ macmini ok: 26.4 GB free, 14 threads 80% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 8% busy, 0 sessions
   RAM   24.2 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 99% busy (agents 0.0, rest 4.0 cores) · 77°C · load 10.5
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:29:27Z
 ludothinkpad busy: 24.3 GB free, 4 threads 100% busy, 0 sessions
@@ -482,7 +482,7 @@ macmini ok: 29.8 GB free, 14 threads 80% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 8% busy, 0 sessions
   RAM   24.0 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 99% busy (agents 0.0, rest 4.0 cores) · 82°C · load 10.0
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:30:31Z
 ludothinkpad busy: 23.7 GB free, 4 threads 91% busy, 0 sessions
@@ -491,7 +491,7 @@ macmini ok: 30.1 GB free, 14 threads 71% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 9% busy, 0 sessions
   RAM   23.7 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 94% busy (agents 0.0, rest 3.8 cores) · 80°C · load 10.3
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:31:36Z
 ludothinkpad busy: 23.6 GB free, 4 threads 93% busy, 0 sessions
@@ -500,7 +500,7 @@ macmini ok: 28.0 GB free, 14 threads 81% busy, 1 sessions
 macbook ok: 6.6 GB free, 12 threads 14% busy, 0 sessions
   RAM   23.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 95% busy (agents 0.0, rest 3.7 cores) · 80°C · load 10.7
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:32:40Z
 ludothinkpad busy: 23.6 GB free, 4 threads 94% busy, 0 sessions
@@ -509,7 +509,7 @@ macmini ok: 26.9 GB free, 14 threads 76% busy, 1 sessions
 macbook ok: 6.8 GB free, 12 threads 22% busy, 0 sessions
   RAM   23.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 84% busy (agents 0.0, rest 3.5 cores) · 80°C · load 9.7
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:33:45Z
 ludothinkpad ok: 25.2 GB free, 4 threads 51% busy, 0 sessions
@@ -518,7 +518,7 @@ macmini ok: 27.1 GB free, 14 threads 82% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 17% busy, 0 sessions
   RAM   25.2 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 48% busy (agents 0.0, rest 2.1 cores) · 87°C · load 6.5
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:34:49Z
 ludothinkpad ok: 25.1 GB free, 4 threads 56% busy, 0 sessions
@@ -527,7 +527,7 @@ macmini busy: 28.2 GB free, 14 threads 87% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 17% busy, 0 sessions
   RAM   24.5 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 78% busy (agents 0.0, rest 2.7 cores) · 88°C · load 4.0
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:35:53Z
 ludothinkpad busy: 23.6 GB free, 4 threads 86% busy, 0 sessions
@@ -536,7 +536,7 @@ macmini busy: 27.9 GB free, 14 threads 86% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 17% busy, 0 sessions
   RAM   23.7 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 88% busy (agents 0.0, rest 3.3 cores) · 85°C · load 4.9
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:36:58Z
 ludothinkpad ok: 23.6 GB free, 4 threads 75% busy, 0 sessions
@@ -545,7 +545,7 @@ macmini ok: 29.4 GB free, 14 threads 84% busy, 1 sessions
 macbook ok: 6.5 GB free, 12 threads 18% busy, 0 sessions
   RAM   23.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 85% busy (agents 0.0, rest 3.2 cores) · 85°C · load 5.1
-  ·     disk 309.0 GB free · battery 96% · Ludovic: away
+  ·     disk 309.0 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:38:02Z
 ludothinkpad ok: 22.6 GB free, 4 threads 55% busy, 0 sessions
@@ -554,7 +554,7 @@ macmini ok: 26.5 GB free, 14 threads 80% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 10% busy, 0 sessions
   RAM   22.3 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 54% busy (agents 0.0, rest 2.2 cores) · 85°C · load 4.5
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:39:06Z
 ludothinkpad ok: 27.2 GB free, 4 threads 55% busy, 0 sessions
@@ -563,7 +563,7 @@ macmini busy: 29.5 GB free, 14 threads 85% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 9% busy, 0 sessions
   RAM   27.3 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 48% busy (agents 0.0, rest 2.2 cores) · 87°C · load 4.0
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:40:10Z
 ludothinkpad ok: 26.2 GB free, 4 threads 72% busy, 0 sessions
@@ -572,7 +572,7 @@ macmini ok: 27.7 GB free, 14 threads 84% busy, 1 sessions
 macbook ok: 6.6 GB free, 12 threads 19% busy, 0 sessions
   RAM   26.3 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 80% busy (agents 0.0, rest 3.1 cores) · 86°C · load 10.8
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:41:15Z
 ludothinkpad busy: 26.4 GB free, 4 threads 86% busy, 0 sessions
@@ -581,7 +581,7 @@ macmini ok: 28.5 GB free, 14 threads 79% busy, 1 sessions
 macbook ok: 6.6 GB free, 12 threads 10% busy, 0 sessions
   RAM   26.4 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 90% busy (agents 0.0, rest 3.4 cores) · 86°C · load 12.8
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:42:19Z
 ludothinkpad ok: 26.2 GB free, 4 threads 82% busy, 0 sessions
@@ -590,7 +590,7 @@ macmini ok: 26.9 GB free, 14 threads 78% busy, 1 sessions
 macbook ok: 6.6 GB free, 12 threads 11% busy, 0 sessions
   RAM   26.2 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 74% busy (agents 0.0, rest 3.3 cores) · 85°C · load 8.8
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:43:23Z
 ludothinkpad busy: 26.7 GB free, 4 threads 93% busy, 0 sessions
@@ -599,7 +599,7 @@ macmini ok: 27.3 GB free, 14 threads 81% busy, 1 sessions
 macbook ok: 6.6 GB free, 12 threads 10% busy, 0 sessions
   RAM   26.7 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 88% busy (agents 0.0, rest 3.4 cores) · 85°C · load 5.4
-  ·     disk 308.9 GB free · battery 96% · Ludovic: away
+  ·     disk 308.9 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:44:27Z
 ludothinkpad ok: 27.0 GB free, 4 threads 82% busy, 0 sessions
@@ -608,7 +608,7 @@ macmini busy: 26.9 GB free, 14 threads 87% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 13% busy, 0 sessions
   RAM   27.0 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 75% busy (agents 0.0, rest 3.3 cores) · 82°C · load 9.8
-  ·     disk 308.8 GB free · battery 96% · Ludovic: away
+  ·     disk 308.8 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:45:32Z
 ludothinkpad ok: 27.2 GB free, 4 threads 76% busy, 0 sessions
@@ -617,7 +617,7 @@ macmini ok: 26.8 GB free, 14 threads 80% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 10% busy, 0 sessions
   RAM   27.2 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 84% busy (agents 0.0, rest 3.2 cores) · 85°C · load 6.9
-  ·     disk 308.8 GB free · battery 96% · Ludovic: away
+  ·     disk 308.8 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:46:36Z
 ludothinkpad busy: 27.1 GB free, 4 threads 87% busy, 0 sessions
@@ -626,7 +626,7 @@ macmini busy: 26.8 GB free, 14 threads 92% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 9% busy, 0 sessions
   RAM   26.8 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 85% busy (agents 0.0, rest 3.2 cores) · 82°C · load 4.4
-  ·     disk 308.8 GB free · battery 96% · Ludovic: away
+  ·     disk 308.8 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:47:40Z
 ludothinkpad busy: 25.3 GB free, 4 threads 86% busy, 0 sessions
@@ -635,7 +635,7 @@ macmini ok: 26.5 GB free, 14 threads 72% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 9% busy, 0 sessions
   RAM   25.5 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 85% busy (agents 0.0, rest 3.4 cores) · 86°C · load 3.7
-  ·     disk 308.8 GB free · battery 96% · Ludovic: away
+  ·     disk 308.8 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:48:45Z
 ludothinkpad busy: 26.1 GB free, 4 threads 100% busy, 0 sessions
@@ -644,7 +644,7 @@ macmini ok: 28.5 GB free, 14 threads 84% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 15% busy, 0 sessions
   RAM   26.1 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 98% busy (agents 0.0, rest 3.9 cores) · 80°C · load 6.5
-  ·     disk 308.8 GB free · battery 96% · Ludovic: away
+  ·     disk 308.8 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:49:50Z
 ludothinkpad ok: 26.8 GB free, 4 threads 71% busy, 0 sessions
@@ -653,7 +653,7 @@ macmini busy: 27.7 GB free, 14 threads 93% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 10% busy, 0 sessions
   RAM   26.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 92% busy (agents 0.0, rest 3.4 cores) · 81°C · load 5.2
-  ·     disk 308.7 GB free · battery 96% · Ludovic: away
+  ·     disk 308.7 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:50:54Z
 ludothinkpad busy: 25.8 GB free, 4 threads 100% busy, 0 sessions
@@ -662,7 +662,7 @@ macmini busy: 31.3 GB free, 14 threads 95% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 11% busy, 0 sessions
   RAM   25.8 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 99% busy (agents 0.0, rest 4.0 cores) · 82°C · load 8.1
-  ·     disk 308.7 GB free · battery 96% · Ludovic: away
+  ·     disk 308.7 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:51:59Z
 ludothinkpad ok: 27.2 GB free, 4 threads 12% busy, 0 sessions
@@ -671,7 +671,7 @@ macmini ok: 31.2 GB free, 14 threads 76% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 8% busy, 0 sessions
   RAM   27.2 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 15% busy (agents 0.0, rest 1.3 cores) · 81°C · load 7.9
-  ·     disk 308.7 GB free · battery 96% · Ludovic: away
+  ·     disk 308.7 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:53:03Z
 ludothinkpad ok: 27.3 GB free, 4 threads 42% busy, 0 sessions
@@ -680,7 +680,7 @@ macmini busy: 27.8 GB free, 14 threads 87% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 9% busy, 0 sessions
   RAM   27.2 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 14% busy (agents 0.0, rest 0.8 cores) · 82°C · load 3.1
-  ·     disk 308.7 GB free · battery 96% · Ludovic: away
+  ·     disk 308.7 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:54:08Z
 ludothinkpad ok: 28.9 GB free, 4 threads 4% busy, 0 sessions
@@ -689,7 +689,7 @@ macmini ok: 29.2 GB free, 14 threads 80% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 9% busy, 0 sessions
   RAM   28.9 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 2% busy (agents 0.0, rest 0.3 cores) · 82°C · load 1.3
-  ·     disk 308.7 GB free · battery 96% · Ludovic: away
+  ·     disk 308.7 GB free · battery 96% · Samuel: away
 
 2026-10-18T20:55:12Z
 ludothinkpad ok: 27.7 GB free, 4 threads 27% busy, 0 sessions
@@ -698,5 +698,5 @@ macmini ok: 31.2 GB free, 14 threads 70% busy, 1 sessions
 macbook ok: 6.7 GB free, 12 threads 10% busy, 0 sessions
   RAM   27.6 GB free of 31.2 GB · swap 0.3 GB/15.6 GB
   CPU   4 threads, 26% busy (agents 0.0, rest 1.2 cores) · 69°C · load 1.0
-  ·     disk 308.8 GB free · battery 96% · Ludovic: away
+  ·     disk 308.8 GB free · battery 96% · Samuel: away
 

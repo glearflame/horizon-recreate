@@ -7,8 +7,8 @@
 #   bash tools/ci/checks-runners.sh uninstall < token  # stop and unregister (a remove-token)
 #
 # The token is made on a machine whose gh has admin on the repository, never printed or stored here:
-#   gh api -X POST repos/horizon-rust/horizon/actions/runners/registration-token --jq .token |
-#     ssh ludovic@playhorizon 'bash ~/horizon-install/checks-runners.sh install'
+#   gh api -X POST repos/glearflame/horizon/actions/runners/registration-token --jq .token |
+#     ssh samuel@playhorizon 'bash ~/horizon-install/checks-runners.sh install'
 #
 # Two kinds of runner, each a systemd user service in ~/.actions-runners/<name>:
 # - horizon-ci-<n> (label playhorizon-ci, CI_RUNNERS of them, default 2): this repository's own verify and launcher
@@ -25,7 +25,7 @@
 # empties a cargo target folder grown past MAX_TARGET_GB and drops a checkout's .git grown past MAX_GIT_GB (every
 # fetch adds a pack and nothing repacks them: 6822 packs, 50 GB, in each light runner's checkout on 2026-11-03).
 set -euo pipefail
-repo=horizon-rust/horizon
+repo=glearflame/horizon
 base=$HOME/.actions-runners
 shared=$base/ci-shared
 units=${XDG_CONFIG_HOME:-$HOME/.config}/systemd/user

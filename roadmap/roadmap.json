@@ -100,7 +100,7 @@
     "docs/benchmark.md"
    ],
    "focus": true,
-   "owner": "ludovic111",
+   "owner": "glearflame",
    "issue": "#3909"
   },
   {
@@ -142,7 +142,7 @@
    ],
    "focus": true,
    "ongoing": true,
-   "owner": "ludovic111",
+   "owner": "glearflame",
    "issue": "#3914"
   },
   {
@@ -159,7 +159,7 @@
     "#3506"
    ],
    "ongoing": true,
-   "owner": "ludovic111",
+   "owner": "glearflame",
    "issue": "#3915"
   },
   {
@@ -179,7 +179,7 @@
     "docs/architecture.md"
    ],
    "ongoing": true,
-   "owner": "ludovic111",
+   "owner": "glearflame",
    "issue": "#3916"
   },
   {
@@ -253,7 +253,7 @@
     "docs/server.md"
    ],
    "ongoing": true,
-   "owner": "ludovic111",
+   "owner": "glearflame",
    "issue": "#3910"
   },
   {
@@ -624,7 +624,7 @@
     "docs/design-system.md",
     "crates/horizon-theme"
    ],
-   "owner": "ludovic111"
+   "owner": "glearflame"
   },
   {
    "id": "splitscreen",

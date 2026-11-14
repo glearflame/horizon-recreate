@@ -45,7 +45,7 @@ Every part of an API has one level, shown in its reference and its surface page.
 
 - **Promotion.** Experimental → preview when it has what the table asks. Preview → stable when real users (a published
   mod, a host's script, an agent's tool) used it for a whole line and nothing broke. The maintainers' orchestrator
-  proposes the promotion with the evidence (the compatibility tests, the complete docs, that line of use) and Ludovic
+  proposes the promotion with the evidence (the compatibility tests, the complete docs, that line of use) and Samuel
   approves it.
 - **Horizon-only by design.** An API is stable only for what Horizon itself does; a vanilla concept it exposes (a block
   id, a command, a `server.properties` key) changes when vanilla changes it, with a version port

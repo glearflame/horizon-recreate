@@ -283,7 +283,7 @@ if __name__ == "__main__":
     if verb == "event" and not rest:
         sys.exit(event())
     if verb in ("show", "survey"):
-        pulls = open_pulls(os.environ.get("REPO", "horizon-rust/horizon"))
+        pulls = open_pulls(os.environ.get("REPO", "glearflame/horizon"))
         wanted = {int(x) for x in rest} if verb == "show" else {p.number for p in pulls}
         fill_functions([p for p in pulls if p.changed_files <= MAX_FILES])
         result = {}

@@ -532,7 +532,7 @@ pub fn markdown(pack: &str, rows: &[Row]) -> String {
     out += &table(rows, "tier", |r| &r.tier);
     out += "\n";
     out += &table(rows, "licence", |r| &r.license_kind);
-    out += "\nPorts stay local. Only permissive or copyleft ports could ever be published, and only after Ludovic asks the authors.\n\n";
+    out += "\nPorts stay local. Only permissive or copyleft ports could ever be published, and only after Samuel asks the authors.\n\n";
     out += "| mod | class | tier | licence | status | why | in plain words |\n|---|---|---|---|---|---|---|\n";
     let mut sorted: Vec<&Row> = rows.iter().collect();
     sorted.sort_by(|a, b| (a.status, &a.key).cmp(&(b.status, &b.key)));

@@ -21,7 +21,7 @@ The launcher does not create firewall rules or change network-profile settings.
 ## musl Linux: manual installation
 
 On x86-64 musl distributions, download `horizon-linux-musl-x86_64.tar.gz` from the
-[Nightly release](https://github.com/horizon-rust/horizon/releases/tag/nightly), when available. This optional
+[Nightly release](https://github.com/glearflame/horizon/releases/tag/nightly), when available. This optional
 build is omitted if its build fails. The launcher does not install or update it. Its desktop gameplay and
 vanilla parity are still unverified; see the [musl build limitations](release-flow.md#builds).
 

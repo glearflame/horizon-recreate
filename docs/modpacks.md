@@ -1,6 +1,6 @@
 # Modpacks: porting any pack to Horizon
 
-Goal (Ludovic, 2026-10-16): **support modpacks like All the Mods 10 far better than Minecraft
+Goal (Samuel, 2026-10-16): **support modpacks like All the Mods 10 far better than Minecraft
 does, and be able to port any of them.** "Better" is measured: pack load time, RAM, FPS, TPS
 and world-generation speed against the same pack on NeoForge or Fabric. "Any of them" means a
 pipeline, not a list of hand ports. It takes a pack as players download it and produces native
@@ -148,9 +148,9 @@ derivative work. These rules are part of the pipeline, not advice to users:
    the mod's observed behaviour (the oracle and the harness), its own data files and its
    public documentation. The repository holds the pipeline, the API, metadata (ids, names, versions, licences, counts)
    and test fixtures we write ourselves.
-5. **Contacting authors or publishing any port is Ludovic's call.** Agents ask first.
+5. **Contacting authors or publishing any port is Samuel's call.** Agents ask first.
 
-This is engineering policy, not legal advice. Before anything is published, Ludovic decides,
+This is engineering policy, not legal advice. Before anything is published, Samuel decides,
 with advice if needed.
 
 ## What packs need, and what runs today
@@ -408,7 +408,7 @@ by SHA-1, or through a CurseForge app instance's `minecraftinstance.json`), else
 the link the pack itself gives (a `.mrpack`'s, on the format's hosts only) or, for a CurseForge
 pack, the same file on Modrinth's public CDN, found by its SHA-1. A jar is kept only when its
 hash matches. A file only CurseForge has is listed as "CurseForge downloads coming soon" (its API
-needs a paid key; Ludovic, 2026-10-22), with the player's installed instance as the way round it.
+needs a paid key; Samuel, 2026-10-22), with the player's installed instance as the way round it.
 `<work>/fetch.json` says what happened to each file. On All the Mods 10 8.3's CurseForge zip
 (2026-10-17): of the 54 data-tier content mods, 42 come from Modrinth's CDN (84 MB) and 12 need
 the key or the instance; `port` then carries the 42 over (0 ported, 42 partial: the harness is a
@@ -812,7 +812,7 @@ budget allows:
   harness, [native-mods.md](native-mods.md), the ports of its dependencies, and the mod's public
   documentation. Never its code: the agent doesn't decompile, read or quote it.
 - **Output:** a native mod, a horizon-mixins bundle started from
-  [horizon-native-mod-template](https://github.com/horizon-rust/horizon-native-mod-template), and its `.hnmod`.
+  [horizon-native-mod-template](https://github.com/glearflame/horizon-native-mod-template), and its `.hnmod`.
 - **Loop:** write → build → run the harness → read the differences → fix, until the harness
   passes or the agent reports what blocks it. Usually that is a place in the game's code the
   mixins can't reach yet, which becomes an issue ("needs a scheduled-tick hook point"), the way version ports
@@ -1189,10 +1189,10 @@ Adventure lost three of YUNG's mods at start ("both use the namespace yungsapi")
 the mods that need porting (not counting performance mods and libraries), 2 of 81 ported partly, 20 of 66 and 42 of
 375. Every ported mod is Partial: their Java code (block entities, entities, Mixins) doesn't come along.
 
-## Open questions for Ludovic
+## Open questions for Samuel
 
 - Contacting authors of permissively licensed mods to publish ports (none contacted).
 - Whether players should run code-port agents themselves (their own Claude Code or Codex
   login, as Zenith does) or only download published ports.
-- CurseForge: dropped for now (its API needs a paid key; Ludovic, 2026-10-22), shown as coming
+- CurseForge: dropped for now (its API needs a paid key; Samuel, 2026-10-22), shown as coming
   soon. CurseForge packs import from their zip or an installed instance.

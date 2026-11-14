@@ -2,7 +2,7 @@
 
 Small items Horizon players wear: a hat, something on the back, a shirt, a pet on the shoulder, a
 style for their name tag. They are drawn by Horizon clients only and change nothing in the game.
-**On by default** (Ludovic, 2026-11-04: on when the shop opens), your own shown. Other players'
+**On by default** (Samuel, 2026-11-04: on when the shop opens), your own shown. Other players'
 show by default only if your account owns a cosmetic: a player who owns none sees a vanilla game,
 and the game asks the service nothing about other players (CONTRIBUTING.md: Horizon-only features
 that change the look are off by default). The settings below change both.
@@ -447,7 +447,7 @@ page stays hidden.
 
 ## The Shop page (`launcher/src/wardrobe_page/shop.rs`, `launcher/src/shop.rs`)
 
-A plain top-bar tab beside the Wardrobe, shown under the same rule. Ludovic (2026-11-05): not in your
+A plain top-bar tab beside the Wardrobe, shown under the same rule. Samuel (2026-11-05): not in your
 face, people play without pop-ups. So the tab has no badge, dot, count or "New"; it never opens by
 itself and is never the start page; nothing anywhere (launcher or game) points to it; Play never waits
 for it. No countdowns, scarcity, buyer counts, "limited" wording or loot boxes.
@@ -457,7 +457,7 @@ for it. No countdowns, scarcity, buyer counts, "limited" wording or loot boxes.
   What the catalogue doesn't price isn't sold, so items the service puts on sale
   (`COSMETICS_ON_SALE`) show up by themselves. The currency is guessed from the system locale
   (francs in CH/LI, pounds in GB, euros in the euro area, else dollars) and can be switched.
-- **Laid out like a game's item shop** (Ludovic, 2026-11-07: "you just don't see the items"): the
+- **Laid out like a game's item shop** (Samuel, 2026-11-07: "you just don't see the items"): the
   first collection's `pack` (else its largest set) across the top, big, with its name, item count,
   price and *Buy*; then *Looks* (the other sets), each collection's items, and the founder set and
   the Supporter badge. A tile is the thing itself drawn, its name and its price, nothing else; it

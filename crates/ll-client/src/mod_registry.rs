@@ -17,7 +17,7 @@ use std::io::Read;
 use std::path::{Path, PathBuf};
 
 /// Where the registry publishes its index (the launcher's `INDEX_URL`).
-pub const INDEX_URL: &str = "https://horizon-rust.github.io/horizon-mods/index.json";
+pub const INDEX_URL: &str = "https://glearflame.github.io/horizon-mods/index.json";
 /// The Minecraft version this game is: the registry's `game`.
 pub const GAME: &str = ll_core::version::VERSION_ID;
 /// The registry's pages on the website, `<SITE>/<id>`.
@@ -32,7 +32,7 @@ const DOWNLOADS: &str = "mod-browser/downloads";
 const MAX_INDEX: u64 = 16 << 20;
 /// The game asks the registry by this name.
 const AGENT: &str = concat!(
-    "horizon-rust/horizon/",
+    "glearflame/horizon/",
     env!("CARGO_PKG_VERSION"),
     " (in-game mod browser)"
 );

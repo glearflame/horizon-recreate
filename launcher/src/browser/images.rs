@@ -21,7 +21,7 @@ const HOSTS: [&str; 7] = [
     // Horizon's registry's icons (its GitHub Pages), and the mirror kept at the address it had
     // before the repositories moved to the ll-rust organization.
     "https://ll-rust.github.io/ll-mods/",
-    "https://ludovic111.github.io/ll-mods/",
+    "https://glearflame.github.io/ll-mods/",
 ];
 /// The most an image may weigh before decoding.
 pub const MAX_DOWNLOAD: u64 = 8 << 20;

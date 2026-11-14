@@ -1,7 +1,7 @@
-//! Módulo client_render — baseado no horizon-rust/horizon (MIT).
+//! Módulo client_render — baseado no glearflame/horizon (MIT).
 //!
-//! Código derivado de https://github.com/horizon-rust/horizon/tree/main/crates/horizon-client-render/src
-//! Créditos para horizon-rust/horizon e seus contribuidores.
+//! Código derivado de https://github.com/glearflame/horizon/tree/main/crates/horizon-client-render/src
+//! Créditos para glearflame/horizon e seus contribuidores.
 //!
 //! Módulos que existem como arquivos .rs são declarados com `pub mod`.
 //! Módulos stubs são criados para dependências que não existem no nosso workspace.

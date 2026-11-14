@@ -17,7 +17,7 @@
 set -euo pipefail
 kc=${MACOS_SIGN_KEYCHAIN:-$HOME/Library/Keychains/horizon-signing.keychain-db}
 profile=${MACOS_NOTARY_PROFILE:-horizon-notary}
-identity=${MACOS_SIGN_IDENTITY:-Developer ID Application: Ludovic Marie (YYJU63HSD4)}
+identity=${MACOS_SIGN_IDENTITY:-Developer ID Application: Samuel Queiroz (YYJU63HSD4)}
 # The 1Password CLI, signed in as the fleet's agents (`op` elsewhere), and the items it reads.
 op=${OP:-$HOME/fleet/op}
 [[ -x "$op" ]] || op=op

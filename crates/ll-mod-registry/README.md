@@ -3,7 +3,7 @@
 The service behind the registry's submission form (`playhorizon.dev/mods/submit`). A creator signs in with GitHub and
 **lists a project by its GitHub repository and a page** (`repo` plus name, summary, licence...): the service checks that the
 repository is public and opens a pull request adding `mods/<id>.toml` to
-[horizon-rust/horizon-mods](https://github.com/horizon-rust/horizon-mods), where a reviewer reads the repository once.
+[glearflame/horizon-mods](https://github.com/glearflame/horizon-mods), where a reviewer reads the repository once.
 **It takes no versions for such a project**: they are the repository's GitHub releases, read and checked by that
 repository's CI with no pull request ("publish a GitHub release in <repo>", a 409). Projects listed before that
 (no `repo`) can still be sent as a file: the service runs the file's own checks
@@ -75,7 +75,7 @@ REGISTRY_PUBLIC_URL=http://localhost:4173 REGISTRY_SESSION_KEY=... GITHUB_CLIENT
 | `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` | The OAuth app |
 | `GITHUB_BOT_TOKEN` | Fine-grained, the registry repository only: Contents and Pull requests read and write |
 | `REGISTRY_UPDATE_KEY` | Optional, random, 32 characters or more: signs owner updates' trailers (below). Unset: every update waits for a reviewer. The same value is the secret `REGISTRY_UPDATE_KEY` of horizon-mods |
-| `REGISTRY_REPO` | Default `horizon-rust/horizon-mods` |
+| `REGISTRY_REPO` | Default `glearflame/horizon-mods` |
 | `REGISTRY_DB` | The ratings' SQLite file: default `/data/registry.sqlite3`, the volume |
 | `PORT` | Default 8080 |
 

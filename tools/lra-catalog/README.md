@@ -3,7 +3,7 @@
 `entries.jsonl` is a catalogue of every entry of the
 [Logical Redstone Archive](https://github.com/mattbatwings/Logical-Redstone-Archive) at commit `da4dd51`,
 made by **maybeachromium** (GitHub [SolsticeSpectrum](https://github.com/SolsticeSpectrum)) and shared in
-[#10103](https://github.com/horizon-rust/horizon/issues/10103) under the WTFPL ([LICENSE](LICENSE)).
+[#10103](https://github.com/glearflame/horizon/issues/10103) under the WTFPL ([LICENSE](LICENSE)).
 Its `entries/<CODE>.json` files are kept unchanged here, one entry per line, sorted by code.
 
 Each entry gives a contraption's schematic path in the archive, its input and output positions (schematic

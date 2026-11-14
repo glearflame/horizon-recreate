@@ -1,6 +1,6 @@
 //! Hub/lobby do Glear-Mine.
 //!
-//! Implementação própria do zero — sem cópia de código do horizon-rust/horizon
+//! Implementação própria do zero — sem cópia de código do glearflame/horizon
 //! e sem dependência de Microsoft/Mojang.
 //!
 //! Gerencia salas de lobby, filas de conexão e jogadores presentes no hub.

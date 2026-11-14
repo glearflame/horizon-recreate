@@ -1,6 +1,6 @@
 name: nightly build
 run-name: nightly build${{ inputs.request && format(' (request {0})', inputs.request) || '' }}
-# The Nightly, the only build Horizon ships since 2026-10-28 (docs/release-flow.md "Nightly"; Ludovic). When the batch
+# The Nightly, the only build Horizon ships since 2026-10-28 (docs/release-flow.md "Nightly"; Samuel). When the batch
 # train decides (release.yml, with the commit as `base`), once a night, and when a trusted
 # reviewer asks (`/nightly 2640 2642`, nightly-command.yml), it builds main plus the pull requests the reviewers
 # picked, merged in order (tools/ci/nightly_set.py), or main alone with none picked. Main is its newest commit where
@@ -11,7 +11,7 @@ run-name: nightly build${{ inputs.request && format(' (request {0})', inputs.req
 # Why the signing key never meets the pull requests' code:
 # - `pick` merges the picked heads onto main with `git merge-tree --write-tree`: git objects only, no working tree,
 #   so none of their files reaches the disk and no hook, filter or script of theirs runs. It refuses any pull
-#   request that changes a path CODEOWNERS gives to Ludovic (this folder, tools/ci/, the signing and update code),
+#   request that changes a path CODEOWNERS gives to Samuel (this folder, tools/ci/, the signing and update code),
 #   pushes the merge as nightly/build-<date>-<n> and saves the set on the nightly-state branch.
 # - This file, game-build.yml and every script below run from main's copy: a schedule runs the default branch, and
 #   `uses: ./…` takes the caller's commit. A picked pull request's own .github/ is never read.
@@ -112,7 +112,7 @@ jobs:
           python3 tools/ci/nightly.py pick ${FORCE:+--force} | tee -a "$GITHUB_STEP_SUMMARY"
           { echo; cat nightly-notes.md; } >> "$GITHUB_STEP_SUMMARY"
       - name: Old nightly/build-* branches deleted (scheduled runs only)
-        # Ludovic, 2026-10-27: older than 7 days, but never the newest build or one a published nightly points to;
+        # Samuel, 2026-10-27: older than 7 days, but never the newest build or one a published nightly points to;
         # nothing but nightly/build-* (nightly.py stale_builds, tests/test_nightly.py).
         if: github.event_name == 'schedule'
         env:

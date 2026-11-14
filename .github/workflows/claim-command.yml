@@ -57,7 +57,7 @@ jobs:
           REPO: ${{ github.repository }}
         run: python3 tools/ci/claim_command.py command
   release:
-    if: github.event_name != 'issue_comment' && github.repository == 'horizon-rust/horizon'
+    if: github.event_name != 'issue_comment' && github.repository == 'glearflame/horizon'
     # One of our small runners (horizon-light), out of GitHub's pool: main's script only (docs/ci-runners.md).
     runs-on: ${{ vars.SELF_HOSTED_CI != 'off' && fromJSON('["self-hosted", "linux", "horizon-light"]') || 'ubuntu-latest' }}
     timeout-minutes: 10

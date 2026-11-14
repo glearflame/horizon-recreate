@@ -40,7 +40,7 @@ pub use item::{
 };
 pub use pose::{Pose, pose_matrix};
 
-/// Cosmetics run by default (Ludovic, 2026-11-04: on when the shop opens): the settings entry and
+/// Cosmetics run by default (Samuel, 2026-11-04: on when the shop opens): the settings entry and
 /// your own are there for everyone. Other players' show by default only to an account that owns a
 /// cosmetic (`prefs::Others::effective`, the same day: a player who owns none sees a vanilla game
 /// and the game asks nothing about other players, as CONTRIBUTING.md asks), until the player

@@ -308,7 +308,7 @@ mod tests {
             s.scrub("Ludo's machine, user ludo"),
             "<user>'s machine, user <user>"
         );
-        assert_eq!(s.scrub("ludovic"), "ludovic");
+        assert_eq!(s.scrub("samuel"), "samuel");
         assert_eq!(Scrubber::bare().with_user("al").scrub("al"), "al");
         assert_eq!(
             Scrubber::bare()

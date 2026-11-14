@@ -16,7 +16,7 @@
 
 ## Signing and notarization
 
-Releases are signed with Ludovic's **Developer ID** ("Developer ID Application: Ludovic Marie
+Releases are signed with Samuel's **Developer ID** ("Developer ID Application: Samuel Queiroz
 (YYJU63HSD4)"), with the hardened runtime and a secure timestamp, then **notarized** by Apple and
 **stapled**, so Gatekeeper opens them on any Mac without a warning, offline too:
 
@@ -37,7 +37,7 @@ builds sign and notarize; empty (as in forks), they are signed **ad hoc** as bef
 
 ### The signing keychain on the Mac mini
 
-The release runner (`ludovics-mac-mini-release`, label `horizon-release`, `MAC_RUNNER`) is a
+The release runner (`samuels-mac-mini-release`, label `horizon-release`, `MAC_RUNNER`) is a
 LaunchAgent whose jobs run in their own security session, where the login keychain is locked.
 So signing uses a keychain of its own, `~/Library/Keychains/horizon-signing.keychain-db`,
 holding only the Developer ID identity, Apple's "Developer ID Certification Authority" and the
@@ -52,7 +52,7 @@ Setting it up again (a new Mac, a renewed certificate):
 
 1. `packaging/macos/keychain.sh create`: the keychain, locked after two hours idle and on sleep.
 2. In Keychain Access on the Mac (the login keychain, *My Certificates*), right-click
-   "Developer ID Application: Ludovic Marie (YYJU63HSD4)", *Export…*, save it as a .p12 with a
+   "Developer ID Application: Samuel Queiroz (YYJU63HSD4)", *Export…*, save it as a .p12 with a
    password; then in the Mac's Terminal `packaging/macos/keychain.sh import FILE.p12`. It asks for
    that password, imports the identity and its intermediate, removes any other identity, lets
    `codesign` use the key without a prompt and deletes the .p12. (The login keychain also holds
@@ -69,7 +69,7 @@ Apple Developer account before then and repeat step 2.
 Signing by hand, as the workflow does:
 
 ```sh
-export MACOS_SIGN_IDENTITY="Developer ID Application: Ludovic Marie (YYJU63HSD4)"
+export MACOS_SIGN_IDENTITY="Developer ID Application: Samuel Queiroz (YYJU63HSD4)"
 export MACOS_SIGN_KEYCHAIN=~/Library/Keychains/horizon-signing.keychain-db MACOS_NOTARY_PROFILE=horizon-notary
 packaging/macos/keychain.sh unlock
 packaging/macos/package.sh target/release/horizon-launcher 0.0.0 out

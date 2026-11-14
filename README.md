@@ -16,9 +16,9 @@
   <a href="#project-status"><img src="https://img.shields.io/badge/player--visible%20gaps-0%20open-F0795A" alt="Player-visible gaps open"></a>
 </p>
 
-# Horizon
+# L&L
 
-**Minecraft: Java Edition 26.3, rewritten in Rust.** Your worlds, the same rules and the same terrain as the Java game, checked against it by hundreds of differential tests, in one native program with no Java. Free, open source (MIT) and unofficial: you play it with your own copy of Java Edition.
+**Minecraft: Java Edition 26.3, rebuilt in Rust.** Your worlds, the same rules and the same terrain as the Java game, in one native program with no Java. Free, open source (MIT) and unofficial: you play it with your own copy of Java Edition. Built by [Samuel Queiroz](https://github.com/glearflame).
 
 <p align="center">
   <img src="docs/media/readme/valley.webp" alt="A river valley with a plains village, savanna hills and a cherry grove, seen from above with a long view distance" width="100%">
@@ -63,7 +63,7 @@ Everything below is in the current release.
 
 ## Download
 
-Get **the Horizon launcher** from [playhorizon.dev](https://playhorizon.dev), or from [the launcher releases](https://github.com/horizon-rust/horizon/releases?q=launcher&expanded=true):
+Get **the Horizon launcher** from [playhorizon.dev](https://playhorizon.dev), or from [the launcher releases](https://github.com/glearflame/horizon/releases?q=launcher&expanded=true):
 
 | Platform | File | Needs |
 | --- | --- | --- |
@@ -116,7 +116,7 @@ Needs Rust 1.90+, Python 3.10+, JDK 25, and on Linux `libasound2-dev libudev-dev
 2. **Server jar:** the 26.3 server jar (`downloads.server.url` in `versions/26.3/26.3.json`), passed once with `--server-jar` or `HORIZON_SERVER_JAR`.
 
 ```sh
-git clone https://github.com/horizon-rust/horizon.git
+git clone https://github.com/glearflame/horizon.git
 cd horizon
 cargo run --release -p horizon-prepare -- --prepare --server-jar ~/Downloads/server.jar   # needs JDK 25
 cargo run --release -p horizon-prepare -- sounds   # optional: sounds from your launcher install
@@ -138,7 +138,7 @@ It runs rustfmt, clippy, the touched crates' tests, the Python tests, the public
 
 ## Project status
 
-**Player-visible gaps: 0 open** of the 833 the [port ledger](tools/port_ledger.py) found, reading every vanilla 26.3 method against Horizon's code: vanilla behaviour a player would notice that Horizon doesn't have yet. By area: Animals [0](https://github.com/horizon-rust/horizon/issues/3512); Monsters and bosses [0](https://github.com/horizon-rust/horizon/issues/3513); Entities, projectiles, vehicles and decorations [0](https://github.com/horizon-rust/horizon/issues/3514); Items, enchantments and inventories [0](https://github.com/horizon-rust/horizon/issues/3515); Blocks, redstone and fluids [0](https://github.com/horizon-rust/horizon/issues/3516); World, world generation and saves [0](https://github.com/horizon-rust/horizon/issues/3517); Screens, HUD and client packets [0](https://github.com/horizon-rust/horizon/issues/3518); Entity and block rendering, models [0](https://github.com/horizon-rust/horizon/issues/3519); Server and players on the server [0](https://github.com/horizon-rust/horizon/issues/3520); Mob AI, villagers and raids [0](https://github.com/horizon-rust/horizon/issues/3521). This number goes down as gaps close (`tools/parity_gaps.py`); the harness results below say that what is tested matches.
+**Player-visible gaps: 0 open** of the 833 the [port ledger](tools/port_ledger.py) found, reading every vanilla 26.3 method against Horizon's code: vanilla behaviour a player would notice that Horizon doesn't have yet. By area: Animals [0](https://github.com/glearflame/horizon/issues/3512); Monsters and bosses [0](https://github.com/glearflame/horizon/issues/3513); Entities, projectiles, vehicles and decorations [0](https://github.com/glearflame/horizon/issues/3514); Items, enchantments and inventories [0](https://github.com/glearflame/horizon/issues/3515); Blocks, redstone and fluids [0](https://github.com/glearflame/horizon/issues/3516); World, world generation and saves [0](https://github.com/glearflame/horizon/issues/3517); Screens, HUD and client packets [0](https://github.com/glearflame/horizon/issues/3518); Entity and block rendering, models [0](https://github.com/glearflame/horizon/issues/3519); Server and players on the server [0](https://github.com/glearflame/horizon/issues/3520); Mob AI, villagers and raids [0](https://github.com/glearflame/horizon/issues/3521). This number goes down as gaps close (`tools/parity_gaps.py`); the harness results below say that what is tested matches.
 
 The table is the project's own audit: every subsystem matches vanilla in every harness that compares it. 100% means 100% of what the harnesses compare, not that nothing else differs. What players still run into: [known issues](docs/known-issues.md).
 
@@ -165,6 +165,6 @@ Scores: 0 (absent), 0.25 (started), 0.5 (playable, major features missing), 0.75
 
 ## Licence
 
-[MIT](LICENSE), for the project's original work; dependencies keep their own licences ([notices](THIRD_PARTY_NOTICES.md)). Horizon is made by [Ludovic Marie](https://lu4ovic.com) ([@ludovic111](https://github.com/ludovic111)) and [its contributors](https://github.com/horizon-rust/horizon/graphs/contributors); support it on [GitHub Sponsors](https://github.com/sponsors/ludovic111).
+[MIT](LICENSE), for the project's original work; dependencies keep their own licences ([notices](THIRD_PARTY_NOTICES.md)). Horizon is made by [Samuel Queiroz](https://lu4ovic.com) ([@glearflame](https://github.com/glearflame)) and [its contributors](https://github.com/glearflame/horizon/graphs/contributors); support it on [GitHub Sponsors](https://github.com/sponsors/glearflame).
 
 NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT. Minecraft is a trademark of Mojang Synergies AB; its code and assets belong to Mojang and Microsoft under the [Minecraft EULA](https://www.minecraft.net/en-us/eula).

@@ -95,7 +95,7 @@ marked **Works**, **Partly** or **Doesn't run in Horizon** once its jar is check
 made for other Minecraft versions. Each result is an index row: its summary, author,
 downloads, source and licence, how well it runs (and why), **Page** (the project's page on its source) and
 **Install** (**Import** for a modpack). A registry result says **from Horizon** only when Horizon made it (author
-Horizon, source under github.com/horizon-rust: the site's "Official"); a contributor's reads **by <author>** alone. The Modpacks tab lists the imported packs first, with their coverage
+Horizon, source under github.com/glearflame: the site's "Official"); a contributor's reads **by <author>** alone. The Modpacks tab lists the imported packs first, with their coverage
 report, **Port** and **Play** ([modpacks.md](modpacks.md)). Installed packs are listed above the results with their version, source,
 file and the checksum they were checked against, with **Update to …** when a newer version runs and **Remove**
 (asked twice). **Update all (N)** above the list updates every pack a newer version was found for, of every kind,
@@ -191,7 +191,7 @@ horizon-launcher mods remove faithful-32x
 ## Sources
 
 **Horizon's registry.** Content mods (`.hmod`), native mods (`.hnmod`), modpacks (`.hpack`), resource packs and shader packs (`.hshader`) made for Horizon, reviewed as pull requests in
-[horizon-rust/horizon-mods](https://github.com/horizon-rust/horizon-mods) ([api/mod-index.md](api/mod-index.md)). The
+[glearflame/horizon-mods](https://github.com/glearflame/horizon-mods) ([api/mod-index.md](api/mod-index.md)). The
 launcher reads its `index.json` (`browser/horizon.rs`; `HORIZON_MOD_INDEX=<file or https address>` reads a test
 registry instead, whose files may then be on disk) at most every ten minutes, and keeps the last copy in
 `mod-browser/horizon-index.json`. Before a result is installed it shows whether its files are signed and, for a mod,

@@ -4,13 +4,13 @@
     nightly_set.py command     one `/nightly …` comment (nightly-command.yml): checks who asked, updates the set,
                                starts the build and answers in the thread
 
-A comment by Ludovic or by an account in .github/trusted-reviewers.txt, on any issue or pull request. Accounts are
+A comment by Samuel or by an account in .github/trusted-reviewers.txt, on any issue or pull request. Accounts are
 matched by their numeric GitHub ID, never by login: a login is a name anyone can claim once its owner renames or
 deletes the account, an ID is never reused (docs/release-flow.md "Trusted reviewers"):
 
     /nightly 2640 2642     the set becomes these pull requests, merged onto main in this order; builds now
     /nightly add 2650      adds one, or takes its newest head again; builds now
-    /nightly remove 2640   drops one; builds now. Ludovic's remove also keeps reviewers from adding it back
+    /nightly remove 2640   drops one; builds now. Samuel's remove also keeps reviewers from adding it back
     /nightly clear         empties the set: the Nightly is main alone again; builds now
     /nightly status        what the set holds
     /nightly dry-run 2640  builds main + these and signs with a throwaway key; publishes nothing, the set stays
@@ -36,8 +36,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
-OWNER = "ludovic111"  # for messages only: who is Ludovic is decided by OWNER_ID
-# ludovic111's numeric GitHub ID (`gh api users/ludovic111 --jq .id`). None fails closed: nobody is the owner until
+OWNER = "glearflame"  # for messages only: who is Samuel is decided by OWNER_ID
+# glearflame's numeric GitHub ID (`gh api users/glearflame --jq .id`). None fails closed: nobody is the owner until
 # tools/ci/resolve_reviewer_ids.py has filled it in.
 OWNER_ID: int | None = 136255825
 REVIEWERS = ".github/trusted-reviewers.txt"
@@ -166,17 +166,17 @@ def is_owner(actor: Actor) -> bool:
 
 
 def authorize(actor: Actor, reviewers: Reviewers) -> None:
-    """Ludovic always; a listed reviewer unless the list is paused; nobody else."""
+    """Samuel always; a listed reviewer unless the list is paused; nobody else."""
     if is_owner(actor):
         return
     if not reviewers.listed(actor.id):
-        raise Refused(f"Only Ludovic and the trusted reviewers listed in `{REVIEWERS}` can pick the Nightly.")
+        raise Refused(f"Only Samuel and the trusted reviewers listed in `{REVIEWERS}` can pick the Nightly.")
     if reviewers.paused:
-        raise Refused(f"`/nightly` is paused: Ludovic stopped it in `{REVIEWERS}`.")
+        raise Refused(f"`/nightly` is paused: Samuel stopped it in `{REVIEWERS}`.")
 
 
 def guarded_patterns(codeowners: str) -> list[str]:
-    """The paths CODEOWNERS gives to Ludovic, plus ALWAYS_GUARDED."""
+    """The paths CODEOWNERS gives to Samuel, plus ALWAYS_GUARDED."""
     found = [line.split()[0] for line in codeowners.splitlines() if line.strip().startswith("/")]
     return sorted(set(found + ALWAYS_GUARDED))
 
@@ -198,8 +198,8 @@ class PullRequest:
 
 
 def check(pr: PullRequest | None, number: int, patterns: list[str]) -> str | None:
-    """Why `pr` can't go in a Nightly, or None. No review is needed (Ludovic, 2026-10-30, at the Team's request; it
-    needed an approving review at its head from 2026-10-28): a trusted reviewer or Ludovic picks any open pull
+    """Why `pr` can't go in a Nightly, or None. No review is needed (Samuel, 2026-10-30, at the Team's request; it
+    needed an approving review at its head from 2026-10-28): a trusted reviewer or Samuel picks any open pull
     request to main, unreviewed or not, as long as it leaves the files CODEOWNERS guards alone."""
     if pr is None:
         return f"#{number} isn't a pull request here"
@@ -210,7 +210,7 @@ def check(pr: PullRequest | None, number: int, patterns: list[str]) -> str | Non
     bad = [f for f in pr.files if guarded(f, patterns)]
     if bad:
         more = f" and {len(bad) - 1} more" if len(bad) > 1 else ""
-        return f"#{number} changes `{bad[0]}`{more}, which only Ludovic merges (CODEOWNERS)"
+        return f"#{number} changes `{bad[0]}`{more}, which only Samuel merges (CODEOWNERS)"
     return None
 
 
@@ -250,7 +250,7 @@ def apply(state: dict, cmd: Command, actor: Actor, now: str, lookup: Callable[[i
     blocked: list[int] = st.setdefault("blocked", [])
     owner = is_owner(actor)
     if cmd.verb == "status":
-        extra = f"\nOnly Ludovic can add these back: {', '.join(f'#{n}' for n in blocked)}." if blocked else ""
+        extra = f"\nOnly Samuel can add these back: {', '.join(f'#{n}' for n in blocked)}." if blocked else ""
         return Result(state, describe(prs) + extra, False)
     if cmd.verb == "clear":
         st["prs"] = []
@@ -263,7 +263,7 @@ def apply(state: dict, cmd: Command, actor: Actor, now: str, lookup: Callable[[i
             st["blocked"] = blocked + [n for n in cmd.prs if n not in blocked]
     else:  # set, add, dry-run
         if not owner and (held := [n for n in cmd.prs if n in blocked]):
-            raise Refused(f"Ludovic took {', '.join(f'#{n}' for n in held)} out of the Nightly; only he can put "
+            raise Refused(f"Samuel took {', '.join(f'#{n}' for n in held)} out of the Nightly; only he can put "
                           "it back.")
         problems, asked = [], []
         for n in cmd.prs:

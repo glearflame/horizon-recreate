@@ -1,5 +1,5 @@
 //! `cargo horizon-mod registry build|review|check|list`: the registry repository's CI
-//! (`horizon-rust/horizon-mods`, docs/api/mod-index.md). Network-free: the
+//! (`glearflame/horizon-mods`, docs/api/mod-index.md). Network-free: the
 //! workflow downloads the files and publishes what this writes.
 use ll_mods::index::{
     FILE_HOST,
@@ -8,7 +8,7 @@ use ll_mods::index::{
 use std::path::Path;
 
 /// Where the registry's site is published (its icons).
-const SITE: &str = "https://horizon-rust.github.io/horizon-mods/";
+const SITE: &str = "https://glearflame.github.io/horizon-mods/";
 
 const USAGE: &str = "usage: cargo horizon-mod registry build <checkout> --files <dir> --out <index.json> [--release <url>] [--site <url>] [--generated <time>]
        cargo horizon-mod registry review <base checkout> <head checkout> --author <login> [--json]

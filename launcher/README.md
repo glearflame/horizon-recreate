@@ -13,7 +13,7 @@ The opening, then Play ([clip](docs/opening.webm)):
 
 ## What it does
 
-- **Versions**: lists the published builds of horizon-rust/horizon (the current Nightly, the last
+- **Versions**: lists the published builds of glearflame/horizon (the current Nightly, the last
   week's, then the releases from before), installs the build for this platform into its own
   folder, and removes it again. **Import a game build…** takes a `horizon-client` you have (one
   built on your fork's Actions, or the zip holding it) and installs it as `imported-<date>-<sha>`:

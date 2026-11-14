@@ -37,9 +37,9 @@ while [ $# -gt 0 ]; do
     --jobs) jobs=$2; shift 2;;
     --cpus) cpus=$2; shift 2;;
     --exclusive) exclusive=1; shift;;
-    --list) exec ssh "ludovic@$host" 'cd ~/remote-work 2>/dev/null && for d in */; do d=${d%/};
+    --list) exec ssh "samuel@$host" 'cd ~/remote-work 2>/dev/null && for d in */; do d=${d%/};
       printf "%-32s %8s  last used %s\n" "$d" "$(du -sh "$d" 2>/dev/null | cut -f1)" "$(stat -c %y "$d.logs" 2>/dev/null | cut -c1-16)"; done';;
-    --gc) days=${2:-2}; exec ssh "ludovic@$host" "cd ~/remote-work 2>/dev/null || exit 0
+    --gc) days=${2:-2}; exec ssh "samuel@$host" "cd ~/remote-work 2>/dev/null || exit 0
       find . -maxdepth 1 -name '*.logs' -mtime +$days | while read -r logs; do d=\${logs%.logs};
         flock -n \"\$d.lock\" rm -rf \"\$d\" \"\$logs\" \"\$d.lock\" && echo \"removed \${d#./}\"; done";;
     -h|--help) usage;;
@@ -87,7 +87,7 @@ elif ! flock -s -n 8; then
   flock -s 8
 fi
 if [ ! -d "$name/.git" ]; then
-  git clone -q --filter=blob:none --no-checkout https://github.com/horizon-rust/horizon "$name" 8>&- 9>&-
+  git clone -q --filter=blob:none --no-checkout https://github.com/glearflame/horizon "$name" 8>&- 9>&-
 fi
 cd "$name"
 # The lock's descriptor stays out of everything started here (8>&- 9>&-): a daemon one of them starts (sccache's server,
@@ -127,7 +127,7 @@ kill "$watcher" 2>/dev/null || true
 systemctl --user stop "$unit" 2>/dev/null || true
 exit "$status"
 REMOTE
-} | ssh -o BatchMode=yes "ludovic@$host" bash -s &
+} | ssh -o BatchMode=yes "samuel@$host" bash -s &
 # Stopping this script ends the session, and the host then stops the command (above).
 trap 'kill $! 2>/dev/null' INT TERM HUP
 wait $!

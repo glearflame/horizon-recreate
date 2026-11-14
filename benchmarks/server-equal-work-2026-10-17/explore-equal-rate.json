@@ -21,7 +21,7 @@
     "explore_speed": 0.8,
     "gamerule": "locator_bar=false",
     "heap": "4g",
-    "out": "/home/ludovic/scratch/sh2-bench5.json",
+    "out": "/home/samuel/scratch/sh2-bench5.json",
     "nice": 19,
     "bots_via": "ssh -o BatchMode=yes macmini",
     "bots_bin": "/tmp/sh2-horizon-bots",

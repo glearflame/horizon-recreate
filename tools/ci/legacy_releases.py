@@ -20,12 +20,12 @@ import sys
 
 ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "crates" / "horizon-release-sign" / "legacy-releases.txt"
-REPO = "horizon-rust/horizon"
+REPO = "glearflame/horizon"
 HEADER = """\
 # Releases published before signing began, with their archives' SHA-256 as GitHub computed them at upload:
 # `<tag> <asset> <sha256>` per line, written by tools/ci/legacy_releases.py. The launcher and horizon-server
 # install these releases only with exactly these files (docs/security.md, "Signed updates"); every later release
-# is checked against its signed SHA256SUMS instead. Changing this file needs Ludovic's review (.github/CODEOWNERS).
+# is checked against its signed SHA256SUMS instead. Changing this file needs Samuel's review (.github/CODEOWNERS).
 """
 
 

@@ -3,7 +3,7 @@
 Horizon's registry lists what is made for Horizon and reviewed: content mods (`.hmod`), native mods (`.hnmod`,
 [native-mods.md](../native-mods.md)), modpacks (`.hpack`), resource packs and Horizon shader packs (`.hshader`,
 [shaders.md](../shaders.md)). A project is listed by a reviewed pull request in
-[horizon-rust/horizon-mods](https://github.com/horizon-rust/horizon-mods) that links its GitHub repository; its versions are
+[glearflame/horizon-mods](https://github.com/glearflame/horizon-mods) that links its GitHub repository; its versions are
 the repository's GitHub releases, read and checked by the registry's CI with no pull request and no review per version. The launcher and the
 website read one file, `index.json`, which that repository's CI builds. The Rust types and every check below are
 `horizon_mods::index` and `horizon_mods::modpack` (feature `index`); the sample is
@@ -19,13 +19,13 @@ Level: preview ([stability.md](stability.md)). Schema 1.
   "generated": "2026-10-24T18:00:00Z",
   "projects": [{
     "id": "coords_hud", "kind": "mod", "name": "Coordinates HUD", "summary": "One line.",
-    "description": "Markdown.", "authors": ["Horizon"], "owners": ["ludovic111"],
+    "description": "Markdown.", "authors": ["Horizon"], "owners": ["glearflame"],
     "license": "MIT", "source": "https://github.com/...", "icon": "https://...png", "key": "RWT...", "downloads": 1234, "stars": 56,
     "categories": ["utility"], "tags": ["hud"], "screenshots": ["https://...png"],
     "versions": [{
       "version": "0.1.0", "published": "2026-10-24", "changelog": "",
       "api": "0.1", "side": "client", "capabilities": ["registries"], "game": "26.3",
-      "file": { "name": "coords_hud-0.1.0.hmod", "url": "https://github.com/horizon-rust/horizon-mods/releases/download/...",
+      "file": { "name": "coords_hud-0.1.0.hmod", "url": "https://github.com/glearflame/horizon-mods/releases/download/...",
                 "size": 438, "sha256": "e113...", "signature": "untrusted comment: ...\n...\ntrusted comment: ...\n...\n" }
     }]
   }],
@@ -56,7 +56,7 @@ Level: preview ([stability.md](stability.md)). Schema 1.
 | `api_level` | A legacy field in old entries; the launcher ignores it. |
 | `game` | The Minecraft version it is for. |
 | `requires` | A modpack's mods: `{ id, version, sha256 }`, each a version in this index with that hash. |
-| `file` | A plain name with the kind's extension (`.hmod`, `.hnmod`, `.hpack`, `.zip`, `.hshader`), an `https://` URL (the registry's release `https://github.com/horizon-rust/horizon-mods/releases/download/<id>-<version>/<name>`, or an asset of the project's own repository, `https://github.com/<owner>/<repo>/releases/download/<tag>/<name>`: the launcher accepts exactly these shapes), the size (at most 64 MiB), the lowercase hex SHA-256, and the `.minisig` text when the project has a key. |
+| `file` | A plain name with the kind's extension (`.hmod`, `.hnmod`, `.hpack`, `.zip`, `.hshader`), an `https://` URL (the registry's release `https://github.com/glearflame/horizon-mods/releases/download/<id>-<version>/<name>`, or an asset of the project's own repository, `https://github.com/<owner>/<repo>/releases/download/<tag>/<name>`: the launcher accepts exactly these shapes), the size (at most 64 MiB), the lowercase hex SHA-256, and the `.minisig` text when the project has a key. |
 | `revoked` | Files taken down: one file by `sha256`, or every version of `id` without it. The launcher refuses to install them and turns installed copies off with the reason. |
 
 Readers ignore fields they don't know, so an optional field can be added to schema 1. Renaming or removing a field, or
@@ -104,7 +104,7 @@ them into the profile's game folder.
 
 ## The registry repository
 
-[horizon-rust/horizon-mods](https://github.com/horizon-rust/horizon-mods) holds one `mods/<id>.toml` per project and
+[glearflame/horizon-mods](https://github.com/glearflame/horizon-mods) holds one `mods/<id>.toml` per project and
 `revoked.toml`. An entry is **a page and its pinned versions**: every version is a file submitted through the form (or a
 pull request), checked, reviewed and pinned by SHA-256 in `[[versions]]`. Entries listed before 2026-11-05 may still
 name a `repo` whose releases are read as below; new ones may not (`registry review` refuses them). What an entry can't vouch for is read from the file by the kind's own
@@ -114,8 +114,8 @@ check (`index::inspect`): a mod's API, side and capabilities, a modpack's mods, 
 ```toml
 id = "coords_hud"                # the file's name, and the manifest's id
 kind = "mod"                     # mod | native-mod | modpack | resourcepack | shader
-repo = "horizon-rust/coords-hud" # GitHub owner/name: its releases are its versions
-owners = ["ludovic111"]          # GitHub logins responsible for the project
+repo = "glearflame/coords-hud" # GitHub owner/name: its releases are its versions
+owners = ["glearflame"]          # GitHub logins responsible for the project
 owner_ids = [12345678]           # their numeric GitHub IDs: these decide who an owner is (a login can change hands)
 key = "RWT..."                   # optional: the minisign public key every version is signed with
 icon = "icons/coords_hud.png"    # required: a square PNG, 64 to 1024 px, at most 256 KiB, in the repository
@@ -208,7 +208,7 @@ How the repository runs (its workflows are in `.github/workflows/`):
   `cargo-horizon-mod` from Horizon at the commit in the repository variable `HORIZON_REV`.
 - **Every hour, and on a push to `main`** (`publish.yml`): read the new releases of every entry with a `repo` as above and
   keep the result on the `versions` branch, make each new hosted version a release `<id>-<version>`, and deploy
-  `index.json` and `icons/` to GitHub Pages: `https://horizon-rust.github.io/horizon-mods/index.json`, served with
+  `index.json` and `icons/` to GitHub Pages: `https://glearflame.github.io/horizon-mods/index.json`, served with
   `Access-Control-Allow-Origin: *`.
 - **Merging** an entry needs the `check` run and a CODEOWNER's review.
 - **Weekly**, `cleanup.yml` deletes staged copies of published files after 7 days and of files no open pull request

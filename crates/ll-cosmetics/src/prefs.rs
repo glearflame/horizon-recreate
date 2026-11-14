@@ -9,7 +9,7 @@
 //! "Other players' cosmetics" has no line until the player picks one: then it follows whether the
 //! signed-in account owns a cosmetic (`effective`), as the service last said (`cosmetics-owned.txt`
 //! per account). A player who owns none sees a vanilla game, as CONTRIBUTING.md asks of Horizon-only
-//! features that change the look (Ludovic, 2026-11-04).
+//! features that change the look (Samuel, 2026-11-04).
 use std::{fs, io, path::Path};
 
 /// The game's extras file.

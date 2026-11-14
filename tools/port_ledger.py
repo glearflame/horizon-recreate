@@ -2213,7 +2213,7 @@ def emit(out, as_json, empty):
         print()
 
 
-ISSUE_REPO = "horizon-rust/horizon"
+ISSUE_REPO = "glearflame/horizon"
 # Class-name affixes a player never says: "ender pearl" is ThrownEnderpearl, "shulker bullet" ShulkerBullet.
 CLASS_AFFIXES = re.compile(r"^(Thrown|Abstract|Base|Client|Server)|(Entity|Item|Block|BlockEntity|Renderer|Model|Goal)$")
 

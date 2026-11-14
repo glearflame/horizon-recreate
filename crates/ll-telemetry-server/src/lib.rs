@@ -128,7 +128,7 @@ impl Default for Config {
             hub_keep_days: 90,
             export_token: None,
             github_token: None,
-            github_repo: "horizon-rust/horizon".into(),
+            github_repo: "glearflame/horizon".into(),
             reads_per_hour: 600.0,
             aggregate_builds_per_hour: 600.0,
             aggregate_days: None,

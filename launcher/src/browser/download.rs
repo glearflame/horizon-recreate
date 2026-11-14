@@ -15,7 +15,7 @@ const HOSTS: [&str; 5] = [
     "https://mediafilez.forgecdn.net/",
     ll_mods::index::FILE_HOST,
     // The registry's files at their address before the move to ll-rust (GitHub redirects it).
-    "https://github.com/ludovic111/ll-mods/releases/download/",
+    "https://github.com/glearflame/ll-mods/releases/download/",
 ];
 /// `https://github.com/<owner>/<repo>/releases/download/<tag>/<name>`: a release asset of a mod's
 /// own repository, which the registry's index lists once its release passed the registry's checks

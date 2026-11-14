@@ -7,13 +7,13 @@ from tools.ci import triage_command as tc
 
 ROOT = Path(__file__).resolve().parents[1]
 NOW = datetime(2026, 10, 28, 12, tzinfo=timezone.utc)
-URL = "https://github.com/horizon-rust/horizon/issues/5#issuecomment-1"
-# Fixture accounts: the decision is by numeric ID, so each test login has one. Ludovic's real ID may not be filled in
+URL = "https://github.com/glearflame/horizon/issues/5#issuecomment-1"
+# Fixture accounts: the decision is by numeric ID, so each test login has one. Samuel's real ID may not be filled in
 # yet (tools/ci/resolve_reviewer_ids.py), so tests use their own unless it is.
-LUDOVIC_ID = ns.OWNER_ID or 1
-ns.OWNER_ID = LUDOVIC_ID
-tc.ns.OWNER_ID = LUDOVIC_ID  # the script's own import of nightly_set
-IDS = {"ludovic111": LUDOVIC_ID, "kacpherek": 101, "rdbtcvs": 102, "levzzz5154": 104}
+SAMUEL_ID = ns.OWNER_ID or 1
+ns.OWNER_ID = SAMUEL_ID
+tc.ns.OWNER_ID = SAMUEL_ID  # the script's own import of nightly_set
+IDS = {"glearflame": SAMUEL_ID, "kacpherek": 101, "rdbtcvs": 102, "levzzz5154": 104}
 
 
 def actor(login):
@@ -98,35 +98,35 @@ class ParseTests(unittest.TestCase):
 
     def test_quoting_is_safe(self):
         with self.assertRaises(tc.Refused) as e:
-            tc.parse("/close @ludovic111 [x](http://evil)")
+            tc.parse("/close @glearflame [x](http://evil)")
         self.assertNotIn("@", str(e.exception))
         self.assertNotIn("](", str(e.exception))
 
 
 class AllowTests(unittest.TestCase):
-    def test_listed_and_ludovic(self):
+    def test_listed_and_samuel(self):
         do("/close", login="RDBTcvs")
-        do("/close", login="ludovic111")
+        do("/close", login="glearflame")
 
     def test_stranger_refused(self):
-        with self.assertRaisesRegex(tc.Refused, "Only Ludovic"):
+        with self.assertRaisesRegex(tc.Refused, "Only Samuel"):
             do("/close", login="someone")
 
     def test_paused(self):
         paused = listing("kacpherek", "paused")
         with self.assertRaisesRegex(tc.Refused, "paused"):
             do("/close", reviewers=paused)
-        do("/close", reviewers=paused, login="ludovic111")
+        do("/close", reviewers=paused, login="glearflame")
 
     def test_the_repos_list_is_the_nightlys(self):
         self.assertEqual(ns.REVIEWERS, ".github/trusted-reviewers.txt")
         self.assertEqual(Path(tc.ns.__file__).resolve(), Path(ns.__file__).resolve())  # one parser for all three
 
     def test_a_reclaimed_login_is_nobody(self):
-        with self.assertRaisesRegex(tc.Refused, "Only Ludovic"):
+        with self.assertRaisesRegex(tc.Refused, "Only Samuel"):
             tc.run(Fake(), tc.parse("/close"), ns.Actor("kacpherek", 555), 5, URL, LIST, NOW)
-        # Ludovic's threads are recognised by his ID, not by a login someone else may hold.
-        api = Fake({5: {"state": "open", "user": {"login": "ludovic111", "id": 555}, "labels": [], "locked": False}})
+        # Samuel's threads are recognised by his ID, not by a login someone else may hold.
+        api = Fake({5: {"state": "open", "user": {"login": "glearflame", "id": 555}, "labels": [], "locked": False}})
         do("/close", api)
 
 
@@ -190,11 +190,11 @@ class RefusalTests(unittest.TestCase):
         with self.assertRaises(tc.Refused):
             do("/label bug, release-now")
 
-    def test_ludovics_threads(self):
+    def test_samuels_threads(self):
         for text in ("/close", "/label bug", "/unlabel bug", "/reopen"):
-            for t in (thread(user="ludovic111", state="closed" if text == "/reopen" else "open"),
-                      thread(user="Ludovic111", pr=True)):
-                with self.assertRaisesRegex(tc.Refused, "Ludovic's"):
+            for t in (thread(user="glearflame", state="closed" if text == "/reopen" else "open"),
+                      thread(user="Samuel111", pr=True)):
+                with self.assertRaisesRegex(tc.Refused, "Samuel's"):
                     do(text, Fake({5: t}))
 
     def test_merged_pr(self):
@@ -212,7 +212,7 @@ class RefusalTests(unittest.TestCase):
             do("/close", Fake({}))
 
     def test_nothing_written_on_refusal(self):
-        api = Fake({5: thread(user="ludovic111")})
+        api = Fake({5: thread(user="glearflame")})
         with self.assertRaises(tc.Refused):
             do("/close", api)
         self.assertEqual(api.calls, [])
@@ -241,8 +241,8 @@ class LimitTests(unittest.TestCase):
         with self.assertRaises(tc.Refused):
             do("/close", Fake(past=past("kacpherek", 60)), login="Kacpherek")
 
-    def test_ludovic_is_unlimited(self):
-        do("/close", Fake(past=past("ludovic111", 100)), login="ludovic111")
+    def test_samuel_is_unlimited(self):
+        do("/close", Fake(past=past("glearflame", 100)), login="glearflame")
 
 
 class WorkflowTests(unittest.TestCase):

@@ -1,6 +1,6 @@
 //! Render do Horizon: trait de renderer e implementação stub.
 //!
-//! Recriação do zero — partes de 100% de autoria do horizon-rust/horizon.
+//! Recriação do zero — partes de 100% de autoria do glearflame/horizon.
 //! Não contém código de terceiros (sem backend gráfico real, sem assets).
 
 use ll_core::Aabb;

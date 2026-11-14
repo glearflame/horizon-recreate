@@ -1,6 +1,6 @@
 name: triage command
 # `/close`, `/reopen`, `/label`, `/unlabel` comments: the trusted reviewers in .github/trusted-reviewers.txt (and
-# Ludovic) triage issues and pull requests without any repository role (docs/release-flow.md "Trusted reviewers",
+# Samuel) triage issues and pull requests without any repository role (docs/release-flow.md "Trusted reviewers",
 # tools/ci/triage_command.py).
 #
 # Why no pull request's code runs here, though the token can write:

@@ -38,9 +38,9 @@ permissions:
 jobs:
   exporters:
     # This runner holds the maintainer's own pinned Minecraft jars. Only our classes leave it. An untrusted build
-    # goes to the Mac mini's nightly runner (macOS + horizon-nightly: ludovics-mac-mini-nightly, beside the one that
+    # goes to the Mac mini's nightly runner (macOS + horizon-nightly: samuels-mac-mini-nightly, beside the one that
     # runs pull requests' parity jobs, so a nightly never waits behind their queue), never the release runner
-    # (MAC_RUNNER: ludovics-mac-mini-release) nor parity-main's.
+    # (MAC_RUNNER: samuels-mac-mini-release) nor parity-main's.
     runs-on: ${{ inputs.trusted && vars.MAC_RUNNER || fromJSON('["self-hosted", "macOS", "horizon-nightly"]') }}
     # Three full preparations (two isolated, one batched) besides the compile.
     timeout-minutes: 60

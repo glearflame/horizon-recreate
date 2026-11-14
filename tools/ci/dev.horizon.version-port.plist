@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <!-- The daily version port (docs/version-ports.md, "Detect"). A template: @HOME@ becomes the home folder when it is
-     installed; not installed until Ludovic approves (see the doc for how to turn it on). 16:00 in Zurich is 14:00
+     installed; not installed until Samuel approves (see the doc for how to turn it on). 16:00 in Zurich is 14:00
      UTC in summer and 15:00 UTC in winter, after Mojang's usual release hours. -->
 <plist version="1.0"><dict>
   <key>Label</key><string>dev.horizon.version-port</string>

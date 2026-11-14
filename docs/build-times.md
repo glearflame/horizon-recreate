@@ -1,7 +1,7 @@
 # Build times
 
 `tools/build_times.py` measures how long Horizon takes to build, the same way on any checkout, so that two
-machines or two commits can be compared. It exists for [#3916](https://github.com/horizon-rust/horizon/issues/3916)
+machines or two commits can be compared. It exists for [#3916](https://github.com/glearflame/horizon/issues/3916)
 (a leaner codebase that builds faster): the crate split needs a number before and a number after.
 It only measures. It does not change the build.
 

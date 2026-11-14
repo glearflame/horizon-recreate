@@ -1,5 +1,5 @@
 name: cargo-horizon-mod
-# `cargo binstall --git https://github.com/horizon-rust/horizon cargo-horizon-mod` (#2120): binstall reads
+# `cargo binstall --git https://github.com/glearflame/horizon cargo-horizon-mod` (#2120): binstall reads
 # [package.metadata.binstall] from crates/cargo-horizon-mod/Cargo.toml and downloads the archive this workflow
 # attaches to the tag `cargo-horizon-mod-v<version>`, whose version must be the manifest's. The targets come from
 # tools/horizon_mod_binstall.py, the same file the manifest's template is checked against, so a platform added there
@@ -99,7 +99,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          notes="\`cargo binstall --git https://github.com/horizon-rust/horizon cargo-horizon-mod\`"
+          notes="\`cargo binstall --git https://github.com/glearflame/horizon cargo-horizon-mod\`"
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
             gh release upload "$GITHUB_REF_NAME" dist/* --clobber
           else

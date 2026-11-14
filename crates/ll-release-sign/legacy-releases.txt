@@ -1,7 +1,7 @@
 # Releases published before signing began, with their archives' SHA-256 as GitHub computed them at upload:
 # `<tag> <asset> <sha256>` per line, written by tools/ci/legacy_releases.py. The launcher and horizon-server
 # install these releases only with exactly these files (docs/security.md, "Signed updates"); every later release
-# is checked against its signed SHA256SUMS instead. Changing this file needs Ludovic's review (.github/CODEOWNERS).
+# is checked against its signed SHA256SUMS instead. Changing this file needs Samuel's review (.github/CODEOWNERS).
 v2026.10.12 horizon-linux-x86_64.tar.gz 81fba8b54900ddc1c56f7cb5d235b67f4f762647d68be02d26068e98bd7ad4e0
 v2026.10.12 horizon-macos-arm64.zip 683be5da1bc5adf5e4eaed9e7c2e2a606a6d83f5f0147ca217583cb311f38631
 v2026.10.12 horizon-windows-x64.zip 330f919329f1ff6beec80def7accf08fda693ab3c7248690aa39c86401c55e64

@@ -1,7 +1,7 @@
 # Mod registry v2
 
 Every kind can be submitted, every project has a real page (description, categories, tags, icon, screenshots), and
-installed projects update themselves. Asked by Ludovic on 2026-11-05. This note fixes the schema, the kinds, where
+installed projects update themselves. Asked by Samuel on 2026-11-05. This note fixes the schema, the kinds, where
 the launcher installs each one, the category lists and the rollout. The format itself stays in
 [docs/api/mod-index.md](../api/mod-index.md), updated by the PRs that change it.
 
@@ -102,4 +102,4 @@ The `cargo horizon-mod` pinned by horizon-mods (`HORIZON_REV`) refuses unknown e
 
 Progress: `agent-state/registry-v2.md` in the orchestration repo.
 
-[MOD-POLICY.md]: https://github.com/horizon-rust/horizon-mods/blob/main/MOD-POLICY.md
+[MOD-POLICY.md]: https://github.com/glearflame/horizon-mods/blob/main/MOD-POLICY.md

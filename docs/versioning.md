@@ -21,7 +21,7 @@ the release line. What follows describes the `vX.Y.Z` game tags as they were.
 | Release title | `Horizon 0.2.3: <what changed>` | `Horizon launcher 0.2.1` |
 | The program says | `horizon-server 0.2.3`, `v0.2.3` in crash reports and telemetry | `horizon-launcher 0.2.1` |
 
-- **The line** (`MAJOR.MINOR`) is in `.github/release-line.txt`, one line such as `0.2`. Ludovic decides when it
+- **The line** (`MAJOR.MINOR`) is in `.github/release-line.txt`, one line such as `0.2`. Samuel decides when it
   moves; moving it is a one-line pull request (`0.3`), and the new line's first releases (`v0.3.0`,
   `launcher@0.3.0`) go out as soon as it merges. Without the file, the release train keeps the tags from before
   0.2. A `feature` label no longer bumps anything: it only lists the change under **New**.
@@ -49,7 +49,7 @@ A tag is a 0.2 tag when it is `v` or `launcher@` followed by exactly three numbe
 major below 1000; a date's first number is a year, so `v2026.10.21` never is. The rule is written once per
 language, with the same tests: `crates/horizon-server/src/update.rs` (`newer`), `launcher/src/backend.rs`
 (`release_order`), `tools/release_train.py` (`tag_key`) and
-the website's `src/versions.js` (horizon-rust/horizon-site).
+the website's `src/versions.js` (glearflame/horizon-site).
 
 ## The workflows
 
@@ -99,7 +99,7 @@ the fleet's `release-kick` and the orchestrator's heartbeat prompts.
 - `.github/release-line.txt` must never be removed.
 - The bridges (`launcher-v0.17.0` and the last dated game release) must never be withdrawn or deleted.
 
-## The day Ludovic says go
+## The day Samuel says go
 
 Done on 2026-10-22; kept as the record of how 0.2 went out. `promote.yml` and `tools/release_channels.py`, which
 it uses, are gone since the single channel (2026-10-23, [One channel](release-flow.md#one-channel)).
@@ -116,7 +116,7 @@ Run by the orchestrator, in this order. Until step 3, nothing is published.
    U=$(id -u); launchctl enable gui/$U/dev.fleet.release-kick
    launchctl bootstrap gui/$U ~/Library/LaunchAgents/dev.fleet.release-kick.plist   # on the Mac mini
    ```
-   **Decision for Ludovic first:** the pre-freeze beta `v2026.10.21` would be promoted. A dry run says
+   **Decision for Samuel first:** the pre-freeze beta `v2026.10.21` would be promoted. A dry run says
    `Would promote: v2026.10.21` (`python3 tools/release_channels.py promote --dry-run`). The first promote run after
    this step (at :13 or :43) makes it stable and *latest*, hours before the bridge is due. Either he accepts that build as
    stable, or it is held: leave `gh workflow enable promote` out of this step and run it once the bridge has been out
@@ -131,7 +131,7 @@ Run by the orchestrator, in this order. Until step 3, nothing is published.
 4. Let the game bridge become stable on its normal schedule: about 6 hours after it was published, the promote run
    makes it *latest*. Do not force it (`promote` with `force=true`): it carries about 43 player-facing pull requests
    from the freeze and needs its beta like any release. Check it is *latest*:
-   `gh api repos/horizon-rust/horizon/releases/latest --jq .tag_name`.
+   `gh api repos/glearflame/horizon/releases/latest --jq .tag_name`.
 5. Only then merge the update channels pull request (the launcher's Stable and Alpha, the daily promotion), then
    mark the switch pull request (#1132) ready and merge it (`.github/release-line.txt` = `0.2`, and the
    docs that talk about 0.2). On the next run, about 10 minutes, the train publishes `v0.2.0` as a beta and
@@ -145,6 +145,6 @@ Run by the orchestrator, in this order. Until step 3, nothing is published.
    and `gh release view v0.2.0 --json assets`, `horizon-server --version` in the Linux server archive.
 7. `v0.2.0` becomes stable in the first daily promotion (20:00 UTC) it has been out 6 hours for (or
    `gh workflow run promote -f tag=v0.2.0`). While it is a beta, *latest*
-   stays the bridge, so keeping it in beta for longer catches more servers (Ludovic's call). From then on everything
+   stays the bridge, so keeping it in beta for longer catches more servers (Samuel's call). From then on everything
    is automatic again: `v0.2.1`, `launcher@0.2.1`, ….
 8. Point Kira, `release-kick` and the heartbeat prompts at the new tags (outside this repository).

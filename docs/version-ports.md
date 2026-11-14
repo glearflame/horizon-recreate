@@ -120,7 +120,7 @@ warning: agents can read what 26.4 changes weeks before it ships.
    stops here, as `lab.py prepare` does.
 2. Unpack the server bundler (`lab.unpack_server`: one version, sha256 per entry).
 3. Read the jar's `version.json` into `facts.json`. If its Java major is newer than the JDK on the Mac mini, stop
-   with a single work item, "install JDK N" (a Ludovic task: fleet toolchains).
+   with a single work item, "install JDK N" (a Samuel task: fleet toolchains).
 4. Run the data generator (`--reports`) with that JDK into `datagen/reports/`.
 5. Index the classes of `client.jar` and `server-game.jar` into `classes.json`: for each class its superclass,
    interfaces, fields, and methods; each method's hash is over its bytecode with every constant-pool reference
@@ -251,7 +251,7 @@ summary counts pass / oracle / fail / newly failing.
 `version_port.py publish OLD NEW` (`tools/port_publish.py`) files the report as GitHub issues. **It is a dry run
 by default**: it prints every issue it would create or update and the first bodies (`--show N`; `--check-github`
 reads the open issues and labels, read-only, to tell creates from updates). `--yes` does it; the first `--yes` run
-and the `version-port` label are Ludovic's call.
+and the `version-port` label are Samuel's call.
 
 - **One issue per item** of rank 1, of rank 2 when a harness newly fails on NEW (or its oracle no longer compiles),
   and of rank 3 when Horizon's comments name one of the changed methods: title `[NEW] <item>`, labels
@@ -287,7 +287,7 @@ who haven't can keep the previous Horizon release. Supporting two Minecraft vers
 ## Turning on the daily agent
 
 Not installed: it runs Mojang downloads, Cargo, Java and every harness on the Mac mini unattended, and its
-`publish` dry run prepares issues under a new `version-port` label, so both need Ludovic's approval. What it does
+`publish` dry run prepares issues under a new `version-port` label, so both need Samuel's approval. What it does
 on each run (`tools/ci/version-port-daily.sh`):
 
 1. update its worktree of `origin/main` (`~/code/horizon-parity/port-main`, made on the first run, `.local/` linking
@@ -303,17 +303,17 @@ on each run (`tools/ci/version-port-daily.sh`):
 It never runs `publish --yes`, never pushes and never changes `shared-local/`. `HORIZON_PORT_VERSION=V` ports V at
 once (by hand, or to replay a version); `HORIZON_PORT_REF` checks out another ref than `origin/main`.
 
-To turn it on, on the Mac mini (as Ludovic, once approved):
+To turn it on, on the Mac mini (as Samuel, once approved):
 
 ```sh
 # 1. The label publish files issues under (once):
-gh label create version-port --repo horizon-rust/horizon --color 5319e7 \
+gh label create version-port --repo glearflame/horizon --color 5319e7 \
   --description "Work to port Horizon to a new Minecraft release (tools/version_port.py publish)"
 # 2. The script, as a copy from main (it updates its own worktree, so it never runs from a checkout):
-curl -fsSL https://raw.githubusercontent.com/horizon-rust/horizon/main/tools/ci/version-port-daily.sh \
+curl -fsSL https://raw.githubusercontent.com/glearflame/horizon/main/tools/ci/version-port-daily.sh \
   -o ~/code/horizon-parity/version-port-daily.sh
 # 3. The agent:
-curl -fsSL https://raw.githubusercontent.com/horizon-rust/horizon/main/tools/ci/dev.horizon.version-port.plist \
+curl -fsSL https://raw.githubusercontent.com/glearflame/horizon/main/tools/ci/dev.horizon.version-port.plist \
   | sed "s|@HOME@|$HOME|g" > ~/Library/LaunchAgents/dev.horizon.version-port.plist
 launchctl bootstrap gui/$(id -u) ~/Library/LaunchAgents/dev.horizon.version-port.plist
 # A run now, to see it work (log: ~/Library/Logs/horizon-version-port.log):
@@ -329,7 +329,7 @@ Automatic: detecting, downloading, verifying, the data generator, every diff, th
 data-driven tables, rerunning every harness, the report, issues and cards, and, once the report is clean, the pin
 bump branch.
 
-Manual, by agents (and Ludovic's review):
+Manual, by agents (and Samuel's review):
 
 - **New mechanics** (a new mob, block behaviour, worldgen feature, UI screen): someone has to port the new code. The
   pipeline hands them the exact classes and methods, the decompiled diff, the Horizon module and the harness to
@@ -338,7 +338,7 @@ Manual, by agents (and Ludovic's review):
 - **Oracles whose vanilla API moved**: javac names the symbol; usually a short fix.
 - **New harnesses** for rank-3 items, where Horizon ports code that no harness checks.
 - **New JDK**: a fleet toolchain install, once per Java bump.
-- **Judgment on the switch**: merging the pin bump and releasing stay Ludovic's call.
+- **Judgment on the switch**: merging the pin bump and releasing stay Samuel's call.
 
 ## Replay: 26.2 → 26.3
 
@@ -432,4 +432,4 @@ python3 tools/vanilla_map.py versions/26.3/classes.json net.minecraft.world.food
 | `regen` (`tools/port_regen.py`): candidate worktree, its `.local/`, the generators' classes decompiled alone, every generator, `regen.json` in the report | done |
 | Candidate harness run (`tools/port_harness.py`, `harnesses`): horizon-prepare with sounds, every harness, pass / oracle / fail, newly failing against a baseline, in the report | done |
 | `publish` (`tools/port_publish.py`): dry run by default, issues, tracking issue, Kira card | done (never run with `--yes`) |
-| Daily launchd agent (`tools/ci/version-port-daily.sh`, `tools/ci/dev.horizon.version-port.plist`) | written, not installed: needs Ludovic's approval |
+| Daily launchd agent (`tools/ci/version-port-daily.sh`, `tools/ci/dev.horizon.version-port.plist`) | written, not installed: needs Samuel's approval |

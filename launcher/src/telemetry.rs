@@ -39,7 +39,7 @@ pub const SWITCHES: [(Kind, &str, &str); 4] = [
 /// Never sent, whatever the switches say.
 pub const NEVER: &str = "Never sent: your account name or UUID, world names, server addresses, chat, or your IP address. Each report is dated to the day, under a random install ID you can delete.";
 
-/// The anonymous "I'm playing" ping the game sends whatever the switches say (Ludovic's
+/// The anonymous "I'm playing" ping the game sends whatever the switches say (Samuel's
 /// decision, 2026-10-22: count everyone, and tell them). Shown on the first-run question, in
 /// Settings, and once on the Play page to players who answered before it existed.
 pub const PING_NAME: &str = "\"I'm playing\" ping";

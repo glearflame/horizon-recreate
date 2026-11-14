@@ -1,7 +1,7 @@
 //! The anonymous "I'm playing" ping, and the live count it feeds ("N playing now" in the
 //! launcher).
 //!
-//! Unlike everything else in this crate it does not wait for consent: Ludovic decided
+//! Unlike everything else in this crate it does not wait for consent: Samuel decided
 //! (2026-10-22) to count every player and tell them, in the launcher's first-run question, its
 //! Settings and the privacy page. So a ping holds only what the count needs: a random session ID
 //! made when the game starts and kept only in its memory (not the install ID), the Horizon
