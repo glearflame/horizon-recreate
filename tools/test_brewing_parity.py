@@ -183,6 +183,6 @@ if __name__ == '__main__':
         'bundled recipe, potion type/id and item candidate, plus the brewing-stand tick: brew time and '
         'speed multiplier, fuel uses and loading, ingredient shrink, outputs and bottle bits. --baseline '
         'leaves out the cross-product and whole-registry slot candidates; --no-tick leaves out the tick cases.',
-        sources=[lab.ROOT / 'crates/horizon-client-render/src/brewing.rs',
-                 lab.ROOT / 'crates/horizon-items/src/item_data.rs',
-                 lab.ROOT / 'crates/horizon-items/src/items.rs'])
+        sources=[lab.ROOT / 'crates/ll-client-render/src/brewing.rs',
+                 lab.ROOT / 'crates/ll-items/src/item_data.rs',
+                 lab.ROOT / 'crates/ll-items/src/items.rs'])

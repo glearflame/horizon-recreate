@@ -132,7 +132,7 @@ PERF_MODS = ["sodium", "lithium", "ferrite-core", "immediatelyfast"]
 NEOFORGE_DATA_VERSION = "3955"
 
 
-# The benchmark report format, version 1 (docs/benchmark-report.md). crates/horizon-bench is the
+# The benchmark report format, version 1 (docs/benchmark-report.md). crates/ll-bench is the
 # reference: these functions compute the same figures, with the same rounding, for every game.
 REPORT_FORMAT, REPORT_VERSION = "horizon-benchmark-report", 1
 HISTOGRAM_EDGES_MS = [0, 1, 2, 3, 4.17, 5, 6, 7, 8.33, 10, 12, 14, 16.67, 20, 25, 33.33, 40,
@@ -365,7 +365,7 @@ def yaw(start, end):
 # Horizon -------------------------------------------------------------------
 
 def control_path():
-    """Where the game opens its control endpoint (crates/horizon-client/src/control.rs): a Unix socket, or,
+    """Where the game opens its control endpoint (crates/ll-client/src/control.rs): a Unix socket, or,
     where Python has none (Windows), a JSON file in which the game names a localhost TCP port and a token."""
     if hasattr(socket, "AF_UNIX"):
         return Path("/tmp") / f"horizon-bench-{os.getpid()}.sock"
@@ -1231,7 +1231,7 @@ def app(args):
     if args.game == "horizon":
         commit = subprocess.run(["git", "rev-parse", "--short", "HEAD"], cwd=ROOT,
                                 capture_output=True, text=True).stdout.strip() or None
-        manifest = (ROOT / "crates/horizon-client/Cargo.toml").read_text()
+        manifest = (ROOT / "crates/ll-client/Cargo.toml").read_text()
         version = next(l.split('"')[1] for l in manifest.splitlines() if l.startswith("version"))
         mods = [{"name": p.parent.name, "version": "carried"} for p in dev_mods(args)]
         if getattr(args, "release", None):

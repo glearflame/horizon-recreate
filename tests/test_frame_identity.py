@@ -152,7 +152,7 @@ class BaseTests(unittest.TestCase):
     def test_only_files_no_binary_is_built_from_let_the_base_reuse_the_change(self):
         changed = ['tools/test_frame_identity_parity.py', 'tests/test_frame_identity.py', '.github/workflows/ci.yml',
                    'docs/parity-workflow.md', 'README.md', 'docs/modpacks/atm10-mods.csv', 'crates/x/README.md',
-                   'crates/horizon-client-render/src/gfx.rs', 'tools/native-hook-fragments/player.json']
+                   'crates/ll-client-render/src/gfx.rs', 'tools/native-hook-fragments/player.json']
         original = identity.git
         identity.git = lambda *args, cwd=None: '\n'.join(changed)
         try:

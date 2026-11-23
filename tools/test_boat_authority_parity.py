@@ -107,10 +107,10 @@ def main():
     args = parser.parse_args()
     lock, jars, _ = base.verify_artifacts()
     source_paths = [lab.ROOT / path for path in (
-        'crates/horizon-client/src/game/boats.rs',
-        'crates/horizon-client/src/game/remote_vehicles.rs',
-        'crates/horizon-client/src/game/lan_vehicles.rs',
-        'crates/horizon-client/src/game/boat_authority_fixture.rs',
+        'crates/ll-client/src/game/boats.rs',
+        'crates/ll-client/src/game/remote_vehicles.rs',
+        'crates/ll-client/src/game/lan_vehicles.rs',
+        'crates/ll-client/src/game/boat_authority_fixture.rs',
         'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaBoatAuthorityOracle.java',
         'tools/test_boat_authority_parity.py')]
     source_hashes = base.source_hashes(source_paths)

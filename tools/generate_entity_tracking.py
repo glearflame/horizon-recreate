@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate crates/horizon-client/src/lan/tracking.rs: every entity type's
+"""Generate crates/ll-client/src/lan/tracking.rs: every entity type's
 tracking settings (EntityType.Builder clientTrackingRange, updateInterval and
 trackDeltas, which ChunkMap.TrackedEntity and ServerEntity use to decide who
 sees an entity and how often its movement is sent), read from the decompiled
@@ -40,7 +40,7 @@ def parse(sources):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--sources", type=Path, default=lab.GAME / "sources/client")
-    parser.add_argument("--out", type=Path, default=ROOT / "crates/horizon-client/src/lan/tracking.rs")
+    parser.add_argument("--out", type=Path, default=ROOT / "crates/ll-client/src/lan/tracking.rs")
     args = parser.parse_args()
     rows = parse(args.sources)
     if len(rows) < 100:

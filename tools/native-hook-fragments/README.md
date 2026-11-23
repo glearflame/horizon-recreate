@@ -11,7 +11,7 @@ the API histories or `native-hooks.json`. Helper-only additions use an empty
   ],
   "rust_summary": "an example hook (`native_example`).",
   "doc_summary": "an example hook (`native_example`). Bundles need \"hooks\": @API:example@.",
-  "comments": ["crates/horizon-client/src/game/example.rs"]
+  "comments": ["crates/ll-client/src/game/example.rs"]
 }
 ```
 

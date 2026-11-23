@@ -40,8 +40,8 @@ def main():
         make_input, "BlockTintSource.color(state) at indices -1, 0, 1 and 2 for every state of every registered block, "
                      "not just the hand-picked tinted families; per-face tint indices, no level/biome. "
                      "Not model or framebuffer parity.",
-        sources=[lab.ROOT / "tools/test_block_tint_parity.py", lab.ROOT / "crates/horizon-client-render/src/mesher.rs",
-                 lab.ROOT / "crates/horizon-client/src/item_render.rs"])
+        sources=[lab.ROOT / "tools/test_block_tint_parity.py", lab.ROOT / "crates/ll-client-render/src/mesher.rs",
+                 lab.ROOT / "crates/ll-client/src/item_render.rs"])
 
 
 if __name__ == "__main__":

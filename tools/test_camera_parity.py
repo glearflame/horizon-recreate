@@ -209,7 +209,7 @@ def main():
              'interpolation branch is not exercised.')
     harness.differential(
         'rust-camera-parity', 'VanillaCameraOracle', 'camera_probe', make_cases, scope,
-        sources=[lab.ROOT / 'crates/horizon-client-render/src/camera.rs'])
+        sources=[lab.ROOT / 'crates/ll-client-render/src/camera.rs'])
 
 
 if __name__ == '__main__':

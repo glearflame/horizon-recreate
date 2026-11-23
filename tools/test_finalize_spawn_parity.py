@@ -118,8 +118,8 @@ def main():
     lock, jars, libraries = base.verify_artifacts()
     resources = lab.RESOURCES
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaFinalizeSpawnOracle.java'
-    sources = [oracle, Path(__file__), lab.ROOT / 'crates/horizon-client/examples/probe/finalize_spawn_fixture.rs',
-               lab.ROOT / 'crates/horizon-client/src/mobs/finalize.rs']
+    sources = [oracle, Path(__file__), lab.ROOT / 'crates/ll-client/examples/probe/finalize_spawn_fixture.rs',
+               lab.ROOT / 'crates/ll-client/src/mobs/finalize.rs']
     tested = base.source_hashes([s for s in sources if s.exists()])
     inputs = build / 'inputs.txt'
     cases = corpus()

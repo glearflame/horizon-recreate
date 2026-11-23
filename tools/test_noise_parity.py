@@ -169,8 +169,8 @@ def main():
     inputs.write_text("\n".join(commands) + "\n", encoding="utf-8")
     source = lab.ROOT / "mods/horizon/src/test/java/dev/horizonlab/parity/VanillaNoiseOracle.java"
     sources = [source, Path(__file__), lab.ROOT / "tools/test_rust_parity.py", lab.ROOT / "tools/lab.py",
-               *sorted((lab.ROOT / "crates/horizon-core").rglob("*.rs")),
-               lab.ROOT / "crates/horizon-core/Cargo.toml", lab.ROOT / "Cargo.toml", lab.ROOT / "Cargo.lock"]
+               *sorted((lab.ROOT / "crates/ll-core").rglob("*.rs")),
+               lab.ROOT / "crates/ll-core/Cargo.toml", lab.ROOT / "Cargo.toml", lab.ROOT / "Cargo.lock"]
     tested_sources = test_rust_parity.source_hashes(sources)
     classes = build / "classes"
     classes.mkdir(exist_ok=True)

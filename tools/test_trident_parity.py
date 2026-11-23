@@ -106,10 +106,10 @@ def main():
     sources = [Path(__file__), ROOT / 'tools/oracle_harness.py', ROOT / 'tools/lab.py',
                ROOT / 'tools/test_rust_parity.py', ROOT / 'tools/test_model_baking_parity.py', oracle,
                ROOT / 'Cargo.toml', ROOT / 'Cargo.lock',
-               ROOT / 'crates/horizon-client/examples/probe/trident_probe.rs',
-               ROOT / 'crates/horizon-client/examples/probe/main.rs',
-               ROOT / 'crates/horizon-client/src/arrows.rs',
-               ROOT / 'crates/horizon-client/src/game/trident.rs']
+               ROOT / 'crates/ll-client/examples/probe/trident_probe.rs',
+               ROOT / 'crates/ll-client/examples/probe/main.rs',
+               ROOT / 'crates/ll-client/src/arrows.rs',
+               ROOT / 'crates/ll-client/src/game/trident.rs']
     tested = base.source_hashes(sources)
     cases = fixtures()
     (build / 'inputs.txt').write_text(''.join(json.dumps(row, separators=(',', ':')) + '\n'

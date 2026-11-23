@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class BlockHighlightHookTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_cancel_filters_only_the_target_outline(self):
-        source = (ROOT / "crates/horizon-client/src/game.rs").read_text()
+        source = (ROOT / "crates/ll-client/src/game.rs").read_text()
         call = source.index("self.native_block_highlight(")
         start = source.rindex(".filter(|h| {", 0, call)
         end = source.index(".map(|h| {", call)

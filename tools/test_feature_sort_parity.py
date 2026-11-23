@@ -54,7 +54,7 @@ def main():
     resources=biome_features(jars['server'])
     if len(resources)!=67 or resources!=biome_features(jars['client']):raise ValueError('pinned biome feature resources differ')
     oracle=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaFeatureSortOracle.java'
-    sources=[oracle,Path(__file__),lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/horizon-core/Cargo.toml',lab.ROOT/'crates/horizon-world/Cargo.toml',*sorted((lab.ROOT/'crates/horizon-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/horizon-world/src').rglob('*.rs')),lab.ROOT/'crates/horizon-world/examples/probe/feature_sort_fixture.rs']
+    sources=[oracle,Path(__file__),lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/ll-core/Cargo.toml',lab.ROOT/'crates/ll-world/Cargo.toml',*sorted((lab.ROOT/'crates/ll-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/ll-world/src').rglob('*.rs')),lab.ROOT/'crates/ll-world/examples/probe/feature_sort_fixture.rs']
     tested_sources=base.source_hashes(sources)
     fixtures=list(corpus(resources));inputs=build/'inputs.txt';inputs.write_text(''.join(json.dumps(f,separators=(',',':'))+'\n' for f in fixtures),encoding='utf-8')
     resource_path=build/'biome-features.json';resource_path.write_text(json.dumps(resources,separators=(',',':')),encoding='utf-8')

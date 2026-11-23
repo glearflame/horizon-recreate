@@ -55,7 +55,7 @@ def main():
     build = lab.LOCAL / 'rust-blockstate-transform-parity'; build.mkdir(parents=True, exist_ok=True)
     report_path = build / 'report.json'; report_path.unlink(missing_ok=True)
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaModelBakingOracle.java'
-    helper = oracle.with_name('VanillaCuboidModelOracle.java'); crate = lab.ROOT / 'crates/horizon-assets'
+    helper = oracle.with_name('VanillaCuboidModelOracle.java'); crate = lab.ROOT / 'crates/ll-assets'
     sources = [oracle, helper, Path(__file__), lab.ROOT/'tools/test_model_baking_parity.py',
                lab.ROOT/'tools/test_cuboid_model_parity.py', lab.ROOT/'tools/test_model_resolution_parity.py',
                lab.ROOT/'tools/lab.py', lab.ROOT/'tools/test_rust_parity.py', lab.ROOT/'Cargo.toml',

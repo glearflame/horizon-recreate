@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Bakes the static Bricolage Grotesque files in crates/horizon-theme/fonts from upstream's variable font.
+"""Bakes the static Bricolage Grotesque files in crates/ll-theme/fonts from upstream's variable font.
 
 GPUI picks a font file by family and weight, so the launcher can't use the variable font itself:
 this cuts the instances it uses (docs/design-system.md, "Night"): the UI family at optical size 14
@@ -36,7 +36,7 @@ from fontTools.pens.ttGlyphPen import TTGlyphPen
 from fontTools.ttLib import TTFont
 from fontTools.varLib.instancer import instantiateVariableFont
 
-OUT = Path(__file__).resolve().parent.parent / "crates/horizon-theme/fonts"
+OUT = Path(__file__).resolve().parent.parent / "crates/ll-theme/fonts"
 UI = "Bricolage Grotesque"
 DISPLAY = "Bricolage Grotesque Display"
 # The glass look's headings (docs/design-system.md, "Glass"): SemiBold at the optical sizes a

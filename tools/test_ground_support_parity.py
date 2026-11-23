@@ -65,7 +65,7 @@ def main():
     sources=[*oracles,Path(__file__),lab.ROOT/'tools/test_block_collision_scan_parity.py',lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock']
     for crate in ['horizon-core','horizon-world']:sources += [lab.ROOT/'crates'/crate/'Cargo.toml',*sorted((lab.ROOT/'crates'/crate/'src').rglob('*.rs'))]
     names=['block_collision_scan_fixture','ground_state_fixture']
-    sources += [lab.ROOT/'crates/horizon-world/examples/probe'/(name+'.rs') for name in names]
+    sources += [lab.ROOT/'crates/ll-world/examples/probe'/(name+'.rs') for name in names]
     tested=base.source_hashes(sources)
     classes=build/'classes';classes.mkdir(exist_ok=True);dependencies=os.pathsep.join(map(str,libraries))
     def run(command,name):

@@ -73,8 +73,8 @@ def main():
     if not biomes or biomes!=biome_resources(jars['client']):raise ValueError('client/server biome resources differ')
     (build/'biomes.json').write_text(json.dumps(biomes,separators=(',',':')),encoding='utf-8')
     oracle=lab.ROOT/"mods/horizon/src/test/java/dev/horizonlab/parity/VanillaBiomeTemperatureOracle.java"
-    sources=[oracle,Path(__file__),lab.ROOT/"tools/test_worldgen_parity.py",lab.ROOT/"tools/test_rust_parity.py",lab.ROOT/"tools/lab.py",lab.ROOT/"Cargo.toml",lab.ROOT/"Cargo.lock",lab.ROOT/"crates/horizon-core/Cargo.toml",lab.ROOT/"crates/horizon-world/Cargo.toml",
-             *sorted((lab.ROOT/"crates/horizon-core/src").rglob("*.rs")),*sorted((lab.ROOT/"crates/horizon-world/src").rglob("*.rs")),lab.ROOT/"crates/horizon-world/examples/probe/biome_temperature_fixture.rs"]
+    sources=[oracle,Path(__file__),lab.ROOT/"tools/test_worldgen_parity.py",lab.ROOT/"tools/test_rust_parity.py",lab.ROOT/"tools/lab.py",lab.ROOT/"Cargo.toml",lab.ROOT/"Cargo.lock",lab.ROOT/"crates/ll-core/Cargo.toml",lab.ROOT/"crates/ll-world/Cargo.toml",
+             *sorted((lab.ROOT/"crates/ll-core/src").rglob("*.rs")),*sorted((lab.ROOT/"crates/ll-world/src").rglob("*.rs")),lab.ROOT/"crates/ll-world/examples/probe/biome_temperature_fixture.rs"]
     tested_sources=base.source_hashes(sources)
     fixtures=[*corpus(),*codec_corpus(biomes)];inputs=build/"inputs.txt";inputs.write_text("".join(json.dumps(f,separators=(",",":"))+"\n" for f in fixtures),encoding="utf-8")
     fixture_paths=[inputs,build/"biomes.json"];tested_fixtures=base.source_hashes(fixture_paths);classes=build/"classes";classes.mkdir(exist_ok=True)

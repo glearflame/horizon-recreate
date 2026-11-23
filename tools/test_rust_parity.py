@@ -170,8 +170,8 @@ def main():
     inputs = build / "inputs.txt"
     inputs.write_text("\n".join(commands) + "\n", encoding="utf-8")
     source = lab.ROOT / "mods/horizon/src/test/java/dev/horizonlab/parity/VanillaCoreOracle.java"
-    sources = [source, Path(__file__), *sorted((lab.ROOT / "crates/horizon-core").rglob("*.rs")),
-               lab.ROOT / "crates/horizon-core/Cargo.toml", lab.ROOT / "Cargo.toml", lab.ROOT / "Cargo.lock"]
+    sources = [source, Path(__file__), *sorted((lab.ROOT / "crates/ll-core").rglob("*.rs")),
+               lab.ROOT / "crates/ll-core/Cargo.toml", lab.ROOT / "Cargo.toml", lab.ROOT / "Cargo.lock"]
     tested_sources = source_hashes(sources)
     classes = build / "classes"
     classes.mkdir(exist_ok=True)

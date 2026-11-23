@@ -9,7 +9,7 @@ NOW = "2026-10-28T12:00:00+00:00"
 PATTERNS = ns.guarded_patterns((Path(__file__).resolve().parents[1] / ".github/CODEOWNERS").read_text())
 
 
-def pr(n, head="h", state="open", files=("crates/horizon-world/src/lib.rs",), base="main"):
+def pr(n, head="h", state="open", files=("crates/ll-world/src/lib.rs",), base="main"):
     return ns.PullRequest(n, state, f"{head}{n}", f"Fix {n}", f"dev{n}", base, list(files))
 
 
@@ -25,7 +25,7 @@ def run(state, text, login="kacpherek", *prs):
 T = dt.datetime(2026, 10, 28, 12, 0, tzinfo=dt.timezone.utc)
 
 
-def merged_pr(n, title, labels, issues=(), paths=("crates/horizon-world/src/lib.rs",)):
+def merged_pr(n, title, labels, issues=(), paths=("crates/ll-world/src/lib.rs",)):
     return {"number": n, "title": title, "labels": labels, "issues": list(issues), "author": f"dev{n}",
             "paths": list(paths)}
 

@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class MouseButtonEventsTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_order_cancellation_release_and_synthetic_input(self):
-        source = (ROOT / "crates/horizon-client/src/game.rs").read_text(encoding="utf-8")
+        source = (ROOT / "crates/ll-client/src/game.rs").read_text(encoding="utf-8")
         outer = method(source.replace("pub(super) fn", "fn"), "handle_window_event")
         dispatch = outer[outer.index("        if let WindowEvent::MouseInput { state, button, .. } = &event {"):]
         fixture = r"""

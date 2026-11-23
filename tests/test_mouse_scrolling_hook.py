@@ -13,10 +13,10 @@ ROOT = Path(__file__).resolve().parents[1]
 class MouseScrollingHookTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_axes_accumulation_context_gates_and_cancellation(self):
-        source = "".join((ROOT / "crates/horizon-client/src" / path).read_text(encoding="utf-8")
+        source = "".join((ROOT / "crates/ll-client/src" / path).read_text(encoding="utf-8")
                          for path in ("game/play_input.rs", "game.rs"))
         start = source.index("                    let (raw_x, raw_y) = match delta")
-        normalize = source[start:source.index("                    // ScreenEvent.MouseScrolled.Pre", start)]
+        normalize = source[start:source.index("                    if !self.pad_synthetic_input()", start)]
         start = source.index("                    if self.hotbar_takes_wheel()", start)
         dispatch = source[start:source.index("                    if self.screen == Screen::Chat", start)]
         hotbar = "\n".join(method(source, name) for name in
@@ -25,7 +25,7 @@ class MouseScrollingHookTests(unittest.TestCase):
 use std::collections::HashSet;
 #[allow(dead_code)]
 #[path = "MOUSE_PATH"] mod mouse;
-mod horizon_client { pub mod mouse { pub use crate::mouse::*; } }
+mod ll_client { pub mod mouse { pub use crate::mouse::*; } }
 #[derive(Clone, Copy, PartialEq, Eq, Hash)] enum MouseButton { Left, Middle, Right }
 #[derive(Clone, Copy, PartialEq)] enum Screen { Playing, Other }
 struct Point { x: f64, y: f64 }
@@ -110,7 +110,7 @@ fn source_and_legacy_gates() {
         assert_eq!(game.selected, if gate==5 {3} else {4});
     }
 }
-""".replace("MOUSE_PATH", (ROOT / "crates/horizon-client-input/src/mouse.rs").as_posix()).replace("NORMALIZE", normalize).replace("HOTBAR", hotbar).replace("DISPATCH", dispatch)
+""".replace("MOUSE_PATH", (ROOT / "crates/ll-client-input/src/mouse.rs").as_posix()).replace("NORMALIZE", normalize).replace("HOTBAR", hotbar).replace("DISPATCH", dispatch)
         with tempfile.TemporaryDirectory() as folder:
             src, exe = Path(folder) / "scroll.rs", Path(folder) / "scroll.exe"
             src.write_text(fixture, encoding="utf-8")

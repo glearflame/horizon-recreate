@@ -25,7 +25,7 @@ except ImportError:
     import test_dispenser_parity as d
     import test_rust_parity as base
 
-PARITY_RUST_SCOPE = ['crates/horizon-world/', 'crates/horizon-core/']
+PARITY_RUST_SCOPE = ['crates/ll-world/', 'crates/ll-core/']
 
 # EntityType dimensions (width, height) of the travellers.
 ENTITIES = {'minecraft:item': (0.25, 0.25), 'minecraft:zombie': (0.6, 1.95), 'minecraft:skeleton': (0.6, 1.99),

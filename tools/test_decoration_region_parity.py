@@ -54,8 +54,8 @@ def main():
     helper=oracle.with_name("VanillaHeightmapOracle.java")
     placement_helper=oracle.with_name("VanillaPlacementOracle.java")
     sources=[oracle,helper,placement_helper,Path(__file__),lab.ROOT/"tools/test_rust_parity.py",lab.ROOT/"tools/test_worldgen_parity.py",lab.ROOT/"tools/test_feature_region_parity.py",lab.ROOT/"tools/test_decoration_parity.py",lab.ROOT/"tools/test_feature_sort_parity.py",lab.ROOT/"tools/lab.py",lab.ROOT/"Cargo.toml",lab.ROOT/"Cargo.lock",
-             lab.ROOT/"crates/horizon-core/Cargo.toml",lab.ROOT/"crates/horizon-world/Cargo.toml",
-             *sorted((lab.ROOT/"crates/horizon-core/src").rglob("*.rs")),*sorted((lab.ROOT/"crates/horizon-world/src").rglob("*.rs")),lab.ROOT/"crates/horizon-world/examples/probe/decoration_region_fixture.rs",lab.ROOT/"crates/horizon-world/examples/probe/support/decoration_storage.rs"]
+             lab.ROOT/"crates/ll-core/Cargo.toml",lab.ROOT/"crates/ll-world/Cargo.toml",
+             *sorted((lab.ROOT/"crates/ll-core/src").rglob("*.rs")),*sorted((lab.ROOT/"crates/ll-world/src").rglob("*.rs")),lab.ROOT/"crates/ll-world/examples/probe/decoration_region_fixture.rs",lab.ROOT/"crates/ll-world/examples/probe/support/decoration_storage.rs"]
     tested_sources=base.source_hashes(sources)
     classes=build/"classes";classes.mkdir(exist_ok=True)
     def run(command,name):

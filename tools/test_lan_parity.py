@@ -45,4 +45,4 @@ if __name__ == '__main__':
     oh.differential(NAME, 'VanillaLanOracle', 'lan_probe', make_input,
                     'LanServerPinger.createPingString/parseMotd/parseAddress, LanServerDetection decoding and '
                     'LanServerList.addServer/takeDirtyServers',
-                    sources=[oh.lab.ROOT / 'crates/horizon-client/src/lan/discovery.rs'])
+                    sources=[oh.lab.ROOT / 'crates/ll-client/src/lan/discovery.rs'])

@@ -31,8 +31,8 @@ def corpus(weights):
 
 def main():
     lock,jars,_=base.verify_artifacts();build=lab.LOCAL/'rust-model-choice-parity';build.mkdir(parents=True,exist_ok=True);report_path=build/'report.json';report_path.unlink(missing_ok=True)
-    oracle=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaModelChoiceOracle.java';helper=oracle.with_name('VanillaCuboidModelOracle.java');crate=lab.ROOT/'crates/horizon-assets'
-    sources=[oracle,helper,Path(__file__),lab.ROOT/'tools/test_model_baking_parity.py',lab.ROOT/'tools/test_cuboid_model_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',crate/'Cargo.toml',lab.ROOT/'crates/horizon-core/Cargo.toml',*sorted(crate.rglob('*.rs')),*sorted((lab.ROOT/'crates/horizon-core/src').rglob('*.rs'))]
+    oracle=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaModelChoiceOracle.java';helper=oracle.with_name('VanillaCuboidModelOracle.java');crate=lab.ROOT/'crates/ll-assets'
+    sources=[oracle,helper,Path(__file__),lab.ROOT/'tools/test_model_baking_parity.py',lab.ROOT/'tools/test_cuboid_model_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',crate/'Cargo.toml',lab.ROOT/'crates/ll-core/Cargo.toml',*sorted(crate.rglob('*.rs')),*sorted((lab.ROOT/'crates/ll-core/src').rglob('*.rs'))]
     tested=base.source_hashes(sources);weights=set()
     with zipfile.ZipFile(jars['client']) as archive:
         for name in archive.namelist():

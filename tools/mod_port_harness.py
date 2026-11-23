@@ -5,7 +5,7 @@
 
 WORK is a `horizon-port-pack` work folder whose mods were carried over. With --jars the NeoForge
 oracle (tools/neoforge_oracle.py, dev-only) first exports WORK/oracle/facts.json. The Horizon side
-is crates/horizon-client/examples/mod_port_probe.rs: the content root built from WORK/mods/*/carry
+is crates/ll-client/examples/mod_port_probe.rs: the content root built from WORK/mods/*/carry
 and what the game's loaders make of it. For every block and item the mod registers, compared:
 
 - blocks: declared in Horizon at all; per state hardness, explosion resistance, light, tool need,

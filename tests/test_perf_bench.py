@@ -95,7 +95,7 @@ class PerfBenchStatsTests(unittest.TestCase):
         self.assertEqual(s["histogram"][-1], 1, "1000 ms and over")
 
     def test_same_figures_as_horizon_bench(self):
-        # crates/horizon-bench's frame_figures_and_histogram test, value for value.
+        # crates/ll-bench's frame_figures_and_histogram test, value for value.
         s = frames("flight", 0, [2.0] * 998 + [20.0, 1500.0])
         self.assertEqual((s["seconds"], s["low_1pct_fps"], s["low_01pct_fps"]), (3.516, 6.51, 0.667))
         self.assertEqual((s["histogram"][2], s["histogram"][13], s["histogram"][23]), (998, 1, 1))

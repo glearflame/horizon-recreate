@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class RenderFogHookTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_valid_parameters_and_atomic_invalid_fallback(self):
-        source = (ROOT / "crates/horizon-client/src/game/render_tick.rs").read_text(encoding="utf-8")
+        source = (ROOT / "crates/ll-client/src/game/render_tick.rs").read_text(encoding="utf-8")
         actual = method(source, "native_fog_now")
         fixture = r"""
 #[derive(Clone, Copy)]

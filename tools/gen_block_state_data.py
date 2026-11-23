@@ -2,7 +2,7 @@
 """Convert vanilla's BlockStateData.java into a plain data file.
 
 Reads  .local/minecraft/<pinned version>/sources/server/net/minecraft/util/datafix/fixes/BlockStateData.java
-Writes crates/horizon-world/src/datafix/block_state_data.txt
+Writes crates/ll-world/src/datafix/block_state_data.txt
 
 Output: UTF-8, '#' header lines, then one line per register() call, in the order the
 calls execute (the static initializer order of the bootstrap* methods), tab separated:
@@ -27,7 +27,7 @@ except ImportError:
 
 REPO = Path(__file__).resolve().parent.parent
 DEFAULT_JAVA = lab.GAME / "sources/server/net/minecraft/util/datafix/fixes/BlockStateData.java"
-DEFAULT_OUT = REPO / "crates/horizon-world/src/datafix/block_state_data.txt"
+DEFAULT_OUT = REPO / "crates/ll-world/src/datafix/block_state_data.txt"
 
 TOKEN_RE = re.compile(
     r"""

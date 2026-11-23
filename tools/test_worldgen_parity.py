@@ -308,8 +308,8 @@ def main():
     exporter = source.with_name("VanillaBiomeExport.java")
     tag_exporter = source.with_name("VanillaTagExport.java")
     sources = [source,exporter,tag_exporter,Path(__file__),lab.ROOT/"tools/test_rust_parity.py",lab.ROOT/"tools/lab.py",
-               *sorted((lab.ROOT/"crates/horizon-core").rglob("*.rs")),*sorted((lab.ROOT/"crates/horizon-world").rglob("*.rs")),
-               lab.ROOT/"crates/horizon-core/Cargo.toml",lab.ROOT/"crates/horizon-world/Cargo.toml",lab.ROOT/"Cargo.toml",lab.ROOT/"Cargo.lock"]
+               *sorted((lab.ROOT/"crates/ll-core").rglob("*.rs")),*sorted((lab.ROOT/"crates/ll-world").rglob("*.rs")),
+               lab.ROOT/"crates/ll-core/Cargo.toml",lab.ROOT/"crates/ll-world/Cargo.toml",lab.ROOT/"Cargo.toml",lab.ROOT/"Cargo.lock"]
     tested_sources = base.source_hashes(sources)
     classes = build/"classes"
     classes.mkdir(exist_ok=True)

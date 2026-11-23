@@ -55,9 +55,9 @@ def main():
         "Includes passing entity interactions over solid blocks: only the held "
         "item may be tried afterward. "
         "Game-mode side effects and world simulation are controlled fixtures.",
-        sources=[lab.ROOT / "crates/horizon-client-input/src/interaction_input.rs",
-                 lab.ROOT / "crates/horizon-client/src/game/remote.rs",
-                 lab.ROOT / "crates/horizon-client/src/game/hand.rs",
+        sources=[lab.ROOT / "crates/ll-client-input/src/interaction_input.rs",
+                 lab.ROOT / "crates/ll-client/src/game/remote.rs",
+                 lab.ROOT / "crates/ll-client/src/game/hand.rs",
                  lab.ROOT / "mods/horizon/src/test/java/dev/horizonlab/parity/ParityData.java"])
 
 

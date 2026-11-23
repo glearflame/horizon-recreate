@@ -9,7 +9,7 @@ from tools import release_train as train
 NOW = dt.datetime(2026, 10, 15, 12, 0, tzinfo=dt.timezone.utc)
 
 
-def pr(number, title="Fix a thing", labels=(), paths=("crates/horizon-client/src/game.rs",), issues=(), author="glearflame",
+def pr(number, title="Fix a thing", labels=(), paths=("crates/ll-client/src/game.rs",), issues=(), author="glearflame",
        merged=dt.timedelta(hours=9)):
     return {"number": number, "title": title, "labels": list(labels), "paths": list(paths), "issues": list(issues),
             "author": author, "url": f"https://github.com/glearflame/horizon/pull/{number}", "merged_at": NOW - merged}
@@ -18,19 +18,19 @@ def pr(number, title="Fix a thing", labels=(), paths=("crates/horizon-client/src
 class ReleaseTrainTests(unittest.TestCase):
     def test_player_facing_paths(self):
         exporters = {"mods/horizon/src/test/java/dev/horizonlab/parity/VanillaMobDataExporter.java"}
-        self.assertTrue(train.player_facing("crates/horizon-client/src/game.rs", "game"))
+        self.assertTrue(train.player_facing("crates/ll-client/src/game.rs", "game"))
         self.assertTrue(train.player_facing("Cargo.lock", "game"))
-        self.assertTrue(train.player_facing("xtask/src/main.rs", "game"))
+        self.assertTrue(train.player_facing("ll-xtask/src/main.rs", "game"))
         self.assertTrue(train.player_facing(next(iter(exporters)), "game", exporters))
         self.assertFalse(train.player_facing("mods/horizon/src/test/java/dev/horizonlab/parity/VanillaFoodOracle.java", "game", exporters))
-        self.assertFalse(train.player_facing("crates/horizon-world/examples/probe.rs", "game"))
-        self.assertFalse(train.player_facing("crates/horizon-client/README.md", "game"))
+        self.assertFalse(train.player_facing("crates/ll-world/examples/probe.rs", "game"))
+        self.assertFalse(train.player_facing("crates/ll-client/README.md", "game"))
         self.assertFalse(train.player_facing("tools/test_food_parity.py", "game"))
         self.assertFalse(train.player_facing("launcher/src/main.rs", "game"))
         self.assertTrue(train.player_facing("launcher/src/main.rs", "launcher"))
-        self.assertTrue(train.player_facing("crates/horizon-prepare/src/lib.rs", "launcher"))
+        self.assertTrue(train.player_facing("crates/ll-prepare/src/lib.rs", "launcher"))
         self.assertFalse(train.player_facing("launcher/links.json", "launcher"))
-        self.assertFalse(train.player_facing("crates/horizon-client/src/game.rs", "launcher"))
+        self.assertFalse(train.player_facing("crates/ll-client/src/game.rs", "launcher"))
 
     def test_the_exporters_are_those_horizon_prepare_names(self):
         found = train.exporters()

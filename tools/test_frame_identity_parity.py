@@ -358,7 +358,7 @@ def run_session(name, label, bin_dir, out, env_base, args):
     # 🤖 Agent: No chat, no tutorial toasts, no pause when the offscreen window has no focus.
     (folder / 'options.txt').write_text('chatVisibility:2\ntutorialStep:none\npauseOnLostFocus:false\n')
     if 'HORIZON_SHADER_PACK' in extra:
-        shutil.copytree(ROOT / 'crates/horizon-shader-api/packs/golden_hour', folder / 'shaderpacks/golden_hour')
+        shutil.copytree(ROOT / 'crates/ll-shader-api/packs/golden_hour', folder / 'shaderpacks/golden_hour')
     env = lab.game_env(env_base, HORIZON_STILL='1', **extra)
     out.mkdir(parents=True, exist_ok=True)
     game = Game(bin_dir, folder, env, args)

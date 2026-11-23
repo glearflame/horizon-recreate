@@ -1,4 +1,4 @@
-"""`cargo binstall` finds every cargo-horizon-mod archive the release ships (#2120).
+"""`cargo binstall` finds every cargo-ll-mod archive the release ships (#2120).
 
 `[package.metadata.binstall]` and `.github/workflows/cargo-horizon-mod.yml` are two halves of one contract: the
 manifest names a file per target, the workflow uploads it. These check the halves still fit, without a network.
@@ -22,7 +22,7 @@ class BinstallTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             manifest = Path(directory, "Cargo.toml")
             manifest.write_text(
-                '[package]\nname = "cargo-horizon-mod"\nversion = "1.2.3"\n'
+                '[package]\nname = "cargo-ll-mod"\nversion = "1.2.3"\n'
                 '[package.metadata.binstall]\npkg-url = "https://example.invalid/{ name }-{ arch }.tar.gz"\n'
             )
             with self.assertRaises(KeyError):
@@ -38,12 +38,12 @@ class BinstallTests(unittest.TestCase):
             self.assertEqual(binstall.check(directory), [])
 
             renamed = Path(directory, names[0])
-            renamed.rename(renamed.with_name("cargo-horizon-mod-mystery.tar.gz"))
+            renamed.rename(renamed.with_name("cargo-ll-mod-mystery.tar.gz"))
             problems = binstall.check(directory)
             self.assertTrue(any(names[0] in problem for problem in problems), problems)
             self.assertTrue(any("mystery" in problem for problem in problems), problems)
 
-            self.assertTrue(any("not" in problem for problem in binstall.check(directory, "cargo-horizon-mod-v9.9.9")))
+            self.assertTrue(any("not" in problem for problem in binstall.check(directory, "cargo-ll-mod-v9.9.9")))
 
 
 if __name__ == "__main__":

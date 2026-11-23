@@ -25,10 +25,10 @@ COMMON_SOURCES = [
     lab.ROOT / 'tools/lab.py',
     lab.ROOT / 'Cargo.toml',
     lab.ROOT / 'Cargo.lock',
-    lab.ROOT / 'crates/horizon-client/Cargo.toml',
-    lab.ROOT / 'crates/horizon-client-render/Cargo.toml',
-    lab.ROOT / 'crates/horizon-client-render/src/sound_events.rs',
-    lab.ROOT / 'crates/horizon-client-render/src/sound_engine.rs',
+    lab.ROOT / 'crates/ll-client/Cargo.toml',
+    lab.ROOT / 'crates/ll-client-render/Cargo.toml',
+    lab.ROOT / 'crates/ll-client-render/src/sound_events.rs',
+    lab.ROOT / 'crates/ll-client-render/src/sound_engine.rs',
 ]
 
 
@@ -47,7 +47,7 @@ def run_harness(name, oracle, example, inputs_text, extra_sources=(), java_args=
     report = build / 'report.json'
     report.unlink(missing_ok=True)
     oracle_path = lab.ROOT / f'mods/horizon/src/test/java/dev/horizonlab/parity/{oracle}.java'
-    example_path = lab.ROOT / f'crates/horizon-client/examples/probe/{example}.rs'
+    example_path = lab.ROOT / f'crates/ll-client/examples/probe/{example}.rs'
     sources = [*COMMON_SOURCES, oracle_path, example_path, *[Path(s) for s in extra_sources]]
     tested = base.source_hashes(sources)
     inputs = build / 'inputs.txt'

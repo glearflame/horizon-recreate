@@ -71,8 +71,8 @@ def main():
     oracle=lab.ROOT/"mods/horizon/src/test/java/dev/horizonlab/parity/VanillaBiomeSourceCodecOracle.java"
     exporter=oracle.with_name("VanillaBiomeExport.java")
     helpers=[oracle.with_name(name+".java") for name in ["VanillaMaterialConditionOracle","VanillaAnchorOracle","VanillaBiomeTemperatureOracle"]]
-    sources=[oracle,exporter,*helpers,lab.ROOT/"tools/test_biome_temperature_parity.py",lab.ROOT/"tools/test_material_condition_parity.py",Path(__file__),lab.ROOT/"tools/test_worldgen_parity.py",lab.ROOT/"tools/test_rust_parity.py",lab.ROOT/"tools/lab.py",lab.ROOT/"Cargo.toml",lab.ROOT/"Cargo.lock",lab.ROOT/"crates/horizon-core/Cargo.toml",lab.ROOT/"crates/horizon-world/Cargo.toml",
-             *sorted((lab.ROOT/"crates/horizon-core/src").rglob("*.rs")),*sorted((lab.ROOT/"crates/horizon-world/src").rglob("*.rs")),lab.ROOT/"crates/horizon-world/examples/probe/biome_source_codec_fixture.rs"]
+    sources=[oracle,exporter,*helpers,lab.ROOT/"tools/test_biome_temperature_parity.py",lab.ROOT/"tools/test_material_condition_parity.py",Path(__file__),lab.ROOT/"tools/test_worldgen_parity.py",lab.ROOT/"tools/test_rust_parity.py",lab.ROOT/"tools/lab.py",lab.ROOT/"Cargo.toml",lab.ROOT/"Cargo.lock",lab.ROOT/"crates/ll-core/Cargo.toml",lab.ROOT/"crates/ll-world/Cargo.toml",
+             *sorted((lab.ROOT/"crates/ll-core/src").rglob("*.rs")),*sorted((lab.ROOT/"crates/ll-world/src").rglob("*.rs")),lab.ROOT/"crates/ll-world/examples/probe/biome_source_codec_fixture.rs"]
     tested_sources=base.source_hashes(sources)
     classes=build/"classes";classes.mkdir(exist_ok=True)
     def run(command,name):

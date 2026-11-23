@@ -159,17 +159,17 @@ class ReachTests(unittest.TestCase):
 
     def test_old_broad_client_records_find_moved_ctl_and_probes(self):
         workspace(self.root, {
-            "crates/horizon-client/Cargo.toml": '[package]\nname = "horizon-client"\nautobins = false\nautoexamples = false\n'
+            "crates/ll-client/Cargo.toml": '[package]\nname = "horizon-client"\nautobins = false\nautoexamples = false\n'
             '[[bin]]\nname = "horizon-client"\npath = "src/main.rs"\n',
-            "crates/horizon-client/src/main.rs": "fn main() {}\n",
-            "crates/horizon-client/src/bin/horizon-ctl.rs": "fn main() {}\n",
-            "crates/horizon-client/examples/probe/main.rs": "fn main() {}\n",
-            "crates/horizon-client-lib/Cargo.toml": '[package]\nname = "horizon-client-lib"\nautobins = false\nautoexamples = false\n'
-            '[[bin]]\nname = "horizon-ctl"\npath = "../horizon-client/src/bin/horizon-ctl.rs"\n'
-            '[[example]]\nname = "client_probe"\npath = "../horizon-client/examples/probe/main.rs"\n',
+            "crates/ll-client/src/main.rs": "fn main() {}\n",
+            "crates/ll-client/src/bin/horizon-ctl.rs": "fn main() {}\n",
+            "crates/ll-client/examples/probe/main.rs": "fn main() {}\n",
+            "crates/ll-client-lib/Cargo.toml": '[package]\nname = "horizon-client-lib"\nautobins = false\nautoexamples = false\n'
+            '[[bin]]\nname = "horizon-ctl"\npath = "../ll-client/src/bin/horizon-ctl.rs"\n'
+            '[[example]]\nname = "client_probe"\npath = "../ll-client/examples/probe/main.rs"\n',
         })
         graph = parity_reach.SourceGraph(self.root, parity.rust_code)
-        game, ctl, probe = ("crates/horizon-client/" + path for path in
+        game, ctl, probe = ("crates/ll-client/" + path for path in
                             ["src/main.rs", "src/bin/horizon-ctl.rs", "examples/probe/main.rs"])
         self.assertEqual(graph.entries([["bins", "", "dev", ["-p", "horizon-client"], False]], {game, ctl, probe}),
                          {game, ctl})

@@ -8,8 +8,8 @@ import unittest
 from test_world_input_capture import method
 
 ROOT = Path(__file__).resolve().parents[1]
-LEVEL = ROOT / "crates/horizon-world/src/level"
-CLIENT = ROOT / "crates/horizon-client/src"
+LEVEL = ROOT / "crates/ll-world/src/level"
+CLIENT = ROOT / "crates/ll-client/src"
 
 
 def between(source, start, end):

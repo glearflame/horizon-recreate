@@ -124,7 +124,7 @@ def main():
     build = lab.LOCAL / 'rust-cuboid-model-parity'; build.mkdir(parents=True, exist_ok=True)
     report_path = build / 'report.json'; report_path.unlink(missing_ok=True)
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaCuboidModelOracle.java'
-    crate = lab.ROOT / 'crates/horizon-assets'
+    crate = lab.ROOT / 'crates/ll-assets'
     sources = [oracle, Path(__file__), lab.ROOT / 'tools/lab.py', lab.ROOT / 'tools/test_rust_parity.py',
                lab.ROOT / 'Cargo.toml', lab.ROOT / 'Cargo.lock', crate / 'Cargo.toml',
                *sorted(crate.rglob('*.rs'))]

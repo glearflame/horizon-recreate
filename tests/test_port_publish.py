@@ -13,7 +13,7 @@ DIFF = {"classes": {"changed": {"net/minecraft/world/food/FoodData": {
 def items():
     return [
         {"rank": 1, "kind": "protocol", "title": "Protocol: packets play/clientbound +1 -0 ~3",
-         "files": ["crates/horizon-protocol/src/ids.rs"], "details": {"packets": {"play/clientbound": {
+         "files": ["crates/ll-protocol/src/ids.rs"], "details": {"packets": {"play/clientbound": {
              "added": {"minecraft:punch": 3}, "removed": {}, "renumbered": {"minecraft:x": [1, 2]}}}}},
         {"rank": 2, "kind": "rerun", "title": "crates/w/src/food.rs: 1 vanilla classes changed", "harnesses": ["food"],
          "failed": [], "classes": {}},

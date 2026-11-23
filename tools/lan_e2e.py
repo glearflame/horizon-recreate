@@ -13746,7 +13746,7 @@ def set_legacy_rules(game, on):
 
 
 def check_legacy_pvp(host, guest, out):
-    """The host's legacy combat rules (crates/horizon-client/src/legacy_combat.rs) on a guest's diamond axe hits:
+    """The host's legacy combat rules (crates/ll-client/src/legacy_combat.rs) on a guest's diamond axe hits:
     one at full charge, and one right after a hotbar swap and back, which empties the charge on the server
     (Player.tick resets attackStrengthTicker when the main hand's item changes). The stick is held a few ticks:
     the client sends a slot change from its next tick (MultiPlayerGameMode.tick), so a swap and back within one

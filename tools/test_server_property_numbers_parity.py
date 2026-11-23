@@ -42,9 +42,9 @@ def main():
     classes = build / 'classes'
     classes.mkdir(exist_ok=True)
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaServerPropertyNumbersOracle.java'
-    sources = [oracle, lab.ROOT / 'crates/horizon-core/src/text.rs',
-               lab.ROOT / 'crates/horizon-server-files/src/properties.rs',
-               lab.ROOT / 'crates/horizon-server-files/examples/properties_numbers.rs',
+    sources = [oracle, lab.ROOT / 'crates/ll-core/src/text.rs',
+               lab.ROOT / 'crates/ll-server-files/src/properties.rs',
+               lab.ROOT / 'crates/ll-server-files/examples/properties_numbers.rs',
                lab.ROOT / 'tools/test_server_property_numbers_parity.py', lab.ROOT / 'Cargo.lock']
     hashes = base.source_hashes(sources)
     values = number_cases()

@@ -53,7 +53,7 @@ def corpus(info):
 def main():
     lock,jars,libraries=base.verify_artifacts();build=lab.LOCAL/'rust-registered-entity-fluid-parity';build.mkdir(exist_ok=True);report_path=build/'report.json';report_path.unlink(missing_ok=True)
     root=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity';oracles=[root/(n+'.java') for n in ['VanillaRegisteredEntityFluidOracle','VanillaEntityFluidOracle','VanillaRegistryFluidOracle','VanillaHeightmapOracle','VanillaBlockSupportOracle','VanillaCollisionOracle','VanillaBlockStateCodecOracle']]
-    sources=[*oracles,Path(__file__),lab.ROOT/'tools/test_entity_fluid_parity.py',lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/test_worldgen_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/horizon-world/examples/probe/entity_fluid_fixture.rs']
+    sources=[*oracles,Path(__file__),lab.ROOT/'tools/test_entity_fluid_parity.py',lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/test_worldgen_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/ll-world/examples/probe/entity_fluid_fixture.rs']
     for crate in ['horizon-core','horizon-world']:sources += [lab.ROOT/'crates'/crate/'Cargo.toml',*sorted((lab.ROOT/'crates'/crate/'src').rglob('*.rs'))]
     tested=base.source_hashes(sources);tags=worldgen.tag_resources(jars['server'])
     if tags!=worldgen.tag_resources(jars['client']):raise AssertionError('Native tags differ between artifacts')

@@ -64,20 +64,20 @@ LAUNCHER_PREFIX = "launcher@"
 OLD_LAUNCHER_PREFIX = "launcher-v"
 
 # What players run. Documentation (*.md), tests, benchmarks and harness probes (examples/) never count.
-GAME_PATHS = ["crates/", "xtask/", "packaging/", "Cargo.toml", "Cargo.lock", "research-lock.json"]
+GAME_PATHS = ["crates/", "ll-xtask/", "packaging/", "Cargo.toml", "Cargo.lock", "research-lock.json"]
 # Every crate the launcher builds in (cargo metadata --manifest-path launcher/Cargo.toml: the path packages).
 LAUNCHER_PATHS = [
     "launcher/",
-    "crates/horizon-bench/",
-    "crates/horizon-friends/",
-    "crates/horizon-mcp/",
-    "crates/horizon-mod-api-gen/",
-    "crates/horizon-mods/",
-    "crates/horizon-port-pack/",
-    "crates/horizon-prepare/",
-    "crates/horizon-release-sign/",
-    "crates/horizon-telemetry/",
-    "crates/horizon-theme/",
+    "crates/ll-bench/",
+    "crates/ll-friends/",
+    "crates/ll-mcp/",
+    "crates/ll-mod-api-gen/",
+    "crates/ll-mods/",
+    "crates/ll-port-pack/",
+    "crates/ll-prepare/",
+    "crates/ll-release-sign/",
+    "crates/ll-telemetry/",
+    "crates/ll-theme/",
     # Its icon, its menu entries and its AppImage are compiled or packaged into a release
     # (launcher/build.rs, src/desktop.rs, packaging/linux/appimage.sh).
     "packaging/icons/",
@@ -118,7 +118,7 @@ def gh_json(*arguments):
 def exporters():
     """The exporter and oracle sources horizon-prepare compiles: those its sources name."""
     names = set()
-    for source in (ROOT / "crates" / "horizon-prepare" / "src").glob("*.rs"):
+    for source in (ROOT / "crates" / "ll-prepare" / "src").glob("*.rs"):
         names.update(re.findall(r'"([A-Z]\w+\.java)"', source.read_text()))
     return {EXPORTERS + name for name in names}
 

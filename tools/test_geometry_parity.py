@@ -281,7 +281,7 @@ def main():
     inputs = base / "inputs.txt"
     inputs.write_text("\n".join(commands) + "\n", encoding="utf-8")
     oracle = lab.ROOT / "mods/horizon/src/test/java/dev/horizonlab/parity/VanillaGeometryOracle.java"
-    sources = [oracle, Path(__file__).resolve(), lab.ROOT / "tools/test_rust_parity.py", lab.ROOT / "Cargo.toml", lab.ROOT / "Cargo.lock", lab.ROOT / "crates/horizon-core/Cargo.toml", *sorted((lab.ROOT / "crates/horizon-core/src").rglob("*.rs"))]
+    sources = [oracle, Path(__file__).resolve(), lab.ROOT / "tools/test_rust_parity.py", lab.ROOT / "Cargo.toml", lab.ROOT / "Cargo.lock", lab.ROOT / "crates/ll-core/Cargo.toml", *sorted((lab.ROOT / "crates/ll-core/src").rglob("*.rs"))]
     tested_sources = test_rust_parity.source_hashes(sources)
     classes = base / "classes"
     classes.mkdir()

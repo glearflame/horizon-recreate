@@ -225,7 +225,7 @@ shipped_in = "v0.2.67"
 area = "gameplay"
 plain = """Banners in End cities show as plain magenta instead of with their pattern."""
 dev = """Compare the banner block entities the End city templates place with vanilla's (`EndCityPieces`, the \
-templates' block entity NBT, `BannerBlockEntity`'s patterns), in `crates/horizon-world/src/worldgen/structure/`. \
+templates' block entity NBT, `BannerBlockEntity`'s patterns), in `crates/ll-world/src/worldgen/structure/`. \
 Issue #1438; possibly related: #526. The templates' block entities now keep their patterns (#1928)."""
 links = ["#1438", "#526", "#1928"]
 
@@ -525,8 +525,8 @@ status = "next"
 area = "launcher"
 owner = "glearflame"
 plain = """A redesigned launcher: every button where you expect it, the fewest clicks to play, add an instance or add mods, smooth animations, and instant startup."""
-dev = """Based on the site concept by the Team (Bricolage Grotesque, a night sky and an animated pixel sunset). Screens and flows are designed first, then small PRs; tokens in crates/horizon-theme and rules in docs/design-system.md, the game's vanilla look unchanged. Measured before and after: startup, frame time and idle CPU/GPU, reduced motion honoured. Mods screens separate Horizon native mods from Java mods; a running instance can be stopped from the launcher."""
-links = ["#3635", "#3636", "#3637", "docs/design-system.md", "crates/horizon-theme"]
+dev = """Based on the site concept by the Team (Bricolage Grotesque, a night sky and an animated pixel sunset). Screens and flows are designed first, then small PRs; tokens in crates/ll-theme and rules in docs/design-system.md, the game's vanilla look unchanged. Measured before and after: startup, frame time and idle CPU/GPU, reduced motion honoured. Mods screens separate Horizon native mods from Java mods; a running instance can be stopped from the launcher."""
+links = ["#3635", "#3636", "#3637", "docs/design-system.md", "crates/ll-theme"]
 
 [[item]]
 id = "splitscreen"
@@ -1024,8 +1024,8 @@ licence is open source and compatible with ours are rewritten, never anything el
 dev = """The first candidates are Photon, Chocapic13 and MakeUp Ultra Fast, each only after its licence is read and \
 recorded: a pack is rewritten only if it is open source and compatible with Horizon's licence, and the \
 rewrite is written from the shader format's documentation and the look on screen, not from anyone's code. \
-Today only the Golden Hour example exists (`crates/horizon-shader-api/packs/golden_hour`)."""
-links = ["docs/shaders.md", "crates/horizon-shader-api/packs/golden_hour"]
+Today only the Golden Hour example exists (`crates/ll-shader-api/packs/golden_hour`)."""
+links = ["docs/shaders.md", "crates/ll-shader-api/packs/golden_hour"]
 
 [[item]]
 id = "beta-label"
@@ -1258,7 +1258,7 @@ area = "extras"
 plain = """An optional look for the game's own menus and options that matches the Horizon launcher. Off by default: \
 the vanilla menus stay as they are."""
 dev = """A player's idea (#horizon-ideas). A built-in resource pack or a Horizon setting that restyles the title, \
-pause and options screens with the launcher's design tokens (crates/horizon-theme), following \
+pause and options screens with the launcher's design tokens (crates/ll-theme), following \
 docs/design-system.md; off by default because it changes the vanilla look."""
 links = ["docs/design-system.md"]
 

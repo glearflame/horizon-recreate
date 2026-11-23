@@ -44,8 +44,8 @@ def function(source, name):
 
 class WorldInputCaptureTests(unittest.TestCase):
     def test_loading_completion_wiring(self):
-        game = (ROOT / "crates/horizon-client/src/game.rs").read_text(encoding="utf-8")
-        remote = (ROOT / "crates/horizon-client/src/game/remote.rs").read_text(encoding="utf-8")
+        game = (ROOT / "crates/ll-client/src/game.rs").read_text(encoding="utf-8")
+        remote = (ROOT / "crates/ll-client/src/game/remote.rs").read_text(encoding="utf-8")
         spawn = method(game, "spawn_player")
         self.assertLess(spawn.index("self.player = Some(player)"),
                         spawn.index("self.capture_loaded_world()"))
@@ -60,9 +60,9 @@ class WorldInputCaptureTests(unittest.TestCase):
 
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_capture_lifecycle(self):
-        source = "".join((ROOT / "crates/horizon-client/src" / path).read_text(encoding="utf-8")
+        source = "".join((ROOT / "crates/ll-client/src" / path).read_text(encoding="utf-8")
                          for path in ("game.rs", "game/pointer_capture.rs"))
-        mouse = (ROOT / "crates/horizon-client-input/src/mouse.rs").read_text(encoding="utf-8")
+        mouse = (ROOT / "crates/ll-client-input/src/mouse.rs").read_text(encoding="utf-8")
         fixture = r'''
 use std::cell::Cell;
 #[derive(Clone, Copy, PartialEq)]
@@ -345,7 +345,7 @@ fn main() {
 }
 '''
         capture = method(source, "capture").replace(
-            "horizon_client::mouse::mouse_position_after_grab_change",
+            "ll_client::mouse::mouse_position_after_grab_change",
             "mouse_position_after_grab_change")
         fixture = fixture.replace("HELPER", function(mouse, "mouse_position_after_grab_change"))
         fixture = fixture.replace("METHODS", capture + "\n" +
@@ -363,7 +363,7 @@ fn main() {
 
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_native_split_mouse_turns_only_its_owner(self):
-        source = (ROOT / "crates/horizon-client/src/game.rs").read_text(encoding="utf-8")
+        source = (ROOT / "crates/ll-client/src/game.rs").read_text(encoding="utf-8")
         fixture = r'''
 use std::time::Instant;
 #[path = "MOUSE_PATH"] mod mouse;
@@ -417,13 +417,13 @@ fn main() {
     }
 }
 '''
-        fixture = fixture.replace("MOUSE_PATH", (ROOT / "crates/horizon-client-input/src/mouse.rs").as_posix())
+        fixture = fixture.replace("MOUSE_PATH", (ROOT / "crates/ll-client-input/src/mouse.rs").as_posix())
         fixture = fixture.replace("METHOD", method(source, "device_event"))
         self.run_fixture(fixture, "native-mouse")
 
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_split_layout_keeps_capture_in_the_same_window(self):
-        source = (ROOT / "crates/horizon-client/src/game/split/windows.rs").read_text(encoding="utf-8")
+        source = (ROOT / "crates/ll-client/src/game/split/windows.rs").read_text(encoding="utf-8")
         body = function(source.replace("pub(super) fn", "pub fn"), "into_window").replace("Game<'_>", "Game")
         fixture = r'''
 use std::sync::Arc;

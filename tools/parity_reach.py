@@ -259,17 +259,23 @@ class SourceGraph:
             selection = rest[1] if len(rest) > 1 else []
             packages = [value for flag, value in zip(selection, selection[1:]) if flag == "-p"] or \
                 [manifest.parent.name for manifest in sorted((self.root / "crates").glob("*/Cargo.toml"))]
+            directories = {
+                "horizon-client": "ll-client", "horizon-client-lib": "ll-client-lib",
+                "horizon-protocol": "ll-protocol", "horizon-world": "ll-world",
+            }
+            packages = [directories.get(package, package) for package in packages]
             roots = set()
             if name and not any(name in self.targets(self.root / "crates" / package) for package in packages):
                 owners = [manifest.parent.name for manifest in (self.root / "crates").glob("*/Cargo.toml")
                           if self.targets(manifest.parent).get(name, (None,))[0] == kind.rstrip("s")]
                 if len(owners) == 1:
                     packages = [*packages, owners[0]]
-            if not name and kind in ("bins", "examples") and "horizon-client" in packages \
-                    and "horizon-client-lib" not in packages \
-                    and (self.root / "crates/horizon-client-lib/Cargo.toml").is_file():
+            if not name and kind in ("bins", "examples") \
+                    and any(package in packages for package in ("horizon-client", "ll-client")) \
+                    and not any(package in packages for package in ("horizon-client-lib", "ll-client-lib")) \
+                    and (self.root / "crates/ll-client-lib/Cargo.toml").is_file():
                 # Broad records predate the client package split too.
-                packages = [*packages, "horizon-client-lib"]
+                packages = [*packages, "ll-client-lib"]
             for package in packages:
                 crate = self.root / "crates" / package
                 targets = self.targets(crate)

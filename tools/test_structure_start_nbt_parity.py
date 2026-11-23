@@ -46,11 +46,11 @@ def main():
     report_path.unlink(missing_ok=True)
     lock, jars, libraries = base.verify_artifacts()
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaStructureStartOracle.java'
-    probe = lab.ROOT / 'crates/horizon-world/examples/probe/structure_start_nbt.rs'
+    probe = lab.ROOT / 'crates/ll-world/examples/probe/structure_start_nbt.rs'
     sources = [oracle, probe, Path(__file__), lab.ROOT / 'tools/test_rust_parity.py', lab.ROOT / 'tools/lab.py',
-               lab.ROOT / 'Cargo.toml', lab.ROOT / 'Cargo.lock', lab.ROOT / 'crates/horizon-world/Cargo.toml',
-               *sorted((lab.ROOT / 'crates/horizon-core/src').rglob('*.rs')),
-               *sorted((lab.ROOT / 'crates/horizon-world/src').rglob('*.rs'))]
+               lab.ROOT / 'Cargo.toml', lab.ROOT / 'Cargo.lock', lab.ROOT / 'crates/ll-world/Cargo.toml',
+               *sorted((lab.ROOT / 'crates/ll-core/src').rglob('*.rs')),
+               *sorted((lab.ROOT / 'crates/ll-world/src').rglob('*.rs'))]
     tested_sources = base.source_hashes(sources)
 
     def run(command, name, env=None):

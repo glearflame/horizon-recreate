@@ -13,8 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 class ScreenMouseDraggedHookTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_drag_lifecycle_delta_and_cancelled_cursor(self):
-        source = (ROOT / "crates/horizon-client/src/game.rs").read_text(encoding="utf-8")
-        hooks = (ROOT / "crates/horizon-client/src/game/native_hooks.rs").read_text(encoding="utf-8")
+        source = (ROOT / "crates/ll-client/src/game.rs").read_text(encoding="utf-8")
+        hooks = (ROOT / "crates/ll-client/src/game/native_hooks.rs").read_text(encoding="utf-8")
         hooks = hooks.replace("pub(super) fn", "fn").replace("super::glfw_", "glfw_")
         track = method(hooks, "track_drag_button")
         dispatch = method(hooks, "screen_mouse_dragged")

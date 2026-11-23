@@ -125,8 +125,8 @@ def main():
     sources = [Path(__file__).resolve(), lab.ROOT / 'tools/oracle_harness.py', lab.ROOT / 'tools/lab.py',
                parity / (oracle + '.java'), parity / 'VanillaSceneCollisionOracle.java',
                parity / 'VanillaRegistryCollisionScanOracle.java', lab.ROOT / 'Cargo.lock',
-               lab.ROOT / 'crates/horizon-client/examples/probe/auto_jump_probe.rs',
-               lab.ROOT / 'crates/horizon-client/src/auto_jump.rs', lab.ROOT / 'crates/horizon-client/src/motion.rs']
+               lab.ROOT / 'crates/ll-client/examples/probe/auto_jump_probe.rs',
+               lab.ROOT / 'crates/ll-client/src/auto_jump.rs', lab.ROOT / 'crates/ll-client/src/motion.rs']
     tested = base.source_hashes(sources)
     fixtures = list(cases(random.Random(0x4155544f)))
     inputs = build / 'cases.jsonl'

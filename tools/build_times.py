@@ -57,10 +57,10 @@ PROFILES = ["dev", "fast"]
 # game.rs belongs to the game binary, the others to libraries the binary links. Any other crate in the
 # workspace gets its lib.rs; --file crate=path picks another file.
 EDIT_FILES = {
-    "horizon-world": "crates/horizon-world/src/level/mod.rs",
-    "horizon-client-render": "crates/horizon-client-render/src/gfx.rs",
-    "horizon-client": "crates/horizon-client/src/game.rs",
-    "horizon-items": "crates/horizon-items/src/items.rs",
+    "horizon-world": "crates/ll-world/src/level/mod.rs",
+    "horizon-client-render": "crates/ll-client-render/src/gfx.rs",
+    "horizon-client": "crates/ll-client/src/game.rs",
+    "horizon-items": "crates/ll-items/src/items.rs",
 }
 EDIT_MODES = ["middle", "top", "append", "touch"]
 # Programs that build, link or check Rust; any of them running beside the measurement skews it.

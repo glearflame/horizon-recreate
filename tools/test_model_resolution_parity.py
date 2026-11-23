@@ -80,7 +80,7 @@ def main():
     report_path = build / 'report.json'; report_path.unlink(missing_ok=True)
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaModelResolutionOracle.java'
     helper = oracle.with_name('VanillaCuboidModelOracle.java')
-    crate = lab.ROOT / 'crates/horizon-assets'
+    crate = lab.ROOT / 'crates/ll-assets'
     sources = [oracle, helper, Path(__file__), lab.ROOT / 'tools/test_cuboid_model_parity.py',
                lab.ROOT / 'tools/lab.py', lab.ROOT / 'tools/test_rust_parity.py', lab.ROOT / 'Cargo.toml',
                lab.ROOT / 'Cargo.lock', crate / 'Cargo.toml', *sorted(crate.rglob('*.rs'))]

@@ -284,8 +284,8 @@ def main():
     oracle=lab.ROOT/"mods/horizon/src/test/java/dev/horizonlab/parity/VanillaMaterialConditionOracle.java"
     anchor_oracle=oracle.with_name("VanillaAnchorOracle.java")
     biome_oracle=oracle.with_name("VanillaBiomeTemperatureOracle.java")
-    sources=[oracle,anchor_oracle,biome_oracle,lab.ROOT/"tools/test_biome_temperature_parity.py",Path(__file__),lab.ROOT/"tools/test_worldgen_parity.py",lab.ROOT/"tools/test_rust_parity.py",lab.ROOT/"tools/lab.py",lab.ROOT/"Cargo.toml",lab.ROOT/"Cargo.lock",lab.ROOT/"crates/horizon-core/Cargo.toml",lab.ROOT/"crates/horizon-world/Cargo.toml",
-             *sorted((lab.ROOT/"crates/horizon-core/src").rglob("*.rs")),*sorted((lab.ROOT/"crates/horizon-world/src").rglob("*.rs")),lab.ROOT/"crates/horizon-world/examples/probe/material_condition_fixture.rs"]
+    sources=[oracle,anchor_oracle,biome_oracle,lab.ROOT/"tools/test_biome_temperature_parity.py",Path(__file__),lab.ROOT/"tools/test_worldgen_parity.py",lab.ROOT/"tools/test_rust_parity.py",lab.ROOT/"tools/lab.py",lab.ROOT/"Cargo.toml",lab.ROOT/"Cargo.lock",lab.ROOT/"crates/ll-core/Cargo.toml",lab.ROOT/"crates/ll-world/Cargo.toml",
+             *sorted((lab.ROOT/"crates/ll-core/src").rglob("*.rs")),*sorted((lab.ROOT/"crates/ll-world/src").rglob("*.rs")),lab.ROOT/"crates/ll-world/examples/probe/material_condition_fixture.rs"]
     tested_sources=base.source_hashes(sources)
     fixtures=[*corpus(),*codec_corpus(conditions),*rule_corpus(conditions),*noise_corpus(noises),*biome_corpus(biomes),*biome_tag_corpus(biomes,biome_tags),*preliminary_corpus(),*ore_corpus()];inputs=build/"inputs.txt";inputs.write_text("".join(json.dumps(f,separators=(",",":"))+"\n" for f in fixtures),encoding="utf-8")
     fixture_paths=[inputs,build/"noises.json",build/"conditions.json",build/"biomes.json",build/"biome_tags.json"];tested_fixtures=base.source_hashes(fixture_paths);classes=build/"classes";classes.mkdir(exist_ok=True)

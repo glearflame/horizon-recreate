@@ -8,9 +8,9 @@
 
 From the files the branch changes since its merge base with --base (committed or not) it decides what to run:
 rustfmt, and clippy with warnings denied exactly as CI's verify job runs it (the whole workspace with the game's code
-mods, plus the server build when horizon-client is affected); the tests of the touched crates, with the features
+mods, plus the server build when ll-client is affected); the tests of the touched crates, with the features
 CI's workspace-wide run gives them; the launcher (its own workspace) the same way when CI's launcher job would run
-(tools/ci/rust_changes.py --launcher); crates/horizon-theme/tokens.css against horizon-theme; Cargo.lock changing
+(tools/ci/rust_changes.py --launcher); crates/ll-theme/tokens.css against ll-theme; Cargo.lock changing
 only with a Cargo.toml; the Python tests (always, as in CI) and the public-tree check; and the vanilla harnesses the
 changes can affect, picked as CI's parity job picks them (tools/parity.py --changed). Harnesses run where the
 vanilla data is (a prepared .local/ here, or the Mac mini); elsewhere they are listed for CI.
@@ -85,7 +85,7 @@ def is_doc(path):
 
 def workspace_rust(path):
     """Whether a change to path is built by the main Cargo workspace."""
-    return not is_doc(path) and (path.startswith(("crates/", "xtask/", ".cargo/", *MOD_API_INPUTS))
+    return not is_doc(path) and (path.startswith(("crates/", "ll-xtask/", ".cargo/", *MOD_API_INPUTS))
                                  or path in ROOT_RUST)
 
 
@@ -103,14 +103,14 @@ def touched_crates(paths, packages):
         if is_doc(path):
             continue
         if path.startswith(MOD_API_INPUTS):
-            crates.update({"horizon-client", "horizon-client-render", "horizon-mod-api-gen"})
+            crates.update({"ll-client", "ll-client-render", "ll-mod-api-gen"})
             continue
-        if "horizon-client-lib" in packages and path.startswith("crates/horizon-client/"):
-            relative = path.removeprefix("crates/horizon-client/")
+        if "ll-client-lib" in packages and path.startswith("crates/ll-client/"):
+            relative = path.removeprefix("crates/ll-client/")
             gameplay = relative in {"Cargo.toml", "build.rs", "windows-segment-heap.manifest",
                                     "src/lib.rs", "src/main.rs", "src/entry.rs", "src/game.rs", "tests/launch_api.rs"} \
                 or relative.startswith("src/game/")
-            crates.add("horizon-client" if gameplay else "horizon-client-lib")
+            crates.add("ll-client" if gameplay else "ll-client-lib")
             continue
         owners = [name for name, directory in packages.items() if path.startswith(directory.rstrip("/") + "/")]
         if owners:
@@ -123,11 +123,11 @@ def area(path):
     if is_doc(path) or path.startswith(("tests/", "mods/", "docs/", "roadmap/")) or path == "research-lock.json" or \
             (path.startswith("tools/") and not path.startswith("tools/ci/")):
         return None
-    if path.startswith(("launcher/", "crates/horizon-prepare/")):
+    if path.startswith(("launcher/", "crates/ll-prepare/")):
         return "launcher"
     if path.startswith((".github/", "tools/ci/")):
         return "CI"
-    if path.startswith("crates/horizon-theme/"):
+    if path.startswith("crates/ll-theme/"):
         return None  # the design system feeds the game, the launcher and the website (its tokens.css) alike
     return "game"
 
@@ -244,7 +244,7 @@ def dependent_crates(crates, dependencies):
 
 def prepare_key():
     """tools/ci/vanilla-data.sh's preparation key, for a copy without Git history."""
-    listing = git("ls-files", "-s", "crates/horizon-prepare", "mods/horizon/src/test/java", "research-lock.json")
+    listing = git("ls-files", "-s", "crates/ll-prepare", "mods/horizon/src/test/java", "research-lock.json")
     return hashlib.sha256(listing.encode()).hexdigest()[:16]
 
 
@@ -288,7 +288,7 @@ def parity_summary(output):
 # CI's verify job (.github/workflows/ci.yml): clippy over the whole workspace, and over the server build (the game
 # without sound or controllers).
 CI_CLIPPY = "cargo clippy --workspace --all-targets --locked -- -D warnings"
-CI_CLIPPY_SERVER = "cargo clippy -p horizon-client --all-targets --locked --no-default-features -- -D warnings"
+CI_CLIPPY_SERVER = "cargo clippy -p ll-client --all-targets --locked --no-default-features -- -D warnings"
 
 
 # CI installs the current stable each run (rustup toolchain install stable), and Rust ships one every six weeks
@@ -335,15 +335,15 @@ def mark_old_rust(steps, warning):
 
 def mod_features(crates):
     """The features CI's workspace-wide test run gives these crates. Cargo unifies features over the packages it
-    builds, so a crate tested alone needs the ones the workspace would have turned on for it: horizon-mods' index."""
-    return " --features horizon-mods/index" if crates is not None and "horizon-mods" in crates else ""
+    builds, so a crate tested alone needs the ones the workspace would have turned on for it: ll-mods' index."""
+    return " --features ll-mods/index" if crates is not None and "ll-mods" in crates else ""
 
 
-# What horizon-client's full content-root tests load (mod_content_tests.rs). They take minutes on prepared data, so
+# What ll-client's full content-root tests load (mod_content_tests.rs). They take minutes on prepared data, so
 # they are #[ignore]d and run here only when one of these changes.
-CONTENT_ROOT = ("crates/horizon-client/src/mod_content", "crates/horizon-client-render/src/assets.rs", "crates/horizon-items/",
-                "crates/horizon-mods/", "crates/horizon-assets/")
-CONTENT_ROOT_TESTS = "cargo test --locked -p horizon-client-lib --lib mod_content::tests:: -- --ignored"
+CONTENT_ROOT = ("crates/ll-client/src/mod_content", "crates/ll-client-render/src/assets.rs", "crates/ll-items/",
+                "crates/ll-mods/", "crates/ll-assets/")
+CONTENT_ROOT_TESTS = "cargo test --locked -p ll-client-lib --lib mod_content::tests:: -- --ignored"
 
 
 def plan(args, base, changed, crates_of, libraries, dependencies):
@@ -361,7 +361,7 @@ def plan(args, base, changed, crates_of, libraries, dependencies):
     # the touched crates and their dependents did (14-32 s against 14-17 s on the Mac mini, 2026-10-26).
     clippy_crates = dependent_crates(crates, dependencies)
     clippy = CI_CLIPPY
-    if clippy_crates is None or "horizon-client" in clippy_crates:
+    if clippy_crates is None or "ll-client" in clippy_crates:
         clippy += f" && {CI_CLIPPY_SERVER}"
     test_skip = None if crates is None or crates else "no crate touched"
     doc_crates = sorted(libraries if crates is None else libraries.intersection(crates))
@@ -382,8 +382,8 @@ def plan(args, base, changed, crates_of, libraries, dependencies):
         Step("content root tests", CONTENT_ROOT_TESTS, summary=tests_passed,
              skip=None if crates is None or any(p.startswith(CONTENT_ROOT) for p in changed)
              else "content root untouched"),
-        Step("tokens.css up to date", "cargo test --locked -p horizon-theme --lib tokens_css_is_up_to_date",
-             skip=None if any(p.startswith(("crates/horizon-theme/", "xtask/")) for p in changed)
+        Step("tokens.css up to date", "cargo test --locked -p ll-theme --lib tokens_css_is_up_to_date",
+             skip=None if any(p.startswith(("crates/ll-theme/", "ll-xtask/")) for p in changed)
              else "theme untouched"),
     ]
     launcher_skip = None if launcher else "launcher untouched"
@@ -394,7 +394,7 @@ def plan(args, base, changed, crates_of, libraries, dependencies):
                           summary=tests_passed if name == "launcher tests" else None))
     harness = Step("Parity", summary=parity_summary)
     affected = affected_here(changed)
-    local_data = (ROOT / ".local" / "minecraft").exists() and (ROOT / ".local" / "horizon-client").exists()
+    local_data = (ROOT / ".local" / "minecraft").exists() and (ROOT / ".local" / "ll-client").exists()
     if args.quick or (args.host == "local" and not local_data) or (args.host != "local" and args.host not in HARNESS_SETUP):
         harness.status = "list"
         why = "--quick" if args.quick else "no vanilla data here"

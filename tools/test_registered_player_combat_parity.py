@@ -48,7 +48,7 @@ def main():
     helper=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaEntityAttributeOracle.java'
     health_helper=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaPlayerHealthOracle.java'
     damage_helper=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaDamageSourceOracle.java'
-    sources=[oracle,helper,health_helper,damage_helper,lab.ROOT/'tools/test_server_player_combat_parity.py',Path(__file__),lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/test_player_hurt_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/horizon-core/Cargo.toml',lab.ROOT/'crates/horizon-world/Cargo.toml',*sorted((lab.ROOT/'crates/horizon-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/horizon-world/src').rglob('*.rs')),lab.ROOT/'crates/horizon-world/examples/probe/registered_player_combat_fixture.rs']
+    sources=[oracle,helper,health_helper,damage_helper,lab.ROOT/'tools/test_server_player_combat_parity.py',Path(__file__),lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/test_player_hurt_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/ll-core/Cargo.toml',lab.ROOT/'crates/ll-world/Cargo.toml',*sorted((lab.ROOT/'crates/ll-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/ll-world/src').rglob('*.rs')),lab.ROOT/'crates/ll-world/examples/probe/registered_player_combat_fixture.rs']
     tested_sources=base.source_hashes(sources)
     classes=build/'classes';classes.mkdir(exist_ok=True)
     def run(command,name):

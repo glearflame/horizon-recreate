@@ -51,8 +51,8 @@ def main():
     tags=worldgen.tag_resources(jars['server'])
     if not tags or tags!=worldgen.tag_resources(jars['client']):raise ValueError('client/server tags differ')
     (build/'tags.json').write_text(json.dumps(tags,separators=(',',':')),encoding='utf-8')
-    sources=[oracle,helper,tag_helper,Path(__file__),lab.ROOT/"tools/test_worldgen_parity.py",lab.ROOT/"tools/test_rust_parity.py",lab.ROOT/"tools/lab.py",lab.ROOT/"Cargo.toml",lab.ROOT/"Cargo.lock",lab.ROOT/"crates/horizon-core/Cargo.toml",lab.ROOT/"crates/horizon-world/Cargo.toml",
-             *sorted((lab.ROOT/"crates/horizon-core/src").rglob("*.rs")),*sorted((lab.ROOT/"crates/horizon-world/src").rglob("*.rs")),lab.ROOT/"crates/horizon-world/examples/probe/scattered_ore_fixture.rs"]
+    sources=[oracle,helper,tag_helper,Path(__file__),lab.ROOT/"tools/test_worldgen_parity.py",lab.ROOT/"tools/test_rust_parity.py",lab.ROOT/"tools/lab.py",lab.ROOT/"Cargo.toml",lab.ROOT/"Cargo.lock",lab.ROOT/"crates/ll-core/Cargo.toml",lab.ROOT/"crates/ll-world/Cargo.toml",
+             *sorted((lab.ROOT/"crates/ll-core/src").rglob("*.rs")),*sorted((lab.ROOT/"crates/ll-world/src").rglob("*.rs")),lab.ROOT/"crates/ll-world/examples/probe/scattered_ore_fixture.rs"]
     tested_sources=base.source_hashes(sources)
     fixture_paths=[build/"tags.json"];classes=build/"classes";classes.mkdir(exist_ok=True)
     def run(command,name):

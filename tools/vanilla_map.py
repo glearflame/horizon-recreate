@@ -28,7 +28,7 @@ ORACLES = "mods/horizon/src/test/java/dev/horizonlab/parity"
 COMMENT_NAME = re.compile(r"\b([A-Z][A-Za-z0-9]*)(?:(?:\.|::|#)([A-Za-z][A-Za-z0-9]*))?")
 JAVA_IMPORT = re.compile(r"\bimport\s+(static\s+)?((?:net\.minecraft|com\.mojang)\.[\w.]+?)(\.\*)?\s*;")
 JAVA_QUALIFIED = re.compile(r"\b((?:net\.minecraft|com\.mojang)(?:\.[a-z][a-z0-9_]*)+(?:\.[A-Z]\w*)+)")
-RUST_USE = re.compile(r"\b(horizon_[a-z_]+|crate)((?:::[a-z_][a-z0-9_]*)+)")
+RUST_USE = re.compile(r"\b((?:horizon|ll)_[a-z_]+|crate)((?:::[a-z_][a-z0-9_]*)+)")
 
 
 def humps(name):

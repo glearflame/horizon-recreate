@@ -46,8 +46,8 @@ def main():
     build.mkdir(parents=True, exist_ok=True)
     report = build / 'report.json'
     report.unlink(missing_ok=True)
-    paths = ['crates/horizon-client-core/src/nbt_path.rs',
-             'crates/horizon-client-core/examples/nbt_path_reader_probe.rs',
+    paths = ['crates/ll-client-core/src/nbt_path.rs',
+             'crates/ll-client-core/examples/nbt_path_reader_probe.rs',
              'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaNbtPathReaderOracle.java',
              'tools/test_nbt_path_reader_parity.py']
     sources = [lab.ROOT / path for path in paths]

@@ -13,8 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 class LivingKnockbackHookTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_attacker_versions_cancellation_and_validation(self):
-        hooks = (ROOT / "crates/horizon-client/src/game/native_hooks.rs").read_text(encoding="utf-8")
-        health = (ROOT / "crates/horizon-client/src/health.rs").read_text(encoding="utf-8")
+        hooks = (ROOT / "crates/ll-client/src/game/native_hooks.rs").read_text(encoding="utf-8")
+        health = (ROOT / "crates/ll-client/src/health.rs").read_text(encoding="utf-8")
         context_start = health.index("thread_local! {")
         context = health[context_start:health.index("/// Whether [", context_start)]
         functions = hooks.replace("pub(super) fn", "fn").replace("\nfn ", "\n    fn ")
@@ -39,7 +39,7 @@ enum Hurting<'a> {
 }
 #[derive(Clone, Copy, Debug, PartialEq)]
 struct Knock { strength: f64, x: f64, z: f64 }
-mod horizon_client { pub mod health {
+mod ll_client { pub mod health {
     use super::super::*;
     use std::sync::OnceLock;
     static KNOCKBACK: OnceLock<fn(Hurting<'_>, &mut Knock) -> bool> = OnceLock::new();
@@ -84,7 +84,7 @@ ARGUMENTS
 BRIDGE
 #[test]
 fn bridge_preserves_v1_and_names_player_mob_and_stand_attackers() {
-    use horizon_client::health::{knockback_from, knockback_from_holding, knockback_canceled, install};
+    use ll_client::health::{knockback_from, knockback_from_holding, knockback_canceled, install};
     install();
     let mob = Mob { id: 12, kind: Kind { id: "minecraft:zombie".into() },
                     ai: Ai { last_hurt_by: Some(Who::Mob(99)) } };

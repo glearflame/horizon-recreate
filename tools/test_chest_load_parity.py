@@ -39,9 +39,9 @@ def main():
     report.unlink(missing_ok=True)
     sources = [Path(__file__), lab.ROOT / 'tools/lab.py', lab.ROOT / 'tools/oracle_harness.py',
                lab.ROOT / 'tools/test_rust_parity.py', lab.ROOT / 'Cargo.toml', lab.ROOT / 'Cargo.lock',
-               lab.ROOT / 'crates/horizon-client/src/save.rs',
-               lab.ROOT / 'crates/horizon-client-core/src/identifier.rs',
-               lab.ROOT / 'crates/horizon-client/examples/probe/chest_load_fixture.rs',
+               lab.ROOT / 'crates/ll-client/src/save.rs',
+               lab.ROOT / 'crates/ll-client-core/src/identifier.rs',
+               lab.ROOT / 'crates/ll-client/examples/probe/chest_load_fixture.rs',
                lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaChestLoadOracle.java',
                lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/ParityData.java']
     hashes = base.source_hashes(sources)

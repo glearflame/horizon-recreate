@@ -202,13 +202,13 @@ class RunTests(unittest.TestCase):
         self.tmp = tempfile.TemporaryDirectory()
         self.addCleanup(self.tmp.cleanup)
         self.root = Path(self.tmp.name, "repo").resolve()
-        self.files = {"horizon-items": "crates/horizon-items/src/items.rs",
-                      "horizon-world": "crates/horizon-world/src/level/mod.rs"}
+        self.files = {"horizon-items": "crates/ll-items/src/items.rs",
+                      "horizon-world": "crates/ll-world/src/level/mod.rs"}
         for relative in self.files.values():
             path = self.root / relative
             path.parent.mkdir(parents=True)
             path.write_bytes(b"use a;\n\npub fn one() {}\n\npub fn two() {}\n\npub fn three() {}\n")
-        (self.root / "crates/horizon-items/src/lib.rs").write_text("pub mod items;\n")
+        (self.root / "crates/ll-items/src/lib.rs").write_text("pub mod items;\n")
         subprocess.run(["git", "init", "-q"], cwd=self.root, check=True)
         git(self.root, "add", "-A")
         git(self.root, "commit", "-q", "-m", "first")
@@ -222,8 +222,8 @@ class RunTests(unittest.TestCase):
         self.state = {
             "calls": str(self.calls), "watch": [str(self.root / r) for r in self.files.values()],
             "metadata": {"packages": [
-                {"name": "horizon-items", "targets": [{"kind": ["lib"], "src_path": str(self.root / "crates/horizon-items/src/lib.rs")}]},
-                {"name": "horizon-world", "targets": [{"kind": ["lib"], "src_path": str(self.root / "crates/horizon-world/src/lib.rs")}]}]},
+                {"name": "horizon-items", "targets": [{"kind": ["lib"], "src_path": str(self.root / "crates/ll-items/src/lib.rs")}]},
+                {"name": "horizon-world", "targets": [{"kind": ["lib"], "src_path": str(self.root / "crates/ll-world/src/lib.rs")}]}]},
             "cold_units": REAL_UNITS,
             "edit_units": [unit(0, "horizon-items", 0, 1.5, unblocks=[1]), unit(1, "horizon-client", 1.5, 2.0, target=' x "bin"')],
         }
@@ -275,7 +275,7 @@ class RunTests(unittest.TestCase):
         self.assertTrue(report["noop"]["dev"]["ok"])
         inc = report["incremental"]["dev"]
         self.assertEqual(set(inc), {"horizon-items", "horizon-world"})
-        self.assertEqual(inc["horizon-items"]["file"], "crates/horizon-items/src/items.rs")
+        self.assertEqual(inc["horizon-items"]["file"], "crates/ll-items/src/items.rs")
         self.assertEqual(inc["horizon-items"]["rebuilt_crates"], ["horizon-client", "horizon-items"])
         self.assertEqual(inc["horizon-items"]["rebuilt_units"], 2)
         self.assertIn("| dev | horizon-items |", out)
@@ -459,10 +459,10 @@ class RunTests(unittest.TestCase):
 
     def test_a_crate_without_a_listed_file_gets_its_lib_rs(self):
         self.state["metadata"]["packages"].append(
-            {"name": "horizon-extra", "targets": [{"kind": ["lib"], "src_path": str(self.root / "crates/horizon-items/src/lib.rs")}]})
+            {"name": "horizon-extra", "targets": [{"kind": ["lib"], "src_path": str(self.root / "crates/ll-items/src/lib.rs")}]})
         self.write_state()
         _, report, _, _ = self.report("--profiles", "dev", "--only", "incremental", "--crates", "horizon-extra")
-        self.assertEqual(report["incremental"]["dev"]["horizon-extra"]["file"], "crates/horizon-items/src/lib.rs")
+        self.assertEqual(report["incremental"]["dev"]["horizon-extra"]["file"], "crates/ll-items/src/lib.rs")
 
     def test_the_users_cargo_target_dir_is_not_used_or_touched(self):
         mine = Path(self.tmp.name, "my-target")
@@ -522,7 +522,7 @@ class RunTests(unittest.TestCase):
         _, report, out, _ = self.report("--profiles", "dev", "--only", "incremental", "--crates", "horizon-items")
         # 7 lines, items after a blank line on lines 3, 5 and 7; the middle (line 4) is as near 3 as 5: the first wins
         self.assertEqual(report["incremental"]["dev"]["horizon-items"]["line"], 3)
-        self.assertIn("`crates/horizon-items/src/items.rs:3`", out)
+        self.assertIn("`crates/ll-items/src/items.rs:3`", out)
         self.assertEqual([w for w in report["warnings"] if "line 1" in w], [])
         path = self.root / self.files["horizon-items"]
         path.write_bytes(b"/// Docs.\npub fn one() {}\n/// More.\npub fn two() {}\n")  # no item after a blank line
@@ -597,7 +597,7 @@ def sample(seconds, cpu="Test CPU", jobs=8, commit="aaaaaaaaa"):
             "commit": {"short": commit, "sha": commit, "branch": "main", "subject": "s", "dirty": False},
             "machine": {"os": "linux", "cpu": cpu, "cpu_threads": 8, "ram_mb": 16384},
             "toolchain": {"rustc": "rustc 1.99.1", "cargo": "cargo 1.99.1", "host": "x"}, "jobs": {"jobs": jobs, "source": "default"},
-            "options": {"edit": "middle", "repeats": 1, "files": {"horizon-items": "crates/horizon-items/src/items.rs"}},
+            "options": {"edit": "middle", "repeats": 1, "files": {"horizon-items": "crates/ll-items/src/items.rs"}},
             "warnings": [], "environment": {}, "command": "cargo build",
             "cold": {"dev": {"ok": True, "seconds": seconds["cold"], "timings": {
                 "units": 3, "total_s": seconds["cold"],

@@ -194,10 +194,10 @@ class StampTests(unittest.TestCase):
     def test_stamping_leaves_stale_generated_copies_alone(self):
         # Old checkouts may still have these files; only the generator's inputs are stamped now.
         generated = (
-            "crates/horizon-client/src/mod_api/generated.rs",
-            "crates/horizon-client/src/mod_api/generated_host.rs",
-            "crates/horizon-client/src/game/mod_api_host_generated.rs",
-            "crates/horizon-client-render/src/gfx/native_render/generated.rs",
+            "crates/ll-client/src/mod_api/generated.rs",
+            "crates/ll-client/src/mod_api/generated_host.rs",
+            "crates/ll-client/src/game/mod_api_host_generated.rs",
+            "crates/ll-client-render/src/gfx/native_render/generated.rs",
         )
         self.git("add", ".")
         self.git("commit", "-qm", "base")

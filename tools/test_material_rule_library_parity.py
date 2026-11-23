@@ -67,7 +67,7 @@ def main():
     for field,value in bundle.items():(build/(field+'.json')).write_text(json.dumps(value,separators=(',',':')),encoding='utf-8')
     folder=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity'
     oracles=[folder/(name+'.java') for name in ['VanillaMaterialConditionOracle','VanillaAnchorOracle','VanillaBiomeTemperatureOracle','VanillaBlockStateCodecOracle']]
-    sources=[*oracles,Path(__file__),*[lab.ROOT/'tools'/name for name in ['test_material_condition_parity.py','test_biome_temperature_parity.py','test_worldgen_parity.py','test_rust_parity.py','lab.py']],lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/horizon-core/Cargo.toml',lab.ROOT/'crates/horizon-world/Cargo.toml',*sorted((lab.ROOT/'crates/horizon-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/horizon-world/src').rglob('*.rs')),lab.ROOT/'crates/horizon-world/examples/probe/material_condition_fixture.rs']
+    sources=[*oracles,Path(__file__),*[lab.ROOT/'tools'/name for name in ['test_material_condition_parity.py','test_biome_temperature_parity.py','test_worldgen_parity.py','test_rust_parity.py','lab.py']],lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/ll-core/Cargo.toml',lab.ROOT/'crates/ll-world/Cargo.toml',*sorted((lab.ROOT/'crates/ll-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/ll-world/src').rglob('*.rs')),lab.ROOT/'crates/ll-world/examples/probe/material_condition_fixture.rs']
     tested_sources=base.source_hashes(sources);classes=build/'classes';classes.mkdir(exist_ok=True)
     def run(command,name):
         with (build/(name+'.log')).open('w',encoding='utf-8') as log:base.run(list(map(str,command)),stdout=log,stderr=subprocess.STDOUT)

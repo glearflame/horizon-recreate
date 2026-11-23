@@ -6,7 +6,7 @@
 /.github/                                @glearflame
 /tools/ci/                               @glearflame
 /tools/release_train.py                  @glearflame
-/crates/horizon-release-sign/            @glearflame
+/crates/ll-release-sign/            @glearflame
 /crates/ll-server/src/update.rs     @glearflame
 /crates/ll-server/Cargo.toml        @glearflame
 /launcher/src/signed.rs                  @glearflame

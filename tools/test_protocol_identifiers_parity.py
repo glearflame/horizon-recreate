@@ -44,11 +44,11 @@ def main():
     lock, jars, libraries = base.verify_artifacts()
     build = lab.LOCAL / 'protocol-identifiers-parity'
     build.mkdir(parents=True, exist_ok=True)
-    paths = ['crates/horizon-protocol/src/buf.rs',
-             'crates/horizon-protocol/src/packets/configuration.rs',
-             'crates/horizon-protocol/src/packets/play.rs',
-             'crates/horizon-protocol/examples/protocol_identifiers_probe.rs',
-             'crates/horizon-protocol/tests/identifier_codec.rs',
+    paths = ['crates/ll-protocol/src/buf.rs',
+             'crates/ll-protocol/src/packets/configuration.rs',
+             'crates/ll-protocol/src/packets/play.rs',
+             'crates/ll-protocol/examples/protocol_identifiers_probe.rs',
+             'crates/ll-protocol/tests/identifier_codec.rs',
              'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaProtocolIdentifierOracle.java',
              'tools/test_protocol_identifiers_parity.py']
     sources = [lab.ROOT / path for path in paths]

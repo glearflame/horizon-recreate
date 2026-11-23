@@ -71,13 +71,13 @@ def main():
     (build / "report.json").unlink(missing_ok=True)
     source = lab.ROOT / "mods/horizon/src/test/java/dev/horizonlab/parity/VanillaDamageCatalogOracle.java"
     sources = [source, Path(__file__).resolve(),
-               lab.ROOT / "crates/horizon-world/examples/damage_catalog_probe.rs",
-               lab.ROOT / "crates/horizon-world/src/damage_source.rs",
-               lab.ROOT / "crates/horizon-world/src/damage_source/resources.rs",
-               lab.ROOT / "crates/horizon-client/src/health/datapack_tests.rs",
-               lab.ROOT / "crates/horizon-client/src/landing.rs",
-               lab.ROOT / "crates/horizon-client/src/lan/data.rs",
-               lab.ROOT / "crates/horizon-client/src/game/lan.rs"]
+               lab.ROOT / "crates/ll-world/examples/damage_catalog_probe.rs",
+               lab.ROOT / "crates/ll-world/src/damage_source.rs",
+               lab.ROOT / "crates/ll-world/src/damage_source/resources.rs",
+               lab.ROOT / "crates/ll-client/src/health/datapack_tests.rs",
+               lab.ROOT / "crates/ll-client/src/landing.rs",
+               lab.ROOT / "crates/ll-client/src/lan/data.rs",
+               lab.ROOT / "crates/ll-client/src/game/lan.rs"]
     hashes = {str(p.relative_to(lab.ROOT)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sources}
     libraries = sorted((args.game_dir / "libraries/server").rglob("*.jar"))
     jar = args.game_dir / "jars/server-game.jar"

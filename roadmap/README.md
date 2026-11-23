@@ -100,7 +100,7 @@ merged pull request, release, shipped item and weekly summary, newest first, the
 ## The intake: votes and bug reports
 
 The hub's forms and vote buttons talk to the telemetry server (`https://telemetry.playhorizon.dev`,
-`crates/horizon-telemetry-server`, `src/hub.rs` and `src/intake.rs`; its README lists the limits and settings).
+`crates/ll-telemetry-server`, `src/hub.rs` and `src/intake.rs`; its README lists the limits and settings).
 Kira uses the same endpoints, so a bug goes the same way from the site and from Discord.
 
 | Endpoint | Body | Answer |

@@ -32,12 +32,12 @@ except ImportError:
     from integration_env import run_game
 
 SOURCES = [
-    'crates/horizon-client/src/game.rs',
-    'crates/horizon-client/src/game/boat_rider_fixture.rs',
-    'crates/horizon-client/src/game/remote_vehicles.rs',
-    'crates/horizon-client/src/game/boats.rs',
-    'crates/horizon-client/src/game/remote_objects.rs',
-    'crates/horizon-client/src/game/hand.rs',
+    'crates/ll-client/src/game.rs',
+    'crates/ll-client/src/game/boat_rider_fixture.rs',
+    'crates/ll-client/src/game/remote_vehicles.rs',
+    'crates/ll-client/src/game/boats.rs',
+    'crates/ll-client/src/game/remote_objects.rs',
+    'crates/ll-client/src/game/hand.rs',
     'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaBoatRiderOracle.java',
     'mods/horizon/src/test/java/dev/horizonlab/parity/ParityData.java',
     'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaVehicleContainerOracle.java',

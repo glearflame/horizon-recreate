@@ -40,7 +40,7 @@ def main():
         'Actual Squid.aiStep on a client with controlled inherited movement/world services. '
         'Checks water/air body rotation and tentacle state, cycle clamping and event 19. '
         'Glow squid uses the same inherited method; packet dispatch and rendering are separate.',
-        sources=[lab.ROOT / 'crates/horizon-client/src/mobs/aquatic.rs'])
+        sources=[lab.ROOT / 'crates/ll-client/src/mobs/aquatic.rs'])
 
 
 if __name__ == '__main__':

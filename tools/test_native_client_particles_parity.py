@@ -21,10 +21,10 @@ except ImportError:
     from integration_env import run_game
 
 SOURCES = [
-    'crates/horizon-client/src/game.rs',
-    'crates/horizon-client/src/game/native_client_particles.rs',
-    'crates/horizon-client/src/game/native_client_particles_fixture.rs',
-    'crates/horizon-client-render/src/particles.rs',
+    'crates/ll-client/src/game.rs',
+    'crates/ll-client/src/game/native_client_particles.rs',
+    'crates/ll-client/src/game/native_client_particles_fixture.rs',
+    'crates/ll-client-render/src/particles.rs',
     'tools/native-hook-fragments/client_particles.json',
     'tools/test_native_client_particles_parity.py',
 ]

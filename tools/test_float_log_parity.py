@@ -54,7 +54,7 @@ def main():
     lock, jars, libraries = test_rust_parity.verify_artifacts()
     source = lab.ROOT / "mods/horizon/src/test/java/dev/horizonlab/parity/VanillaFloatLogOracle.java"
     sources = [source, Path(__file__), lab.ROOT / "tools/test_rust_parity.py", lab.ROOT / "tools/lab.py",
-        *sorted((lab.ROOT / "crates/horizon-core").rglob("*.rs")), lab.ROOT / "crates/horizon-core/Cargo.toml",
+        *sorted((lab.ROOT / "crates/ll-core").rglob("*.rs")), lab.ROOT / "crates/ll-core/Cargo.toml",
         lab.ROOT / "Cargo.toml", lab.ROOT / "Cargo.lock"]
     tested_sources = test_rust_parity.source_hashes(sources)
     classes = build / "classes"

@@ -11,7 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
 class CushionParticlesTests(unittest.TestCase):
     def test_headless_server_records_break_effect_before_sprite_lookup(self):
-        source = (ROOT / "crates/horizon-client/src/game/cushions.rs").read_text()
+        source = (ROOT / "crates/ll-client/src/game/cushions.rs").read_text()
         start = source.index("    fn cushion_break_particles(")
         end = source.index("    /// `BlockAttachedEntity.tick`", start)
         fixture = r'''
@@ -29,7 +29,7 @@ impl Registry {
 struct Assets { registry: Registry }
 struct Pack { assets: Assets }
 struct Audio { capture: Option<()> }
-mod horizon_client { pub mod particles {
+mod ll_client { pub mod particles {
     pub enum ParticleType { Block }
     pub struct ParticleOptions;
     impl ParticleOptions {
@@ -39,7 +39,7 @@ mod horizon_client { pub mod particles {
 #[derive(Default)]
 struct Particles { count: u32 }
 impl Particles {
-    fn send_particles(&mut self, _: &horizon_client::particles::ParticleOptions,
+    fn send_particles(&mut self, _: &ll_client::particles::ParticleOptions,
         at: [f64; 3], spread: [f64; 3], speed: f64, count: u32) {
         assert!((at[1] - (10.0 + 1.0/6.0)).abs() < 1e-12);
         assert_eq!(spread, [0.25, 0.0625, 0.25]);

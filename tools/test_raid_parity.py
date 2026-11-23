@@ -316,8 +316,8 @@ def main():
     lock, jars, libraries = base.verify_artifacts()
     resources = lab.RESOURCES
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaRaidOracle.java'
-    sources = [oracle, Path(__file__), lab.ROOT / 'crates/horizon-client/examples/probe/raid_fixture.rs',
-               lab.ROOT / 'crates/horizon-client/src/raid.rs', lab.ROOT / 'crates/horizon-client/src/patrol.rs']
+    sources = [oracle, Path(__file__), lab.ROOT / 'crates/ll-client/examples/probe/raid_fixture.rs',
+               lab.ROOT / 'crates/ll-client/src/raid.rs', lab.ROOT / 'crates/ll-client/src/patrol.rs']
     tested = base.source_hashes(sources)
     inputs = build / 'inputs.txt'
     cases = corpus()

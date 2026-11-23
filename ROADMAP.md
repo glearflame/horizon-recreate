@@ -280,7 +280,7 @@ Owner: [glearflame](https://github.com/glearflame)
 
 <details><summary>Technical</summary>
 
-Based on the site concept by the Team (Bricolage Grotesque, a night sky and an animated pixel sunset). Screens and flows are designed first, then small PRs; tokens in [crates/horizon-theme](crates/horizon-theme) and rules in [docs/design-system.md](docs/design-system.md), the game's vanilla look unchanged. Measured before and after: startup, frame time and idle CPU/GPU, reduced motion honoured. Mods screens separate Horizon native mods from Java mods; a running instance can be stopped from the launcher.
+Based on the site concept by the Team (Bricolage Grotesque, a night sky and an animated pixel sunset). Screens and flows are designed first, then small PRs; tokens in [crates/ll-theme](crates/ll-theme) and rules in [docs/design-system.md](docs/design-system.md), the game's vanilla look unchanged. Measured before and after: startup, frame time and idle CPU/GPU, reduced motion honoured. Mods screens separate Horizon native mods from Java mods; a running instance can be stopped from the launcher.
 
 More: [#3635](https://github.com/glearflame/horizon/issues/3635) · [#3636](https://github.com/glearflame/horizon/issues/3636) · [#3637](https://github.com/glearflame/horizon/issues/3637)
 
@@ -650,7 +650,7 @@ Popular shader packs rewritten in Horizon's format, so good packs exist from the
 
 <details><summary>Technical</summary>
 
-The first candidates are Photon, Chocapic13 and MakeUp Ultra Fast, each only after its licence is read and recorded: a pack is rewritten only if it is open source and compatible with Horizon's licence, and the rewrite is written from the shader format's documentation and the look on screen, not from anyone's code. Today only the Golden Hour example exists (`[crates/horizon-shader-api/packs/golden_hour](crates/horizon-shader-api/packs/golden_hour)`).
+The first candidates are Photon, Chocapic13 and MakeUp Ultra Fast, each only after its licence is read and recorded: a pack is rewritten only if it is open source and compatible with Horizon's licence, and the rewrite is written from the shader format's documentation and the look on screen, not from anyone's code. Today only the Golden Hour example exists (`[crates/ll-shader-api/packs/golden_hour](crates/ll-shader-api/packs/golden_hour)`).
 
 More: [docs/shaders.md](docs/shaders.md)
 
@@ -786,7 +786,7 @@ An optional look for the game's own menus and options that matches the Horizon l
 
 <details><summary>Technical</summary>
 
-A player's idea (#horizon-ideas). A built-in resource pack or a Horizon setting that restyles the title, pause and options screens with the launcher's design tokens (crates/horizon-theme), following [docs/design-system.md](docs/design-system.md); off by default because it changes the vanilla look.
+A player's idea (#horizon-ideas). A built-in resource pack or a Horizon setting that restyles the title, pause and options screens with the launcher's design tokens (crates/ll-theme), following [docs/design-system.md](docs/design-system.md); off by default because it changes the vanilla look.
 
 </details>
 

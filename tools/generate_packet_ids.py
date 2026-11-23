@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate crates/horizon-protocol/src/ids.rs from the vanilla data generator's
+"""Generate crates/ll-protocol/src/ids.rs from the vanilla data generator's
 packets report (`java -DbundlerMainClass=net.minecraft.data.Main -jar server.jar --reports`).
 
 Packet ids are protocol facts (the order packets are registered in each
@@ -27,7 +27,7 @@ def const_name(name):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--report", type=Path, default=ROOT / ".local/datagen/out/reports/packets.json")
-    parser.add_argument("--out", type=Path, default=ROOT / "crates/horizon-protocol/src/ids.rs")
+    parser.add_argument("--out", type=Path, default=ROOT / "crates/ll-protocol/src/ids.rs")
     args = parser.parse_args()
     report = json.loads(args.report.read_text())
     info = lab.version_info()

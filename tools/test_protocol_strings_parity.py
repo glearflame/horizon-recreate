@@ -67,8 +67,8 @@ def main():
     build.mkdir(parents=True, exist_ok=True)
     (build / 'report.json').unlink(missing_ok=True)
     source = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaProtocolStringsOracle.java'
-    sources = [source, lab.ROOT / 'crates/horizon-protocol/src/buf.rs',
-               lab.ROOT / 'crates/horizon-protocol/examples/protocol_strings_probe.rs',
+    sources = [source, lab.ROOT / 'crates/ll-protocol/src/buf.rs',
+               lab.ROOT / 'crates/ll-protocol/examples/protocol_strings_probe.rs',
                lab.ROOT / 'tools/test_protocol_strings_parity.py']
     tested = base.source_hashes(sources)
     count = 0

@@ -107,7 +107,7 @@ class ParityRunnerTests(unittest.TestCase):
         ]), {"a_fixture", "b_fixture"})
 
     def test_records_of_the_shared_probe_name_build_their_crates_probe(self):
-        record = {"dependencies": ["crates/horizon-world/examples/probe/a_fixture.rs", "crates/horizon-world/src/lib.rs"],
+        record = {"dependencies": ["crates/ll-world/examples/probe/a_fixture.rs", "crates/ll-world/src/lib.rs"],
                   "artifacts": [["example", "probe", "release", ["-p", "horizon-client"], True],
                                 ["example", "probe", "release"],  # no selection: the crate of its probe sources
                                 ["example", "probe", "release", ["-p", "horizon-core", "-p", "horizon-world"], True],
@@ -284,12 +284,12 @@ class DependencyPathTests(unittest.TestCase):
                 mock.patch.object(parity, "STATE_DIR", Path(temp, "state")):
             root = Path(temp)
             files = {
-                "crates/horizon-world/Cargo.toml": '[package]\nname = "horizon-world"\n'
+                "crates/ll-world/Cargo.toml": '[package]\nname = "ll-world"\n'
                                                    '\n[[example]]\nname = "world_probe"\npath = "examples/probe.rs"\n',
-                "crates/horizon-world/src/lib.rs": "pub mod used;\npub mod unused;\n",
-                "crates/horizon-world/src/used.rs": "pub fn f() {}\n",
-                "crates/horizon-world/src/unused.rs": "pub fn f() {}\n",
-                "crates/horizon-world/examples/probe.rs": "fn main() { horizon_world::used::f(); }\n",
+                "crates/ll-world/src/lib.rs": "pub mod used;\npub mod unused;\n",
+                "crates/ll-world/src/used.rs": "pub fn f() {}\n",
+                "crates/ll-world/src/unused.rs": "pub fn f() {}\n",
+                "crates/ll-world/examples/probe.rs": "fn main() { ll_world::used::f(); }\n",
             }
             for path, text in files.items():
                 target = root / path
@@ -299,8 +299,8 @@ class DependencyPathTests(unittest.TestCase):
             dependencies[1] += "#keep:used"
             record = {"dependencies": dependencies, "artifacts": [["example", "probe", "release"]]}
             found = {"probe": root / "tools/test_probe_parity.py"}
-            for path, expected in (("crates/horizon-world/src/used.rs", {"probe"}),
-                                   ("crates/horizon-world/src/unused.rs", set())):
+            for path, expected in (("crates/ll-world/src/used.rs", {"probe"}),
+                                   ("crates/ll-world/src/unused.rs", set())):
                 with self.subTest(path=path):
                     self.assertEqual(parity.affected_harnesses(found, {"probe": record}, {path}), expected)
             self.assertEqual(record["dependencies"], dependencies)
@@ -593,41 +593,41 @@ class WorkspaceManifestTests(unittest.TestCase):
         client = self.CLIENT + 'horizon-command = { path = "../horizon-command" }\n'
         lock = self.LOCK.replace('[[package]]\nname = "serde"', '[[package]]\nname = "horizon-command"\nversion = "0.1.0"\n\n'
                                  '[[package]]\nname = "serde"')
-        base = {"Cargo.toml": '[workspace]\nmembers = ["crates/horizon-client"]\nresolver = "2"\n',
-                "crates/horizon-client/Cargo.toml": self.CLIENT, "Cargo.lock": self.LOCK}
-        head = {"Cargo.toml": '[workspace]\nmembers = ["crates/horizon-client", "crates/horizon-command"]\nresolver = "2"\n',
-                "crates/horizon-client/Cargo.toml": client, "crates/horizon-command/Cargo.toml": command, "Cargo.lock": lock}
+        base = {"Cargo.toml": '[workspace]\nmembers = ["crates/ll-client"]\nresolver = "2"\n',
+                "crates/ll-client/Cargo.toml": self.CLIENT, "Cargo.lock": self.LOCK}
+        head = {"Cargo.toml": '[workspace]\nmembers = ["crates/ll-client", "crates/ll-command"]\nresolver = "2"\n',
+                "crates/ll-client/Cargo.toml": client, "crates/ll-command/Cargo.toml": command, "Cargo.lock": lock}
         self.assertEqual(self.verdict(base, head), set(head))
 
     def test_a_dependency_change_still_counts(self):
-        base = {"crates/horizon-client/Cargo.toml": self.CLIENT, "Cargo.lock": self.LOCK}
-        bumped = {"crates/horizon-client/Cargo.toml": self.CLIENT, "Cargo.lock": self.LOCK.replace("1.0.1", "1.0.2")}
+        base = {"crates/ll-client/Cargo.toml": self.CLIENT, "Cargo.lock": self.LOCK}
+        bumped = {"crates/ll-client/Cargo.toml": self.CLIENT, "Cargo.lock": self.LOCK.replace("1.0.1", "1.0.2")}
         self.assertEqual(self.verdict(base, bumped), set())
-        feature = {"crates/horizon-client/Cargo.toml": self.CLIENT.replace('["x"]', '["x", "y"]')}
-        self.assertEqual(self.verdict({"crates/horizon-client/Cargo.toml": self.CLIENT}, feature), set())
+        feature = {"crates/ll-client/Cargo.toml": self.CLIENT.replace('["x"]', '["x", "y"]')}
+        self.assertEqual(self.verdict({"crates/ll-client/Cargo.toml": self.CLIENT}, feature), set())
         resolver = {"Cargo.toml": '[workspace]\nmembers = ["a"]\nresolver = "3"\n'}
         self.assertEqual(self.verdict({"Cargo.toml": '[workspace]\nmembers = ["a"]\nresolver = "2"\n'}, resolver), set())
 
     def test_a_feature_of_a_workspace_crate_counts_through_its_sources(self):
         items = '[package]\nname = "horizon-items"\n\n[features]\ntest-support = []\n'
         client = self.CLIENT + '\n[dev-dependencies]\nhorizon-items = { path = "../horizon-items", features = ["test-support"] }\n'
-        head = {"crates/horizon-items/Cargo.toml": items, "crates/horizon-client/Cargo.toml": client,
-                "crates/horizon-items/src/lib.rs": '#[cfg(feature = "test-support")]\npub fn for_tests() {}\n'}
-        base = {"crates/horizon-client/Cargo.toml": self.CLIENT}
+        head = {"crates/ll-items/Cargo.toml": items, "crates/ll-client/Cargo.toml": client,
+                "crates/ll-items/src/lib.rs": '#[cfg(feature = "test-support")]\npub fn for_tests() {}\n'}
+        base = {"crates/ll-client/Cargo.toml": self.CLIENT}
         # The new crate's files are all changed, the code the feature gates with them.
-        self.assertEqual(self.verdict(base, head), {"crates/horizon-items/Cargo.toml", "crates/horizon-client/Cargo.toml"})
+        self.assertEqual(self.verdict(base, head), {"crates/ll-items/Cargo.toml", "crates/ll-client/Cargo.toml"})
         # Turning on a feature of a crate whose gated code didn't change selects as before.
         world = '[package]\nname = "horizon-world"\n\n[features]\nextra = ["more"]\nmore = []\n'
         with tempfile.TemporaryDirectory() as temp, mock.patch.object(parity, "ROOT", Path(temp)):
-            Path(temp, "crates/horizon-world/src").mkdir(parents=True)
-            Path(temp, "crates/horizon-world/Cargo.toml").write_text(world)
-            Path(temp, "crates/horizon-world/src/lib.rs").write_text('#[cfg(feature = "more")]\nfn x() {}\n')
-            self.assertFalse(parity.feature_sources_changed("horizon-world", "extra", {"crates/horizon-client/Cargo.toml"}))
-            self.assertTrue(parity.feature_sources_changed("horizon-world", "extra", {"crates/horizon-world/src/lib.rs"}))
+            Path(temp, "crates/ll-world/src").mkdir(parents=True)
+            Path(temp, "crates/ll-world/Cargo.toml").write_text(world)
+            Path(temp, "crates/ll-world/src/lib.rs").write_text('#[cfg(feature = "more")]\nfn x() {}\n')
+            self.assertFalse(parity.feature_sources_changed("horizon-world", "extra", {"crates/ll-client/Cargo.toml"}))
+            self.assertTrue(parity.feature_sources_changed("horizon-world", "extra", {"crates/ll-world/src/lib.rs"}))
             self.assertFalse(parity.feature_sources_changed("horizon-nothing", "extra", set()))
         # A feature that reaches an external package counts.
-        optional = {"crates/horizon-client/Cargo.toml": self.CLIENT + '\n[features]\nfast = ["wgpu/x"]\n'}
-        self.assertEqual(self.verdict({"crates/horizon-client/Cargo.toml": self.CLIENT}, optional), set())
+        optional = {"crates/ll-client/Cargo.toml": self.CLIENT + '\n[features]\nfast = ["wgpu/x"]\n'}
+        self.assertEqual(self.verdict({"crates/ll-client/Cargo.toml": self.CLIENT}, optional), set())
 
     def test_external_feature_sources_are_not_discarded(self):
         with tempfile.TemporaryDirectory() as temp, mock.patch.object(parity, "ROOT", Path(temp)):

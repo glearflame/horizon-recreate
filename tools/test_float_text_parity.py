@@ -59,9 +59,9 @@ def main():
     build.mkdir(parents=True, exist_ok=True)
     report = build / 'report.json'
     report.unlink(missing_ok=True)
-    paths = ['crates/horizon-world/src/snbt_text.rs', 'crates/horizon-world/src/datafix/json.rs',
-             'crates/horizon-world/src/nbt.rs', 'crates/horizon-world/examples/probe/main.rs',
-             'crates/horizon-world/examples/probe/float_text_fixture.rs',
+    paths = ['crates/ll-world/src/snbt_text.rs', 'crates/ll-world/src/datafix/json.rs',
+             'crates/ll-world/src/nbt.rs', 'crates/ll-world/examples/probe/main.rs',
+             'crates/ll-world/examples/probe/float_text_fixture.rs',
              'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaFloatTextOracle.java',
              'tools/test_float_text_parity.py']
     sources = [lab.ROOT / path for path in paths]

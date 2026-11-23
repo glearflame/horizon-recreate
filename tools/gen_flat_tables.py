@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Copy the lookup tables of vanilla's flattening-era DataFixers (1.12.2 -> 1.13.2) into
-crates/horizon-world/src/datafix/flat_tables.rs, so that the Rust fixes use exactly vanilla's
+crates/ll-world/src/datafix/flat_tables.rs, so that the Rust fixes use exactly vanilla's
 data.  Run from the repository root; the vanilla sources are the ones under .local/minecraft.
 
   gen_flat_tables.py [-o OUT]

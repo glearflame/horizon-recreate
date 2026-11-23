@@ -21,8 +21,8 @@ def main():
     classes = build / 'classes'
     classes.mkdir(exist_ok=True)
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaTextDisplayTransformOracle.java'
-    sources = [oracle, lab.ROOT/'crates/horizon-client/src/text_display.rs',
-        lab.ROOT/'crates/horizon-client/src/game/text_displays.rs']
+    sources = [oracle, lab.ROOT/'crates/ll-client/src/text_display.rs',
+        lab.ROOT/'crates/ll-client/src/game/text_displays.rs']
     tested = base.source_hashes(sources)
     source = lab.LOCAL / 'text-display-parity/java.jsonl'
     # Every billboard mode, coupled and independent entity/camera rotations.

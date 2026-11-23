@@ -154,8 +154,8 @@ def main():
              'FramerateLimiter and vsync present-mode selection are covered by Rust unit tests only.')
     harness.differential(
         'rust-game-loop-parity', 'VanillaGameLoopOracle', 'game_loop_probe', make_cases, scope,
-        sources=[lab.ROOT / 'crates/horizon-client/src/clock.rs']
-        + [lab.ROOT / f'crates/horizon-client-input/src/{name}.rs' for name in ('mouse', 'window', 'keymapping')])
+        sources=[lab.ROOT / 'crates/ll-client/src/clock.rs']
+        + [lab.ROOT / f'crates/ll-client-input/src/{name}.rs' for name in ('mouse', 'window', 'keymapping')])
 
 
 if __name__ == '__main__':

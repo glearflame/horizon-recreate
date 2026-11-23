@@ -25,7 +25,7 @@ def main():
     lines = fixtures()
     matched, report = h.run_harness(
         'audio-attributes', 'VanillaAudioAttributesOracle', 'audio_attributes_fixture', ''.join(l + '\n' for l in lines),
-        extra_sources=[h.lab.ROOT / 'crates/horizon-client/src/music.rs', h.lab.ROOT / 'crates/horizon-client/src/ambience.rs'],
+        extra_sources=[h.lab.ROOT / 'crates/ll-client/src/music.rs', h.lab.ROOT / 'crates/ll-client/src/ambience.rs'],
         rust_args=[h.RESOURCES],
         scope='Vanilla EnvironmentAttributeSystem values of audio/background_music (with BackgroundMusic.select), audio/music_volume and '
               'audio/ambient_sounds for every dimension type x biome at two times of day, and the Musics constants.')

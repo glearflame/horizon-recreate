@@ -481,7 +481,7 @@ def main():
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaSectionMeshOracle.java'
     helpers = [oracle.with_name(n + '.java') for n in ['VanillaCuboidModelOracle', 'VanillaHeightmapOracle']]
     sources = [Path(__file__), lab.ROOT / 'tools/lab.py', lab.ROOT / 'tools/test_rust_parity.py', oracle, *helpers,
-               lab.ROOT / 'Cargo.toml', lab.ROOT / 'Cargo.lock', lab.ROOT / 'crates/horizon-client/examples/probe/section_mesh_fixture.rs']
+               lab.ROOT / 'Cargo.toml', lab.ROOT / 'Cargo.lock', lab.ROOT / 'crates/ll-client/examples/probe/section_mesh_fixture.rs']
     for crate in ['horizon-core', 'horizon-world', 'horizon-assets', 'horizon-client']:
         sources += [lab.ROOT / 'crates' / crate / 'Cargo.toml', *sorted((lab.ROOT / 'crates' / crate / 'src').rglob('*.rs'))]
     tested = base.source_hashes(sources)

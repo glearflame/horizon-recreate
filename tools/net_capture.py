@@ -7,7 +7,7 @@ handshake, login, configuration and play (and back to configuration).
 
   net_capture.py --listen 25570 --target localhost:25565 --out capture.jsonl
 
-The packet names come from crates/horizon-protocol/src/ids.rs, which is
+The packet names come from crates/ll-protocol/src/ids.rs, which is
 generated from vanilla's packets report. `summary` prints what a capture
 contains, `diff` compares the packet sequences of two captures (for example
 Horizon hosting and a vanilla server serving the same world).
@@ -27,7 +27,7 @@ ROOT = Path(__file__).resolve().parents[1]
 STATES = ["handshake", "status", "login", "configuration", "play"]
 
 
-def load_names(path=ROOT / "crates/horizon-protocol/src/ids.rs"):
+def load_names(path=ROOT / "crates/ll-protocol/src/ids.rs"):
     """{(state, direction): [name by id]} from the generated id tables."""
     text = path.read_text()
     names = {}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate crates/horizon-protocol/src/adapter/v<OLD>.rs: how an older release numbers the packets of each
+"""Generate crates/ll-protocol/src/adapter/v<OLD>.rs: how an older release numbers the packets of each
 connection state against the pinned one, from both versions' data generator packets reports.
 
     generate_packet_id_adapter.py --old ~/code/horizon-parity/versions/26.2
@@ -68,7 +68,7 @@ def main():
         info = lab.version_info()
     old_version, old_protocol = old_info["id"], old_info["protocol_version"]
     module = "v" + old_version.replace(".", "_")
-    out = args.out or ROOT / f"crates/horizon-protocol/src/adapter/{module}.rs"
+    out = args.out or ROOT / f"crates/ll-protocol/src/adapter/{module}.rs"
     lines = [
         f"//! Packet ids of protocol {old_protocol} ({old_version}) against the pinned"
         f" {info['protocol_version']} ({info['name']}).",

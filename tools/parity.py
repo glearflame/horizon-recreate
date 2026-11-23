@@ -391,8 +391,8 @@ def impl_targets(header, text, workspace):
 def narrow_rust_sources(sources, scope):
     """Drop the workspace Rust sources a harness's declared PARITY_RUST_SCOPE proves it can't reach.
 
-    The scope lists source prefixes (crates/horizon-world/src/nbt.rs,
-    crates/horizon-world/src/datafix/). It applies only if it is closed: no
+    The scope lists source prefixes (crates/ll-world/src/nbt.rs,
+    crates/ll-world/src/datafix/). It applies only if it is closed: no
     file in it names a module, crate item or macro outside it (crate::,
     super::, other workspace crates), declares a module it doesn't cover, or
     includes source; and no file outside it implements anything for a type
@@ -486,7 +486,11 @@ PROBE_SOURCE = re.compile(r"/examples/probe/(?:(support)/)?(\w+)\.rs$")
 # Each crate's probe example (crates/<crate>/examples/probe) and its target name. Until 2026-10-24 they were all
 # `probe`, and Cargo copies every crate's examples into one <profile>/examples/: a harness could run the binary
 # another harness had just copied there.
-PROBE_TARGETS = {"horizon-client": "client_probe", "horizon-protocol": "protocol_probe", "horizon-world": "world_probe"}
+PROBE_TARGETS = {
+    "horizon-client": "client_probe", "ll-client": "client_probe", "ll-client-lib": "client_probe",
+    "horizon-protocol": "protocol_probe", "ll-protocol": "protocol_probe",
+    "horizon-world": "world_probe", "ll-world": "world_probe",
+}
 OLD_PROBE_SOURCE = re.compile(r"crates/([\w-]+)/examples/probe[/.]")
 
 
@@ -1308,7 +1312,7 @@ def trace_main(output, script, arguments):
 SHARED_INPUTS = {"research-lock.json", "Cargo.lock"}
 # Manifest sections that say what a crate is and where its targets are, not what it builds with.
 MANIFEST_SECTION_KEPT = re.compile(r"\[\[?(?:package|lib|bin|example|test|bench|lints|badges)\b[^\]]*\]\]?$")
-WORKSPACE_CRATE = r"(horizon[\w-]*|cargo-horizon-mod|xtask)"
+WORKSPACE_CRATE = r"((?:horizon|ll)[\w-]*|cargo-(?:horizon|ll)-mod|xtask)"
 # A workspace crate named as a dependency (by path, or from the workspace's own table) without choosing its features,
 # or listed as a member.
 WORKSPACE_LINE = re.compile(WORKSPACE_CRATE + r'\s*=\s*(?:\{(?![^}]*\bfeatures\b)[^}]*\b(?:path|workspace)\s*=[^}]*\}|true)'

@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
 class RemoteMiningTests(unittest.TestCase):
     def test_break_timing_and_packets(self):
-        source = (ROOT / "crates/horizon-client/src/game/remote.rs").read_text()
+        source = (ROOT / "crates/ll-client/src/game/remote.rs").read_text()
         start = source.index("    pub(super) fn stop_remote_mining(")
         end = source.index("    /// MultiPlayerGameMode.destroyBlock", start)
         fixture = r'''

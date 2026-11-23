@@ -31,7 +31,7 @@ except ImportError:
 
 RESOURCES_URL = "https://resources.download.minecraft.net"
 # What horizon-prepare's sounds and panorama steps copy from the launcher's asset store
-# (crates/horizon-prepare/src/sounds.rs is_sound, is_panorama).
+# (crates/ll-prepare/src/sounds.rs is_sound, is_panorama).
 PANORAMA = [f"minecraft/textures/gui/title/background/panorama_{i}.png" for i in range(6)] + [
     "minecraft/textures/gui/title/background/panorama_overlay.png"]
 

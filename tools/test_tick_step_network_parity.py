@@ -94,8 +94,8 @@ def run_side(label, command, client_command, build, world):
 
 def main():
     lock, build, vanilla, horizon, client = net.sides('tick-step-network-parity')
-    sources = [lab.ROOT / 'crates/horizon-client/src/clock.rs',
-               lab.ROOT / 'crates/horizon-client/src/lan/hub.rs',
+    sources = [lab.ROOT / 'crates/ll-client/src/clock.rs',
+               lab.ROOT / 'crates/ll-client/src/lan/hub.rs',
                lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/LocatorBarClient.java',
                lab.ROOT / 'tools/test_locator_bar_parity.py',
                lab.ROOT / 'tools/test_dedicated_server_parity.py', lab.ROOT / __file__]

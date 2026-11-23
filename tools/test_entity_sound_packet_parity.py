@@ -47,10 +47,10 @@ def main():
     report.unlink(missing_ok=True)
     paths = ['tools/test_entity_sound_packet_parity.py', 'tools/oracle_harness.py', 'tools/lab.py',
              'tools/test_rust_parity.py', 'tools/integration_env.py', 'Cargo.toml', 'Cargo.lock',
-             'crates/horizon-client-render/src/audio.rs', 'crates/horizon-client/src/lan/containers.rs',
-             'crates/horizon-protocol/src/packets/play.rs', 'crates/horizon-protocol/src/packets/mod.rs',
-             'crates/horizon-client/examples/probe/main.rs',
-             'crates/horizon-client/examples/probe/entity_sound_packet_fixture.rs',
+             'crates/ll-client-render/src/audio.rs', 'crates/ll-client/src/lan/containers.rs',
+             'crates/ll-protocol/src/packets/play.rs', 'crates/ll-protocol/src/packets/mod.rs',
+             'crates/ll-client/examples/probe/main.rs',
+             'crates/ll-client/examples/probe/entity_sound_packet_fixture.rs',
              'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaEntitySoundPacketOracle.java']
     sources = [lab.ROOT / p for p in paths]
     hashes = h.base.source_hashes(sources)

@@ -72,7 +72,7 @@ TARGET = ('summon minecraft:husk {x} {y} {z} {{NoAI:1b,Silent:1b,PersistenceRequ
 PRELUDE = 10
 # Client ticks between a reset's last teleport and the scenario: the player lands and stands still.
 SETTLE = 40
-# The Legacy client's horizon-extras.txt (crates/horizon-client-render/src/pvp.rs): the 1.8.9 feel, its
+# The Legacy client's horizon-extras.txt (crates/ll-client-render/src/pvp.rs): the 1.8.9 feel, its
 # indicator and sounds, and the 1.8 rules, which only a world the player hosts may use.
 LEGACY_EXTRAS = 'combatFeel:legacy\ncombatIndicator:true\ncombatSounds:true\ncombatRules:true\n'
 # The clients --clients may name: the first is the reference, the second must send what it sends.

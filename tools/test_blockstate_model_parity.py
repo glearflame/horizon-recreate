@@ -55,7 +55,7 @@ def main():
     lock,jars,libraries=base.verify_artifacts()
     build=lab.LOCAL/'rust-blockstate-model-parity';build.mkdir(parents=True,exist_ok=True)
     report_path=build/'report.json';report_path.unlink(missing_ok=True)
-    oracle=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaBlockStateModelOracle.java';helper=oracle.with_name('VanillaCuboidModelOracle.java');crate=lab.ROOT/'crates/horizon-assets'
+    oracle=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaBlockStateModelOracle.java';helper=oracle.with_name('VanillaCuboidModelOracle.java');crate=lab.ROOT/'crates/ll-assets'
     sources=[oracle,helper,Path(__file__),lab.ROOT/'tools/test_cuboid_model_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',crate/'Cargo.toml',*sorted(crate.rglob('*.rs'))]
     tested=base.source_hashes(sources)
     with zipfile.ZipFile(jars['client']) as archive:

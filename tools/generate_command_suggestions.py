@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate crates/horizon-client/src/lan/command_suggestions.rs: the argument
+"""Generate crates/ll-client/src/lan/command_suggestions.rs: the argument
 nodes of vanilla's command tree that have a custom suggestion provider, and
 the provider's network name (ClientboundCommandsPacket sends it; the commands
 report does not). The list comes from VanillaCommandSuggestionsExporter run
@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     parser.add_argument("tsv", type=Path)
-    parser.add_argument("--out", type=Path, default=ROOT / "crates/horizon-client/src/lan/command_suggestions.rs")
+    parser.add_argument("--out", type=Path, default=ROOT / "crates/ll-client/src/lan/command_suggestions.rs")
     args = parser.parse_args()
     rows = sorted(tuple(line.split("\t")) for line in args.tsv.read_text().splitlines() if line.strip())
     if len(rows) < 50:

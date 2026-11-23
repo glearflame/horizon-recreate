@@ -32,13 +32,13 @@ def main():
     paths = [
         'tools/test_late_entity_pair_parity.py', 'tools/oracle_harness.py',
         'tools/test_rust_parity.py', 'tools/lab.py', 'tools/integration_env.py',
-        'Cargo.toml', 'Cargo.lock', 'crates/horizon-client/src/lan/entity.rs',
-        'crates/horizon-client/src/lan/tracking.rs',
-        'crates/horizon-protocol/src/packets/play.rs',
-        'crates/horizon-protocol/src/packets/mod.rs',
-        'crates/horizon-protocol/src/buf.rs',
-        'crates/horizon-client/examples/probe/main.rs',
-        'crates/horizon-client/examples/probe/late_entity_pair_fixture.rs',
+        'Cargo.toml', 'Cargo.lock', 'crates/ll-client/src/lan/entity.rs',
+        'crates/ll-client/src/lan/tracking.rs',
+        'crates/ll-protocol/src/packets/play.rs',
+        'crates/ll-protocol/src/packets/mod.rs',
+        'crates/ll-protocol/src/buf.rs',
+        'crates/ll-client/examples/probe/main.rs',
+        'crates/ll-client/examples/probe/late_entity_pair_fixture.rs',
         'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaLateEntityPairOracle.java',
     ]
     sources = [lab.ROOT / p for p in paths]

@@ -13,7 +13,7 @@ URL = "https://github.com/glearflame/horizon/issues/5#issuecomment-1"
 SAMUEL_ID = ns.OWNER_ID or 1
 ns.OWNER_ID = SAMUEL_ID
 tc.ns.OWNER_ID = SAMUEL_ID  # the script's own import of nightly_set
-IDS = {"glearflame": SAMUEL_ID, "kacpherek": 101, "rdbtcvs": 102, "levzzz5154": 104}
+IDS = {"glearflame": SAMUEL_ID, "samuel111": SAMUEL_ID, "kacpherek": 101, "rdbtcvs": 102, "levzzz5154": 104}
 
 
 def actor(login):

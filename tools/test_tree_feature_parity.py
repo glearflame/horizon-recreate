@@ -109,7 +109,7 @@ def main():
     oracle=parity/'VanillaTreeFeatureOracle.java';exporter=parity/'VanillaSimpleBlockOracle.java'
     helpers=[parity/(name+'.java') for name in ['VanillaPlacementOracle','VanillaBlockSurvivalOracle','VanillaBlockPropertiesOracle','VanillaBlockSupportOracle','VanillaBlockStateCodecOracle','VanillaCollisionOracle','VanillaHeightmapOracle']]
     sources=[oracle,exporter,*helpers,Path(__file__),*[lab.ROOT/'tools'/name for name in ['test_block_survival_parity.py','test_worldgen_parity.py','test_rust_parity.py','lab.py']],lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',
-             *sorted((lab.ROOT/'crates/horizon-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/horizon-world/src').rglob('*.rs')),lab.ROOT/'crates/horizon-world/examples/probe/tree_feature_fixture.rs']
+             *sorted((lab.ROOT/'crates/ll-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/ll-world/src').rglob('*.rs')),lab.ROOT/'crates/ll-world/examples/probe/tree_feature_fixture.rs']
     tested_sources=base.source_hashes(sources);classes=build/'classes';classes.mkdir(exist_ok=True)
     def run(command,name):
         with (build/(name+'.log')).open('w',encoding='utf-8') as log:subprocess.run(list(map(str,command)),cwd=lab.ROOT,check=True,timeout=7200,stdout=log,stderr=subprocess.STDOUT)

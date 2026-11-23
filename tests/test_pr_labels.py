@@ -63,26 +63,26 @@ class AreaTests(unittest.TestCase):
     def test_paths(self):
         cases = {
             "launcher/src/main.rs": "launcher",
-            "crates/horizon-world/src/worldgen/structure/mod.rs": "worldgen",
-            "crates/horizon-client/src/mobs/ai.rs": "mobs",
-            "crates/horizon-client/src/game/wither.rs": "mobs",
-            "crates/horizon-client-render/src/gfx/cull.rs": "rendering",
-            "crates/horizon-client-render/src/terrain.wgsl": "rendering",
-            "crates/horizon-client/src/game/dedicated/status.rs": "server",
-            "crates/horizon-server-files/src/lib.rs": "server",
-            "crates/horizon-client/src/lan/hub.rs": "multiplayer",
-            "crates/horizon-client/src/game/remote_vehicles.rs": "multiplayer",
-            "crates/horizon-protocol/src/packets/play.rs": "multiplayer",
-            "crates/horizon-mods/src/lib.rs": "mods",
-            "crates/horizon-client/src/game/native_hooks.rs": "mods",
-            "crates/horizon-world/src/datafix/v3.rs": "saves",
-            "crates/horizon-client/src/game/commands/admin.rs": "commands",
-            "crates/horizon-command/src/args.rs": "commands",
-            "crates/horizon-client-render/src/sound_engine.rs": "audio",
-            "crates/horizon-client-render/src/streaming.rs": "chunks",
-            "crates/horizon-world/src/level/redstone.rs": "blocks",
-            "crates/horizon-client/src/title/worlds.rs": "ui",
-            "crates/horizon-client-render/src/options_ui.rs": "ui",
+            "crates/ll-world/src/worldgen/structure/mod.rs": "worldgen",
+            "crates/ll-client/src/mobs/ai.rs": "mobs",
+            "crates/ll-client/src/game/wither.rs": "mobs",
+            "crates/ll-client-render/src/gfx/cull.rs": "rendering",
+            "crates/ll-client-render/src/terrain.wgsl": "rendering",
+            "crates/ll-client/src/game/dedicated/status.rs": "server",
+            "crates/ll-server-files/src/lib.rs": "server",
+            "crates/ll-client/src/lan/hub.rs": "multiplayer",
+            "crates/ll-client/src/game/remote_vehicles.rs": "multiplayer",
+            "crates/ll-protocol/src/packets/play.rs": "multiplayer",
+            "crates/ll-mods/src/lib.rs": "mods",
+            "crates/ll-client/src/game/native_hooks.rs": "mods",
+            "crates/ll-world/src/datafix/v3.rs": "saves",
+            "crates/ll-client/src/game/commands/admin.rs": "commands",
+            "crates/ll-command/src/args.rs": "commands",
+            "crates/ll-client-render/src/sound_engine.rs": "audio",
+            "crates/ll-client-render/src/streaming.rs": "chunks",
+            "crates/ll-world/src/level/redstone.rs": "blocks",
+            "crates/ll-client/src/title/worlds.rs": "ui",
+            "crates/ll-client-render/src/options_ui.rs": "ui",
             "docs/api/shaders.md": "website",
             "roadmap/roadmap.toml": "website",
         }
@@ -90,14 +90,14 @@ class AreaTests(unittest.TestCase):
             self.assertEqual(pl.area_of(path), area, path)
 
     def test_no_area(self):
-        for path in ("tools/parity.py", "crates/horizon-client/src/game.rs", "Cargo.lock", "docs/README.md",
+        for path in ("tools/parity.py", "crates/ll-client/src/game.rs", "Cargo.lock", "docs/README.md",
                      "mods/horizon/src/test/java/dev/horizonlab/parity/VanillaMobOracle.java",
-                     "crates/horizon-client/examples/mob_ai_probe.rs"):
+                     "crates/ll-client/examples/mob_ai_probe.rs"):
             self.assertIsNone(pl.area_of(path), path)
 
     def test_biggest_three_with_a_tenth_each(self):
-        files = [("launcher/src/a.rs", 50), ("crates/horizon-client/src/mobs/a.rs", 30),
-                 ("crates/horizon-command/src/a.rs", 10), ("crates/horizon-client-render/src/audio.rs", 9),
+        files = [("launcher/src/a.rs", 50), ("crates/ll-client/src/mobs/a.rs", 30),
+                 ("crates/ll-command/src/a.rs", 10), ("crates/ll-client-render/src/audio.rs", 9),
                  ("tools/x.py", 1)]
         self.assertEqual(pl.areas(files), ["launcher", "mobs", "commands"])
         self.assertEqual(pl.areas([("tools/x.py", 95), ("launcher/src/a.rs", 5)]), [])

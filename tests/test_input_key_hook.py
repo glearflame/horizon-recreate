@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class InputKeyHookTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_original_event_after_handling_and_source_gates(self):
-        source = (ROOT / "crates/horizon-client/src/game.rs").read_text(encoding="utf-8")
+        source = (ROOT / "crates/ll-client/src/game.rs").read_text(encoding="utf-8")
         actual = method(source, "window_event")
         fixture = r"""
 type WindowId = i32;

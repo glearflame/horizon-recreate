@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class ComputeFogColorHookTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_rgb_override_fallback_and_alpha(self):
-        source = (ROOT / "crates/horizon-client/src/game/render_tick.rs").read_text(encoding="utf-8")
+        source = (ROOT / "crates/ll-client/src/game/render_tick.rs").read_text(encoding="utf-8")
         actual = method(source, "native_fog_color_now")
         frame = method(source.replace("pub(super) fn", "fn"), "frame_fog")
         self.assertIn("if self.title.is_none() { fog.color = self.native_fog_color_now", " ".join(frame.split()))

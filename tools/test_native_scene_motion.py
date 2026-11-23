@@ -852,7 +852,7 @@ def main():
     if args.sprint_input:helpers.append(oracle.with_name('VanillaSprintInputOracle.java'))
     sources=[Path(__file__),lab.ROOT/'tools/test_native_client.py',lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/lab.py',
              lab.ROOT/'tools/prepare_native_client.py',oracle,*helpers,lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',
-             lab.ROOT/'crates/horizon-client/examples/probe/scene_motion_probe.rs']
+             lab.ROOT/'crates/ll-client/examples/probe/scene_motion_probe.rs']
     for crate in ['horizon-core','horizon-world','horizon-assets','horizon-client','horizon-client-render']:
         sources += [lab.ROOT/'crates'/crate/'Cargo.toml',*sorted((lab.ROOT/'crates'/crate/'src').rglob('*.rs'))]
     if args.sprint_input:sources.append(lab.ROOT/'tools/test_model_baking_parity.py')

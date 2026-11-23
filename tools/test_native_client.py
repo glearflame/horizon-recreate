@@ -45,11 +45,11 @@ def main():
     report.unlink(missing_ok=True)
     resources = resource_fingerprint(root / lab.VERSION)
     sources = [lab.ROOT / 'Cargo.toml', lab.ROOT / 'Cargo.lock', Path(__file__).resolve(),
-               lab.ROOT / 'crates/horizon-client/Cargo.toml', lab.ROOT / 'crates/horizon-assets/Cargo.toml',
-               *sorted((lab.ROOT / 'crates/horizon-client/src').rglob('*')),
-               lab.ROOT / 'crates/horizon-client-render/Cargo.toml',
-               *sorted((lab.ROOT / 'crates/horizon-client-render/src').rglob('*')),
-               *sorted((lab.ROOT / 'crates/horizon-assets/src').rglob('*.rs'))]
+               lab.ROOT / 'crates/ll-client/Cargo.toml', lab.ROOT / 'crates/ll-assets/Cargo.toml',
+               *sorted((lab.ROOT / 'crates/ll-client/src').rglob('*')),
+               lab.ROOT / 'crates/ll-client-render/Cargo.toml',
+               *sorted((lab.ROOT / 'crates/ll-client-render/src').rglob('*')),
+               *sorted((lab.ROOT / 'crates/ll-assets/src').rglob('*.rs'))]
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaGallerySelectionOracle.java'
     helper = oracle.with_name('VanillaCuboidModelOracle.java')
     heightmap = oracle.with_name('VanillaHeightmapOracle.java')

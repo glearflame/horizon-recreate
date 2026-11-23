@@ -44,9 +44,9 @@ PARITY_SHARDS = 6
 # What the datafix_world probe can reach, checked by tools/parity.py: it reruns
 # this harness only when these sources (or the harness, oracle and data) change.
 PARITY_RUST_SCOPE = [
-    'crates/horizon-world/src/datafix/', 'crates/horizon-world/src/nbt.rs', 'crates/horizon-world/src/region.rs',
-    'crates/horizon-world/src/compression.rs', 'crates/horizon-core/src/position.rs', 'crates/horizon-core/src/position/',
-    'crates/horizon-core/src/geometry/', 'crates/horizon-core/src/version.rs',
+    'crates/ll-world/src/datafix/', 'crates/ll-world/src/nbt.rs', 'crates/ll-world/src/region.rs',
+    'crates/ll-world/src/compression.rs', 'crates/ll-core/src/position.rs', 'crates/ll-core/src/position/',
+    'crates/ll-core/src/geometry/', 'crates/ll-core/src/version.rs',
 ]
 
 IGNORED = {

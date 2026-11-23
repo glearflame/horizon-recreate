@@ -38,13 +38,13 @@ def main():
     classes.mkdir(exist_ok=True)
     sources = lab.ROOT / "mods/horizon/src/test/java/dev/horizonlab/parity"
     tested_paths = [Path(__file__), sources / "ParityData.java", sources / "VanillaBrewingFuelOracle.java",
-                    lab.ROOT / "crates/horizon-client-render/examples/brewing_fuel_probe.rs",
-                    lab.ROOT / "crates/horizon-client-render/src/brewing.rs",
-                    lab.ROOT / "crates/horizon-client-render/src/providers.rs",
-                    lab.ROOT / "crates/horizon-items/src/items.rs",
-                    lab.ROOT / "crates/horizon-client/src/menu.rs",
-                    lab.ROOT / "crates/horizon-client/src/game/machines.rs",
-                    lab.ROOT / "crates/horizon-items/src/item_data.rs", lab.ROOT / "Cargo.lock"]
+                    lab.ROOT / "crates/ll-client-render/examples/brewing_fuel_probe.rs",
+                    lab.ROOT / "crates/ll-client-render/src/brewing.rs",
+                    lab.ROOT / "crates/ll-client-render/src/providers.rs",
+                    lab.ROOT / "crates/ll-items/src/items.rs",
+                    lab.ROOT / "crates/ll-client/src/menu.rs",
+                    lab.ROOT / "crates/ll-client/src/game/machines.rs",
+                    lab.ROOT / "crates/ll-items/src/item_data.rs", lab.ROOT / "Cargo.lock"]
     tested_sources = base.source_hashes(tested_paths)
     tested_fixtures = base.source_hashes([inputs])
     dependency_path = os.pathsep.join(map(str, libraries))

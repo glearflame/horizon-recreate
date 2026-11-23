@@ -145,7 +145,7 @@ def main():
     inputs.write_text("\n".join(commands) + "\n", encoding="utf-8")
     oracle = lab.ROOT / "mods/horizon/src/test/java/dev/horizonlab/parity/VanillaTickOracle.java"
     data_oracle = oracle.with_name("VanillaTickDataOracle.java")
-    sources = [oracle, data_oracle, Path(__file__).resolve(), lab.ROOT / "tools/test_rust_parity.py", lab.ROOT / "Cargo.toml", lab.ROOT / "Cargo.lock", lab.ROOT / "crates/horizon-core/Cargo.toml", lab.ROOT / "crates/horizon-world/Cargo.toml", *sorted((lab.ROOT / "crates/horizon-core/src").rglob("*.rs")), *sorted((lab.ROOT / "crates/horizon-world/src").rglob("*.rs")), lab.ROOT / "crates/horizon-world/examples/probe/tick_fixture.rs"]
+    sources = [oracle, data_oracle, Path(__file__).resolve(), lab.ROOT / "tools/test_rust_parity.py", lab.ROOT / "Cargo.toml", lab.ROOT / "Cargo.lock", lab.ROOT / "crates/ll-core/Cargo.toml", lab.ROOT / "crates/ll-world/Cargo.toml", *sorted((lab.ROOT / "crates/ll-core/src").rglob("*.rs")), *sorted((lab.ROOT / "crates/ll-world/src").rglob("*.rs")), lab.ROOT / "crates/ll-world/examples/probe/tick_fixture.rs"]
     tested_sources = test_rust_parity.source_hashes(sources)
     classes = base / "classes"
     classes.mkdir()

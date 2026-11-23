@@ -66,15 +66,15 @@ def main():
     report_path.unlink(missing_ok=True)
     lock, jars, libraries = base.verify_artifacts()
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaEnchantmentComponentsOracle.java'
-    probe = lab.ROOT / 'crates/horizon-items/examples/enchantment_components_probe.rs'
+    probe = lab.ROOT / 'crates/ll-items/examples/enchantment_components_probe.rs'
     sources = [Path(__file__), Path(lab.__file__), Path(base.__file__), oracle,
                oracle.with_name('ParityData.java'), probe, lab.ROOT / 'Cargo.lock',
-               lab.ROOT / 'crates/horizon-items/src/item_nbt.rs',
-               lab.ROOT / 'crates/horizon-world/src/nbt.rs',
-               lab.ROOT / 'crates/horizon-world/src/datafix/dynamic.rs',
-               lab.ROOT / 'crates/horizon-client-core/src/lang.rs',
-               lab.ROOT / 'crates/horizon-items/src/item_data.rs',
-               lab.ROOT / 'crates/horizon-items/src/enchant.rs']
+               lab.ROOT / 'crates/ll-items/src/item_nbt.rs',
+               lab.ROOT / 'crates/ll-world/src/nbt.rs',
+               lab.ROOT / 'crates/ll-world/src/datafix/dynamic.rs',
+               lab.ROOT / 'crates/ll-client-core/src/lang.rs',
+               lab.ROOT / 'crates/ll-items/src/item_data.rs',
+               lab.ROOT / 'crates/ll-items/src/enchant.rs']
     tested = base.source_hashes(sources)
     inputs = build / 'inputs.txt'
     fixtures = list(corpus())

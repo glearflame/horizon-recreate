@@ -30,8 +30,8 @@ def main():
     classes.mkdir(exist_ok=True)
     source = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaTextDisplayOracle.java'
     sources = [Path(__file__).resolve(), source,
-        lab.ROOT / 'crates/horizon-client/src/text_display.rs',
-        lab.ROOT / 'crates/horizon-protocol/src/entity_data.rs', lab.ROOT / 'Cargo.lock']
+        lab.ROOT / 'crates/ll-client/src/text_display.rs',
+        lab.ROOT / 'crates/ll-protocol/src/entity_data.rs', lab.ROOT / 'Cargo.lock']
     tested = base.source_hashes(sources)
     cp = os.pathsep.join(map(str, [jars['server'], *libraries]))
     run = lambda command, name: harness.run_logged(command, build, name)

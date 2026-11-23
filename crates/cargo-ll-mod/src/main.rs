@@ -1,11 +1,11 @@
-//! `cargo horizon-mod`: make Horizon content mods (`docs/modpacks.md`): blocks,
+//! `cargo ll-mod`: make Horizon content mods (`docs/modpacks.md`): blocks,
 //! items, data and assets, no code. Code mods are native (docs/native-mods.md).
 //!
 //! - `new <path> [--name "Name"]`: a content mod from the template; with
 //!   `--template native [--horizon <commit>]`, a native trait mod's bundle.
 //! - `build`: the `.hmod` in `target/horizon-mod/`, with the mod's `assets/`
 //!   and `data/`.
-//! - `run [--game <horizon-client>] [-- <game args>]`: build, then play with
+//! - `run [--game <ll-client>] [-- <game args>]`: build, then play with
 //!   the mod.
 //! - `check <file> [--json]`: what the registry checks of a submission
 //!   (`.hmod`, `.hnmod`, `.hpack`, resource pack `.zip`, `.hshader`).
@@ -20,9 +20,9 @@ use std::{
 };
 
 fn main() -> ExitCode {
-    // Cargo runs `cargo-horizon-mod horizon-mod <args>`.
+    // Cargo runs `cargo-ll-mod ll-mod <args>`; accept the legacy name too.
     let mut args: Vec<String> = std::env::args().skip(1).collect();
-    if args.first().is_some_and(|a| a == "horizon-mod") {
+    if args.first().is_some_and(|a| matches!(a.as_str(), "horizon-mod" | "ll-mod")) {
         args.remove(0);
     }
     let result = match args.first().map(String::as_str) {
@@ -33,7 +33,7 @@ fn main() -> ExitCode {
         Some("run") => run(&args[1..]),
         Some("check") => check(&args[1..]),
         Some("registry") => registry::main(&args[1..]),
-        _ => Err("usage: cargo horizon-mod new <path> [--name \"Name\"] [--template content|native [--horizon <commit>]] | build | run [--game <horizon-client>] [-- <game args>] | check <file> [--kind <kind>] [--key <public key> --signature <file.minisig>] [--json] | registry build|review|check|list".into()),
+        _ => Err("usage: cargo ll-mod new <path> [--name \"Name\"] [--template content|native [--horizon <commit>]] | build | run [--game <ll-client>] [-- <game args>] | check <file> [--kind <kind>] [--key <public key> --signature <file.minisig>] [--json] | registry build|review|check|list".into()),
     };
     match result {
         Ok(()) => ExitCode::SUCCESS,
@@ -54,7 +54,7 @@ fn new(args: &[String]) -> Result<(), String> {
     let path = args
         .first()
         .filter(|a| !a.starts_with("--"))
-        .ok_or("cargo horizon-mod new <path>")?;
+        .ok_or("cargo ll-mod new <path>")?;
     let dir = Path::new(path);
     if dir.exists() {
         return Err(format!("{} already exists", dir.display()));
@@ -132,7 +132,7 @@ fn new(args: &[String]) -> Result<(), String> {
         Manifest::parse(&std::fs::read_to_string(dir.join(MANIFEST)).map_err(|e| e.to_string())?)?;
     Content::read(dir, &manifest)?;
     println!(
-        "Created {} (mod id {id}). Next: cd {path} && cargo horizon-mod run",
+        "Created {} (mod id {id}). Next: cd {path} && cargo ll-mod run",
         dir.display()
     );
     Ok(())
@@ -242,7 +242,7 @@ fn check(args: &[String]) -> Result<(), String> {
     let file = args
         .first()
         .filter(|a| !a.starts_with("--"))
-        .ok_or("cargo horizon-mod check <file>")?;
+        .ok_or("cargo ll-mod check <file>")?;
     let path = Path::new(file);
     let kind = match flag(args, "--kind") {
         Some(k) => ll_mods::index::Kind::from(k.to_string()),
@@ -272,7 +272,7 @@ fn run(args: &[String]) -> Result<(), String> {
     let game = flag(args, "--game")
         .map(str::to_string)
         .or_else(|| std::env::var("HORIZON_CLIENT").ok())
-        .unwrap_or_else(|| "horizon-client".into());
+        .unwrap_or_else(|| "ll-client".into());
     let extra = args.iter().skip_while(|a| *a != "--").skip(1);
     println!("Starting {game} with {}", path.display());
     let status = Command::new(&game)
@@ -281,7 +281,7 @@ fn run(args: &[String]) -> Result<(), String> {
         .args(extra)
         .status()
         .map_err(|e| {
-            format!("{game}: {e} (pass --game <path to horizon-client> or set HORIZON_CLIENT)")
+            format!("{game}: {e} (pass --game <path to ll-client> or set HORIZON_CLIENT)")
         })?;
     status
         .success()

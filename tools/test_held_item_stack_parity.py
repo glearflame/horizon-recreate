@@ -26,9 +26,9 @@ def main():
         'model resolution is recorded, not rendered. Covers empty hands and both main arms. '
         'Off-hand components are outside this identity-only regression.',
         sources=[lab.ROOT / 'tools/test_held_item_stack_parity.py',
-                 lab.ROOT / 'crates/horizon-client/src/mobs/render.rs',
-                 lab.ROOT / 'crates/horizon-client/src/mobs.rs',
-                 lab.ROOT / 'crates/horizon-client/src/game/mob_blocks.rs'], expected_lines=100)
+                 lab.ROOT / 'crates/ll-client/src/mobs/render.rs',
+                 lab.ROOT / 'crates/ll-client/src/mobs.rs',
+                 lab.ROOT / 'crates/ll-client/src/game/mob_blocks.rs'], expected_lines=100)
 
 
 if __name__ == '__main__':

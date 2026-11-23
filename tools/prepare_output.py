@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-"""The prepared output's version: what keeps `OUTPUT_VERSION` (crates/horizon-prepare/src/lib.rs) honest.
+"""The prepared output's version: what keeps `OUTPUT_VERSION` (crates/ll-prepare/src/lib.rs) honest.
 
 The launcher copies a prepared version's resources (`.local/horizon-client/<version>`) to a newly installed
 one when both pin the same Minecraft jars and their preparers declare the same `OUTPUT_VERSION`, so a release
 that changes the preparer's code without changing what it makes asks nobody to prepare again. The number is
 bumped by hand; this tool catches a change to the output without a bump.
 
-crates/horizon-prepare/output-versions.txt lists every `OUTPUT_VERSION` with the digest of what it prepares.
+crates/ll-prepare/output-versions.txt lists every `OUTPUT_VERSION` with the digest of what it prepares.
 It only grows: the last line is the current version, and a change to the output appends a line.
 
     python3 tools/prepare_output.py digest [RESOURCES]          the digest of a preparation
@@ -36,15 +36,15 @@ import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-VERSIONS = 'crates/horizon-prepare/output-versions.txt'
-LIB = 'crates/horizon-prepare/src/lib.rs'
+VERSIONS = 'crates/ll-prepare/output-versions.txt'
+LIB = 'crates/ll-prepare/src/lib.rs'
 MANIFEST = 'horizon-resources.json'
-# The OUTPUT_VERSION that made the preparation (crates/horizon-prepare/src/check.rs), for --check.
+# The OUTPUT_VERSION that made the preparation (crates/ll-prepare/src/check.rs), for --check.
 STAMP = 'horizon-prepare.json'
-# The empty file a preparation locks while it writes (crates/horizon-prepare/src/lib.rs, LOCK).
+# The empty file a preparation locks while it writes (crates/ll-prepare/src/lib.rs, LOCK).
 LOCK = '.horizon-prepare.lock'
 # Written into a preparation by something other than the preparer's export: the sounds and languages step
-# (crates/horizon-prepare/src/sounds.rs) and, at run time, the game's caches (horizon-client-render's sprite_cache.rs,
+# (crates/ll-prepare/src/sounds.rs) and, at run time, the game's caches (horizon-client-render's sprite_cache.rs,
 # horizon-core's prepared_files.rs). Whether a harness ran the game before the check must not change the digest.
 DATA_FILE = 'horizon-data.bin'
 FROM_ELSEWHERE = ('assets/minecraft/sounds.json', 'assets/pack.mcmeta', 'asset-index.json', 'horizon-sprites.cache',

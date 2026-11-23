@@ -10,7 +10,7 @@ import tempfile
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-GAME = ROOT / "crates/horizon-client/src/game"
+GAME = ROOT / "crates/ll-client/src/game"
 
 
 def lift(path, start, end):
@@ -44,7 +44,7 @@ fn view_vector(yaw: f32, pitch: f32) -> [f64; 3] {
     let (p, y) = (f64::from(pitch).to_radians(), f64::from(-yaw).to_radians());
     [y.sin() * p.cos(), -p.sin(), y.cos() * p.cos()]
 }
-mod horizon_world {
+mod ll_world {
     pub mod view_direction {
         pub fn view_vector(pitch: f32, yaw: f32) -> crate::Vec3 {
             let [x, y, z] = crate::view_vector(yaw, pitch);
@@ -54,7 +54,7 @@ mod horizon_world {
 }
 struct ItemStack { item: String }
 struct Remote { entity_id: i32 }
-mod horizon_core {
+mod ll_core {
     pub mod random {
         // Gaussians in turn from a list.
         pub struct LegacyRandom(pub Vec<f64>);
@@ -63,7 +63,7 @@ mod horizon_core {
         }
     }
 }
-struct World { random: horizon_core::random::LegacyRandom }
+struct World { random: ll_core::random::LegacyRandom }
 enum ParticleType { Firework }
 struct ParticleOptions;
 impl ParticleOptions { fn simple(_: ParticleType) -> Self { Self } }
@@ -109,7 +109,7 @@ fn game(runs: bool) -> Game {
             Rocket { attached_to: None, position: Vec3::new(4.0, 5.0, 6.0), ..Rocket::default() },
         ],
         yaw: 90.0, pitch: 0.0,
-        world: World { random: horizon_core::random::LegacyRandom(vec![3.0, -2.0, 3.0, -2.0]) },
+        world: World { random: ll_core::random::LegacyRandom(vec![3.0, -2.0, 3.0, -2.0]) },
         particles: Particles::default(),
     }
 }

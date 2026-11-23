@@ -46,8 +46,8 @@ def main():
     classes = build / 'classes'
     classes.mkdir(exist_ok=True)
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaServerAddressOracle.java'
-    sources = [oracle, lab.ROOT / 'crates/horizon-protocol/src/servers.rs',
-               lab.ROOT / 'crates/horizon-protocol/examples/server_address_parse_probe.rs',
+    sources = [oracle, lab.ROOT / 'crates/ll-protocol/src/servers.rs',
+               lab.ROOT / 'crates/ll-protocol/examples/server_address_parse_probe.rs',
                lab.ROOT / 'tools/test_server_address_parity.py']
     hashes = base.source_hashes(sources)
     _, game = lab.config()

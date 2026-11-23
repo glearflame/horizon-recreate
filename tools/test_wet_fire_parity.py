@@ -56,8 +56,8 @@ def main():
     classes.mkdir(exist_ok=True)
     dependencies = os.pathsep.join(map(str, [jars["server"], *libraries]))
     source = lab.ROOT / "mods/horizon/src/test/java/dev/horizonlab/parity/VanillaWetFireOracle.java"
-    sources = [Path(__file__), source, lab.ROOT / "crates/horizon-client/src/mobs/ai.rs",
-               lab.ROOT / "crates/horizon-client/src/mobs/wet_fire_tests.rs"]
+    sources = [Path(__file__), source, lab.ROOT / "crates/ll-client/src/mobs/ai.rs",
+               lab.ROOT / "crates/ll-client/src/mobs/wet_fire_tests.rs"]
     hashes = base.source_hashes(sources)
     oracle_harness.run_logged(["javac", "--release", lock["minecraft"]["java_major"],
         "-proc:none", "-sourcepath", lab.ROOT / "mods/horizon/src/test/java", "-cp",

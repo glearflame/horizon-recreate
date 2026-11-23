@@ -49,7 +49,7 @@ def main():
     oracle = lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaFaceVisibilityOracle.java'
     helpers = [oracle.with_name(name) for name in ['VanillaCollisionOracle.java','VanillaHeightmapOracle.java']]
     sources = [oracle,*helpers,Path(__file__),lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/test_worldgen_parity.py',lab.ROOT/'tools/lab.py',
-               lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/horizon-world/examples/probe/face_visibility_fixture.rs']
+               lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/ll-world/examples/probe/face_visibility_fixture.rs']
     for crate in ['horizon-core','horizon-world']:
         sources += [lab.ROOT/'crates'/crate/'Cargo.toml',*sorted((lab.ROOT/'crates'/crate/'src').rglob('*.rs'))]
     tested = base.source_hashes(sources)

@@ -59,8 +59,8 @@ def main():
              'of their species through Entity.setComponent. The trigger dispatch around them is not exercised.')
     harness.differential(
         'rust-entity-components-parity', 'VanillaEntityComponentsOracle', 'entity_components_probe', make_cases, scope,
-        sources=[lab.ROOT / 'crates/horizon-client/src/advancements.rs',
-                 lab.ROOT / 'crates/horizon-client/src/mobs/finalize.rs'])
+        sources=[lab.ROOT / 'crates/ll-client/src/advancements.rs',
+                 lab.ROOT / 'crates/ll-client/src/mobs/finalize.rs'])
 
 
 if __name__ == '__main__':

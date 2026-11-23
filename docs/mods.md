@@ -38,14 +38,14 @@ Benchmarks (`--benchmark`) never load mods.
 
 ```sh
 # A prebuilt binary for Linux x86_64/aarch64, macOS x86_64/arm64 or Windows x86_64 (#2120):
-cargo binstall --git https://github.com/glearflame/horizon cargo-horizon-mod
+cargo binstall --git https://github.com/glearflame/horizon-recreate cargo-ll-mod
 # Or build it from source, without cargo-binstall:
-cargo install --git https://github.com/glearflame/horizon cargo-horizon-mod
-cargo horizon-mod new my-mod        # a content mod: manifest, one block with its model, loot and recipe
+cargo install --git https://github.com/glearflame/horizon-recreate cargo-ll-mod
+cargo ll-mod new my-mod        # a content mod: manifest, one block with its model, loot and recipe
 cd my-mod
-cargo horizon-mod run               # build my-mod.hmod, then start the game with it turned on
-cargo horizon-mod build             # only build: target/horizon-mod/my_mod.hmod
-cargo horizon-mod check target/horizon-mod/my_mod.hmod   # the registry's checks; --json for JSON
+cargo ll-mod run               # build my-mod.hmod, then start the game with it turned on
+cargo ll-mod build             # only build: target/horizon-mod/my_mod.hmod
+cargo ll-mod check target/horizon-mod/my_mod.hmod   # the registry's checks; --json for JSON
 ```
 
 - `new <path> [--name "Name"]` writes the template. `--template native [--horizon <commit>]` writes a native trait
@@ -55,7 +55,7 @@ cargo horizon-mod check target/horizon-mod/my_mod.hmod   # the registry's checks
 - `build` packs `horizon-mod.toml`, `assets/` and `data/` into `target/horizon-mod/<id>.hmod`, with the same checks
   the game makes when it reads the content. It refuses a folder with a `Cargo.toml` (code is native now) and a
   manifest without capability `registries`.
-- `run` builds, then starts `horizon-client` (on `PATH`, or `--game PATH`, or `HORIZON_CLIENT`) with
+- `run` builds, then starts `ll-client` (on `PATH`, or `--game PATH`, or `HORIZON_CLIENT`) with
   `--dev-mod target/horizon-mod/<id>.hmod`, always on. Arguments after `--` go to the game. The game reads content once
   at start, so rebuild and run again after an edit.
 - `check <file>` runs what the registry runs: the file's size and SHA-256, its manifest and content, and a signature
@@ -66,7 +66,7 @@ cargo horizon-mod check target/horizon-mod/my_mod.hmod   # the registry's checks
 ### A real-game Recipes check
 
 `python tools/lan_e2e.py --check recipes-hmod --bin-dir PATH` runs two real clients against the
-host's integrated server. `PATH` must contain `horizon-client` compiled with the official native
+host's integrated server. `PATH` must contain `ll-client` compiled with the official native
 Recipes mod and a matching `horizon-ctl`. This opt-in check fails if Recipes is absent; ordinary
 LAN runs do not require it.
 
@@ -252,7 +252,7 @@ can set a registered type with a JSON value, such as `"sample:charge": {"charge"
 JSON values become NBT values. Values must fit the network NBT limits and
 round-trip through saved NBT; negative zero is not supported. A key such as
 `"!sample:charge": {}` removes the template's default. Unknown types fail when Horizon builds the content root;
-`cargo horizon-mod check` cannot check native registrations.
+`cargo ll-mod check` cannot check native registrations.
 
 `crafting_remainder` names what the item leaves in the crafting grid when a
 recipe uses it, as a milk bucket leaves a bucket (vanilla's
@@ -523,7 +523,7 @@ once, when it is listed; its later releases are checked by machine, not read by 
 [playhorizon.dev/mods](https://playhorizon.dev/mods) and in the launcher (Mods, then **Horizon** beside Modrinth),
 which checks every file before it installs it.
 
-1. Run `cargo horizon-mod check` on the file (above): the registry runs the same checks.
+1. Run `cargo ll-mod check` on the file (above): the registry runs the same checks.
 2. Put the source in a public GitHub repository, under a licence that lets players run it. A native mod's `.hnmod` is
    its source.
 3. Publish a **GitHub release** in it with the file as an asset (`.hmod`, `.hnmod`, `.hpack`, `.hshader`, or a resource

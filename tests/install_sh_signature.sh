@@ -1,7 +1,7 @@
 #!/bin/bash
 # PURPOSE: proves packaging/server/install.sh checks the release signature (docs/release-flow.md, "Signed checksums").
 # WHY: the first install used to trust only the SHA-256 GitHub publishes (docs/security.md).
-# REFS: tools/ci/sign_release.sh (signs the fake releases with a throwaway key), crates/horizon-release-sign.
+# REFS: tools/ci/sign_release.sh (signs the fake releases with a throwaway key), crates/ll-release-sign.
 # LOGS: prints one ok/FAIL line per case; exit 1 when any case fails.
 # READS-BY: tests/test_install_sh_signature.py (unittest wrapper), by hand: bash tests/install_sh_signature.sh
 # ENDS-WHEN: it ends by itself; leaves nothing outside its own mktemp folder.

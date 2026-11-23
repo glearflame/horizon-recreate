@@ -70,7 +70,7 @@ class Failed(Exception):
 
 def serverbound_ids():
     """The play state's serverbound packet ids, from horizon-protocol's table."""
-    text = (lab.ROOT / 'crates/horizon-protocol/src/ids.rs').read_text()
+    text = (lab.ROOT / 'crates/ll-protocol/src/ids.rs').read_text()
     play = text[text.index('pub mod play {'):]
     block = play[play.index('pub mod serverbound {'):]
     block = block[:block.index('}')]

@@ -13,13 +13,13 @@ ROOT = Path(__file__).resolve().parents[1]
 class ItemModelPropertyTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_no_mod_fast_path_and_borrowed_stack_dispatch(self):
-        source = (ROOT / "crates/horizon-client/src/game/item_draw.rs").read_text(encoding="utf-8")
+        source = (ROOT / "crates/ll-client/src/game/item_draw.rs").read_text(encoding="utf-8")
         actual = method(source, "item_model_property")
         fixture = r'''
 use std::cell::Cell;
 use std::sync::atomic::{AtomicBool, Ordering};
 static LOADED: AtomicBool = AtomicBool::new(false);
-mod horizon_client {
+mod ll_client {
     pub mod mod_api {
         pub fn mods() -> &'static [()] {
             if crate::LOADED.load(crate::Ordering::Relaxed) { &[()] } else { &[] }

@@ -9,11 +9,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 FRAGMENTS = Path("tools/native-hook-fragments")
-SOURCE = Path("crates/horizon-client/src/game/native_hooks.rs")
+SOURCE = Path("crates/ll-client/src/game/native_hooks.rs")
 DOCS = Path("docs/native-mods.md")
 CATALOG = Path("native-hooks.json")
 # Hand-written API types can carry markers too; generated copies are built from stamped sources.
-MOD_API = Path("crates/horizon-client/src/mod_api.rs")
+MOD_API = Path("crates/ll-client/src/mod_api.rs")
 
 
 def stamp(check, only=None):

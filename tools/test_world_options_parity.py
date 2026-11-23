@@ -22,4 +22,4 @@ if __name__ == '__main__':
     harness.differential(
         'world-options-parity', 'VanillaWorldOptionsOracle', 'world_options_fixture', cases,
         'ChangeDifficulty, LockDifficulty, SetGameRule and GameRuleValues payloads',
-        sources=[lab.ROOT / 'crates/horizon-protocol/src/packets/play.rs'], expected_lines=18)
+        sources=[lab.ROOT / 'crates/ll-protocol/src/packets/play.rs'], expected_lines=18)

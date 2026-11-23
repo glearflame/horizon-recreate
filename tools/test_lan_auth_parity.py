@@ -33,7 +33,7 @@ def main():
         raise AssertionError(f'vanilla: {expected!r}; Horizon: {actual!r}')
     report.write_text(json.dumps({'passed': True, 'cases': expected,
         'tested_source_hashes': base.source_hashes([
-            Path(__file__), oracle, lab.ROOT / 'crates/horizon-client/src/net.rs'])}, indent=2) + '\n',
+            Path(__file__), oracle, lab.ROOT / 'crates/ll-client/src/net.rs'])}, indent=2) + '\n',
         encoding='utf-8')
     print('LAN authentication parity: both server kinds match vanilla')
 

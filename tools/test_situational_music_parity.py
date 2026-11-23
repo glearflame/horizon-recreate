@@ -34,7 +34,7 @@ def main():
     lines = fixtures()
     matched, report = h.run_harness(
         'situational-music', 'VanillaSituationalMusicOracle', 'situational_music_fixture', ''.join(l + '\n' for l in lines),
-        extra_sources=[h.lab.ROOT / 'crates/horizon-client/src/music.rs'], rust_args=[h.RESOURCES],
+        extra_sources=[h.lab.ROOT / 'crates/ll-client/src/music.rs'], rust_args=[h.RESOURCES],
         scope='Real Minecraft.getSituationalMusic/getMusicVolume: screen music (credits), menu without a player, End boss music from '
               'the boss overlay, BACKGROUND_MUSIC and MUSIC_VOLUME through a real camera EnvironmentAttributeProbe, creative abilities '
               '(instabuild && mayfly) and underwater selection, for every dimension x biome.')

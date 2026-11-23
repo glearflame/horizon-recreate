@@ -31,12 +31,12 @@ def main():
     report = build / 'report.json'
     report.unlink(missing_ok=True)
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaZombieCureSoundOracle.java'
-    probe = lab.ROOT / 'crates/horizon-client/examples/probe/zombie_cure_sound_probe.rs'
+    probe = lab.ROOT / 'crates/ll-client/examples/probe/zombie_cure_sound_probe.rs'
     sources = [Path(__file__), oracle, probe, lab.ROOT / 'tools/lab.py',
                lab.ROOT / 'tools/oracle_harness.py', lab.ROOT / 'tools/test_rust_parity.py',
                lab.ROOT / 'Cargo.toml', lab.ROOT / 'Cargo.lock',
-               lab.ROOT / 'crates/horizon-client-lib/Cargo.toml',
-               lab.ROOT / 'crates/horizon-client/src/mobs/zombie_villager.rs']
+               lab.ROOT / 'crates/ll-client-lib/Cargo.toml',
+               lab.ROOT / 'crates/ll-client/src/mobs/zombie_villager.rs']
     tested = base.source_hashes(sources)
     rng = random.Random(0x43555245)
     seeds = [0, 1, -1, 42, -(2**63), 2**63 - 1] + [rng.randrange(-2**63, 2**63) for _ in range(128)]

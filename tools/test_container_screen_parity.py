@@ -135,8 +135,8 @@ def main():
              'clicks are not exercised; the menu clicks themselves are menu_click\'s.')
     harness.differential(
         'rust-container-screen-parity', 'VanillaContainerScreenOracle', 'container_screen_probe', make_cases, scope,
-        sources=[lab.ROOT / 'crates/horizon-client/src/container_screen.rs',
-                 lab.ROOT / 'crates/horizon-client/src/menu.rs'])
+        sources=[lab.ROOT / 'crates/ll-client/src/container_screen.rs',
+                 lab.ROOT / 'crates/ll-client/src/menu.rs'])
 
 
 if __name__ == '__main__':

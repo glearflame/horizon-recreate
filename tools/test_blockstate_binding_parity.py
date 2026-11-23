@@ -50,8 +50,8 @@ def corpus(facts):
 
 def main():
     lock,jars,libraries=base.verify_artifacts();build=lab.LOCAL/'rust-blockstate-binding-parity';build.mkdir(parents=True,exist_ok=True);report_path=build/'report.json';report_path.unlink(missing_ok=True)
-    oracle=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaBlockStateBindingOracle.java';helper=oracle.with_name('VanillaCuboidModelOracle.java');crate=lab.ROOT/'crates/horizon-assets'
-    sources=[oracle,helper,Path(__file__),lab.ROOT/'tools/test_cuboid_model_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',crate/'Cargo.toml',lab.ROOT/'crates/horizon-core/Cargo.toml',*sorted(crate.rglob('*.rs')),*sorted((lab.ROOT/'crates/horizon-core/src').rglob('*.rs'))]
+    oracle=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaBlockStateBindingOracle.java';helper=oracle.with_name('VanillaCuboidModelOracle.java');crate=lab.ROOT/'crates/ll-assets'
+    sources=[oracle,helper,Path(__file__),lab.ROOT/'tools/test_cuboid_model_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',crate/'Cargo.toml',lab.ROOT/'crates/ll-core/Cargo.toml',*sorted(crate.rglob('*.rs')),*sorted((lab.ROOT/'crates/ll-core/src').rglob('*.rs'))]
     tested=base.source_hashes(sources);classes=build/'classes';classes.mkdir(exist_ok=True)
     def run(command,name):
         with (build/(name+'.log')).open('w') as log:subprocess.run(list(map(str,command)),cwd=lab.ROOT,check=True,timeout=3600,stdout=log,stderr=subprocess.STDOUT)

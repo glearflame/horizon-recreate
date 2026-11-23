@@ -58,8 +58,8 @@ def main():
     BUILD.mkdir(parents=True, exist_ok=True)
     oracle = lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaPalettedContainerOracle.java'
     sources = [Path(__file__), oracle, lab.ROOT / 'tools/lab.py', lab.ROOT / 'tools/test_rust_parity.py', lab.ROOT / 'Cargo.toml', lab.ROOT / 'Cargo.lock',
-               lab.ROOT / 'crates/horizon-core/Cargo.toml', lab.ROOT / 'crates/horizon-core/examples/paletted_fixture.rs',
-               *sorted((lab.ROOT / 'crates/horizon-core/src').rglob('*.rs'))]
+               lab.ROOT / 'crates/ll-core/Cargo.toml', lab.ROOT / 'crates/ll-core/examples/paletted_fixture.rs',
+               *sorted((lab.ROOT / 'crates/ll-core/src').rglob('*.rs'))]
     tested = base.source_hashes(sources)
     scenarios = list(corpus())
     inputs = BUILD / 'inputs.txt'

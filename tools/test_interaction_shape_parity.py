@@ -36,7 +36,7 @@ def main():
     lock,jars,libraries=base.verify_artifacts()
     oracle=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaInteractionShapeOracle.java'
     helper=oracle.with_name('VanillaCollisionOracle.java')
-    sources=[oracle,helper,Path(__file__),lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/horizon-core/Cargo.toml',lab.ROOT/'crates/horizon-world/Cargo.toml',*sorted((lab.ROOT/'crates/horizon-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/horizon-world/src').rglob('*.rs')),lab.ROOT/'crates/horizon-world/examples/probe/interaction_shape_fixture.rs']
+    sources=[oracle,helper,Path(__file__),lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/ll-core/Cargo.toml',lab.ROOT/'crates/ll-world/Cargo.toml',*sorted((lab.ROOT/'crates/ll-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/ll-world/src').rglob('*.rs')),lab.ROOT/'crates/ll-world/examples/probe/interaction_shape_fixture.rs']
     tested_sources=base.source_hashes(sources)
     classes=build/'classes';classes.mkdir(exist_ok=True)
     def run(command,name):

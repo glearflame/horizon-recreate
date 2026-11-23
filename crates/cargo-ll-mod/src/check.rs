@@ -1,4 +1,4 @@
-//! `cargo horizon-mod check <file>`: what the registry checks of a submission,
+//! `cargo ll-mod check <file>`: what the registry checks of a submission,
 //! run anywhere: its kind's own checks (docs/api/mod-index.md), its signature
 //! when given a key, and for a `.hmod` that it is content only.
 use ll_mods::{
@@ -153,7 +153,7 @@ mod tests {
 
     fn fixture(name: &str) -> std::path::PathBuf {
         Path::new(env!("CARGO_MANIFEST_DIR"))
-            .join("../horizon-mods/tests/index")
+            .join("../ll-mods/tests/index")
             .join(name)
     }
 

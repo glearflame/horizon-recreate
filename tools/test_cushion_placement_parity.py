@@ -44,7 +44,7 @@ def main():
         'and suffocation queries. Includes partial supports, burial, complete coverage, '
         'overhanging outlines, negative coordinates and boundary heights. Item use, '
         'entity tracking, interaction and persistence are checked separately.',
-        sources=[lab.ROOT / 'crates/horizon-client/src/cushion.rs'])
+        sources=[lab.ROOT / 'crates/ll-client/src/cushion.rs'])
 
 
 if __name__ == '__main__':

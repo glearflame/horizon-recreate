@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Pins the SHA-256 of every release published before signing began (docs/security.md, "Signed updates").
 
-    python3 tools/ci/legacy_releases.py           # rewrite crates/horizon-release-sign/legacy-releases.txt
+    python3 tools/ci/legacy_releases.py           # rewrite crates/ll-release-sign/legacy-releases.txt
     python3 tools/ci/legacy_releases.py --check   # exit 1 if the file is out of date
 
 Releases from before signing carry no SHA256SUMS.sig, so the launcher and `horizon-server update` can't check them

@@ -25,9 +25,9 @@ def method(source, name):
 
 
 def program(root):
-    gfx = (root / "crates/horizon-client-render/src/gfx.rs").read_text()
-    post = (root / "crates/horizon-client-render/src/gfx/pack_post.rs").read_text()
-    game = (root / "crates/horizon-client/src/game.rs").read_text()
+    gfx = (root / "crates/ll-client-render/src/gfx.rs").read_text()
+    post = (root / "crates/ll-client-render/src/gfx/pack_post.rs").read_text()
+    game = (root / "crates/ll-client/src/game.rs").read_text()
     geometry = game.index("fn entity_geometry(")
     start = game.index("let pack_shadows =", geometry)
     end = game.index("if let Some(sprite) = shadow_sprite", start)

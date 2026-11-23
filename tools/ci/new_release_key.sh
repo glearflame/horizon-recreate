@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Makes a release signing key (docs/security.md, "Signed updates"): the private key goes straight from
 # horizon-release-sign into the `release` environment's secret through a pipe (never on disk, never printed,
-# never in the Agents vault); the public key is printed for crates/horizon-release-sign/release-keys.txt.
+# never in the Agents vault); the public key is printed for crates/ll-release-sign/release-keys.txt.
 # Needs a gh login that may write the repository's environment secrets (the maintainer's), and the `release`
 # environment to exist.
 #
@@ -18,5 +18,5 @@ public=$(mktemp)
 trap 'rm -f "$public"' EXIT
 cargo run --quiet --locked -p horizon-release-sign -- keygen --public-out "$public" \
   | gh secret set "$secret" --env release --repo "$repo"
-echo "$secret is set in $repo's release environment. Its public key, for crates/horizon-release-sign/release-keys.txt:"
+echo "$secret is set in $repo's release environment. Its public key, for crates/ll-release-sign/release-keys.txt:"
 cat "$public"

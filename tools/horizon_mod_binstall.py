@@ -1,6 +1,6 @@
-"""Where `cargo binstall` finds `cargo-horizon-mod`'s prebuilt archives (#2120).
+"""Where `cargo binstall` finds `cargo-ll-mod`'s prebuilt archives (#2120).
 
-`[package.metadata.binstall]` in `crates/cargo-horizon-mod/Cargo.toml` names one release asset per Rust
+`[package.metadata.binstall]` in `crates/cargo-ll-mod/Cargo.toml` names one release asset per Rust
 target, and `.github/workflows/cargo-horizon-mod.yml` builds [`PLATFORMS`] and attaches them to the tag
 [`tag`]. Both sides read this file, so renaming an archive here cannot leave `cargo binstall` asking for a
 file no release holds.
@@ -12,7 +12,7 @@ import tomllib
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST = ROOT / "crates/cargo-horizon-mod/Cargo.toml"
+MANIFEST = ROOT / "crates/cargo-ll-mod/Cargo.toml"
 
 # One entry per archive the release holds: the Rust target, the runner that builds it, and whether that
 # runner can start the binary (a cross build cannot).
@@ -37,8 +37,8 @@ def version(manifest=MANIFEST):
 
 
 def tag(manifest=MANIFEST):
-    """The GitHub release holding the archives: `cargo-horizon-mod-v<version>`."""
-    return f"cargo-horizon-mod-v{version(manifest)}"
+    """The GitHub release holding the archives: `cargo-ll-mod-v<version>`."""
+    return f"cargo-ll-mod-v{version(manifest)}"
 
 
 def url(target, manifest=MANIFEST):
@@ -49,7 +49,7 @@ def url(target, manifest=MANIFEST):
     """
     template = _package(manifest)["metadata"]["binstall"]["pkg-url"]
     fields = {
-        "name": "cargo-horizon-mod",
+        "name": "cargo-ll-mod",
         "version": version(manifest),
         "target": target,
         "binary-ext": ".exe" if "windows" in target else "",

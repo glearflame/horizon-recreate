@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate crates/horizon-client/src/lan/command_order.rs: the order of the
+"""Generate crates/ll-client/src/lan/command_order.rs: the order of the
 children of every node of vanilla's command tree (Commands constructed with
 CommandSelection.ALL), which the tree sent to players keeps. Brigadier keeps
 children in registration order; the data generator's commands report, which
@@ -18,7 +18,7 @@ except ImportError:
     import lab
     import test_rust_parity as base
 
-OUT = lab.ROOT / 'crates/horizon-client/src/lan/command_order.rs'
+OUT = lab.ROOT / 'crates/ll-client/src/lan/command_order.rs'
 
 
 def main():

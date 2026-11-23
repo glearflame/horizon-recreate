@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 class ComputeFovHookTests(unittest.TestCase):
     @unittest.skipUnless(shutil.which("rustc"), "requires Rust")
     def test_computed_fov_override_and_invalid_fallback(self):
-        source = (ROOT / "crates/horizon-client/src/game/fov.rs").read_text(encoding="utf-8")
+        source = (ROOT / "crates/ll-client/src/game/fov.rs").read_text(encoding="utf-8")
         actual = method(source.replace("pub(super) fn", "fn"), "fov_degrees")
         fixture = r"""
 struct View;

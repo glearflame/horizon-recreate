@@ -166,8 +166,8 @@ def main():
     matched, report = h.run_harness(
         'music', 'VanillaMusicOracle', 'music_fixture', ''.join(l + '\n' for l in lines),
         extra_sources=[h.lab.ROOT / 'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaSoundRig.java',
-                       h.lab.ROOT / 'crates/horizon-client/src/music.rs',
-                       h.lab.ROOT / 'crates/horizon-client/examples/probe/audio_common/mod.rs'],
+                       h.lab.ROOT / 'crates/ll-client/src/music.rs',
+                       h.lab.ROOT / 'crates/ll-client/examples/probe/audio_common/mod.rs'],
         java_args=[h.RESOURCES], rust_args=[h.RESOURCES],
         scope='Real MusicManager.tick/startPlaying/stopPlaying/fadePlaying/setMinutesBetweenSongs/showNowPlayingToastIfNeeded with a seeded '
               'random over the real SoundEngine: track starts and replacements, nextSongDelay draws, the three music frequencies, the loading '

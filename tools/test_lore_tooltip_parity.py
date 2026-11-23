@@ -126,9 +126,9 @@ if __name__ == '__main__':
         ' explicit and inherited, nesting four levels deep, sibling strings and objects, empty texts, ten-line lore,'
         ' non-ASCII text and the hidden_components/hide_tooltip combinations',
         sources=[
-            lab.ROOT / 'crates/horizon-client/src/item_tooltip.rs',
-            lab.ROOT / 'crates/horizon-items/src/item_data.rs',
-            lab.ROOT / 'crates/horizon-client-core/src/text.rs',
-            lab.ROOT / 'crates/horizon-client-core/src/component.rs',
+            lab.ROOT / 'crates/ll-client/src/item_tooltip.rs',
+            lab.ROOT / 'crates/ll-items/src/item_data.rs',
+            lab.ROOT / 'crates/ll-client-core/src/text.rs',
+            lab.ROOT / 'crates/ll-client-core/src/component.rs',
         ],
         expected_lines=len(corpus()))

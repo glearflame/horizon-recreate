@@ -71,7 +71,7 @@ links = ["#1"]
 '''
 
 
-def pull(state, merged_at=None, paths=("crates/horizon-client/src/game.rs",)):
+def pull(state, merged_at=None, paths=("crates/ll-client/src/game.rs",)):
     return {"kind": "PullRequest", "state": state, "merged_at": merged_at, "merge_commit": "abc" if merged_at else None,
             "paths": list(paths)}
 

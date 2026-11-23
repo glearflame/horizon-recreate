@@ -1,18 +1,18 @@
-name: cargo-horizon-mod
-# `cargo binstall --git https://github.com/glearflame/horizon cargo-horizon-mod` (#2120): binstall reads
-# [package.metadata.binstall] from crates/cargo-horizon-mod/Cargo.toml and downloads the archive this workflow
-# attaches to the tag `cargo-horizon-mod-v<version>`, whose version must be the manifest's. The targets come from
+name: cargo-ll-mod
+# `cargo binstall --git https://github.com/glearflame/horizon cargo-ll-mod` (#2120): binstall reads
+# [package.metadata.binstall] from crates/cargo-ll-mod/Cargo.toml and downloads the archive this workflow
+# attaches to the tag `cargo-ll-mod-v<version>`, whose version must be the manifest's. The targets come from
 # tools/horizon_mod_binstall.py, the same file the manifest's template is checked against, so a platform added there
 # is built here and one nobody publishes is caught before it ships. A pull request builds the archives and publishes
 # nothing.
 on:
   push:
-    tags: ['cargo-horizon-mod-v*']
+    tags: ['cargo-ll-mod-v*']
   pull_request:
     paths:
-      - 'crates/cargo-horizon-mod/**'
+      - 'crates/cargo-ll-mod/**'
       - 'tools/horizon_mod_binstall.py'
-      - '.github/workflows/cargo-horizon-mod.yml'
+      - '.github/workflows/cargo-ll-mod.yml'
 permissions:
   contents: read
 jobs:
@@ -46,30 +46,30 @@ jobs:
           sudo apt-get install -y gcc-aarch64-linux-gnu
           echo "CARGO_TARGET_AARCH64_UNKNOWN_LINUX_GNU_LINKER=aarch64-linux-gnu-gcc" >> "$GITHUB_ENV"
       - name: Build
-        run: cargo build --release --locked -p cargo-horizon-mod --target ${{ matrix.target }}
+        run: cargo build --release --locked -p cargo-ll-mod --target ${{ matrix.target }}
       - name: It starts
         if: matrix.run
         shell: bash
         run: |
           set -euo pipefail
-          binary="target/${{ matrix.target }}/release/cargo-horizon-mod"
+          binary="target/${{ matrix.target }}/release/cargo-ll-mod"
           [ -f "$binary.exe" ] && binary="$binary.exe"
           out=$("$binary" 2>&1 || true)
           case "$out" in
-            *"usage: cargo horizon-mod"*) ;;
+            *"usage: cargo ll-mod"*) ;;
             *) echo "$out"; echo "::error::$binary does not start"; exit 1 ;;
           esac
       - name: Package
         shell: bash
         run: |
           set -euo pipefail
-          binary="target/${{ matrix.target }}/release/cargo-horizon-mod"
+          binary="target/${{ matrix.target }}/release/cargo-ll-mod"
           [ -f "$binary.exe" ] && binary="$binary.exe"
           mkdir -p dist
           tar -czf "dist/$(basename "$binary" | sed 's/\.exe$//')-${{ matrix.target }}.tar.gz" -C "$(dirname "$binary")" "$(basename "$binary")"
       - uses: actions/upload-artifact@v7
         with:
-          name: cargo-horizon-mod-${{ matrix.target }}
+          name: cargo-ll-mod-${{ matrix.target }}
           path: dist/*.tar.gz
           if-no-files-found: error
           retention-days: 3
@@ -84,7 +84,7 @@ jobs:
       - uses: actions/checkout@v7
       - uses: actions/download-artifact@v8
         with:
-          pattern: cargo-horizon-mod-*
+          pattern: cargo-ll-mod-*
           path: dist
           merge-multiple: true
       - name: The tag and the manifest name the same release and archives
@@ -99,9 +99,9 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          notes="\`cargo binstall --git https://github.com/glearflame/horizon cargo-horizon-mod\`"
+          notes="\`cargo binstall --git https://github.com/glearflame/horizon cargo-ll-mod\`"
           if gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1; then
             gh release upload "$GITHUB_REF_NAME" dist/* --clobber
           else
-            gh release create "$GITHUB_REF_NAME" dist/* --latest=false --title "cargo-horizon-mod ${GITHUB_REF_NAME#cargo-horizon-mod-v}" --notes "$notes"
+            gh release create "$GITHUB_REF_NAME" dist/* --latest=false --title "cargo-ll-mod ${GITHUB_REF_NAME#cargo-ll-mod-v}" --notes "$notes"
           fi

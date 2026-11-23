@@ -36,10 +36,10 @@ def main():
     sources = [Path(__file__), oracle, lab.ROOT / 'tools/lab.py',
                lab.ROOT / 'tools/oracle_harness.py', lab.ROOT / 'tools/test_rust_parity.py',
                lab.ROOT / 'tools/integration_env.py', lab.ROOT / 'Cargo.toml', lab.ROOT / 'Cargo.lock',
-               lab.ROOT / 'crates/horizon-client/src/mobs.rs',
-               lab.ROOT / 'crates/horizon-client/src/mobs/ai.rs',
-               lab.ROOT / 'crates/horizon-client/src/mobs/living.rs',
-               lab.ROOT / 'crates/horizon-client/src/mobs/world.rs',
+               lab.ROOT / 'crates/ll-client/src/mobs.rs',
+               lab.ROOT / 'crates/ll-client/src/mobs/ai.rs',
+               lab.ROOT / 'crates/ll-client/src/mobs/living.rs',
+               lab.ROOT / 'crates/ll-client/src/mobs/world.rs',
                java_root / 'dev/horizonlab/parity/ParityData.java',
                java_root / 'dev/horizonlab/parity/VanillaBlockUpdateOracle.java']
     hashes = base.source_hashes(sources)

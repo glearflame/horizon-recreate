@@ -44,10 +44,10 @@ def main():
     lab.write_json(report, dict(schema=1, minecraft=lock['minecraft']['version'], cases=8, vertices=vertices,
                                scope='Death-ray triangle positions, counts and RGBA gradients; no framebuffer comparison.',
                                sources_sha256=base.source_hashes([
-                                   oracle, __file__, lab.ROOT / 'crates/horizon-client/src/game/dragon.rs',
-                                   lab.ROOT / 'crates/horizon-client-render/src/gfx.rs',
-                                   lab.ROOT / 'crates/horizon-client-render/src/gfx/oit_features.rs',
-                                   lab.ROOT / 'crates/horizon-client-render/src/entity.wgsl'])))
+                                   oracle, __file__, lab.ROOT / 'crates/ll-client/src/game/dragon.rs',
+                                   lab.ROOT / 'crates/ll-client-render/src/gfx.rs',
+                                   lab.ROOT / 'crates/ll-client-render/src/gfx/oit_features.rs',
+                                   lab.ROOT / 'crates/ll-client-render/src/entity.wgsl'])))
     print(f'dragon render: {vertices} vertices match vanilla across 8 death times')
 
 

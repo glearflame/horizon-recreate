@@ -42,8 +42,8 @@ def main():
     classes = base / "classes"
     classes.mkdir()
     oracle = lab.ROOT / "mods/horizon/src/test/java/dev/horizonlab/parity/VanillaWorldOracle.java"
-    sources = [oracle, Path(__file__).resolve(), lab.ROOT / "tools/test_rust_parity.py", lab.ROOT / "Cargo.toml", lab.ROOT / "Cargo.lock", lab.ROOT / "crates/horizon-world/Cargo.toml",
-               *sorted((lab.ROOT / "crates/horizon-world").rglob("*.rs")), *sorted((lab.ROOT / "crates/horizon-core/src").rglob("*.rs"))]
+    sources = [oracle, Path(__file__).resolve(), lab.ROOT / "tools/test_rust_parity.py", lab.ROOT / "Cargo.toml", lab.ROOT / "Cargo.lock", lab.ROOT / "crates/ll-world/Cargo.toml",
+               *sorted((lab.ROOT / "crates/ll-world").rglob("*.rs")), *sorted((lab.ROOT / "crates/ll-core/src").rglob("*.rs"))]
     tested_sources = test_rust_parity.source_hashes(sources)
     dependency_path = os.pathsep.join(map(str, libraries))
     run(["javac", "--release", "25", "-proc:none", "-cp", os.pathsep.join([str(jars["server"]), dependency_path]), "-d", classes, oracle], base / "compile-java.log")

@@ -34,43 +34,43 @@ KINDS = [
 ]
 KIND_LABELS = {label for _, label, _ in KINDS}
 
-_G = r"crates/horizon-client(?:-render|-core|-input)?/src/"  # the client's crates
+_G = r"crates/ll-client(?:-render|-core|-input)?/src/"  # the client's crates
 _GAME = _G + r"(?:game/)?"
 # Area: (label, description, the paths). First match wins for each file.
 AREAS = [
     ("launcher", "Changes the launcher", r"^launcher/"),
     ("mods", "Area: mods, mod SDK, modpack porting",
-     r"^crates/(?:horizon-mod|cargo-horizon-mod|horizon-port-pack)|" + _GAME
+     r"^crates/(?:ll-mod|cargo-ll-mod|horizon-port-pack)|" + _GAME
      + r"(?:mods|mod_content|mod_list|native_\w+)\.rs$|^docs/(?:mods|native-mods|modpacks)"),
-    ("worldgen", "Area: world generation", r"^crates/horizon-world/src/worldgen/|/vanillagen\.rs$"),
+    ("worldgen", "Area: world generation", r"^crates/ll-world/src/worldgen/|/vanillagen\.rs$"),
     ("mobs", "Area: mobs, their AI, spawning and models",
      r"/mobs/|/mobs\.rs$|" + _GAME + r"(?:creatures|natural_spawning|spawners?|dragon|wither|villagers|piglins|golems"
      r"|raids|llamas|wardens?)\.rs$"),
     ("rendering", "Area: the renderer, shaders, models, particles",
-     r"\.wgsl$|/gfx(?:\.rs$|/)|/mesher(?:\.rs$|/)|/lod(?:\.rs$|/)|^crates/(?:horizon-shader|horizon-assets|horizon-hdr)|"
+     r"\.wgsl$|/gfx(?:\.rs$|/)|/mesher(?:\.rs$|/)|/lod(?:\.rs$|/)|^crates/(?:ll-shader|ll-assets|ll-hdr)|"
      + _GAME + r"(?:particles|block_entity_render|item_render|fog|clouds|camera|first_person|render_tick|item_draw"
      r"|sprites|atlas_sources|mipmap|model_library)\.rs$"),
     ("server", "Area: dedicated and integrated server, hosting",
-     r"^crates/horizon-server|/dedicated(?:\.rs$|/)|" + _GAME + r"(?:integrated|levels|server_travel)\.rs$"
+     r"^crates/ll-server|/dedicated(?:\.rs$|/)|" + _GAME + r"(?:integrated|levels|server_travel)\.rs$"
      r"|^docs/hosting"),
     ("multiplayer", "Area: protocol, LAN, multiplayer client, friends",
-     r"^crates/(?:horizon-protocol|horizon-friends|horizon-relay)/|/lan/|" + _GAME + r"(?:lan\w*|remote\w*|net)\.rs$"),
+     r"^crates/(?:ll-protocol|ll-friends|ll-relay)/|/lan/|" + _GAME + r"(?:lan\w*|remote\w*|net)\.rs$"),
     ("saves", "Area: saving and loading worlds",
-     r"^crates/horizon-world/src/(?:region|nbt)\.rs$|/datafix/|" + _GAME
+     r"^crates/ll-world/src/(?:region|nbt)\.rs$|/datafix/|" + _GAME
      + r"(?:save|saving|persist|entity_nbt|block_entity_nbt)\.rs$"),
     ("commands", "Area: commands and functions",
-     r"^crates/horizon-command/|/commands(?:\.rs$|/)|" + _GAME + r"(?:scoreboard_cmd|data_cmd|functions"
+     r"^crates/ll-command/|/commands(?:\.rs$|/)|" + _GAME + r"(?:scoreboard_cmd|data_cmd|functions"
      r"|command_blocks)\.rs$"),
     ("audio", "Area: sound and music",
      _GAME + r"(?:audio|sound_\w+|music|ambience|subtitle_hud)\.rs$"),
     ("chunks", "Area: chunk streaming, light, sections, tickets",
      _GAME + r"(?:streaming|chunk|chunk_map|light|world|world_loading|ticket_levels|section\w*|\w+_sections"
-     r"|tick_chunk_membership)\.rs$|^crates/horizon-core/src/paletted"),
+     r"|tick_chunk_membership)\.rs$|^crates/ll-core/src/paletted"),
     ("blocks", "Area: blocks, items, redstone, block entities",
-     r"^crates/horizon-world/src/level/|^crates/horizon-items/|" + _GAME + r"(?:dispenser|machines|moving_pistons"
+     r"^crates/ll-world/src/level/|^crates/ll-items/|" + _GAME + r"(?:dispenser|machines|moving_pistons"
      r"|block_entity_ticks|hand|consume|potions|crossbow|trident|fishing|shield|stations|crafting|menu)\.rs$"),
     ("ui", "Area: screens, menus, HUD, chat",
-     r"^crates/horizon-theme/|/title(?:\.rs$|/)|" + _GAME + r"(?:\w+_ui|\w+_screen|screens|screen_draw|ui|hud\w*"
+     r"^crates/ll-theme/|/title(?:\.rs$|/)|" + _GAME + r"(?:\w+_ui|\w+_screen|screens|screen_draw|ui|hud\w*"
      r"|chat|tab_list|startup_menu|options|sign_edit|books|containers)\.rs$"),
     ("website", "Area: what playhorizon.dev reads from this repository",
      r"^docs/api/|^roadmap/|^README\.md$|^launcher/links\.json$"),
@@ -196,7 +196,7 @@ def guess_kind(title: str, body: str | None, files: list[tuple[str, int]]) -> st
     paths = [p for p, _ in files]
     if paths and all(p.endswith(".md") or p.startswith("docs/") for p in paths):
         return "documentation"
-    if paths and all(re.match(r"^(?:tools/|tests/|\.github/|\.githooks/|xtask/|mods/horizon/src/test/)", p)
+    if paths and all(re.match(r"^(?:tools/|tests/|\.github/|\.githooks/|ll-xtask/|mods/horizon/src/test/)", p)
                      for p in paths):
         return "tooling"
     if re.search(r"^perf\b|\b(?:faster|stutters?|allocations?|fps|mspt)\b", title, re.I):

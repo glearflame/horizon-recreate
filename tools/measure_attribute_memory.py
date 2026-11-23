@@ -14,7 +14,7 @@ def main():
     args=parser.parse_args()
     if platform.system()!='Linux':raise SystemExit('This measurement uses Linux /proc status.')
     build=lab.LOCAL/'rust-attribute-memory';build.mkdir(exist_ok=True,parents=True)
-    sources=[Path(__file__),lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/horizon-world/src/attributes/entity.rs',lab.ROOT/'crates/horizon-world/src/attributes/mod.rs',lab.ROOT/'crates/horizon-world/examples/attribute_memory.rs']
+    sources=[Path(__file__),lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/ll-world/src/attributes/entity.rs',lab.ROOT/'crates/ll-world/src/attributes/mod.rs',lab.ROOT/'crates/ll-world/examples/attribute_memory.rs']
     hashes=base.source_hashes(sources);catalog_hash=lab.digest(args.catalog,'sha256')
     with (build/'compile.log').open('w') as log:base.run(['cargo','build','--release','-p','horizon-world','--example','attribute_memory'],stdout=log,stderr=subprocess.STDOUT)
     metadata=json.loads(subprocess.check_output(['cargo','metadata','--no-deps','--format-version','1'],cwd=lab.ROOT,text=True))

@@ -38,7 +38,7 @@ def main():
     if args.prepare:lab.prepare()
     lock,jars,libraries=base.verify_artifacts()
     oracle=lab.ROOT/'mods/horizon/src/test/java/dev/horizonlab/parity/VanillaRetrogenDataOracle.java'
-    sources=[oracle,Path(__file__),lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/horizon-core/Cargo.toml',lab.ROOT/'crates/horizon-world/Cargo.toml',*sorted((lab.ROOT/'crates/horizon-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/horizon-world/src').rglob('*.rs')),lab.ROOT/'crates/horizon-world/examples/probe/retrogen_data_fixture.rs']
+    sources=[oracle,Path(__file__),lab.ROOT/'tools/test_rust_parity.py',lab.ROOT/'tools/lab.py',lab.ROOT/'Cargo.toml',lab.ROOT/'Cargo.lock',lab.ROOT/'crates/ll-core/Cargo.toml',lab.ROOT/'crates/ll-world/Cargo.toml',*sorted((lab.ROOT/'crates/ll-core/src').rglob('*.rs')),*sorted((lab.ROOT/'crates/ll-world/src').rglob('*.rs')),lab.ROOT/'crates/ll-world/examples/probe/retrogen_data_fixture.rs']
     tested_sources=base.source_hashes(sources)
     commands=list(corpus());inputs=build/'inputs.txt';inputs.write_text('\n'.join(json.dumps(command) for command in commands)+'\n')
     tested_fixtures=base.source_hashes([inputs]);classes=build/'classes';classes.mkdir(exist_ok=True)
